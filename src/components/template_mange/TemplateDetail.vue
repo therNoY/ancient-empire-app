@@ -44,7 +44,7 @@ import {
   RemoveUserTemplateAttention,
   UpdateUserTempAttention,
   RevertTemplateVersion,
-} from "@/src/api";
+} from "@/api";
 export default {
   mixins: [dialogShow],
   props: {

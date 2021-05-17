@@ -34,7 +34,7 @@ import PointView from "../map_base/PointView.vue";
 import RegionViewList from "../map_base/RegionViewList.vue";
 import TombView from "../map_base/TombView.vue";
 import UnitViewList from "../map_base/UnitViewList.vue";
-import dialogShow from "@/src/mixins/frame/dialogShow.js";
+import dialogShow from "@/mixins/frame/dialogShow.js";
 
 export default {
   mixins: [dialogShow],

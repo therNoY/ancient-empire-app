@@ -40,7 +40,7 @@ import {
   ChangeBaseInfo,
   GetWorldMapList,
   UpdateMapVersion,
-} from "@/src/api";
+} from "@/api";
 import StartComment from "../frame/StartComment.vue";
 import dialogShow from "../../mixins/frame/dialogShow.js";
 import TemplateDetail from "../template_mange/TemplateDetail.vue";

@@ -68,10 +68,10 @@
 		GetUserMapList,
 		GetUserDownloadMap,
 		InitEncounterMap,
-	} from "@/src/api";
+	} from "@/api";
 	import MapPreview from "../frame/MapPreview.vue";
 	import AeRadioButton from "../frame/AeRadioButton";
-	import blackStyle from "@/src/mixins/style/blackStyle";
+	import blackStyle from "@/mixins/style/blackStyle";
 	export default {
 		mixins: [blackStyle],
 		components: {

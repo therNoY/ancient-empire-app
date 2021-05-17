@@ -28,7 +28,7 @@ import {
   GetUnitLevelByTemp,
   GetUserTemp,
   DelUserRecord,
-} from "@/src/api";
+} from "@/api";
 import dialogShow from "../../mixins/frame/dialogShow.js";
 import MapPreview from "../frame/MapPreview.vue";
 export default {

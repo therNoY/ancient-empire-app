@@ -1,4 +1,4 @@
-import { gameCoreUrl } from '@/src/api/env'
+import { gameCoreUrl } from '@/api/env'
 
 import dispatcher from '../../manger/roomDispacther.js'
 

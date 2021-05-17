@@ -65,7 +65,7 @@
 
 <script>
 import eventype from "../../../manger/eventType";
-import {RecordSaveAs} from "@/src/api"
+import {RecordSaveAs} from "@/api"
 export default {
   props: ["curr_color", "gameId", "type"],
   data(){

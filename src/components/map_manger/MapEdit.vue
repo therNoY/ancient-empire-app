@@ -102,7 +102,7 @@
 		ChangeUserSetting,
 		GetUserMapById,
 		GetUserTemplateBindUnit,
-	} from "@/src/api";
+	} from "@/api";
 	import RegionViewList from "../map_base/RegionViewList";
 	import MapPreview from "../frame/MapPreview.vue";
 	import TemplateSelect from "../template_mange/TemplateSelect";

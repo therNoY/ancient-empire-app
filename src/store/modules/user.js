@@ -1,5 +1,5 @@
 // 存放和用户身份验证有关的
-import { removeToken } from '@/src/utils/auth'
+import { removeToken } from '@/utils/auth'
 
 const user = {
   state: {

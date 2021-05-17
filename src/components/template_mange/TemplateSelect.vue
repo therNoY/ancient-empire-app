@@ -28,9 +28,9 @@ import PreviewUnitList from "../frame/PreviewUnitList.vue";
 import {
   GetUserTemplate,
   GetUserAttentionTemp,
-} from "@/src/api";
+} from "@/api";
 
-import dialogShow from "@/src/mixins/frame/dialogShow.js";
+import dialogShow from "@/mixins/frame/dialogShow.js";
 import TemplateDetail from "./TemplateDetail.vue";
 
 const showBindUnitRender = function (h, params) {

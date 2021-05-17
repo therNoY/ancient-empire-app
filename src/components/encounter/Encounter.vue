@@ -22,7 +22,7 @@ import {
   GetUserTemp,
   GetUnitLevelByTemp,
   MapInit,
-} from "@/src/api";
+} from "@/api";
 import UserMapSelect from "../map_manger/UserMapSelect";
 
 export default {

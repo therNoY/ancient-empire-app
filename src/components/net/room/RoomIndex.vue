@@ -45,7 +45,7 @@
 </template>
 
 <script>
-import { GetRoomListByPage, PlayerJoinRoom, CreateRoom } from "@/src/api";
+import { GetRoomListByPage, PlayerJoinRoom, CreateRoom } from "@/api";
 import JoinRoom from "./JoinRoom.vue";
 import MapPreview from "../../frame/MapPreview.vue";
 import dialogShow from "../../../mixins/frame/dialogShow.js";

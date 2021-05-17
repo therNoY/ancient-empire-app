@@ -39,8 +39,8 @@
 <script>
 
 import UploadGameImg from "./UploadGameImg.vue";
-import dialogShow from "@/src/mixins/frame/dialogShow.js";
-import { CreateUnitImg } from "@/src/api";
+import dialogShow from "@/mixins/frame/dialogShow.js";
+import { CreateUnitImg } from "@/api";
 export default {
   mixins: [dialogShow],
   components: {

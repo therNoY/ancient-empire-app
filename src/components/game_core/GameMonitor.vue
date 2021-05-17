@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import { GetUnitLevelByTemp } from "@/src/api";
+import { GetUnitLevelByTemp } from "@/api";
 import { request } from "../../api/request";
 import MapPreview from "@frame/MapPreview.vue";
 export default {

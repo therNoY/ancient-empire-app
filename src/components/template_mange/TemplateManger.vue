@@ -36,9 +36,9 @@ import {
   GetUserAttentionTemp,
   GetDownloadAbleTemplate,
   DownloadTemplate,
-} from "@/src/api";
+} from "@/api";
 
-import dialogShow from "@/src/mixins/frame/dialogShow.js";
+import dialogShow from "@/mixins/frame/dialogShow.js";
 import TemplateDetail from "./TemplateDetail.vue";
 
 const showBindUnitRender = function (h, params) {

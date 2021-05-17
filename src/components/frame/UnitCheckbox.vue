@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import { GetAddTempAbleUnit } from "@/src/api";
+import { GetAddTempAbleUnit } from "@/api";
 import Unit from "./Unit.vue";
 import UnitChooseList from "./UnitChooseList.vue";
 export default {

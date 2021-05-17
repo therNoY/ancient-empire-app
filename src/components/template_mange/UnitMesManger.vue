@@ -59,7 +59,7 @@
     DownLoadUnit,
     UpdateUnitVersion,
     RevertUnitVersion,
-  } from "@/src/api";
+  } from "@/api";
   import UnitRadio from "../frame/UnitRadio.vue";
   import dialogShow from "../../mixins/frame/dialogShow.js";
   import StartComment from "../frame/StartComment.vue";

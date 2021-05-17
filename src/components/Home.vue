@@ -122,7 +122,7 @@
       })
       this.vueStyle.background = this.$s('homeBase.background');
       // #ifdef MP-WEIXIN
-      this.vueStyle.fontSize = 0.35
+      this.vueStyle.fontSize = 0.45
       // #endif
     },
     computed: {

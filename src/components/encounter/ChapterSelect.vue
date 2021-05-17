@@ -13,13 +13,13 @@
 </template>
 
 <script>
-import dialogShow from "@/src/mixins/frame/dialogShow.js";
+import dialogShow from "@/mixins/frame/dialogShow.js";
 import {
   GetUserTemp,
   GetStoreList,
   GetUnitLevelByTemp,
   MapInit,
-} from "@/src/api";
+} from "@/api";
 export default {
   mixins: [dialogShow],
   data() {

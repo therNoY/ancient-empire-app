@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import dialogShow from "@/src/mixins/frame/dialogShow.js";
+import dialogShow from "@/mixins/frame/dialogShow.js";
 
 export default {
   mixins: [dialogShow],
