@@ -7,7 +7,7 @@
       :size="0.5"
       :width="75"
       :disabled="disabled"
-      @onClick="showAddAbleUnit"
+      @click="showAddAbleUnit"
       >添 加
     </ae-button>
 

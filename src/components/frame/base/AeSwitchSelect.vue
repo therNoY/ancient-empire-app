@@ -5,11 +5,12 @@
     <ae-button
       class="ae-switch-select-right-button"
       :width="100"
-      :height="23"
       :disabled="!editAble"
-      @onClick="getRightItem"
+      @click="getRightItem"
     >
-      up
+      <view>
+        <uni-icons type="back" color="#ffffff" size="20" />
+      </view>
     </ae-button>
     <div class="ae-switch-select-body">{{ showValue }}</div>
     <ae-button
@@ -17,9 +18,9 @@
       :width="100"
       :height="23"
       :disabled="!editAble"
-      @onClick="getLeftItem"
+      @click="getLeftItem"
     >
-      down
+      <uni-icons type="forward" color="#ffffff" size="20" />
     </ae-button>
   </div>
 </template>

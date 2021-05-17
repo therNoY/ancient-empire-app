@@ -1,10 +1,34 @@
 {
-  "common":{
-    "player":"玩家",
-    "battle":"战役",
-    "encounter":"遭遇战",
-    "multiPlayerGame":"多人游戏",
-    "loadGame":"读取游戏",
-    "unitManagement":"单位管理"
+  "common": {
+    "search": "搜索",
+    "chooseLineWaring": "请选择一行",
+    "sureClose": "确定要关闭么?"
+  },
+  "player": {
+    "title": "玩家"
+  },
+  "battle": {
+    "title": "战役"
+  },
+  "encounter": {
+    "title": "遭遇战"
+  },
+  "multiPlayer": {
+    "title": "多人游戏"
+  },
+  "loadGame": {
+    "title": "读取游戏"
+  },
+  "unitManagement": {
+    "title": "单位管理"
+  },
+  "templateManagement": {
+    "title": "模板管理"
+  },
+  "mapManagement": {
+    "title": "地图管理"
+  },
+  "mapEdit": {
+    "title": "地图编辑"
   }
 }

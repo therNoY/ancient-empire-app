@@ -1,14 +1,11 @@
 <template>
   <div class="ae-button-body">
-    <button
-        :disabled="disabled"
-        type="button"
-        class="ae-button"
-        :style="{'width':width + '%','fontSize': size + 'rem', 'height':height + 'px', 'marginLeft':marginLeft + '%'}"
-        @click="click"
-    >
-      <slot/>
-    </button>
+    <view class="ae-button" @click="click"
+          :style="{'width':width + '%','fontSize': fontSize + 'rem','marginLeft':marginLeft + '%'}">
+      <span class="ae-button-text">
+        <slot/>
+      </span>
+    </view>
   </div>
 </template>
 
@@ -22,10 +19,6 @@
         type: Number,
         default: 20,
       },
-      height: {
-        type: Number,
-        default: 30,
-      },
       marginLeft: {
         type: Number,
         default: 10,
@@ -36,7 +29,7 @@
       },
       size: {
         type: Number,
-        default: 0.75,
+        default: 0.45,
       },
       disabled: {
         type: Boolean,
@@ -45,32 +38,20 @@
     },
     methods: {
       click() {
-        this.$emit("onClick");
+        this.$emit("click");
       },
     },
-    create() {
+    data(){
+      return{
+        fontSize: this.size,
+      }
     },
-    computed: {
-      btnStyle() {
-        if (this.disabled) {
-          return {
-            width: this.width + "%",
-            fontSize: this.size + "em",
-            height: this.height + "px",
-            marginLeft: this.marginLeft + "%",
-            cursor: "not-allowed",
-          };
-        } else {
-          return {
-            width: this.width + "%",
-            fontSize: this.size + "em",
-            height: this.height + "px",
-            marginLeft: this.marginLeft + "%",
-            cursor: "pointer",
-          };
-        }
-      },
+    created() {
+      // #ifdef H5
+      this.fontSize = this.fontSize / 2;
+      // #endif
     },
+    computed: {},
   };
 </script>
 
@@ -80,16 +61,22 @@
     color: rgb(255, 255, 255);
     cursor: pointer;
     background-color: #5a5c59;
-    border-top: 2px #818181 solid;
-    border-left: 2px #818181 solid;
-    border-right: 2px #494949 solid;
-    border-bottom: 2px #494949 solid;
+    border-top: 2rpx #818181 solid;
+    border-left: 2rpx #818181 solid;
+    border-right: 2rpx #494949 solid;
+    border-bottom: 2rpx #494949 solid;
     -webkit-text-stroke: 0.02px #000000;
     border-radius: 3px;
     overflow: hidden;
+    padding-top: 1%;
+    padding-bottom: 1%;
   }
 
   .ae-button:hover {
     box-shadow: 0 1px 8px 0 rgba(255, 255, 255, 0.322);
+  }
+
+  .ae-button-text {
+
   }
 </style>

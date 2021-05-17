@@ -24,15 +24,15 @@
 						</div>
 					</uni-td>
 					<uni-td>
-						<ae-button :width="80" v-if="!item.row.player" @onClick="changeCtlArmy(item.row.color)">加入
+						<ae-button :width="80" v-if="!item.row.player" @click="changeCtlArmy(item.row.color)">加入
 						</ae-button>
 						<ae-button :width="80" v-else-if="
 					    item.row.player &&
 					    item.row.player != $store.getters.user.user_id &&
 					    $store.getters.user.user_id == roomOwner
-					  " @onClick="levelCtlArmy(item.row.color, item.row.player)">踢出</ae-button>
+					  " @click="levelCtlArmy(item.row.color, item.row.player)">踢出</ae-button>
 						<ae-button :width="80" v-else-if="$store.getters.user.user_id == item.row.player"
-							@onClick="levelCtlArmy(item.row.color, item.row.player)">退出</ae-button>
+							@click="levelCtlArmy(item.row.color, item.row.player)">退出</ae-button>
 					</uni-td>
 				</uni-tr>
 				</uni-tr>
@@ -43,9 +43,9 @@
 		</div>
 		<map-preview v-model="showPreview" :mapId="mapId"></map-preview>
 		<div class="bottom-button">
-			<ae-button @onClick="showPreview = true">预览</ae-button>
+			<ae-button @click="showPreview = true">预览</ae-button>
 			<ae-button>邀请</ae-button>
-			<ae-button v-show="roomOwner && $store.getters.user.user_id == roomOwner" @onClick="showStartTip = true">开始
+			<ae-button v-show="roomOwner && $store.getters.user.user_id == roomOwner" @click="showStartTip = true">开始
 			</ae-button>
 		</div>
 		<ae-tip v-model="showStartTip" :closeTip="startTip()" @ok="startRoomGame"></ae-tip>

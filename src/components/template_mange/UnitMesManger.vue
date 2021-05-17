@@ -30,7 +30,7 @@
     <ae-base-dialog title="修改等级信息" :width="40" v-model="editUnitLevelInfoDialog">
       <ae-form ref="levelInfoForm" v-if="currentLevelInfo" :dataObj="currentLevelInfo" :edit="showPageIndex == '1'"
         :formConfig="unitLevelInfoFormConfig" />
-      <ae-button @onClick="saveLevelInfo">确 定</ae-button>
+      <ae-button @click="saveLevelInfo">确 定</ae-button>
     </ae-base-dialog>
 
     <start-comment ref="startComment" @ok="handleDownload" />

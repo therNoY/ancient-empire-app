@@ -5,7 +5,7 @@
 			:initQueryDataGrid="initQueryDataFunction" :titleSwitchSelect="titleSwitchSelect"
 			:footerButtons="buttonList" :width="40" page>
 		</ae-complex-dialog>
-		<ae-button :width="80" class="userMap-select-button" @onClick="clickSelectMap">
+		<ae-button :width="80" class="userMap-select-button" @click="clickSelectMap">
 			选择地图
 		</ae-button>
 		<div @click="clickPreivewChooseMap" class="userMap-select-name" v-if="chooseMap && chooseMap.map_name">
@@ -50,7 +50,7 @@
 					<uni-number-box v-model="maxPop" :min="15" :max="50" :step="5"></uni-number-box>
 				</div>
 				<div style="width: 100%">
-					<ae-button :marginLeft="25" :width="50" @onClick="clickSetMap">
+					<ae-button :marginLeft="25" :width="50" @click="clickSetMap">
 						确认
 					</ae-button>
 				</div>

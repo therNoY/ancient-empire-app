@@ -10,13 +10,13 @@
         v-if="index == 0"
         :size="size"
         :width="buttonWidth"
-        @onClick="onClick(index)"
+        @click="onClick(index)"
         :marginLeft="buttonMarginLeft / 2"
       >
         {{ button }}
       </ae-button>
       <ae-button
-        @onClick="onClick(index)"
+        @click="onClick(index)"
         v-else
         :size="size"
         :width="buttonWidth"
@@ -49,12 +49,12 @@ export default {
     },
     size:{
        type: Number,
-      default: 0.75,
+      default: 0.45,
     }
   },
   methods: {
     onClick(index) {
-      this.$emit("onClick", index);
+      this.$emit("click", index);
       if (
         this.clickAction &&
         this.clickAction[index] &&

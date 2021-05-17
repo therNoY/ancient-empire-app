@@ -11,15 +11,14 @@
     <div class="ae-dialog-body-title">
       <ae-button-list
         v-if="titleButtons"
-        :size="0.7"
-        :style="bodyTitleButtonStyle"
+        :style="{'width':vueStyle.titleButtonWidth}"
         :buttonList="titleButtons.map((a) => a.name)"
         :clickAction="titleButtons.map((a) => a.action)"
       ></ae-button-list>
       <ae-switch-select
         v-if="titleSwitchSelect"
         ref="titleSwitchSelect"
-        :style="bodySwitchStyle"
+        :style="{'width': vueStyle.switchButtonWidth, 'padding': vueStyle.switchButtonPadding,}"
         v-model="titleSwitchSelectValue"
         :default="titleSwitchSelect.default"
         :items="titleSwitchSelect.items"
@@ -27,11 +26,10 @@
       ></ae-switch-select>
       <ae-input
         v-model="queryCondition"
-        style="float: right"
+        style="float: right;width:30%;padding:1%"
         v-if="showSearch"
-        :style="bodyTitleSearchStyle"
         @onChange="flushPageAndData()"
-        placeholder=" 搜索"
+        :placeholder="$t('common.search')"
       ></ae-input>
     </div>
 
@@ -144,6 +142,13 @@ export default {
       pageCount: 0,
       titleSwitchSelectValue: "",
       queryDataGrid: null,
+      vueStyle:{
+        titleButtonWidth:null,
+        switchButtonWidth:null,
+        switchButtonPadding:null,
+
+      }
+      
     };
   },
   methods: {
@@ -199,13 +204,13 @@ export default {
       if (this.$refs.dataGrid) {
         let res = this.$refs.dataGrid.getSelect();
         if (!res) {
-          this.$appHelper.warningMsg("请选择一行");
+          this.$appHelper.warningMsg(this.$t("common.chooseLineWaring"));
           throw new Error("未选择数据");
         } else {
           return res;
         }
       } else {
-        this.$appHelper.warningMsg("请选择一行");
+        this.$appHelper.warningMsg(this.$t("common.chooseLineWaring"));
         throw new Error("未选择数据");
       }
     },
@@ -219,6 +224,28 @@ export default {
       }
       return null;
     },
+
+    setPageStyle() {
+      if (this.showSearch || this.titleSwitchSelect) {
+        if (this.showSearch && !this.titleSwitchSelect) {
+          this.vueStyle.titleButtonWidth = "40%";
+        } else if (!this.showSearch && this.titleSwitchSelect) {
+          this.vueStyle.titleButtonWidth = "20%";
+        } else {
+          this.vueStyle.titleButtonWidth = "15%";
+        }
+      } else {
+        this.vueStyle.titleButtonWidth = "50%";
+      }
+
+      if (this.showSearch) {
+        this.vueStyle.switchButtonWidth = "50%";
+        this.vueStyle.switchButtonPadding = "1%";
+      } else {
+        this.vueStyle.switchButtonWidth = "80%";
+        this.vueStyle.switchButtonPadding = "1%";
+      }
+    },
   },
   created() {
     this.queryDataGrid = this.initQueryDataGrid;
@@ -227,54 +254,11 @@ export default {
     } else if (this.formConfig && this.formConfig.length > 0) {
       this.showModel = "showForm";
     }
+    
+    this.setPageStyle();
+    
   },
   computed: {
-    bodyTitleButtonStyle() {
-      if (this.showSearch || this.titleSwitchSelect) {
-        if (this.showSearch && !this.titleSwitchSelect) {
-          return {
-            width: "40%",
-          };
-        } else if (!this.showSearch && this.titleSwitchSelect) {
-          return {
-            width: "20%",
-          };
-        } else {
-          return {
-            width: "15%",
-          };
-        }
-      } else {
-        return {
-          width: "50%",
-        };
-      }
-    },
-    bodySwitchStyle() {
-      if (this.showSearch) {
-        return {
-          width: "50%",
-          padding: "1%",
-        };
-      }
-      return {
-        padding: "1%",
-        width: "80%",
-      };
-    },
-    bodyTitleSearchStyle() {
-      if (this.titleButtons && this.titleButtons.length > 0) {
-        return {
-          width: "30%",
-          padding: "1%",
-        };
-      } else {
-        return {
-          width: "30%",
-          padding: "1%",
-        };
-      }
-    },
   },
   watch: {
     titleSwitchSelectValue(v) {

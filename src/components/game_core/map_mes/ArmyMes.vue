@@ -56,7 +56,7 @@
       <ae-button
         style="margin-left: 65%; margin-top: 5%"
         :width="65"
-        @onClick="saveDraftRecord"
+        @click="saveDraftRecord"
         >确 定</ae-button
       >
     </ae-base-dialog>

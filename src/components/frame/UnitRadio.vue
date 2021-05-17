@@ -8,7 +8,7 @@
       :width="75"
       :height="25"
       :size="0.5"
-      @onClick="chooseOtherUnit"
+      @click="chooseOtherUnit"
       :disabled="!editAble"
       >选 择</ae-button
     >

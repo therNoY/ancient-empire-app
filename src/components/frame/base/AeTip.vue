@@ -5,7 +5,7 @@
         <div class="ae-close-tip" v-html="closeTip"></div>
         <ae-button-list
           :buttonList="buttonList"
-          @onClick="onClick"
+          @click="onClick"
         ></ae-button-list>
       </div>
     </div>

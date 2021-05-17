@@ -21,6 +21,7 @@ Vue.prototype.$eventBus = eventBus;
 Vue.prototype.$style = style
 appHelper.store = store;
 
+// 引入自定义组件
 import AeButton from "./components/frame/base/AeButton.vue"
 import AeComplexDialog from "./components/frame/base/AeComplexDialog.vue";
 import AeSwitchSelect from "./components/frame/base/AeSwitchSelect.vue"
@@ -58,6 +59,10 @@ Vue.component("AeTabForm", AeTabForm);
 Vue.component("AePage", AePage);
 Vue.component("AeTip", AeTip);
 Vue.component("AeTransfer", AeTransfer);
+
+// 引入插件组件
+import UniIcons from "./plugin/uni-icons/uni-icons"
+Vue.component("UniIcons", UniIcons);
 
 Vue.config.productionTip = false;
 

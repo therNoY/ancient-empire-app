@@ -8,7 +8,7 @@
 
     <ae-button-list
       :buttonList="buttonList"
-      @onClick="onClick"
+      @click="onClick"
     ></ae-button-list>
   </ae-base-dialog>
 </template>

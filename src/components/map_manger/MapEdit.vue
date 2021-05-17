@@ -73,7 +73,7 @@
 			<ae-input label="名字：" v-model="currentMapInfo.map_name"></ae-input>
 			<ae-input label="宽度：" v-model="newMapColumn" type="number" :max="100" :min="10"></ae-input>
 			<ae-input label="高度：" v-model="newMapRow" type="number" :max="100" :min="10"></ae-input>
-			<ae-button @onClick="createNewMapBySize(newMapColumn, newMapRow)">确 定</ae-button>
+			<ae-button @click="createNewMapBySize(newMapColumn, newMapRow)">确 定</ae-button>
 		</ae-base-dialog>
 
 		<!--我的地图-->

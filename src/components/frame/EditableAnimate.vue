@@ -9,7 +9,7 @@
       :size="0.5"
       :width="70"
       :disabled="disabled"
-      @onClick="changeImg"
+      @click="changeImg"
       >修改</ae-button
     >
     <img class="showImg" v-if="animImg" :src="animImg" />
