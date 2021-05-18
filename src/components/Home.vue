@@ -3,29 +3,29 @@
   <div class="home" :style="{'background':vueStyle.background}">
     <img class="logo" src="../assets/images/assist/logo.png" alt/>
     <div class="buttons">
-      <ae-button :width="60" class="home_button" @click="clickUserInfo">
+      <ae-button :size="buttonSize" class="home_button" @click="clickUserInfo">
         {{$t('player.title')}}
       </ae-button>
-      <ae-button :width="60" class="home_button" @click="showChapter = true">{{$t('battle.title')}}</ae-button>
-      <ae-button :width="60" class="home_button" @click="showEncounter = true">{{$t('encounter.title')}}</ae-button>
-      <ae-button :width="60" class="home_button" @click="showNetGameDialog = true">
+      <ae-button :size="buttonSize" class="home_button" @click="showChapter = true">{{$t('battle.title')}}</ae-button>
+      <ae-button :size="buttonSize" class="home_button" @click="showEncounter = true">{{$t('encounter.title')}}</ae-button>
+      <ae-button :size="buttonSize" class="home_button" @click="showNetGameDialog = true">
         {{$t('multiPlayer.title')}}
       </ae-button>
-      <ae-button :width="60" class="home_button" @click="showUserRecord = true">
+      <ae-button :size="buttonSize" class="home_button" @click="showUserRecord = true">
         {{$t('loadGame.title')}}
       </ae-button>
-      <ae-button :width="60" class="home_button" @click="showUnitMange = true">
+      <ae-button :size="buttonSize" class="home_button" @click="showUnitMange = true">
         {{$t('unitManagement.title')}}
       </ae-button>
-      <ae-button :width="60" class="home_button" @click="showTemplatManger = true">
+      <ae-button :size="buttonSize" class="home_button" @click="showTemplatManger = true">
         {{$t('templateManagement.title')}}
       </ae-button>
-      <ae-button :width="60" class="home_button" @click="showMapManger = true">
+      <ae-button :size="buttonSize" class="home_button" @click="showMapManger = true">
         {{$t('mapManagement.title')}}
       </ae-button>
-      <ae-button :width="60" class="home_button" @click="router('mapEdit/0')">{{$t('mapEdit.title')}}</ae-button>
-      <!--  <ae-button :width="60" class="home_button" @click="router('demo')">帮助</ae-button>   -->
-      <!--  <ae-button :width="60" class="home_button" @click="router('monitor')">监控</ae-button> -->
+      <ae-button :size="buttonSize" class="home_button" @click="router('mapEdit/0')">{{$t('mapEdit.title')}}</ae-button>
+      <!--  <ae-button :size="buttonSize" class="home_button" @click="router('demo')">帮助</ae-button>   -->
+      <!--  <ae-button :size="buttonSize" class="home_button" @click="router('monitor')">监控</ae-button> -->
     </div>
 
     <user-info
@@ -90,7 +90,7 @@
         showMapEdit: false,
         showChapter: false,
         showMapManger: false,
-
+        buttonSize: 0.6,
         vueStyle: {
         }
       };
@@ -111,13 +111,11 @@
     created() {
       // #ifdef H5
       window.HomeVue = this;
+      this.buttonSize = 0.8;
       // #endif
       // #ifdef MP-WEIXIN
       wx.HomeVue = this;
       // #endif
-      uni.getSystemInfo().then(resp => {
-        console.log("系统信息", resp);
-      });
       this.vueStyle.background = this.$s('homeBase.background');
     },
     computed: {
@@ -153,9 +151,9 @@
 
   .home_button {
     float: left;
-    width: 100%;
-    margin-left: 10%;
+    margin-left: 15%;
     height: 9%;
     margin-top: 1%;
+    width: 60%;
   }
 </style>

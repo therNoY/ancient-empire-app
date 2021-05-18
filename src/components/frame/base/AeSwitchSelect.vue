@@ -6,6 +6,7 @@
       class="ae-switch-select-right-button"
       :width="100"
       :disabled="!editAble"
+      :size="0.1"
       @click="getRightItem"
     >
       <view>
@@ -16,7 +17,7 @@
     <ae-button
       class="ae-switch-select-left-button"
       :width="100"
-      :height="23"
+      :size="0.1"
       :disabled="!editAble"
       @click="getLeftItem"
     >
@@ -103,9 +104,9 @@ export default {
 <style lang="scss" scoped>
 .ae-switch-select {
   width: 96%;
-  height: 20px;
   float: left;
-  padding: 2%;
+  padding: 1%;
+  /*background-color: #d9b04d;*/
   .ae-switch-label {
     float: left;
     width: 20%;
@@ -119,7 +120,12 @@ export default {
   }
   .ae-switch-select-body {
     width: 30%;
+    /* #ifdef H5*/
     font-size: 14px;
+    /* #endif*/
+    /* #ifdef MP-WEIXIN */
+    font-size : 0.75rem;
+    /* #endif */
     padding-top: 1%;
     float: left;
     color: rgb(255, 255, 255);

@@ -4,7 +4,7 @@
       v-model="showModel"
       :title="TemplateDetail.template_name"
       :width="45"
-      fixedDialog
+      inlineDialog
       :top="9"
     >
       <ae-tab-form

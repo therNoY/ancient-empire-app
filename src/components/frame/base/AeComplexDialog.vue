@@ -1,6 +1,7 @@
 <!--继承了基础功能的弹框-->
 <template>
   <ae-base-dialog
+    :setFullScreen="setFullScreen"
     :value="value"
     :closeTip="closeTip"
     :width="width"
@@ -10,7 +11,7 @@
   >
     <div class="ae-dialog-body-title">
       <ae-button-list
-        v-if="titleButtons"
+        v-if="titleButtons && setFullScreen.length > 0"
         :style="{'width':vueStyle.titleButtonWidth}"
         :buttonList="titleButtons.map((a) => a.name)"
         :clickAction="titleButtons.map((a) => a.action)"
@@ -18,7 +19,7 @@
       <ae-switch-select
         v-if="titleSwitchSelect"
         ref="titleSwitchSelect"
-        :style="{'width': vueStyle.switchButtonWidth, 'padding': vueStyle.switchButtonPadding,}"
+        :style="{'width': vueStyle.switchButtonWidth}"
         v-model="titleSwitchSelectValue"
         :default="titleSwitchSelect.default"
         :items="titleSwitchSelect.items"
@@ -26,10 +27,11 @@
       ></ae-switch-select>
       <ae-input
         v-model="queryCondition"
-        style="float: right;width:30%;padding:1%"
+        style="width:25%;padding:1%"
         v-if="showSearch"
         @onChange="flushPageAndData()"
         :placeholder="$t('common.search')"
+        :width="searchWidth"
       ></ae-input>
     </div>
 
@@ -72,6 +74,11 @@ export default {
   },
   props: {
     value: {
+      type: Boolean,
+      default: false,
+    },
+    // 是否全屏 只有是不是H5的时候有校
+    setFullScreen: {
       type: Boolean,
       default: false,
     },
@@ -142,11 +149,10 @@ export default {
       pageCount: 0,
       titleSwitchSelectValue: "",
       queryDataGrid: null,
+      searchWidth:70,
       vueStyle:{
         titleButtonWidth:null,
         switchButtonWidth:null,
-        switchButtonPadding:null,
-
       }
       
     };
@@ -240,10 +246,8 @@ export default {
 
       if (this.showSearch) {
         this.vueStyle.switchButtonWidth = "50%";
-        this.vueStyle.switchButtonPadding = "1%";
       } else {
         this.vueStyle.switchButtonWidth = "80%";
-        this.vueStyle.switchButtonPadding = "1%";
       }
     },
   },
@@ -256,7 +260,9 @@ export default {
     }
     
     this.setPageStyle();
-    
+    // #ifdef MP-WEIXIN
+    this.searchWidth = 100;
+    // #endif
   },
   computed: {
   },
@@ -288,9 +294,11 @@ export default {
 }
 .ae-dialog-body-title {
   width: 100%;
-  float: left;
-  margin-top: 10px;
-  margin-bottom: 10px;
+  display: flex !important;
+  padding: 10px;
+  flex-direction:row;
+  align-items: flex-end;
+  justify-content:space-between;
 }
 .main-body {
   float: left;

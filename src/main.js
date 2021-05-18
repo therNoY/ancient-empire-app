@@ -6,19 +6,19 @@ import animated from 'animate.css'
 import appHelper from './utils/appHelper'
 import eventBus from './manger/EventBus'
 import style from "./style"
-import VueI18n from 'vue-i18n'
+import language from "./language"
 import uView from "uview-ui";
 
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
 
-Vue.use(animated)
-Vue.use(uView)
+Vue.use(animated);
+Vue.use(uView);
 
-Vue.use(VueI18n)
-Vue.prototype.$http = axios
+Vue.prototype.$http = axios;
 Vue.prototype.$appHelper = appHelper;
 Vue.prototype.$eventBus = eventBus;
-Vue.prototype.$style = style
+Vue.prototype.$style = style;
+Vue.prototype.$language = language;
 appHelper.store = store;
 
 // 引入自定义组件
@@ -66,20 +66,12 @@ Vue.component("UniIcons", UniIcons);
 
 Vue.config.productionTip = false;
 
-const i18n = new VueI18n({
-  // 定义默认语言为中文 
-  locale: 'zh',
-  messages: {
-    'zh': require('./assets/languages/zh.json'),
-    'en': require('./assets/languages/en.json')
-  }
-});
-
 App.mpType = 'app';
 
 const app = new Vue({
   ...App,
-  store,
-  i18n
+  store
 });
 app.$mount();
+
+

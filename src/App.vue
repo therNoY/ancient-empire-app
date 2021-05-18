@@ -1,7 +1,18 @@
 <script>
 	export default {
 		onLaunch: function() {
-			console.log('App Launch')
+			console.log('App Launch');
+      uni.getSystemInfo().then(resp => {
+        console.log("系统信息", resp);
+      });
+      // #ifdef H5
+      uni.platform = 'H5';
+      uni.isH5 = true;
+      // #endif
+
+      // #ifdef MP-WEIXIN
+      uni.platform = 'mpWeiXin';
+      // #endif
 		},
 		onShow: function() {
 			console.log('App Show')

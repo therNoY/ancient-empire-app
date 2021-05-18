@@ -2,7 +2,10 @@
   "common": {
     "search": "搜索",
     "chooseLineWaring": "请选择一行",
-    "sureClose": "确定要关闭么?"
+    "sureClose": "确定要关闭么?",
+    "sure": "确定",
+    "cancel": "取消",
+    "pleaseInput":"请输入"
   },
   "player": {
     "title": "玩家"

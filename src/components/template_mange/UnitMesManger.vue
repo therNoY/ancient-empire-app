@@ -2,10 +2,10 @@
   <div class="body">
     <ae-complex-dialog ref="mainDiaglog" v-model="showModel" showSearch title="单位管理" :titleButtons="titleButtonList"
       :footerButtons="footButtonList" :initQueryDataGrid="queryDataFunction" :showItem="showItem" :showTitle="showTitle"
-      :titleSwitchSelect="titleSwitchSelect" @titleSwitchSelectChange="switchChange" :width="70" page>
+      :titleSwitchSelect="titleSwitchSelect" @titleSwitchSelectChange="switchChange" :width="70" page setFullScreen>
     </ae-complex-dialog>
 
-    <ae-base-dialog :title="diaTitle" v-model="dialogVisible" fixedDialog :top="3" :width="48">
+    <ae-base-dialog :title="diaTitle" v-model="dialogVisible" inlineDialog :top="3" :width="48">
       <el-tabs v-model="activeName">
         <el-tab-pane label="基础信息" name="baseInfo">
           <div class="input_mes">

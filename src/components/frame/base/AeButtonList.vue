@@ -2,25 +2,14 @@
 <template>
   <div class="ae-button-list" v-if="buttonList.length > 0">
     <div
-      v-for="(button, index) in buttonList"
-      :key="index"
-      class="ae-button-list-item"
+        v-for="(button, index) in buttonList"
+        :key="index"
+        class="ae-button-list-item"
+        :style="{'width':buttonWidth+'%'}"
     >
       <ae-button
-        v-if="index == 0"
-        :size="size"
-        :width="buttonWidth"
         @click="onClick(index)"
-        :marginLeft="buttonMarginLeft / 2"
-      >
-        {{ button }}
-      </ae-button>
-      <ae-button
-        @click="onClick(index)"
-        v-else
         :size="size"
-        :width="buttonWidth"
-        :marginLeft="flontLeft"
       >
         {{ button }}
       </ae-button>
@@ -48,8 +37,8 @@ export default {
       default: 50,
     },
     size:{
-       type: Number,
-      default: 0.45,
+      type: Number,
+      default: 0.75,
     }
   },
   methods: {
@@ -77,21 +66,18 @@ export default {
     buttonWidth() {
       return this.factor / this.buttonList.length;
     },
-    flontLeft() {
-      return (100 - this.factor) / this.buttonList.length;
-    },
-    buttonMarginLeft() {
-      return 36 / this.buttonList.length;
-    },
   },
 };
 </script>
 
-<style>
+<style scoped>
 .ae-button-list {
   width: 100%;
+  padding: 1%;
+  display: flex;
+  justify-content: space-around;
 }
-.ae-button-list-pine {
-  width: 100%;
+.ae-button-list-item {
+  /*width: 100%;*/
 }
 </style>

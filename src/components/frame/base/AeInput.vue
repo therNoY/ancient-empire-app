@@ -1,9 +1,9 @@
 <template>
   <div class="ae-input">
     <div v-if="label" class="ae-input-label">{{ label }}</div>
-    <input
+    <input class = "ae-input-real"
       :type="type"
-      :style="inputStyle"
+      :style="{'width':width+'%'}"
       v-model="inputValue"
       :disabled="!editAble"
       :placeholder="placeholder"
@@ -32,13 +32,11 @@ export default {
       type: Number,
       default: 70,
     },
-    height: {
-      type: Number,
-      default: 20,
-    },
     placeholder: {
-      type: "",
-      default: "请输入",
+      type: String,
+      default(){
+        return uni.$t("common.pleaseInput");
+      },
     },
     label: {
       type: String,
@@ -70,12 +68,6 @@ export default {
     }
   },
   computed: {
-    inputStyle() {
-      return {
-        width: this.width + "%",
-        height: this.height + "px",
-      };
-    },
   },
 };
 </script>
@@ -84,33 +76,42 @@ export default {
 .ae-input {
   width: 96%;
   float: left;
-  padding: 2%;
-  height: 20px;
+  padding: 1%;
+  /*background-color: #4cd964;*/
   .ae-input-label {
     width: 20%;
     float: left;
-    height: 20px;
     font-size: 14px;
     padding-top: 2%;
     color: white;
   }
 }
 
-input {
+.ae-input-real {
   outline: none;
   float: left;
-  height: 20px;
   margin-left: 1%;
   background-color: #494949;
+  -webkit-text-fill-color: white; /*输入文字、placeholder颜色*/
+  /* #ifdef H5*/
+  font-size: 14px;
+  height: 20px;
   border-top: 2px #494949 solid;
   border-left: 2px #494949 solid;
   border-right: 2px #818181 solid;
   border-bottom: 2px #818181 solid;
-  -webkit-text-fill-color: white; /*输入文字、placeholder颜色*/
-  font-size: 14px;
+  /* #endif*/
+  /* #ifdef MP-WEIXIN */
+  font-size : 0.75rem;
+  height: 16rpx;
+  border-top: 2rpx #494949 solid;
+  border-left: 2rpx #494949 solid;
+  border-right: 2rpx #818181 solid;
+  border-bottom: 2rpx #818181 solid;
+  /* #endif */
 }
 
-input:disabled {
+.ae-input-real:disabled {
   border-top: 2px #ffffff00 solid;
   border-left: 2px #ffffff00 solid;
   border-right: 2px #ffffff00 solid;

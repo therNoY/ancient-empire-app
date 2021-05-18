@@ -13,6 +13,7 @@
       showSearch
       @titleSwitchSelectChange="switchSelectChange"
       page
+      setFullScreen
     >
     </ae-complex-dialog>
 

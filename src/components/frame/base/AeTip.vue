@@ -17,7 +17,9 @@ export default {
   props: {
     closeTip: {
       type: String,
-      default: "确定么?",
+      default() {
+        return uni.$t("common.sureClose");
+      },
     },
     value: {
       type: Boolean,
@@ -25,7 +27,9 @@ export default {
     },
     buttonList: {
       type: Array,
-      default: () => ["确定", "取消"],
+      default() {
+        return [uni.$t("common.sure"), uni.$t("common.cancel")]
+      }
     },
   },
   data() {

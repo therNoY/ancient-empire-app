@@ -1,7 +1,7 @@
 <template>
   <div class="ae-button-body">
     <view class="ae-button" @click="click"
-          :style="{'width':width + '%','fontSize': fontSize + 'rem','marginLeft':marginLeft + '%'}">
+          :style="{'fontSize': fontSize + 'rem','marginLeft':marginLeft + '%'}">
       <span class="ae-button-text">
         <slot/>
       </span>
@@ -12,13 +12,6 @@
 <script>
   export default {
     props: {
-      /**
-       * 按钮所占父容器的宽度
-       */
-      width: {
-        type: Number,
-        default: 20,
-      },
       marginLeft: {
         type: Number,
         default: 10,
@@ -29,7 +22,7 @@
       },
       size: {
         type: Number,
-        default: 0.45,
+        default: 0.75,
       },
       disabled: {
         type: Boolean,
@@ -48,7 +41,7 @@
     },
     created() {
       // #ifdef H5
-      this.fontSize = this.fontSize / 2;
+      this.fontSize = this.fontSize / 3;
       // #endif
     },
     computed: {},
@@ -58,14 +51,24 @@
 <style>
   .ae-button {
     float: left;
+    width:100%;
     color: rgb(255, 255, 255);
     cursor: pointer;
     background-color: #5a5c59;
+    /* #ifdef H5*/
+    -webkit-text-stroke: 0.2px #000000;
+    border-top: 2px #818181 solid;
+    border-left: 2px #818181 solid;
+    border-right: 2px #494949 solid;
+    border-bottom: 2px #494949 solid;
+    /* #endif*/
+    /* #ifdef MP-WEIXIN */
+    -webkit-text-stroke: 0.03px #000000;
     border-top: 2rpx #818181 solid;
     border-left: 2rpx #818181 solid;
     border-right: 2rpx #494949 solid;
     border-bottom: 2rpx #494949 solid;
-    -webkit-text-stroke: 0.02px #000000;
+    /* #endif */
     border-radius: 3px;
     overflow: hidden;
     padding-top: 1%;

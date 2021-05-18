@@ -3,14 +3,17 @@
   <div class="ae-base-dialog-container"
        :style="{'display':vueStyle.dialogDisplay, 'backgroundColor': vueStyle.dialogBackgroundColor, 'left': vueStyle.dialogLeft,'top': vueStyle.dialogTop,}"
        v-if="value">
-    <div class="ae-base-dialog-popup" :style="{'width':vueStyle.popupWidth}">
+    <div class="ae-base-dialog-popup" :class="[fullScreen?'fullScreenStyle':'h5Style']" :style="{'width':vueStyle.popupWidth}">
       <div class="ae-base-dialog-popup-header">
         <span>{{ title }}</span>
-        <button type="button" class="btn-close" @click="close">x</button>
+        <button v-show="!fullScreen" type="button" class="btn-close" @click="close">x</button>
       </div>
       <div class="ae-base-dialog-popup-main">
         <slot/>
       </div>
+    </div>
+    <div v-show="fullScreen" class="app-close-button">
+      <uni-icons type="undo" color="#b0b8ac" size="25" @click="close"/>
     </div>
     <ae-tip v-model="showTip" :closeTip="closeTip" @ok="closeOk"></ae-tip>
   </div>
@@ -23,8 +26,14 @@
         type: Boolean,
         default: false,
       },
+      // 弹出框宽度 如果fullScreen并且不是h5则无效
       width: {
         default: "42",
+      },
+      // 是否全屏 只有是不是H5的时候有校
+      setFullScreen: {
+        type: Boolean,
+        default: false,
       },
       title: {
         type: String,
@@ -32,18 +41,21 @@
       },
       closeTip: {
         type: String,
-        default: null,
+        default() {
+          return uni.$t("common.sureClose")
+        },
       },
       showCloseTip: {
         type: Boolean,
         default: false,
       },
-      // fixedDialog为true的时候有用
+      // inlineDialog为true的时候有用
       top: {
         type: Number,
         default: 10,
       },
-      fixedDialog: {
+      // 是否是inLine布局 默认flex布局
+      inlineDialog: {
         type: Boolean,
         default: false,
       },
@@ -51,6 +63,7 @@
     data() {
       return {
         showTip: false,
+        fullScreen : false,
         vueStyle: {
           popupWidth: null,
           dialogDisplay: "inline",
@@ -78,13 +91,14 @@
     created() {
       if ((this.width + "").indexOf("px") > 0) {
         this.vueStyle.popupWidth = this.width;
-      } else if (!this.fixedDialog) {
+      } else if (!this.inlineDialog) {
         this.vueStyle.popupWidth = this.width + "%";
       } else {
         this.vueStyle.popupWidth = this.width * 1.3 + "%";
       }
 
-      if (!this.fixedDialog) {
+
+      if (!this.inlineDialog) {
         this.vueStyle.dialogDisplay = 'flex';
         this.vueStyle.dialogBackgroundColor = "rgba(167, 167, 167, 0.3)";
         this.vueStyle.dialogLeft = "0";
@@ -93,15 +107,15 @@
         this.vueStyle.dialogLeft = this.top + "%";
         this.vueStyle.dialogTop = (100 - this.width) / 2 + "%";
       }
-
-      if (!this.closeTip) {
-        this.closeTip = this.$t("common.sureClose");
-      }
     },
     watch: {
       value(v) {
         if (v) {
           this.$emit("open");
+          if (this.setFullScreen && !uni.isH5) {
+            this.vueStyle.popupWidth = "100%";
+            this.fullScreen = true;
+          }
         }
       }
     }
@@ -121,14 +135,22 @@
   .ae-base-dialog-popup {
     background: #242a43;
     box-shadow: 2px 2px 20px 1px;
-    overflow-y: 10%;
     display: flex;
     flex-direction: column;
-    border: 2px #afb7aa solid;
-    box-shadow: 0 2px 12px 0 rgba(255, 255, 255, 0.692);
+  }
+
+  .fullScreenStyle{
+    height: 100%;
+    padding: 1%;
+  }
+
+  .h5Style{
     padding-left: 1%;
     padding-right: 1%;
     padding-bottom: 1%;
+    overflow-y: 10%;
+    border: 2px #afb7aa solid;
+    box-shadow: 0 2px 12px 0 rgba(255, 255, 255, 0.692);
   }
 
   .ae-base-dialog-popup-main {
@@ -138,11 +160,22 @@
   .ae-base-dialog-popup-header {
     color: #b0b8ac;
     justify-content: space-between;
+    /*#ifdef H5*/
     margin-top: 15px;
     margin-bottom: 15px;
+    /*#endif*/
+    /*#ifdef MP-WEIXIN*/
+    margin-top: 5rpx;
+    margin-bottom: 5rpx;
+    /*#endif*/
 
     span {
+      /*#ifdef H5*/
       font-size: 18px;
+      /*#endif*/
+      /*#ifdef MP-WEIXIN*/
+      font-size: 1rem;
+      /*#endif*/
     }
   }
 
@@ -161,5 +194,12 @@
     color: rgb(195, 195, 195);
     margin-top: 8%;
     margin-bottom: 8%;
+  }
+  .app-close-button{
+    position:absolute;
+    right: 30rpx;
+    bottom: 30rpx;
+    width: 30rpx;
+    height: 30rpx;
   }
 </style>
