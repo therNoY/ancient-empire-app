@@ -6,6 +6,7 @@ const user = {
     token: '', // token
     user: {}, // 保存登录的用户
     role: '',// 登录用户角色
+	  setting:{},
   },
 
   mutations: {

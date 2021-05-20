@@ -1,34 +1,34 @@
-import black from "./color/black.json"
-import white from "./color/white.json"
+import black from "./black.json"
+import white from "./white.json"
 import Vue from 'vue'
 
-import store from "../store";
+import store from "../../store";
 
-let style = {
+let color = {
 
-    userStyle: () => store.getters.setting.style | "black",
+    usercolor: () => store.getters.setting.color | "black",
 
-    styleCatch: {},
+    colorCatch: {},
 
     /**
      * 获取背景颜色
      * @param router
      */
-    getStyle: function (router) {
+    getcolor: function (router) {
 
         if (!router) {
             throw new Error("获取颜色错误,配置错误", router);
         }
 
-        if (this.styleCatch[router]) {
-            return this.styleCatch[router];
+        if (this.colorCatch[router]) {
+            return this.colorCatch[router];
         } else {
 			console.log("获取颜色：", router)
             let colorJson;
             const routArray = router.split(".");
-            if (this.userStyle === "black") {
+            if (this.usercolor === "black") {
                 colorJson = black;
-            } else if (this.userStyle === 'white') {
+            } else if (this.usercolor === 'white') {
                 colorJson = white;
             } else {
                 colorJson = black;
@@ -44,14 +44,14 @@ let style = {
                 }
             }
 
-            this.styleCatch[router] = obj;
+            this.colorCatch[router] = obj;
             return obj;
         }
     }
 
 }
 
-Vue.prototype.$s = (router) => style.getStyle(router);
+Vue.prototype.$s = (router) => color.getcolor(router);
 
 
-export default style;
+export default color;

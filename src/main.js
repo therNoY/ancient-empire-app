@@ -5,7 +5,7 @@ import axios from 'axios'
 import animated from 'animate.css'
 import appHelper from './utils/appHelper'
 import eventBus from './manger/EventBus'
-import style from "./style"
+import color from "./style/color/index.js"
 import language from "./language"
 import uView from "uview-ui";
 
@@ -17,7 +17,7 @@ Vue.use(uView);
 Vue.prototype.$http = axios;
 Vue.prototype.$appHelper = appHelper;
 Vue.prototype.$eventBus = eventBus;
-Vue.prototype.$style = style;
+Vue.prototype.$color = color;
 Vue.prototype.$language = language;
 appHelper.store = store;
 

@@ -3,7 +3,7 @@ import {
 } from "../api/env"
 import store from "../store";
 import eventBus from "../manger/EventBus";
-import style from "../style/index.js"
+import color from "../style/color/index.js"
 
 const appHelper = {
 

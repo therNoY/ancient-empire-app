@@ -56,14 +56,12 @@
     cursor: pointer;
     background-color: #5a5c59;
     /* #ifdef H5*/
-    -webkit-text-stroke: 0.2px #000000;
     border-top: 2px #818181 solid;
     border-left: 2px #818181 solid;
     border-right: 2px #494949 solid;
     border-bottom: 2px #494949 solid;
     /* #endif*/
     /* #ifdef MP-WEIXIN */
-    -webkit-text-stroke: 0.03px #000000;
     border-top: 2rpx #818181 solid;
     border-left: 2rpx #818181 solid;
     border-right: 2rpx #494949 solid;
