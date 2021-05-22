@@ -178,6 +178,15 @@ const appHelper = {
 			regionIndex,
 			unitId
 		});
+	},
+
+	bindPage2Global: function(vue, name) {
+		// #ifdef H5
+		window[name] = vue;
+		// #endif
+		// #ifdef MP-WEIXIN
+		wx[name] = vue;
+		// #endif
 	}
 
 }

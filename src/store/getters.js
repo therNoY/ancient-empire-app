@@ -6,8 +6,6 @@ const getters = {
   user: state => state.user.user,
   token: state => state.user.token,
   setting: state => state.user.setting,
-  admin_token: state => state.user.admin_token,
-  setting: state => state.user.setting,
 
   // 游戏核心数据
   game: state => state.gameCore.game,

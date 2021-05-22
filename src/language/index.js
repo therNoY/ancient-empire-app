@@ -18,9 +18,9 @@ let language = {
 	getLanguage: function(router) {
 
 		if (!router) {
-			throw new Error("获取语言,配置错误", router);
+			throw new Error("获取语言,配置错误" + router);
 		}
-		let userLanguage = this.userLanguage
+		let userLanguage = this.userLanguage;
 		let languageCatch = this.languageCatch[userLanguage];
 		if (!languageCatch) {
 			this.languageCatch[userLanguage] = {};
@@ -46,7 +46,7 @@ let language = {
 				if (obj[key]) {
 					obj = obj[key];
 				} else {
-					console.warn("获取语言错误,未配置", router);
+					console.warn("获取语言错误,未配置" + router);
 					return router;
 				}
 			}

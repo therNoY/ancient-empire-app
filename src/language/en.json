@@ -1,34 +1,40 @@
 {
   "common": {
-    "search": "search",
-    "chooseLineWaring": "please choose a line",
-    "sureClose": "Are you sure you want to close?"
+    "search": "搜索",
+    "chooseLineWaring": "请选择一行",
+    "sureClose": "确定要关闭么?",
+    "sure": "确定",
+    "cancel": "取消",
+    "pleaseInput":"请输入",
+    "start": "开始",
+    "return": "返回"
   },
   "player": {
-    "title": "Player"
+    "title": "玩家"
   },
   "battle": {
-    "title": "Battle"
+    "title": "战役",
+    "chooseBattle":"选择战役"
   },
   "encounter": {
-    "title": "Encounter"
+    "title": "遭遇战"
   },
   "multiPlayer": {
-    "title": "Multi Player"
+    "title": "多人游戏"
   },
   "loadGame": {
-    "title": "Load Game"
+    "title": "读取游戏"
   },
   "unitManagement": {
-    "title": "Unit Management"
+    "title": "单位管理"
   },
   "templateManagement": {
-    "title": "Template Management"
+    "title": "模板管理"
   },
   "mapManagement": {
-    "title": "Map Management"
+    "title": "地图管理"
   },
   "mapEdit": {
-    "title": "Map Edit"
+    "title": "地图编辑"
   }
 }

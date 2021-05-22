@@ -1,6 +1,7 @@
 <template>
   <div>
     <ae-base-dialog
+      v-if="showLogin"
       v-model="showLogin"
       title="登录"
       @close="closeLoginDiaglog"
@@ -62,9 +63,11 @@
 </template>
 
 <script>
-import { setUser, setToken } from "../utils/auth";
+import { setUser, setToken } from "../utils/authUtil";
 import { Login, Register, ChangePwd } from "../api";
+let _this = null;
 export default {
+  name:"userInfoPage",
   props: {
     value: {
       type: Boolean,
@@ -206,33 +209,26 @@ export default {
     },
 
     doLogin() {
-      this.user = this.$refs.loginForm.formData;
-      console.log(this.user);
+      _this.user = _this.$refs.loginForm.formData;
+      console.log(_this.user);
       // 验证
-      if (this.user.user_name == null || this.user.user_name == "") {
-        this.$appHelper.infoMsg("用户名/邮箱 不能为空");
+      if (_this.user.user_name == null || _this.user.user_name === "") {
+        _this.$appHelper.infoMsg("用户名/邮箱 不能为空");
         return;
       }
-      this.$appHelper.setLoading();
-      Login(this.user).then((resp) => {
-        console.log(resp);
-        if (resp.res_code == 0) {
-          let loginUser = {};
-          loginUser.user_name = resp.res_val.user_name;
-          loginUser.password = resp.res_val.password;
-          loginUser.user_id = resp.res_val.user_id;
-          setUser(loginUser);
-          let token = resp.res_val.token;
-          console.log(token);
-          setToken(token);
-          this.$appHelper.infoMsg("登录成功");
-          this.showLogin = false;
-          this.showChangePwd = false;
-          this.$emit("input", false);
-        } else {
-          this.$appHelper.infoMsg(resp.res_mes);
-        }
-        this.$appHelper.setLoading();
+      Login(_this.user).then((resp) => {
+        let loginUser = {};
+        loginUser.user_name = resp.res_val.user_name;
+        loginUser.password = resp.res_val.password;
+        loginUser.user_id = resp.res_val.user_id;
+        setUser(loginUser);
+        let token = resp.res_val.token;
+        console.log(token);
+        setToken(token);
+        _this.showLogin = false;
+        _this.showChangePwd = false;
+        _this.$emit("input", false);
+        _this.$appHelper.infoMsg("登录成功");
       });
     },
     doRegister() {
@@ -278,6 +274,8 @@ export default {
     },
   },
   created() {
+    this.$appHelper.bindPage2Global(this, "userInfoVue");
+    _this = this;
   },
 };
 </script>

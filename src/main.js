@@ -22,6 +22,7 @@ Vue.prototype.$language = language;
 appHelper.store = store;
 
 // 引入自定义组件
+import AeBorder from "./components/frame/base/AeBorder";
 import AeButton from "./components/frame/base/AeButton.vue"
 import AeComplexDialog from "./components/frame/base/AeComplexDialog.vue";
 import AeSwitchSelect from "./components/frame/base/AeSwitchSelect.vue"
@@ -41,6 +42,7 @@ import AeTabForm from "./components/frame/base/AeTabForm.vue"
 import AeTip from "./components/frame/base/AeTip.vue"
 import AeTransfer from "./components/frame/base/AeTransfer.vue"
 
+Vue.component("AeBorder", AeBorder);
 Vue.component("AeComplexDialog", AeComplexDialog);
 Vue.component("AeBaseDialog", AeBaseDialog);
 Vue.component("AeButton", AeButton);

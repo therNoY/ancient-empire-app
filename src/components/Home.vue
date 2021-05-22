@@ -1,22 +1,23 @@
 <template>
 	<!--首页-->
+
 	<div class="home" :style="{ background: vueStyle.background }">
 		<img class="logo" src="../assets/images/assist/logo.png" alt />
-		<div class="buttons">
-			<ae-button :size="buttonSize" class="home_button font" @click="clickUserInfo">{{ $t('player.title') }}</ae-button>
-			<ae-button :size="buttonSize" class="home_button" @click="showChapter = true">{{ $t('battle.title') }}</ae-button>
-			<ae-button :size="buttonSize" class="home_button" @click="showEncounter = true">{{ $t('encounter.title') }}</ae-button>
-			<ae-button :size="buttonSize" class="home_button" @click="showNetGameDialog = true">{{ $t('multiPlayer.title') }}</ae-button>
-			<ae-button :size="buttonSize" class="home_button" @click="showUserRecord = true">{{ $t('loadGame.title') }}</ae-button>
-			<ae-button :size="buttonSize" class="home_button" @click="showUnitMange = true">{{ $t('unitManagement.title') }}</ae-button>
-			<ae-button :size="buttonSize" class="home_button" @click="showTemplatManger = true">{{ $t('templateManagement.title') }}</ae-button>
-			<ae-button :size="buttonSize" class="home_button" @click="showMapManger = true">{{ $t('mapManagement.title') }}</ae-button>
-			<ae-button :size="buttonSize" class="home_button" @click="router('mapEdit/0')">{{ $t('mapEdit.title') }}</ae-button>
-			<!--  <ae-button :size="buttonSize" class="home_button" @click="router('demo')">帮助</ae-button>   -->
-			<!--  <ae-button :size="buttonSize" class="home_button" @click="router('monitor')">监控</ae-button> -->
-		</div>
+			<div class="buttons">
+				<ae-button :size="buttonSize" class="home_button font" @click="clickUserInfo">{{ $t('player.title') }}</ae-button>
+				<ae-button :size="buttonSize" class="home_button" @click="showChapter = true">{{ $t('battle.title') }}</ae-button>
+				<ae-button :size="buttonSize" class="home_button" @click="showEncounter = true">{{ $t('encounter.title') }}</ae-button>
+				<ae-button :size="buttonSize" class="home_button" @click="showNetGameDialog = true">{{ $t('multiPlayer.title') }}</ae-button>
+				<ae-button :size="buttonSize" class="home_button" @click="showUserRecord = true">{{ $t('loadGame.title') }}</ae-button>
+				<ae-button :size="buttonSize" class="home_button" @click="showUnitMange = true">{{ $t('unitManagement.title') }}</ae-button>
+				<ae-button :size="buttonSize" class="home_button" @click="showTemplatManger = true">{{ $t('templateManagement.title') }}</ae-button>
+				<ae-button :size="buttonSize" class="home_button" @click="showMapManger = true">{{ $t('mapManagement.title') }}</ae-button>
+				<ae-button :size="buttonSize" class="home_button" @click="router('mapEdit/0')">{{ $t('mapEdit.title') }}</ae-button>
+				<!--  <ae-button :size="buttonSize" class="home_button" @click="router('demo')">帮助</ae-button>   -->
+				<!--  <ae-button :size="buttonSize" class="home_button" @click="router('monitor')">监控</ae-button> -->
+			</div>
 
-		<user-info v-model="userInfoDialog" :user="loginUser" @logout="logout" :isDisable="true" @close="userInfoDialog = false"></user-info>
+		<user-info ref="userInfo" v-model="userInfoDialog" :user="loginUser" @logout="logout" :isDisable="true" @close="userInfoDialog = false"></user-info>
 		<!-- 多人游戏 房间管理 -->
 		<room-index v-model="showNetGameDialog"></room-index>
 		<!--遭遇战-->
@@ -30,8 +31,10 @@
 
 		<!--章节选择-->
 		<chapter-select v-model="showChapter"></chapter-select>
-
+		<!-- 地图管理 -->
 		<map-manger v-model="showMapManger"></map-manger>
+
+		<base-lister></base-lister>
 	</div>
 </template>
 
@@ -45,8 +48,10 @@ import UnitMesManger from './template_mange/UnitMesManger.vue';
 import MapManger from './map_manger/MapManger.vue';
 import MapEdit from './map_manger/MapEdit.vue';
 import ChapterSelect from './encounter/ChapterSelect.vue';
-// const url = 'https://sungd.github.io/Pacifico.ttf';
-const url = '/static/font/aeFont.ttf';
+import BaseLister  from "./BaseLister.vue";
+import {baseUrl} from "../api/env.js"
+
+const url = baseUrl + '/font/download/aeFont.ttf';
 export default {
 	components: {
 		UserInfo,
@@ -57,7 +62,8 @@ export default {
 		UnitMesManger,
 		MapEdit,
 		ChapterSelect,
-		MapManger
+		MapManger,
+		BaseLister
 	},
 	data() {
 		return {
@@ -98,14 +104,11 @@ export default {
 		}
 	},
 	created() {
+		this.$appHelper.bindPage2Global(this, "HomeVue");
 		// #ifdef H5
-		window.HomeVue = this;
 		this.buttonSize = 0.8;
 		// #endif
-		// #ifdef MP-WEIXIN
-		wx.HomeVue = this;
 		this.loadFontFaceFromWeb();
-		// #endif
 		this.vueStyle.background = this.$s('homeBase.background');
 	},
 	computed: {

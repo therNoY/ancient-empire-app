@@ -1,51 +1,53 @@
-import axios from 'axios'
 import store from '../store'
-import { baseUrl } from './env'
+import appHelper from "../utils/appHelper";
+import {
+  getCookieToken,
+  getLocalSaveUser,
+  setUser,
+  setToken
+} from "../utils/authUtil"
+import {Login} from "./index";
+import {baseUrl} from './env'
 
-// 创建axios实例
-const service = axios.create({
-  baseURL: baseUrl, // api的base_url
+const serviceConfig = {
   timeout: 50000 // 请求超时时间
-})
+};
 
-// request拦截器
-service.interceptors.request.use(config => {
-  if (config.url.indexOf("/root/") >= 0) {
-    if (store.getters.admin_token) {
-      config.headers['Authorization'] = "Bearer " + store.getters.admin_token; // 让每个请求携带自定义token 请根据实际情况自行修改
-    }
-  } else if (config.url.indexOf("/api/") >= 0) {
-    if (store.getters.token) {
-      config.headers['Authorization'] = "Bearer " + store.getters.token; // 让每个请求携带自定义token 请根据实际情况自行修改
-    } else {
-      console.log("没有token", store);
-    }
+/**
+ * 获取真实的url
+ * @param url
+ * @returns {string}
+ */
+function getRealUrl(url) {
+  if (!url.startsWith("/")) {
+    url = "/" + url;
   }
-
-  return config;
-}, error => {
-  // Do something with request error
-  console.log(error) // for debug
-  Promise.reject(error)
-})
-
-// respone拦截器
-service.interceptors.response.use(
-  response => {
-    if (response.data && (response.data.resCode == '40003' || response.data.resCode == '40001')) {
-      // TODO
-      // Message.error({
-      //   message: response.data.resMes
-      // });
-      router.push("/")
-    }
-    return response.data
-  },
-  error => {
-    console.log('err' + error)// for debug
-    return Promise.reject(error)
+  if (baseUrl.charAt(baseUrl.length - 1) === '/') {
+    baseUrl = baseUrl.substr(0, baseUrl.length - 1);
   }
-)
+  return baseUrl + url;
+}
+
+/**
+ * 登录并且请求
+ * @param user 用户
+ * @param url url
+ * @param data data
+ * @param type type
+ */
+function loginAndRequest(user, url, data, type) {
+  console.log("根据本地保存的用户进行登录", user);
+  Login(user).then(({res_val}) => {
+    let loginUser = {};
+    loginUser.user_name = res_val.user_name;
+    loginUser.password = res_val.password;
+    loginUser.user_id = res_val.user_id;
+    setUser(loginUser);
+    let token = res_val.token;
+    setToken(token);
+    request(url, data, type);
+  })
+}
 
 /**
  * 封装的发送请求的函数
@@ -55,72 +57,56 @@ service.interceptors.response.use(
  * type 请求类型 目前有 POST 和 GET
  */
 export function request(url = '', data = {}, type = 'POST') {
-  type = type.toUpperCase();
-  if (type == 'GET') {
-    let dataStr = ''; //数据拼接字符串
-    Object.keys(data).forEach(key => {
-      dataStr += key + '=' + data[key] + '&';
-    })
-    if (dataStr !== '') {
-      dataStr = dataStr.substr(0, dataStr.lastIndexOf('&'));
-      url = url + '?' + dataStr;
+
+  let header = {};
+
+  // 请求拦截
+  if (url.indexOf("/api/") >= 0) {
+    // 先从vuex中获取
+    let token = store.getters.token;
+    // 从本地获取token
+    if (!token) {
+      token = getCookieToken();
     }
-    return new Promise((resolve, reject) => {
-      service.get(url, {})
-        .then(function (response) {
-          // 返回结果
-          resolve(response);
-        })
-        .catch(function (error) {
-          console.log(error);
-          reject(error);
-        });
-    })
-  } else if (type == 'DELETE') {
-    let dataStr = ''; //数据拼接字符串
-    Object.keys(data).forEach(key => {
-      dataStr += key + '=' + data[key] + '&';
-    })
-    if (dataStr !== '') {
-      dataStr = dataStr.substr(0, dataStr.lastIndexOf('&'));
-      url = url + '?' + dataStr;
+    if (!token) {
+      // 还没有token 就从本地获取用户 然后请求登录获取token
+      let user = getLocalSaveUser();
+      if (!user) {
+        appHelper.errorMsg("尚未登录");
+        uni.redirectTo({url: 'components/Home'});
+      } else {
+        loginAndRequest(user, url, data, type);
+        return;
+      }
     }
-    return new Promise((resolve, reject) => {
-      service.delete(url, {})
-        .then(function (response) {
-          // 返回结果
-          resolve(response);
-        })
-        .catch(function (error) {
-          console.log(error);
-          reject(error);
-        });
-    })
-  } else if (type == 'POST') {
-    return new Promise((resolve, reject) => {
-      service.post(url, data, {})
-        .then(function (response) {
-          // 返回结果
-          resolve(response);
-        })
-        .catch(function (error) {
-          console.log(error);
-          reject(error);
-        });
-    })
-  } else if (type == 'PUT') {
-    return new Promise((resolve, reject) => {
-      service.put(url, data, {})
-        .then(function (response) {
-          // 返回结果
-          resolve(response);
-        })
-        .catch(function (error) {
-          console.log(error);
-          reject(error);
-        });
-    })
+    if (!token) {
+      return;
+    }
+    header['Authorization'] = "Bearer " + token;
   }
 
+  let realUrl = getRealUrl(url);
+  return new Promise((resolve, reject) => {
+    appHelper.setLoading();
+    uni.request({
+      url: realUrl,
+      method: type,
+      data,
+      header,
+      timeout: serviceConfig.timeout,
+      success: response => {
+        if (response.data && response.data.resCode && (response.data.resCode
+            === '40003' || response.data.resCode === '40001')) {
+          console.log("需要重定向")
+        }
+        resolve(response.data);
+        appHelper.setLoading();
+      },
+      fail: (res) => {
+        reject(res);
+        appHelper.setLoading();
+      }
+    });
+  });
 }
 

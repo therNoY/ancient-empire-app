@@ -13,11 +13,12 @@
           </td>
         </tr>
         <tr
-          v-for="(item, index) in data"
-          :key="index"
-          @click="clickItem(index)"
+            v-for="(item, index) in data"
+            :key="index"
+            @click="clickItem(index)"
+            :class="index === selectIndex ? 'choose-td' : ''"
         >
-          <td v-for="(key, keyIndx) in showKey" :key="keyIndx">
+          <td v-for="(key, keyIndex) in showKey" :key="keyIndex">
             <div v-if="isNotFunction(key)">
               {{ item[key] }}
             </div>
@@ -45,130 +46,145 @@
     </div>
 
     <ae-page
-      ref="aePage"
-      v-if="page"
-      :count="count"
-      @onPageNowChange="onPageNowChange"
+        ref="aePage"
+        v-if="page"
+        :count="count"
+        @onPageNowChange="onPageNowChange"
     ></ae-page>
   </div>
 </template>
 
 <script>
-export default {
-  props: {
-    data: {
-      type: Array,
+  export default {
+    props: {
+      data: {
+        type: Array,
+      },
+      showTitle: {
+        type: Array,
+      },
+      showItem: {
+        type: Array,
+      },
+      page: {
+        type: Boolean,
+        default: false,
+      },
+      count: {
+        type: Number,
+        default: 0,
+      },
+      tableConfig: {}
     },
-    showTitle: {
-      type: Array,
-    },
-    showItem: {
-      type: Array,
-    },
-    page: {
-      type: Boolean,
-      default: false,
-    },
-    count: {
-      type: Number,
-      default: 0,
-    },
-    tableConfig:{
-
-    }
-  },
-  data() {
-    return {
-      selectIndex: 0,
-    };
-  },
-  created() {
-  },
-  methods: {
-    isNotFunction(obj) {
-      return typeof obj != 'function'
-    },
-    getTableItemStyle(index) {
-      if (index == this.selectIndex) {
-        return {
-          backgroundColor: "#5a5c59",
-        };
-      }
+    data() {
       return {
-        backgroundColor: "#444444",
+        selectIndex: 0,
       };
     },
-    getTableTdStyle(index) {
-      if (this.tableConfig && this.tableConfig[index] && this.tableConfig[index]["style"]) {
-        return this.tableConfig[index]["style"];
-      }
-      return {};
+    created() {
+      this.$appHelper.bindPage2Global(this, "dataGrid");
     },
-    clickItem(index) {
-      this.selectIndex = index;
-    },
-    getSelectIndex() {
-      return this.selectIndex;
-    },
-    getSelect() {
-      return this.data[this.selectIndex];
-    },
-    onPageNowChange(pageNow) {
-      this.$emit("onPageNowChange", pageNow);
-    },
-  },
-  computed: {
-    showKey() {
-      if (this.showItem && this.showItem.length > 0) {
-        return this.showItem;
-      } else {
-        let showKeys = [];
-        if (this.data && this.data.length > 0) {
-          for (let key in this.data[0]) {
-            showKeys.push(key);
-          }
+    methods: {
+      isNotFunction(obj) {
+        return typeof obj != 'function'
+      },
+      getTableItemStyle(index) {
+        if (index === this.selectIndex) {
+          return {
+            backgroundColor: "#5a5c59",
+          };
         }
-        return showKeys;
-      }
+        return {
+          backgroundColor: "#444444",
+        };
+      },
+      getTableTdStyle(index) {
+        if (this.tableConfig && this.tableConfig[index] && this.tableConfig[index]["style"]) {
+          return this.tableConfig[index]["style"];
+        }
+        return {};
+      },
+      clickItem(index) {
+        this.selectIndex = index;
+      },
+      getSelectIndex() {
+        return this.selectIndex;
+      },
+      getSelect() {
+        return this.data[this.selectIndex];
+      },
+      onPageNowChange(pageNow) {
+        this.$emit("onPageNowChange", pageNow);
+      },
     },
-  },
-};
+    computed: {
+      showKey() {
+        if (this.showItem && this.showItem.length > 0) {
+          return this.showItem;
+        } else {
+          let showKeys = [];
+          if (this.data && this.data.length > 0) {
+            for (let key in this.data[0]) {
+              showKeys.push(key);
+            }
+          }
+          return showKeys;
+        }
+      },
+    },
+  };
 </script>
 
 <style lang="scss" scoped>
-.ae-data-grid {
-  width: 100%;
-  max-height: 320px;
-  height: 320px;
-  overflow: auto;
-  border-top: 2px #242424 solid;
-  border-left: 2px #242424 solid;
-  border-right: 2px #aaaaaa solid;
-  border-bottom: 2px #aaaaaa solid;
-
-  table {
-    font-family: verdana, arial, sans-serif;
-    font-size: 13px;
-    color: #ffffff;
-    border-width: 0px;
+  .ae-data-grid {
     width: 100%;
-    border-collapse: collapse;
-  }
+    /* #ifdef H5 */
+    max-height: 320px;
+    height: 320px;
+    /* #endif */
+    /* #ifndef H5 */
+    max-height: 200rpx;
+    height: 200rpx;
+    /* #endif */
+    overflow: auto;
+    border-top: 2px #242424 solid;
+    border-left: 2px #242424 solid;
+    border-right: 2px #aaaaaa solid;
+    border-bottom: 2px #aaaaaa solid;
 
-  table th {
-    border-width: 0px;
-    padding: 8px;
-    border-style: solid;
-  }
+    table {
+      font-family: verdana, arial, sans-serif;
+      /* #ifdef H5 */
+      font-size: 13px;
+      /* #endif */
+      /* #ifndef H5 */
+      font-size: 0.75rem;
+      /* #endif */
+      color: #ffffff;
+      border-width: 0px;
+      width: 100%;
+      border-collapse: collapse;
+      background-color: #404040;
+    }
 
-  table tr {
-    cursor: pointer;
-  }
+    table th {
+      border-width: 0px;
+      padding: 8px;
+      border-style: solid;
+    }
 
-  table td {
-    border-width: 0px;
-    padding: 8px;
-    border-style: solid;
+    table tr {
+      cursor: pointer;
+    }
+
+    table td {
+      border-width: 0px;
+      padding: 8px;
+      border-style: solid;
+    }
+
+    .choose-td {
+      background-color: #2b6771;
+    }
   }
-}
 </style>

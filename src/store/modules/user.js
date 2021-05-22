@@ -1,5 +1,5 @@
 // 存放和用户身份验证有关的
-import { removeToken } from '@/utils/auth'
+import { removeAllStorage } from '@/utils/authUtil'
 
 const user = {
   state: {
@@ -27,7 +27,7 @@ const user = {
         console.log("用户登出");
         commit('setToken', '');
         commit('setUser', {});
-        removeToken();
+        removeAllStorage();
         resolve();
       })
     },

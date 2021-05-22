@@ -3,15 +3,21 @@
   <div class="ae-base-dialog-container"
        :style="{'display':vueStyle.dialogDisplay, 'backgroundColor': vueStyle.dialogBackgroundColor, 'left': vueStyle.dialogLeft,'top': vueStyle.dialogTop,}"
        v-if="value">
-    <div class="ae-base-dialog-popup" :class="[fullScreen?'fullScreenStyle':'h5Style']" :style="{'width':vueStyle.popupWidth}">
-      <div class="ae-base-dialog-popup-header">
-        <span>{{ title }}</span>
-        <button v-show="!fullScreen" type="button" class="btn-close" @click="close">x</button>
+    <ae-border :style="{'width':vueStyle.popupWidth}">
+      <div class="ae-base-dialog-popup" :class="[fullScreen?'fullScreenStyle':'h5Style']"
+           :style="{'width':vueStyle.popupWidth}">
+        <div class="ae-base-dialog-content" :style="{'width':vueStyle.contentWidth}">
+          <div class="ae-base-dialog-popup-header">
+            <span>{{ title }}</span>
+            <uni-icons v-show="!fullScreen" type="closeempty" color="#b0b8ac" class="btn-close" :size="closeButtonSiz"
+                       @click="close"/>
+          </div>
+          <div class="ae-base-dialog-popup-main">
+            <slot/>
+          </div>
+        </div>
       </div>
-      <div class="ae-base-dialog-popup-main">
-        <slot/>
-      </div>
-    </div>
+    </ae-border>
     <div v-show="fullScreen" class="app-close-button">
       <uni-icons type="undo" color="#b0b8ac" size="25" @click="close"/>
     </div>
@@ -59,17 +65,25 @@
         type: Boolean,
         default: false,
       },
+      // 不使用边框默认使用
+      notBorder: {
+        type: Boolean,
+        default: false,
+      }
     },
     data() {
       return {
         showTip: false,
-        fullScreen : false,
+        fullScreen: false,
+        closeButtonSiz: 15,
         vueStyle: {
           popupWidth: null,
           dialogDisplay: "inline",
           dialogBackgroundColor: "rgba(167, 167, 167, 0)",
           dialogLeft: null,
           dialogTop: null,
+          borderWidth: null,
+          contentWidth: null,
         }
       };
     },
@@ -86,8 +100,22 @@
         this.$emit("input", false);
         this.$emit("close");
       },
+      setBorder(data) {
+        if (data) {
+          this.vueStyle.borderWidth = (data.width - 32) + 'px';
+          this.vueStyle.contentWidth = (data.width - 10) + 'px';
+        }
+      },
     },
     computed: {},
+    mounted() {
+      this.$appHelper.bindPage2Global(this, "activeBaseDialog");
+
+      const query = uni.createSelectorQuery().in(this);
+      query.select('.ae-base-dialog-popup').boundingClientRect(data => {
+        // this.setBorder(data);
+      }).exec();
+    },
     created() {
       if ((this.width + "").indexOf("px") > 0) {
         this.vueStyle.popupWidth = this.width;
@@ -96,7 +124,6 @@
       } else {
         this.vueStyle.popupWidth = this.width * 1.3 + "%";
       }
-
 
       if (!this.inlineDialog) {
         this.vueStyle.dialogDisplay = 'flex';
@@ -107,6 +134,9 @@
         this.vueStyle.dialogLeft = this.top + "%";
         this.vueStyle.dialogTop = (100 - this.width) / 2 + "%";
       }
+      // #ifdef H5
+      this.closeButtonSiz = 25;
+      // #endif
     },
     watch: {
       value(v) {
@@ -125,6 +155,7 @@
 <style lang="scss" scope>
   .ae-base-dialog-container {
     position: fixed;
+    display: flex;
     bottom: 0;
     right: 0;
     justify-content: center;
@@ -134,39 +165,39 @@
 
   .ae-base-dialog-popup {
     background: #242a43;
-    box-shadow: 2px 2px 20px 1px;
+    flex: 1 1 auto;
     display: flex;
     flex-direction: column;
   }
 
-  .fullScreenStyle{
+  .fullScreenStyle {
     height: 100%;
     padding: 1%;
   }
 
-  .h5Style{
-    padding-left: 1%;
-    padding-right: 1%;
-    padding-bottom: 1%;
-    overflow-y: 10%;
-    border: 2px #afb7aa solid;
-    box-shadow: 0 2px 12px 0 rgba(255, 255, 255, 0.692);
+  .h5Style {
+    /*padding-left: 1%;*/
+    /*padding-right: 1%;*/
+    /*padding-bottom: 1%;*/
+    /*overflow-y: 10%;*/
+    /*border: 2px #afb7aa solid;*/
+    /*box-shadow: 0 2px 12px 0 rgba(255, 255, 255, 0.692);*/
   }
 
   .ae-base-dialog-popup-main {
-    padding-bottom: 2%;
+    padding-left: 2%;
+    padding-top: 2%;
+    padding-right: 2%;
   }
 
   .ae-base-dialog-popup-header {
     color: #b0b8ac;
     justify-content: space-between;
     /*#ifdef H5*/
-    margin-top: 15px;
     margin-bottom: 15px;
     /*#endif*/
     /*#ifdef MP-WEIXIN*/
-    margin-top: 5rpx;
-    margin-bottom: 5rpx;
+    margin-bottom: 5 rpx;
     /*#endif*/
 
     span {
@@ -180,13 +211,9 @@
   }
 
   .btn-close {
-    border: none;
-    font-size: 20px;
     cursor: pointer;
     float: right;
-    font-weight: bold;
-    color: #b0b8ac;
-    background: transparent;
+    margin-right: 2%;
   }
 
   .ae-close-tip {
@@ -195,11 +222,12 @@
     margin-top: 8%;
     margin-bottom: 8%;
   }
-  .app-close-button{
-    position:absolute;
-    right: 30rpx;
-    bottom: 30rpx;
-    width: 30rpx;
-    height: 30rpx;
+
+  .app-close-button {
+    position: absolute;
+    right: 30 rpx;
+    bottom: 30 rpx;
+    width: 30 rpx;
+    height: 30 rpx;
   }
 </style>

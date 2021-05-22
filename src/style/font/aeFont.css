@@ -1,8 +1,5 @@
 /* #ifdef H5 */
-@font-face {
-	font-family: "aeFont";
-	src: url('/static/font/aeFont.ttf');
-}
+
 div {
 	font-family: aeFont;
 	-webkit-text-stroke: 0.8px #000000;

@@ -61,6 +61,7 @@ export default {
         this.clickAction = res[1];
       }
     }
+    this.$appHelper.bindPage2Global(this, "ButtonList");
   },
   computed: {
     buttonWidth() {

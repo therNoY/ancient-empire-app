@@ -1,6 +1,6 @@
 <template>
   <transition name="msg" appear>
-    <div :class="['box-item']" v-if="show" :style="{ top: top + 'px' }">
+    <div :class="['box-item']" v-if="show" :style="{ top: top + 'rpx' }">
       <unit class="msg-unit" :unit_id="unitId" :color="unitColor"></unit>
       <div class="msg-container">
         {{ mes }}
@@ -65,7 +65,6 @@ export default {
 </script>
 <style lang="scss" rel="stylesheet/scss" scoped>
 .box-item {
-  height: 30px;
   position: fixed;
   min-width: 380px;
   // element-ui抄来的样式
@@ -90,8 +89,14 @@ export default {
 }
 .msg-container {
   float: left;
+  /* #ifdef H5 */
   font-size: 1.3em;
   -webkit-text-stroke: 0.5px #000000;
+  /* #endif */
+  /* #ifndef H5 */
+  font-size: 0.75em;
+  -webkit-text-stroke: 0.1px #000000;
+  /* #endif */
   align-items: center;
   margin-left: 5%;
 }

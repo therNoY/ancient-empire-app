@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div class="ae-base-dialog-container" style="z-index: 9999" v-if="value">
-      <div class="ae-base-dialog-popup" style="width: 25%">
+    <div class="ae-base-tip-container" style="z-index: 9999" v-if="value">
+      <div class="ae-base-tip-popup" style="width: 25%">
         <div class="ae-close-tip" v-html="closeTip"></div>
         <ae-button-list
           :buttonList="buttonList"
@@ -51,7 +51,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.ae-base-dialog-container {
+.ae-base-tip-container {
   position: fixed;
   top: 0;
   bottom: 0;
@@ -62,7 +62,7 @@ export default {
   justify-content: center;
   align-items: center;
 }
-.ae-base-dialog-popup {
+.ae-base-tip-popup {
   background: #242a43;
   box-shadow: 2px 2px 20px 1px;
   overflow-x: auto;

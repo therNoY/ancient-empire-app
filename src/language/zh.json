@@ -5,13 +5,16 @@
     "sureClose": "确定要关闭么?",
     "sure": "确定",
     "cancel": "取消",
-    "pleaseInput":"请输入"
+    "pleaseInput":"请输入",
+    "start": "开始",
+    "return": "返回"
   },
   "player": {
     "title": "玩家"
   },
   "battle": {
-    "title": "战役"
+    "title": "战役",
+    "chooseBattle":"选择战役"
   },
   "encounter": {
     "title": "遭遇战"
