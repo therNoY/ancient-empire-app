@@ -143,8 +143,8 @@
     height: 320px;
     /* #endif */
     /* #ifndef H5 */
-    max-height: 200rpx;
-    height: 200rpx;
+    max-height: 230rpx;
+    height: 230rpx;
     /* #endif */
     overflow: auto;
     border-top: 2px #242424 solid;

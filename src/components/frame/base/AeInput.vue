@@ -30,7 +30,7 @@ export default {
     },
     width: {
       type: Number,
-      default: 70,
+      default: 85,
     },
     placeholder: {
       type: String,
@@ -58,6 +58,14 @@ export default {
       this.$emit("input", value);
       this.$emit("onChange", value);
     },
+    value(v) {
+      if (v && !this.inputValue) {
+        this.inputValue = v;
+      }
+    },
+    // default(v) {
+    //   this.inputValue = this.default;
+    // }
   },
   created() {
     this.inputValue = this.value;
@@ -67,8 +75,7 @@ export default {
       this.inputValue = this.default;
     }
   },
-  computed: {
-  },
+
 };
 </script>
 
@@ -85,6 +92,10 @@ export default {
     padding-top: 2%;
     color: white;
   }
+  input::-webkit-input-placeholder {
+    font-family: aeFont;
+    -webkit-text-stroke: 0px #000000;
+  }
 }
 
 .ae-input-real {
@@ -92,7 +103,9 @@ export default {
   float: left;
   margin-left: 1%;
   background-color: #494949;
-  -webkit-text-fill-color: white; /*输入文字、placeholder颜色*/
+  font-family: aeFont;
+  -webkit-text-fill-color: white;
+  -webkit-text-stroke: 0px #000000;
   /* #ifdef H5*/
   font-size: 14px;
   height: 20px;
@@ -116,5 +129,13 @@ export default {
   border-left: 2px #ffffff00 solid;
   border-right: 2px #ffffff00 solid;
   border-bottom: 2px #ffffff00 solid;
+}
+
+.ae-input-real:-webkit-autofill {
+  -webkit-text-fill-color: #ffffff !important;
+  background-color: transparent;
+  background-image: none;
+  -webkit-transition: background-color 50000s ease-in-out 0s;
+  transition: background-color 50000s ease-in-out 0s;
 }
 </style>

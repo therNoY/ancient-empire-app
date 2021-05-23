@@ -10,7 +10,7 @@ import getters from './getters'
 import move from './modules/moveState'
 import frame from './modules/frame'
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 
 const store = new Vuex.Store({
   modules: {
@@ -24,6 +24,6 @@ const store = new Vuex.Store({
     gameCore // 游戏核心先关的
   },
   getters
-})
+});
 
 export default store

@@ -1,10 +1,11 @@
+<!-- H5用户登录 -->
 <template>
   <div>
     <ae-base-dialog
       v-if="showLogin"
       v-model="showLogin"
-      title="登录"
-      @close="closeLoginDiaglog"
+      :title="$t('player.login')"
+      @close="closeLoginDialog"
     >
       <ae-form ref="loginForm" :formConfig="formConfig"></ae-form>
       <ae-button-list
@@ -15,8 +16,8 @@
 
     <ae-base-dialog
       v-model="showRegister"
-      title="注册"
-      @close="closeLoginDiaglog"
+      :title="$t('player.register')"
+      @close="closeLoginDialog"
     >
       <ae-form ref="registerForm" :formConfig="registerFormConfig"></ae-form>
       <ae-button-list
@@ -26,9 +27,10 @@
     </ae-base-dialog>
 
     <ae-base-dialog
-      title="用户信息"
+      :title="$t('player.userInfo')"
       v-model="showUserInfo"
       v-if="showUserInfo"
+      @close="closeLoginDialog"
     >
       <ae-form
         ref="userInfoForm"
@@ -44,9 +46,10 @@
     </ae-base-dialog>
 
     <ae-base-dialog
-      title="修改密码"
+      :title="$t('player.changePwd')"
       v-model="showChangePwd"
       v-if="showChangePwd"
+      @close="closeLoginDialog"
     >
       <ae-form
         v-if="showChangePwd"
@@ -63,8 +66,8 @@
 </template>
 
 <script>
-import { setUser, setToken } from "../utils/authUtil";
-import { Login, Register, ChangePwd } from "../api";
+import { setUser, setToken } from "@/utils/authUtil";
+import { Login, Register, ChangePwd } from "@/api";
 let _this = null;
 export default {
   name:"userInfoPage",
@@ -83,12 +86,12 @@ export default {
         {
           type: "input",
           key: "user_name",
-          des: "用户名/邮箱",
+          des: this.$t("player.nameOrMail")
         },
         {
           type: "input",
           key: "password",
-          des: "密码",
+          des: this.$t("player.password"),
          style: "password",
         },
       ],
@@ -96,26 +99,26 @@ export default {
         {
           type: "input",
           key: "email",
-          des: "邮箱",
+          des: this.$t("player.email"),
           require: true,
         },
         {
           type: "input",
           key: "user_name",
-          des: "用户名",
+          des: this.$t("player.userName"),
           require: true,
         },
         {
           type: "input",
           key: "password",
-          des: "密码",
+          des: this.$t("player.password"),
          style: "password",
           require: true,
         },
         {
           type: "input",
           key: "re_password",
-          des: "确认密码",
+          des: this.$t("player.rePassword"),
          style: "password",
           require: true,
         },
@@ -124,7 +127,7 @@ export default {
         {
           type: "input",
           key: "user_name",
-          des: "用户名",
+          des: this.$t("player.userName"),
           edit: false,
         },
       ],
@@ -132,21 +135,21 @@ export default {
         {
           type: "input",
           key: "old_password",
-          des: "原密码",
-         style: "password",
+          des: this.$t("player.oldPwd"),
+          style: "password",
           require: true,
         },
         {
           type: "input",
           key: "new_password",
-          des: "新密码",
+          des: this.$t("player.newPwd"),
          style: "password",
           require: true,
         },
         {
           type: "input",
           key: "sure_password",
-          des: "确认密码",
+          des: this.$t("player.rePassword"),
          style: "password",
           require: true,
         },
@@ -154,14 +157,14 @@ export default {
       user: {},
       showChangePwd: false,
       editAble: false,
-      loginButton: ["找回密码", "注册", "登录"],
-      userInfoButton: ["修改密码", "登出"],
-      changePwdButton: ["修改", "取消"],
-      registerButton: ["注册", "取消"],
+      loginButton: [this.$t("player.findPwd"), this.$t("player.register"), this.$t("player.login")],
+      userInfoButton: [this.$t("player.changePwd"), this.$t("player.logout")],
+      changePwdButton: [this.$t("common.change"), this.$t("common.cancel")],
+      registerButton: [this.$t("player.register"), this.$t("common.cancel")],
     };
   },
   methods: {
-    closeLoginDiaglog() {
+    closeLoginDialog() {
       this.$emit("input", false);
       this.showLogin = false;
     },
@@ -178,14 +181,14 @@ export default {
     changePwd() {
       let args = this.$refs.changePwdForm.getFormData();
       if (args.new_password != args.sure_password) {
-        this.$appHelper.infoMsg("确认密码不正确");
+        this.$appHelper.infoMsg(this.$t("player.againPwdErr"));
         return;
       }
       this.$appHelper.setLoading();
       ChangePwd(args)
         .then((resp) => {
           if (resp.res_code == 0) {
-            this.$appHelper.infoMsg("修改成功");
+            this.$appHelper.infoMsg(this.$t("common.changeSuccess"));
           } else {
             this.$appHelper.infoMsg(resp.res_mes);
           }
@@ -213,7 +216,7 @@ export default {
       console.log(_this.user);
       // 验证
       if (_this.user.user_name == null || _this.user.user_name === "") {
-        _this.$appHelper.infoMsg("用户名/邮箱 不能为空");
+        _this.$appHelper.infoMsg(this.$t("player.nameIsNull"));
         return;
       }
       Login(_this.user).then((resp) => {
@@ -228,18 +231,18 @@ export default {
         _this.showLogin = false;
         _this.showChangePwd = false;
         _this.$emit("input", false);
-        _this.$appHelper.infoMsg("登录成功");
+        _this.$appHelper.infoMsg(this.$t("player.loginOk"));
       });
     },
     doRegister() {
       let args = this.$refs.registerForm.getFormData();
       if (args.password != args.re_password) {
-        this.$appHelper.infoMsg("确认密码不正确");
+        this.$appHelper.infoMsg(this.$t("player.againPwdErr"));
         return;
       }
       Register(args).then((resp) => {
         if (resp.res_code == 0) {
-          this.$appHelper.successMsg("确认邮件已发出 请确认查收");
+          this.$appHelper.successMsg(this.$t("player.emailSend"));
           this.close();
         } else {
           this.$appHelper.errorMsg(resp.res_mes);

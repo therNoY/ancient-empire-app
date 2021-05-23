@@ -34,10 +34,11 @@ function getRealUrl(url) {
  * @param url url
  * @param data data
  * @param type type
+ * @param showLoading showLoading
  */
-function loginAndRequest(user, url, data, type) {
+function loginAndRequest(user, url, data, type, showLoading) {
   console.log("根据本地保存的用户进行登录", user);
-  Login(user).then(({res_val}) => {
+  Login(user, false).then(({res_val}) => {
     let loginUser = {};
     loginUser.user_name = res_val.user_name;
     loginUser.password = res_val.password;
@@ -45,7 +46,7 @@ function loginAndRequest(user, url, data, type) {
     setUser(loginUser);
     let token = res_val.token;
     setToken(token);
-    request(url, data, type);
+    request(url, data, type, showLoading);
   })
 }
 
@@ -55,8 +56,10 @@ function loginAndRequest(user, url, data, type) {
  * url 发送的Url
  * data jsons数据
  * type 请求类型 目前有 POST 和 GET
+ * showLoading 是否展示loading
+ * handlerErr 默认处理异常
  */
-export function request(url = '', data = {}, type = 'POST') {
+export function request(url = '', data = {}, type = 'POST', showLoading = true, handlerErr = true) {
 
   let header = {};
 
@@ -75,7 +78,7 @@ export function request(url = '', data = {}, type = 'POST') {
         appHelper.errorMsg("尚未登录");
         uni.redirectTo({url: 'components/Home'});
       } else {
-        loginAndRequest(user, url, data, type);
+        loginAndRequest(user, url, data, type, showLoading);
         return;
       }
     }
@@ -87,7 +90,9 @@ export function request(url = '', data = {}, type = 'POST') {
 
   let realUrl = getRealUrl(url);
   return new Promise((resolve, reject) => {
-    appHelper.setLoading();
+    if (showLoading) {
+      appHelper.setLoading();
+    }
     uni.request({
       url: realUrl,
       method: type,
@@ -95,16 +100,37 @@ export function request(url = '', data = {}, type = 'POST') {
       header,
       timeout: serviceConfig.timeout,
       success: response => {
-        if (response.data && response.data.resCode && (response.data.resCode
-            === '40003' || response.data.resCode === '40001')) {
-          console.log("需要重定向")
+        if (showLoading) {
+          appHelper.setLoading();
         }
-        resolve(response.data);
-        appHelper.setLoading();
+
+        if (!response || !response.data) {
+          appHelper.errorMsg("系统错误, 请联系管理员");
+          console.error(response);
+          reject();
+          return;
+        }
+        if (response.data.res_code === 40003 || response.data.res_code === 40001) {
+          // TODO
+          console.log("需要重定向");
+          reject();
+          return;
+        }
+        if (!handlerErr) {
+          resolve(response.data);
+        } else {
+          if (response.data.res_code !== 0) {
+            appHelper.errorMsg(response.data.res_mes);
+            reject(response.data.res_msg);
+          }
+          resolve(response.data);
+        }
       },
       fail: (res) => {
         reject(res);
-        appHelper.setLoading();
+        if (showLoading) {
+          appHelper.setLoading();
+        }
       }
     });
   });

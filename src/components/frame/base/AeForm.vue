@@ -4,7 +4,7 @@
     input, switchSelect, userMapSelect
  -->
 <template>
-  <div>
+  <div class="ae-form-content">
     <div
       v-for="(form, index) in formConfig"
       v-bind:key="index"
@@ -19,7 +19,7 @@
             v-model="formData[form.key]"
             :type="form.style"
             :default="form.default"
-            :width="70"
+            :width="80"
             :editAble="edit && !form.disabled"
           ></ae-input>
         </div>
@@ -137,23 +137,41 @@ export default {
       }
     }
   },
+  watch:{
+    dataObj(){
+      if (this.dataObj) {
+        if (this.closeBind) {
+          // 关闭双向绑定
+          this.formData = JSON.parse(JSON.stringify(this.dataObj));
+        } else {
+          this.formData = this.dataObj;
+        }
+      }
+    }
+  }
 };
 </script>
 
 <style lang="scss"  scoped>
-.ae-form-item {
-  width: 100%;
-  height: 40px;
-  .ae-form-label {
-    width: 20%;
-    float: left;
-    color: white;
-    font-size: 14px;
-    padding-top: 15px;
+  .ae-form-content{
+    display: flex;
+    flex-direction: column;
+    .ae-form-item {
+      width: 100%;
+      height: 40px;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      .ae-form-label {
+        width: 20%;
+        color: white;
+        font-size: 14px;
+      }
+      .ae-form-real-camp {
+        width: 80%;
+      }
+    }
   }
-  .ae-form-real-camp {
-    width: 80%;
-    float: left;
-  }
-}
+
 </style>

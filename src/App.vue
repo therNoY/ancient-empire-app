@@ -31,7 +31,17 @@ export default {
 @import 'uview-ui/index.scss';
 @import url('/style/font/aeFont.css');
 
+
+
 page {
 	height: 100%;
+}
+
+input:-webkit-autofill {
+  -webkit-text-fill-color: #ffffff !important;
+  background-color: transparent;
+  background-image: none;
+  -webkit-transition: background-color 50000s ease-in-out 0s;
+  transition: background-color 50000s ease-in-out 0s;
 }
 </style>

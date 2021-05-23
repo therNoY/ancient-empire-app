@@ -53,20 +53,21 @@
         <div class="main-body" v-else-if="showContent === 'showForm'">
           <ae-form
               ref="aeForm"
+              v-if="showModel"
               :formConfig="formConfig"
               :dataObj="dataObj"
           ></ae-form>
         </div>
       </section>
-
-      <div class="ae-dialog-popup-footer">
-        <ae-button-list
-            v-if="footerButtons"
-            :buttonList="footerButtons.map((a) => a.name)"
-            :clickAction="footerButtons.map((a) => a.action)"
-        ></ae-button-list>
-      </div>
     </div>
+
+    <template  class="ae-dialog-popup-footer" slot="footer">
+      <ae-button-list
+          v-if="footerButtons"
+          :buttonList="footerButtons.map((a) => a.name)"
+          :clickAction="footerButtons.map((a) => a.action)"
+      ></ae-button-list>
+    </template >
 
   </ae-base-dialog>
 </template>

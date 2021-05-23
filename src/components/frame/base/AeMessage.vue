@@ -83,6 +83,7 @@ export default {
   flex-direction: column;
   border: 2px #afb7aa solid;
   box-shadow: 0 2px 12px 0 rgba(255, 255, 255, 0.692);
+  z-index: 99999;
 }
 .msg-unit {
   float: left;

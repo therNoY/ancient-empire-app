@@ -7,6 +7,8 @@ const user = {
     user: {}, // 保存登录的用户
     role: '',// 登录用户角色
 	  setting:{},
+
+    weixinCode: '',
   },
 
   mutations: {
@@ -18,6 +20,9 @@ const user = {
       console.log("设置User");
       state.user = user
     },
+    setWeiXinLoginCode:(state, weixinCode) => {
+      state.weixinCode = weixinCode
+    }
   },
 
   actions: {

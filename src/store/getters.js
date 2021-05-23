@@ -1,12 +1,8 @@
-import { log } from "util";
-import store from ".";
-
 const getters = {
   // 游戏用户有关
   user: state => state.user.user,
   token: state => state.user.token,
   setting: state => state.user.setting,
-
   // 游戏核心数据
   game: state => state.gameCore.game,
   template: state => state.gameCore.template,
@@ -37,5 +33,5 @@ const getters = {
 
   // 框架层
   gloadLoading: state => state.frame.globleLoading,
-}
+};
 export default getters

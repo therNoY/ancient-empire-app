@@ -15,13 +15,16 @@
           <div class="ae-base-dialog-popup-main">
             <slot/>
           </div>
+          <div class="ae-base-dialog-footer">
+            <slot name="footer"></slot>
+          </div>
         </div>
       </div>
     </ae-border>
     <div v-show="fullScreen" class="app-close-button">
       <uni-icons type="undo" color="#b0b8ac" size="25" @click="close"/>
     </div>
-    <ae-tip v-model="showTip" :closeTip="closeTip" @ok="closeOk"></ae-tip>
+    <ae-tip v-show="showTip" v-model="showTip" :closeTip="closeTip" @ok="closeOk"></ae-tip>
   </div>
 </template>
 
@@ -185,9 +188,13 @@
   }
 
   .ae-base-dialog-popup-main {
-    padding-left: 2%;
-    padding-top: 2%;
-    padding-right: 2%;
+    padding: 2%;
+  }
+
+  .ae-base-dialog-content{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
   }
 
   .ae-base-dialog-popup-header {
@@ -205,9 +212,12 @@
       font-size: 18px;
       /*#endif*/
       /*#ifdef MP-WEIXIN*/
-      font-size: 1rem;
+      font-size: 0.7rem;
       /*#endif*/
     }
+  }
+
+  .ae-base-dialog-footer{
   }
 
   .btn-close {

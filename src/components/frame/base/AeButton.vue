@@ -49,35 +49,5 @@
 </script>
 
 <style>
-  .ae-button {
-    float: left;
-    width:100%;
-    color: rgb(255, 255, 255);
-    cursor: pointer;
-    background-color: #5a5c59;
-    /* #ifdef H5*/
-    border-top: 2px #818181 solid;
-    border-left: 2px #818181 solid;
-    border-right: 2px #494949 solid;
-    border-bottom: 2px #494949 solid;
-    /* #endif*/
-    /* #ifdef MP-WEIXIN */
-    border-top: 2rpx #818181 solid;
-    border-left: 2rpx #818181 solid;
-    border-right: 2rpx #494949 solid;
-    border-bottom: 2rpx #494949 solid;
-    /* #endif */
-    border-radius: 3px;
-    overflow: hidden;
-    padding-top: 1%;
-    padding-bottom: 1%;
-  }
 
-  .ae-button:hover {
-    box-shadow: 0 1px 8px 0 rgba(255, 255, 255, 0.322);
-  }
-
-  .ae-button-text {
-
-  }
 </style>
