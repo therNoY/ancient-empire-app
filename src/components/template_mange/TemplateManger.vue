@@ -165,20 +165,23 @@ export default {
         }
       });
     },
+
+    showComment(){
+      this.$refs.TemplateDetail.$refs.startComment.showComment();
+    }
   },
   computed: {
     footerButtonList() {
       let footerButtonList = [];
-      footerButtonList.push({ name: "详 情", action: this.showDetail });
+      footerButtonList.push({ name: "详 情", action: "showDetail" });
       if (this.model == "myTemp") {
-        footerButtonList.push({ name: "删 除", action: this.delTemp });
+        footerButtonList.push({ name: "删 除", action: "delTemp" });
       } else if (this.model == "myDownload") {
-        footerButtonList.push({ name: "删 除", action: this.delTemp });
+        footerButtonList.push({ name: "删 除", action: "delTemp" });
       } else if (this.model == "download") {
         footerButtonList.push({
           name: "下 载",
-          action: () =>
-            this.$refs.TemplateDetail.$refs.startComment.showComment(),
+          action: "showComment"
         });
       }
       return footerButtonList;

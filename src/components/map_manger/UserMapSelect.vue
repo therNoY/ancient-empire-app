@@ -114,11 +114,11 @@
 				showModel: false,
 				buttonList: [{
 						name: "选择",
-						action: this.clickChooseMap
+						action: "clickChooseMap"
 					},
 					{
 						name: "预览",
-						action: this.clickPreivewButton
+						action: "clickPreviewButton"
 					},
 				],
 				previewVisible: false,
@@ -161,7 +161,7 @@
 				this.chooseMap = value;
 				this.setMap();
 			},
-			clickPreivewButton() {
+			clickPreviewButton() {
 				let value = this.$refs.aeDialog.getDataGridSelect();
 				console.log(value);
 				if (value && value.map_id) {

@@ -1,7 +1,6 @@
 <template>
   <div class="ae-button-body">
-    <view class="ae-button" @click="click"
-          :style="{'fontSize': fontSize + 'rem','marginLeft':marginLeft + '%'}">
+    <view class="ae-button" @click="click" :style="{'fontSize': fontSize + 'rem'}">
       <span class="ae-button-text">
         <slot/>
       </span>
@@ -12,10 +11,6 @@
 <script>
   export default {
     props: {
-      marginLeft: {
-        type: Number,
-        default: 10,
-      },
       marginTop: {
         type: Number,
         default: 5,

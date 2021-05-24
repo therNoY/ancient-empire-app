@@ -26,14 +26,15 @@
     data() {
       return {
         footerButtons: [
-          {name: this.$t("common.start"), action: this.startStoreGame},
-          {name: this.$t("common.return"), action: () => this.$emit("input", false)},
+          {name: this.$t("common.start"), action: "startStoreGame"},
+          {name: this.$t("common.return"), action: "closeSelf"},
         ],
         queryDataFunction: (query) => GetStoreList(query),
         showItem: ["map_name"],
       };
     },
     methods: {
+
       /**
        * 开始一局单机游戏
        * 1.创建ws连接,

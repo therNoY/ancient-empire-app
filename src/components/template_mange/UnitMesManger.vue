@@ -233,20 +233,20 @@
         },
         footButtonList1: [{
             name: "详情",
-            action: this.handleEdit
+            action: "handleEdit"
           },
           {
             name: "删除",
-            action: this.handleDelete
+            action: "handleDelete"
           },
         ],
         footButtonList2: [{
             name: "详情",
-            action: this.handleEdit
+            action: "handleEdit"
           },
           {
             name: "下载",
-            action: this.downloadUnit
+            action: "downloadUnit"
           },
         ],
         currentLevelInfo: null,

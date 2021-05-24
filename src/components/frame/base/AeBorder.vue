@@ -7,10 +7,15 @@
         <img class="t_r_b corner" src="../../../assets/images/assist/t_r_b.png" />
       </div>
 
-      <div class="ae-border-line ae-border-content">
+      <!-- TODO 这里wx展示边框会有问题 解决办法 使用图片作为边框展示https://www.runoob.com/try/try.php?filename=trycss3_border-image -->
+      <div  class="ae-border-content">
+        <!-- #ifdef H5 -->
         <img class="l_b border" src="../../../assets/images/assist/l_b.png" />
+        <!-- #endif -->
         <slot></slot>
+        <!-- #ifdef H5 -->
         <img class="r_b border" src="../../../assets/images/assist/r_b.png" />
+        <!-- #endif -->
       </div>
 
       <div class="ae-border-line" style="align-items: flex-end">
@@ -39,6 +44,10 @@
     },
     computed: {},
     mounted(){
+      let query = uni.createSelectorQuery().in(this);
+      query.select('.ae-border-content-slot').boundingClientRect(data => {
+        console.log(data)
+      }).exec();
     },
     created() {
     },
@@ -60,14 +69,19 @@
     .border{
       z-index: 9998;
     }
+    .ae-border-content{
+      display: flex;
+      flex-direction: row;
+      /*border:2px solid #ddd;*/
+      /*-webkit-border-image:url(../../../assets/images/assist/l_b.png) 30 30 stretch;*/
+      /*-o-border-image:url(../../../assets/images/assist/l_b.png) 30 30 stretch;*/
+      /*border-image:url(../../../assets/images/assist/l_b.png) 30 30 stretch;*/
+    }
     .ae-border-line{
       width: 100%;
       display: flex;
       flex-direction: row;
       justify-content: space-between;
-    }
-    .ae-border-content{
-      flex: 1 1 auto;
     }
     .t_b, .b_b{
       height: 5px;
@@ -75,6 +89,7 @@
     }
     .r_b, .l_b{
       width: 5px;
+      /*flex: 1 1 auto;*/
     }
     .t_l_b, .t_r_b{
       display: block;

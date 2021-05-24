@@ -155,11 +155,11 @@
 				],
 				myMapEditButtonList: [{
 						name: "修改",
-						action: this.editMap
+						action: "editMap"
 					},
 					{
 						name: "预览",
-						action: this.previewMap
+						action: "previewMap"
 					},
 				],
 				flushUnitFlag: true, // 帮助刷新

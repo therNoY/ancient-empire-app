@@ -63,8 +63,8 @@
         canJoinRoom: {},
         queryDataFunction: ()=>GetRoomListByPage,
         buttonList: [
-          {name: "加入", action: this.clickJoinGameButton},
-          {name: "预览", action: this.clickPreivewButton},
+          {name: "加入", action: "clickJoinGameButton"},
+          {name: "预览", action: "clickPreviewButton"},
         ],
         titleButtonList: [
           {name: "新增", action: this.clickAddbutton},
@@ -73,8 +73,8 @@
         showItem: ["room_id", "room_name", "creat_time_show", "ready"],
         showTitle: ["房间号", "房间名字", "创建时间", "玩家"],
         createRoomButtons: [
-          {name: "创建", action: this.clickCreateRoom},
-          {name: "取消", action: this.clickCancelCreateRoom},
+          {name: "创建", action: "clickCreateRoom"},
+          {name: "取消", action: "clickCancelCreateRoom"},
         ],
         addNewDialogShowModel: false,
         addNewRoomFormConfig: [
@@ -171,7 +171,7 @@
           this.$appHelper.setLoading();
         });
       },
-      clickPreivewButton() {
+      clickPreviewButton() {
         let selectMap = this.$refs.mainDiaglog.getDataGridSelect();
         this.previewMapId = selectMap.map_id;
         let mapConfig = JSON.parse(selectMap.map_config);

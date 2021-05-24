@@ -65,7 +65,7 @@
       <ae-button-list
           v-if="footerButtons"
           :buttonList="footerButtons.map((a) => a.name)"
-          :clickAction="footerButtons.map((a) => a.action)"
+          @click="clickFooterAction"
       ></ae-button-list>
     </template >
 
@@ -233,6 +233,10 @@
         return null;
       },
 
+      clickFooterAction(index){
+        this.$parent[this.footerButtons[index].action]();
+      },
+
       setPageStyle() {
         if (this.showSearch || this.titleSwitchSelect) {
           if (this.showSearch && !this.titleSwitchSelect) {
@@ -259,6 +263,14 @@
         this.showContent = "dataGrid";
       } else if (this.formConfig && this.formConfig.length > 0) {
         this.showContent = "showForm";
+      }
+
+      // 兼容历史
+      if (!this.footerButtons && this.footerButtonList) {
+        for (let i = 0; i < this.footerButtonList.length; i++) {
+          let button = {'name': this.footerButtonList[i], 'action': this.footerClickAction[i]};
+          this.footerButtons.push(button);
+        }
       }
 
       this.setPageStyle();
@@ -307,10 +319,6 @@
         float: left;
         width: 100%;
       }
-    }
-
-
-    .ae-dialog-popup-footer {
     }
   }
 

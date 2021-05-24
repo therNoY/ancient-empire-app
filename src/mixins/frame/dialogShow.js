@@ -9,6 +9,11 @@ export default {
             showModel: "",
         };
     },
+    methods:{
+      closeSelf(){
+          this.$emit("input", false);
+      }
+    },
     watch: {
         showModel(value) {
             this.$emit("input", value);

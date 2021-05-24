@@ -63,14 +63,13 @@ export default {
   },
 };
 </script>
-<style lang="scss" rel="stylesheet/scss" scoped>
+<style lang="scss" rel="scss" scoped>
 .box-item {
   position: fixed;
   min-width: 380px;
   // element-ui抄来的样式
   border-radius: 4px;
   color: rgb(255, 255, 255);
-  position: fixed;
   left: 50%;
   transform: translateX(-50%);
   transition: opacity 0.3s, transform 0.4s, top 0.4s;
@@ -78,28 +77,28 @@ export default {
   align-items: center;
   justify-content: space-between;
   background: #242a43;
-  box-shadow: 2px 2px 20px 1px;
   overflow-y: 0%;
   flex-direction: column;
   border: 2px #afb7aa solid;
   box-shadow: 0 2px 12px 0 rgba(255, 255, 255, 0.692);
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: row;
   z-index: 99999;
 }
 .msg-unit {
-  float: left;
+
 }
 .msg-container {
-  float: left;
   /* #ifdef H5 */
-  font-size: 1.3em;
+  font-size: 20px;
   -webkit-text-stroke: 0.5px #000000;
   /* #endif */
   /* #ifndef H5 */
-  font-size: 0.75em;
-  -webkit-text-stroke: 0.1px #000000;
+  font-size: 0.65em;
+  -webkit-text-stroke: 0.3px #000000;
   /* #endif */
-  align-items: center;
-  margin-left: 5%;
 }
 
 .msg-enter-active {

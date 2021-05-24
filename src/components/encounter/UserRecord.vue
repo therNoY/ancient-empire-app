@@ -39,9 +39,9 @@ export default {
     return {
       queryDataFunction: null,
       footerButtons: [
-        { name: "继续", action: this.continueRecord },
-        { name: "预览", action: this.preview },
-        { name: "删除", action: this.delUserRecord },
+        { name: "继续", action: "continueRecord" },
+        { name: "预览", action: "preview" },
+        { name: "删除", action: "delUserRecord" },
       ],
       showTitle: ["名称", "创建时间"],
       showItem: ["record_name", "create_time"],

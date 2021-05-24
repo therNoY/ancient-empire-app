@@ -39,7 +39,7 @@ export default {
     size:{
       type: Number,
       default: 0.75,
-    }
+    },
   },
   methods: {
     onClick(index) {
@@ -65,7 +65,11 @@ export default {
   },
   computed: {
     buttonWidth() {
-      return this.factor / this.buttonList.length;
+      if (this.buttonList.length === 1) {
+        return 40;
+      } else {
+        return this.factor / this.buttonList.length;
+      }
     },
   },
 };
@@ -77,8 +81,5 @@ export default {
   padding: 1%;
   display: flex;
   justify-content: space-around;
-}
-.ae-button-list-item {
-  /*width: 100%;*/
 }
 </style>

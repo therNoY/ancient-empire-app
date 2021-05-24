@@ -66,8 +66,8 @@ import {baseUrl} from "../api/env.js"
 import {Login, GetWeiXinPhone} from "../api";
 import {getLocalSaveUser,setUser,setToken,removeAllStorage} from "../utils/authUtil"
 
-// const url = baseUrl + '/font/download/aeFont.ttf';
-const url = '/static/font/aeFont.ttf';
+const url = baseUrl + '/font/download/aeFont.ttf';
+// const url = '/static/font/aeFont.ttf';
 export default {
 	components: {
 		UserInfo,
@@ -238,7 +238,7 @@ export default {
 
 .home_button {
 	float: left;
-	margin-left: 15%;
+	margin-left: 20%;
 	height: 9%;
 	margin-top: 1%;
 	width: 60%;

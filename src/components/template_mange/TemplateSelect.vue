@@ -65,8 +65,8 @@ export default {
       ],
       showTitle: ["模板名字", "单位预览"],
       footerButtonList: [
-        { name: "确定", action: this.selectTemp },
-        { name: "详情", action: this.showDetail },
+        { name: "确定", action: "selectTemp" },
+        { name: "详情", action: "showDetail" },
       ],
       tableConfig: {
         1: { style: { width: "50%" } },

@@ -111,7 +111,7 @@ export default {
   methods: {
     getFormData() {
       for (let config of this.formConfig) {
-        if (config.type == "rangeSelect") {
+        if (config.type === "rangeSelect") {
         }
         if (config.require && !this.formData[config.key]) {
           this.$appHelper.infoMsg(config.des + "不能为空");
@@ -166,7 +166,12 @@ export default {
       .ae-form-label {
         width: 20%;
         color: white;
+        /* #ifdef H5*/
         font-size: 14px;
+        /* #endif*/
+        /* #ifndef H5*/
+        font-size: 0.7rem;
+        /* #endif*/
       }
       .ae-form-real-camp {
         width: 80%;
