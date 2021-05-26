@@ -282,10 +282,10 @@
     computed: {},
     watch: {
       titleSwitchSelectValue(v) {
-        console.log("监听左右选择框值变化", v)
+        console.log("监听左右选择框值变化", v);
         for (const select of this.titleSwitchSelect.items) {
-          if (select.key === v && select.query && this.$parent[select.query] instanceof Function) {
-            this.queryDataGrid = this.$parent[select.query].bind(this.$parent);
+          if (select.key === v && select.query && select.query instanceof Function) {
+            this.queryDataGrid = select.query.bind(this.$parent);
             this.flushData();
             break;
           }

@@ -93,17 +93,17 @@
           items: [{
             key: "1",
             value: "系统地图",
-            query: "execGetEncounterMap"
+            query: GetEncounterMap
           },
             {
               key: "2",
               value: "我的地图",
-              query: "execGetUserMapList"
+              query: GetUserMapList
             },
             {
               key: "3",
               value: "我的下载",
-              query: "execGetUserDownloadMap"
+              query: GetUserDownloadMap
             },
           ],
         },
@@ -161,7 +161,6 @@
         if (value && value.map_id) {
           this.previewMapId = value.map_id;
           this.previewVisible = true;
-          return;
         }
       },
       clickPreviewChooseMap() {
@@ -170,7 +169,6 @@
         if (value && value.map_id) {
           this.previewMapId = value.map_id;
           this.previewVisible = true;
-          return;
         }
       },
       close() {
@@ -181,21 +179,17 @@
         this.initArmys = [];
         let args = {};
         args.uuid = this.chooseMap.map_id;
-        InitEncounterMap(args).then((resp) => {
-          if (resp.res_code == 0) {
-            this.setMapShow = true;
-            let colors = resp.res_val;
-            for (let index = 0; index < colors.length; index++) {
-              const color = colors[index];
-              let army = {};
-              army.color = color;
-              army.order = index + 1;
-              army.camp = index + 1;
-              army.type = "user";
-              this.initArmys.push(army);
-            }
-          } else {
-            this.$appHelper.errorMsg(resp.res_mes);
+        InitEncounterMap(args).then(({res_val}) => {
+          this.setMapShow = true;
+          let colors = res_val;
+          for (let index = 0; index < colors.length; index++) {
+            const color = colors[index];
+            let army = {};
+            army.color = color;
+            army.order = index + 1;
+            army.camp = index + 1;
+            army.type = "user";
+            this.initArmys.push(army);
           }
         });
       },
@@ -223,18 +217,9 @@
         this.setMapShow = false;
         this.showModel = false;
       },
-      execGetEncounterMap(args){
-        return GetEncounterMap(args);
-      },
-      execGetUserMapList(args){
-        return GetUserMapList(args);
-      },
-      execGetUserDownloadMap(args){
-        return GetUserDownloadMap(args);
-      }
     },
     created() {
-      this.$appHelper.bindPage2Global(this, "encounter")
+      this.$appHelper.bindPage2Global(this, "encounter");
       // #ifndef H5
       this.dialogWidth = 60
       // #endif
