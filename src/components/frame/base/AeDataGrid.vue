@@ -49,6 +49,7 @@
         ref="aePage"
         v-if="page"
         :count="count"
+        style="width: 40%;float:left"
         @onPageNowChange="onPageNowChange"
     ></ae-page>
   </div>
@@ -88,30 +89,8 @@
       isNotFunction(obj) {
         return typeof obj != 'function'
       },
-      getTableItemStyle(index) {
-        if (index === this.selectIndex) {
-          return {
-            backgroundColor: "#5a5c59",
-          };
-        }
-        return {
-          backgroundColor: "#444444",
-        };
-      },
-      getTableTdStyle(index) {
-        if (this.tableConfig && this.tableConfig[index] && this.tableConfig[index]["style"]) {
-          return this.tableConfig[index]["style"];
-        }
-        return {};
-      },
       clickItem(index) {
         this.selectIndex = index;
-      },
-      getSelectIndex() {
-        return this.selectIndex;
-      },
-      getSelect() {
-        return this.data[this.selectIndex];
       },
       onPageNowChange(pageNow) {
         this.$emit("onPageNowChange", pageNow);

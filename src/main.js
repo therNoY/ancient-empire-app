@@ -66,6 +66,9 @@ Vue.component("AeTransfer", AeTransfer);
 import UniIcons from "./plugin/uni-icons/uni-icons"
 Vue.component("UniIcons", UniIcons);
 
+import UniNumberBox from "./plugin/uni-number-box/uni-number-box"
+Vue.component("UniNumberBox", UniNumberBox);
+
 Vue.config.productionTip = false;
 
 App.mpType = 'app';

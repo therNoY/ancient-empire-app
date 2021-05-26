@@ -61,7 +61,7 @@
       return {
         willChange: false,
         canJoinRoom: {},
-        queryDataFunction: ()=>GetRoomListByPage,
+        queryDataFunction: ()=> GetRoomListByPage(),
         buttonList: [
           {name: "加入", action: "clickJoinGameButton"},
           {name: "预览", action: "clickPreviewButton"},

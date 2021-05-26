@@ -1,154 +1,272 @@
+<!-- 用户地图选择器 -->
 <template>
-  <!-- 遭遇战 -->
-  <ae-base-dialog title="遭遇战" v-model="showEncounterDialog" @close="close">
-    <user-map-select
-      ref="userMapSelect"
-      style="padding-top: 5%; padding-bottom: 5%; margin-left: 5%"
-      v-model="selectMap"
-      label="选择遭遇战地图"
-    ></user-map-select>
-    <div>
-      <ae-button-list
-        :buttonList="buttonList"
-        :clickAction="[startStandGame, previewMap]"
-      ></ae-button-list>
+  <div class="userMap-select">
+    <ae-complex-dialog ref="aeDialog" v-model="showModel" :showItem="showItem" :title="$t('encounter.title')"
+                       :initQueryDataGrid="initQueryDataFunction" :titleSwitchSelect="titleSwitchSelect"
+                       :footerButtons="buttonList" :width="dialogWidth" page>
+    </ae-complex-dialog>
+
+    <div @click="clickPreviewChooseMap" class="userMap-select-name" v-if="chooseMap && chooseMap.map_name">
+      {{ chooseMap.map_name }}
     </div>
-  </ae-base-dialog>
+
+    <ae-base-dialog title="设置地图" v-model="setMapShow" @close="closeSetMap">
+      <div>
+
+        <table>
+          <tr>
+            <th>军队</th>
+            <th>行动顺序</th>
+            <th>玩家类型</th>
+            <th>阵营</th>
+          </tr>
+          <tr v-for="(army, index) in initArmys" :key="index">
+            <td>
+              <img :src="$appHelper.getUnitImg('10', army.color)" />
+            </td>
+            <td>
+              <uni-number-box :min="1" :max="initArmys.length" v-model="army.color" @change="changeOrder">
+              </uni-number-box>
+            </td>
+            <td>
+              <uni-group>
+                <uni-data-checkbox mode="button" v-model="army.type" :localdata="armyType">
+                </uni-data-checkbox>
+              </uni-group>
+            </td>
+            <td>
+              <uni-number-box :min="1" :max="initArmys.length" v-model="army.camp">
+              </uni-number-box>
+            </td>
+          </tr>
+        </table>
+
+        <div class="common_init">
+          <span>初始金币:</span>
+          <uni-number-box v-model="initMoney" :min="500" :max="2000" :step="500">
+          </uni-number-box>
+          <span style="padding-left: 1%">最大人口:</span>
+          <uni-number-box v-model="maxPop" :min="15" :max="50" :step="5"></uni-number-box>
+        </div>
+        <div style="width: 100%">
+          <ae-button :marginLeft="25" :width="50" @click="clickSetMap">
+            确认
+          </ae-button>
+        </div>
+      </div>
+    </ae-base-dialog>
+
+    <map-preview v-model="previewVisible" @close="close" :mapId="previewMapId" :armyConfigList="initArmys">
+    </map-preview>
+  </div>
 </template>
 
 <script>
-import {
-  InitEncounterMap,
-  GetUserTemp,
-  GetUnitLevelByTemp,
-  MapInit,
-} from "@/api";
-import UserMapSelect from "../map_manger/UserMapSelect";
-
-export default {
-  components: {
-    UserMapSelect,
-  },
-  props: {
-    value: {
-      type: Boolean,
-      default: false,
+  import {
+    GetEncounterMap,
+    GetUserMapList,
+    GetUserDownloadMap,
+    InitEncounterMap,
+  } from "@/api";
+  import MapPreview from "../frame/MapPreview.vue";
+  import AeRadioButton from "../frame/AeRadioButton";
+  import blackStyle from "@/mixins/style/blackStyle";
+  import dialogShow from "@/mixins/frame/dialogShow";
+  export default {
+    mixins: [blackStyle, dialogShow],
+    components: {
+      MapPreview,
+      AeRadioButton,
     },
-  },
-  data() {
-    return {
-      showEncounterDialog: false,
-      selectMap: "",
-      buttonList: ["开始", "预览"],
-    };
-  },
-  created() {
-  },
-  methods: {
-    previewMap() {
-      if (this.selectMap) {
-        this.$refs.userMapSelect.clickPreivewChooseMap();
-      }
+    props: {
+      label: {
+        type: String,
+      },
     },
-    close() {
-      this.$emit("input", false);
+    data() {
+      return {
+        titleSwitchSelect: {
+          type: "switchSelect",
+          key: "queryType",
+          default: "1",
+          des: "",
+          items: [{
+            key: "1",
+            value: "系统地图",
+            query: "execGetEncounterMap"
+          },
+            {
+              key: "2",
+              value: "我的地图",
+              query: "execGetUserMapList"
+            },
+            {
+              key: "3",
+              value: "我的下载",
+              query: "execGetUserDownloadMap"
+            },
+          ],
+        },
+        showItem: ["map_name"],
+        showModel: false,
+        buttonList: [{
+          name: "选择",
+          action: "clickChooseMap"
+        },
+          {
+            name: "预览",
+            action: "clickPreviewButton"
+          },
+        ],
+        previewVisible: false,
+        previewMapId: null,
+        chooseMap: null,
+        setMapShow: false,
+        initArmys: [],
+        initMoney: 500,
+        maxPop: 40,
+        currentColor: null,
+        armyType: [{
+          key: "user",
+          value: "玩家",
+        },
+          {
+            key: "ai",
+            value: "电脑",
+          },
+          {
+            key: "无",
+            value: "no",
+          },
+        ],
+        initMapConfig: {},
+        dialogWidth: 40,
+        initQueryDataFunction: () => GetEncounterMap(),
+      };
     },
-
-    /**
-     * 开始一局单机游戏
-     * 1.创建ws连接,
-     * 2.后台根据地图和游戏类型生成一个游戏上下文,
-     * 3.可以开始游戏
-     */
-    startStandGame() {
-      if (!this.selectMap) {
-        return;
-      }
-      this.$appHelper.setLoading();
-      console.log("开始一个遭遇战的单机游戏");
-      let record = this.selectMap;
-      record.game_type = "encounter";
-      MapInit(record)
-        .then((resp) => {
+    methods: {
+      getInitMapConfig() {
+        return this.initMapConfig;
+      },
+      closeSetMap() {},
+      clickChooseMap() {
+        console.log(this.$refs.aeDialog);
+        let value = this.$refs.aeDialog.getDataGridSelect();
+        this.chooseMap = value;
+        this.setMap();
+      },
+      clickPreviewButton() {
+        let value = this.$refs.aeDialog.getDataGridSelect();
+        console.log(value);
+        if (value && value.map_id) {
+          this.previewMapId = value.map_id;
+          this.previewVisible = true;
+          return;
+        }
+      },
+      clickPreviewChooseMap() {
+        let value = this.chooseMap;
+        console.log(value);
+        if (value && value.map_id) {
+          this.previewMapId = value.map_id;
+          this.previewVisible = true;
+          return;
+        }
+      },
+      close() {
+        this.previewVisible = false;
+      },
+      // 初始化军队
+      setMap() {
+        this.initArmys = [];
+        let args = {};
+        args.uuid = this.chooseMap.map_id;
+        InitEncounterMap(args).then((resp) => {
           if (resp.res_code == 0) {
-            this.$store.commit("setGame", resp.res_val);
-            // 获取单位最大生命值
-            this.getUnitLevelByTemp(resp.res_val.template_id);
-            // 获取模板
-            GetUserTemp(resp.res_val.template_id).then((tempResp) => {
-              if (tempResp && tempResp.res_val) {
-                this.$store.commit("setTemplate", tempResp.res_val);
-                let connArgs = {};
-                connArgs.recordId = resp.res_val.uuid;
-                connArgs.type = "stand_game";
-                this.$store
-                  .dispatch("connectGameSocket", connArgs)
-                  .then((r) => {
-                    this.$appHelper.setLoading();
-                    this.loading = false;
-                    this.$router.push("/gameIndex");
-                  })
-                  .catch((e) => {
-                    console.error(e);
-                    this.$appHelper.setLoading();
-                  });
-              } else {
-                this.$appHelper.errorMsg(resp.res_mes);
-                this.$appHelper.setLoading();
-              }
-            });
+            this.setMapShow = true;
+            let colors = resp.res_val;
+            for (let index = 0; index < colors.length; index++) {
+              const color = colors[index];
+              let army = {};
+              army.color = color;
+              army.order = index + 1;
+              army.camp = index + 1;
+              army.type = "user";
+              this.initArmys.push(army);
+            }
           } else {
             this.$appHelper.errorMsg(resp.res_mes);
-            this.$appHelper.setLoading();
           }
-        })
-        .catch((e) => {
-          console.error(e);
-          this.$appHelper.setLoading();
         });
-    },
-    // 初始化军队
-    setMap() {
-      this.initArmys = [];
-      let args = {};
-      args.uuid = this.currentMap.map_id;
-      InitEncounterMap(args).then((resp) => {
-        if (resp.res_code == 0) {
-          this.initSettingDialog = true;
-          let colors = resp.res_val;
-          for (let index = 0; index < colors.length; index++) {
-            const color = colors[index];
-            let army = {};
-            army.color = color;
-            army.order = index + 1;
-            army.camp = index + 1;
-            army.type = "user";
-            this.initArmys.push(army);
+      },
+      getCurrent(color) {
+        this.currentColor = color;
+      },
+      changeOrder(newNum, oldNum) {
+        for (let index = 0; index < this.initArmys.length; index++) {
+          let army = this.initArmys[index];
+          if (army.order == newNum && army.color != this.currentColor) {
+            // 这是要被改变的那个
+            army.order = oldNum;
+            break;
           }
-        } else {
-          this.$appHelper.errorMsg(resp.res_mes);
         }
-      });
-    },
-
-    async getUnitLevelByTemp(tempId) {
-      const resp = await GetUnitLevelByTemp(tempId);
-      if (resp.res_code == 0) {
-        this.$store.commit("setUnitLevelInfo", resp.res_val);
-        return resp.res_val;
-      } else {
-        this.$appHelper.errorMsg(resp.res_mes);
-        return null;
+      },
+      clickSetMap() {
+        this.initMapConfig.max_pop = this.maxPop;
+        this.initMapConfig.money = this.initMoney;
+        this.initMapConfig.army_list = this.initArmys;
+        this.initMapConfig.map_id = this.chooseMap.map_id;
+        this.chooseMap.config = this.initMapConfig;
+        this.$emit("input", this.initMapConfig);
+        console.log("选择地图", this.initMapConfig);
+        this.setMapShow = false;
+        this.showModel = false;
+      },
+      execGetEncounterMap(args){
+        return GetEncounterMap(args);
+      },
+      execGetUserMapList(args){
+        return GetUserMapList(args);
+      },
+      execGetUserDownloadMap(args){
+        return GetUserDownloadMap(args);
       }
     },
-  },
-  watch: {
-    value() {
-      this.showEncounterDialog = this.value;
+    created() {
+      this.$appHelper.bindPage2Global(this, "encounter")
+      // #ifndef H5
+      this.dialogWidth = 60
+      // #endif
     },
-  },
-};
+    computed: {},
+  };
 </script>
 
 <style lang="scss" scoped>
+  .userMap-select {
+    float: left;
+    width: 100%;
+    .userMap-select-name {
+      font-size: 14px;
+      float: left;
+      width: 30%;
+      padding: 2%;
+      color: white;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    .common_init {
+      width: 100%;
+      padding-top: 2%;
+      padding-bottom: 2%;
+      float: left;
+      color: white;
+
+      span {
+        font-size: 14px;
+      }
+    }
+  }
 </style>

@@ -29,6 +29,7 @@
         ></ae-switch-select>
         <ae-input
             v-model="queryCondition"
+            textDir="row"
             style="width:25%;padding:1%"
             v-if="showSearch"
             @onChange="flushPageAndData()"
@@ -207,6 +208,7 @@
           console.log("初始化查询");
           this.flushData();
         }
+        this.$appHelper.bindPage2Global(this, "ActiveComplexDialog")
       },
       getDataGridSelect() {
         if (this.$refs.dataGrid) {
@@ -272,7 +274,6 @@
           this.footerButtons.push(button);
         }
       }
-
       this.setPageStyle();
       // #ifdef MP-WEIXIN
       this.searchWidth = 100;
@@ -281,13 +282,10 @@
     computed: {},
     watch: {
       titleSwitchSelectValue(v) {
+        console.log("监听左右选择框值变化", v)
         for (const select of this.titleSwitchSelect.items) {
-          if (
-              select.key == v &&
-              select.query &&
-              select.query instanceof Function
-          ) {
-            this.queryDataGrid = select.query;
+          if (select.key === v && select.query && this.$parent[select.query] instanceof Function) {
+            this.queryDataGrid = this.$parent[select.query].bind(this.$parent);
             this.flushData();
             break;
           }

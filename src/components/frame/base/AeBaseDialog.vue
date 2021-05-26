@@ -9,8 +9,9 @@
         <div class="ae-base-dialog-content" :style="{'width':vueStyle.contentWidth}">
           <div class="ae-base-dialog-popup-header">
             <span>{{ title }}</span>
-            <uni-icons v-show="!fullScreen" type="closeempty" color="#b0b8ac" class="btn-close" :size="closeButtonSiz"
-                       @click="close"/>
+            <!-- #ifdef H5 -->
+            <uni-icons type="closeempty" color="#b0b8ac" class="btn-close" :size="closeButtonSiz" @click="close"/>
+            <!-- #endif -->
           </div>
           <div class="ae-base-dialog-popup-main">
             <slot/>
@@ -21,9 +22,13 @@
         </div>
       </div>
     </ae-border>
-    <div v-show="fullScreen" class="app-close-button">
-      <uni-icons type="undo" color="#b0b8ac" size="25" @click="close"/>
-    </div>
+    <!-- #ifndef H5 -->
+      <img
+          class="app-close-button click-cursor"
+          @click="close"
+          src="../../../assets/images/assist/return1.png"
+      />
+    <!-- #endif -->
     <ae-tip v-show="showTip" v-model="showTip" :closeTip="closeTip" @ok="closeOk"></ae-tip>
   </div>
 </template>
@@ -235,9 +240,9 @@
 
   .app-close-button {
     position: absolute;
-    right: 30 rpx;
-    bottom: 30 rpx;
-    width: 30 rpx;
-    height: 30 rpx;
+    width: 32px;
+    height: 32px;
+    right: 3px;
+    bottom: 3px;
   }
 </style>

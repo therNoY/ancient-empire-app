@@ -40,7 +40,6 @@
 							</uni-number-box>
 						</uni-td>
 					</uni-tr>
-					</uni-tr>
 				</uni-table>
 				<div class="common_init">
 					<span>初始金币:</span>

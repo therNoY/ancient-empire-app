@@ -30,10 +30,12 @@
 		<wei-xin-user-info ref="userInfo" v-model="userInfoDialog" :register="loginUser" @close="userInfoDialog = false"></wei-xin-user-info>
 		<!-- #endif -->
 
+		<!--章节选择-->
+		<chapter-select v-model="showChapter"></chapter-select>
+		<!--遭遇战-->
+		<encounter v-if="showEncounter" v-model="showEncounter"></encounter>
 		<!-- 多人游戏 房间管理 -->
 		<room-index v-model="showNetGameDialog"></room-index>
-		<!--遭遇战-->
-		<encounter v-model="showEncounter"></encounter>
 		<!--模板管理-->
 		<template-manger v-model="showTemplateManger"></template-manger>
 		<!--单位信息管理-->
@@ -41,8 +43,7 @@
 		<!--用户记录-->
 		<user-record v-model="showUserRecord"></user-record>
 
-		<!--章节选择-->
-		<chapter-select v-model="showChapter"></chapter-select>
+
 		<!-- 地图管理 -->
 		<map-manger v-model="showMapManger"></map-manger>
 

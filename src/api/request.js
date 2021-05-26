@@ -120,6 +120,7 @@ export function request(url = '', data = {}, type = 'POST', showLoading = true, 
           resolve(response.data);
         } else {
           if (response.data.res_code !== 0) {
+            console.error(response);
             appHelper.errorMsg(response.data.res_mes);
             reject(response.data.res_msg);
           }

@@ -3,7 +3,7 @@
     <div v-if="label" class="ae-input-label">{{ label }}</div>
     <input class = "ae-input-real"
       :type="type"
-      :style="{'width':width+'%'}"
+      :style="{'width':width+'%', flexDirection: textDir}"
       v-model="inputValue"
       :disabled="!editAble"
       :placeholder="placeholder"
@@ -46,6 +46,9 @@ export default {
     },
     min:{
       type:Number,
+    },
+    textDir:{
+      default : 'column'
     }
   },
   data() {
@@ -63,9 +66,6 @@ export default {
         this.inputValue = v;
       }
     },
-    // default(v) {
-    //   this.inputValue = this.default;
-    // }
   },
   created() {
     this.inputValue = this.value;
@@ -84,7 +84,6 @@ export default {
   width: 96%;
   float: left;
   padding: 1%;
-  /*background-color: #4cd964;*/
   .ae-input-label {
     width: 20%;
     float: left;
@@ -103,9 +102,8 @@ export default {
   float: left;
   margin-left: 1%;
   background-color: #494949;
-  font-family: aeFont;
   -webkit-text-fill-color: white;
-  -webkit-text-stroke: 0px #000000;
+  -webkit-text-stroke: 0 #000000;
   /* #ifdef H5*/
   font-size: 14px;
   height: 20px;
@@ -115,12 +113,16 @@ export default {
   border-bottom: 2px #818181 solid;
   /* #endif*/
   /* #ifdef MP-WEIXIN */
-  font-size : 0.75rem;
   height: 16rpx;
   border-top: 2rpx #494949 solid;
   border-left: 2rpx #494949 solid;
   border-right: 2rpx #818181 solid;
   border-bottom: 2rpx #818181 solid;
+  display: flex;
+  min-height: 1rem;
+
+  justify-content: space-evenly;
+  font-size: 0.6rem;
   /* #endif */
 }
 

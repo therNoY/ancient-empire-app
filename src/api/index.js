@@ -5,6 +5,8 @@ const POST = "POST";
 const DELETE = "DELETE";
 const PUT = "PUT";
 
+let api = {};
+
 export const GetTest = (url) => request(url, "", GET);
 export const PostTest = (url, args) => request(url, args, POST);
 
@@ -404,4 +406,3 @@ export const ChangeArmy = (args, showLoading, handleErr) =>request("/api/room/ch
  * @returns
  */
 export const LevelCtlArmy = (args, showLoading, handleErr) =>request("/api/room/levelCtlArmy", args, POST, showLoading, handleErr);
-

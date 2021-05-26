@@ -1,138 +1,151 @@
-<!-- 加减选择器 -->
 <template>
   <div class="ae-switch-select">
     <div v-if="label" class="ae-switch-label">{{ label }}</div>
-    <ae-button
-      class="ae-switch-select-right-button"
-      :width="100"
-      :disabled="!editAble"
-      :size="0.1"
-      @click="getRightItem"
-    >
-      <view>
-        <uni-icons type="back" color="#ffffff" size="20" />
-      </view>
-    </ae-button>
-    <div class="ae-switch-select-body">{{ showValue }}</div>
-    <ae-button
-      class="ae-switch-select-left-button"
-      :width="100"
-      :size="0.1"
-      :disabled="!editAble"
-      @click="getLeftItem"
-    >
-      <uni-icons type="forward" color="#ffffff" size="20" />
-    </ae-button>
+    <div class="ae-switch-select-content">
+      <img
+          :class="['ae-switch-select-button', !editAble?'disable-cursor':'click-cursor']"
+          @click="getRightItem"
+          src="../../../assets/images/assist/switch4.png"
+      />
+      <div class="ae-switch-select-body">
+        <span class="ae-switch-select-font">{{showValue}}</span>
+      </div>
+      <img
+          :class="['ae-switch-select-button', !editAble?'disable-cursor':'click-cursor']"
+          @click="getLeftItem"
+          src="../../../assets/images/assist/switch3.png"
+      />
+    </div>
+
   </div>
 </template>
 
 <script>
-export default {
-  props: {
-    value: {},
-    items: {
-      type: Array,
+  export default {
+    props: {
+      value: {},
+      items: {
+        type: Array,
+      },
+      editAble: {
+        type: Boolean,
+        default: true,
+      },
+      label: {
+        type: String,
+      },
+      default: {},
     },
-    editAble: {
-      type: Boolean,
-      default: true,
-    },
-    label: {
-      type: String,
-    },
-    default: {},
-  },
 
-  data() {
-    return {
-      key: null,
-      showIndex: 0,
-    };
-  },
-  created() {
-    if (!this.value && this.default) {
-      for (let i = 0; i < this.items.length; i++) {
-        let item = this.items[i];
-        if (item.key == this.default) {
-          this.$emit("input", item.key);
-          break;
-        }
-      }
-    }
-  },
-  watch: {
-    value(v) {
-      for (let i = 0; i < this.items.length; i++) {
-        let item = this.items[i];
-        if (item.key == v) {
-          this.key = item.key;
-          this.showIndex = i;
-          break;
+    data() {
+      return {
+        key: null,
+        showIndex: 0,
+      };
+    },
+    created() {
+      if (!this.value && this.default) {
+        for (let i = 0; i < this.items.length; i++) {
+          let item = this.items[i];
+          if (item.key == this.default) {
+            this.$emit("input", item.key);
+            break;
+          }
         }
       }
     },
-  },
-  methods: {
-    getRightItem() {
-      if (this.showIndex > 0) {
-        this.$emit("input", this.items[this.showIndex - 1].key);
-      } else {
-        this.$emit("input", this.items[this.items.length - 1].key);
-      }
-    },
-    getLeftItem() {
-      if (this.showIndex < this.items.length - 1) {
-        this.$emit("input", this.items[this.showIndex + 1].key);
-      } else {
-        this.$emit("input", this.items[0].key);
-      }
-    },
-  },
-  computed: {
-    showValue() {
-      for (let i = 0; i < this.items.length; i++) {
-        let item = this.items[i];
-        if (item.key == this.value) {
-          return item.value;
+    watch: {
+      value(v) {
+        for (let i = 0; i < this.items.length; i++) {
+          let item = this.items[i];
+          if (item.key == v) {
+            this.key = item.key;
+            this.showIndex = i;
+            break;
+          }
         }
-      }
+      },
     },
-  },
-};
+    methods: {
+      getRightItem() {
+        if (this.showIndex > 0) {
+          this.$emit("input", this.items[this.showIndex - 1].key);
+        } else {
+          this.$emit("input", this.items[this.items.length - 1].key);
+        }
+      },
+      getLeftItem() {
+        if (this.showIndex < this.items.length - 1) {
+          this.$emit("input", this.items[this.showIndex + 1].key);
+        } else {
+          this.$emit("input", this.items[0].key);
+        }
+      },
+    },
+    computed: {
+      showValue() {
+        for (let i = 0; i < this.items.length; i++) {
+          let item = this.items[i];
+          if (item.key == this.value) {
+            return item.value;
+          }
+        }
+      },
+    },
+  };
 </script>
 
 <style lang="scss" scoped>
-.ae-switch-select {
-  width: 96%;
-  float: left;
-  padding: 1%;
-  /*background-color: #d9b04d;*/
-  .ae-switch-label {
-    float: left;
-    width: 20%;
-    font-size: 14px;
-    padding-top: 1%;
-    color: aliceblue;
+  .ae-switch-select {
+    display: flex;
+    padding: 1%;
+    flex-direction: row;
+    .ae-switch-label {
+      width: 20%;
+      font-size: 14px;
+      padding-top: 1%;
+      color: aliceblue;
+    }
+    .ae-switch-select-content{
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      width: 80%;
+      .ae-switch-select-button {
+        /* #ifdef H5*/
+        width: 28px;
+        height: 28px;
+        /* #endif*/
+        /* #ifdef MP-WEIXIN */
+        width: 20px;
+        height: 20px;
+        /* #endif */
+        flex-grow:0
+      }
+      .ae-switch-select-body {
+        background-color: #495280;
+        display: flex;
+        flex-direction: column;
+        flex-grow:1;
+        /* #ifdef H5*/
+        height: 25.5px;
+        /* #endif*/
+        /* #ifdef MP-WEIXIN */
+        height: 18px;
+        /* #endif */
+        color: rgb(255, 255, 255);
+        justify-content: space-evenly;
+        .ae-switch-select-font{
+          /* #ifdef H5*/
+          font-size: 14px;
+          /* #endif*/
+          /* #ifdef MP-WEIXIN */
+          font-size : 0.65rem;
+          /* #endif */
+        }
+      }
+    }
+
   }
-  .ae-switch-select-right-button {
-    width: 10%;
-    float: left;
-  }
-  .ae-switch-select-body {
-    width: 30%;
-    /* #ifdef H5*/
-    font-size: 14px;
-    /* #endif*/
-    /* #ifdef MP-WEIXIN */
-    font-size : 0.75rem;
-    /* #endif */
-    padding-top: 1%;
-    float: left;
-    color: rgb(255, 255, 255);
-  }
-  .ae-switch-select-left-button {
-    width: 10%;
-    float: left;
-  }
-}
 </style>

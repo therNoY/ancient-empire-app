@@ -37,6 +37,14 @@ page {
 	height: 100%;
 }
 
+.disable-cursor{
+  cursor: not-allowed;
+}
+
+.click-cursor{
+  cursor: pointer;
+}
+
 input:-webkit-autofill {
   -webkit-text-fill-color: #ffffff !important;
   background-color: transparent;

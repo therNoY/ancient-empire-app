@@ -1,6 +1,6 @@
 <template>
   <div class="body">
-    <ae-complex-dialog ref="mainDiaglog" v-model="showModel" showSearch title="单位管理" :titleButtons="titleButtonList"
+    <ae-complex-dialog ref="mainDialog" v-model="showModel" showSearch title="单位管理" :titleButtons="titleButtonList"
       :footerButtons="footButtonList" :initQueryDataGrid="queryDataFunction" :showItem="showItem" :showTitle="showTitle"
       :titleSwitchSelect="titleSwitchSelect" @titleSwitchSelectChange="switchChange" :width="70" page setFullScreen>
     </ae-complex-dialog>
@@ -250,7 +250,7 @@
           },
         ],
         currentLevelInfo: null,
-        queryDataFunction: null,
+        queryDataFunction: () => GetUserCreateUnitMes(),
         queryShowTitle: [
           "单位",
           "名称",
@@ -453,7 +453,7 @@
         this.$refs.startComment.showComment();
       },
       reverVersion() {
-        let unit = this.$refs.mainDiaglog.getDataGridSelect();
+        let unit = this.$refs.mainDialog.getDataGridSelect();
         if (unit.status == "0") {
           console.log("回退单位草稿版本");
           let args = {};
@@ -463,7 +463,7 @@
             .then((resp) => {
               if (resp.res_code == 0) {
                 this.$appHelper.infoMsg("回退成功");
-                this.$refs.mainDiaglog.flushData();
+                this.$refs.mainDialog.flushData();
                 this.dialogVisible = false;
               }
               this.$appHelper.setLoading();
@@ -476,7 +476,7 @@
         }
       },
       updateVersion() {
-        let unit = this.$refs.mainDiaglog.getDataGridSelect();
+        let unit = this.$refs.mainDialog.getDataGridSelect();
         this.$appHelper.setLoading();
         let args = {};
         args.unit_id = unit.id;
@@ -484,7 +484,7 @@
           .then((resp) => {
             if (resp.res_code == "0") {
               this.$appHelper.infoMsg("更新成功");
-              this.$refs.mainDiaglog.flushData();
+              this.$refs.mainDialog.flushData();
               this.dialogVisible = false;
             } else {
               this.$appHelper.infoMsg(resp.res_mes);
@@ -535,7 +535,7 @@
         this.init();
       },
       handleEdit() {
-        let unit = this.$refs.mainDiaglog.getDataGridSelect();
+        let unit = this.$refs.mainDialog.getDataGridSelect();
         this.diaTitle = "编辑单位";
         this.dialogVisible = true;
         this.unit = unit;
@@ -551,7 +551,7 @@
         });
       },
       handleDelete() {
-        let unit = this.$refs.mainDiaglog.getDataGridSelect();
+        let unit = this.$refs.mainDialog.getDataGridSelect();
         if (this.showPageIndex == "2") {
           this.$appHelper.showTip("确定要删除下载么?", () => {
             let args = {};
@@ -561,7 +561,7 @@
               .then((resp) => {
                 if (resp.res_code == "0") {
                   this.$appHelper.infoMsg("删除成功");
-                  this.$refs.mainDiaglog.flushData();
+                  this.$refs.mainDialog.flushData();
                   this.dialogVisible = false;
                 }
                 this.$appHelper.setLoading();
@@ -579,7 +579,7 @@
               .then((resp) => {
                 if (resp.res_code == "0") {
                   this.$appHelper.infoMsg("删除成功");
-                  this.$refs.mainDiaglog.flushData();
+                  this.$refs.mainDialog.flushData();
                   this.dialogVisible = false;
                 }
                 this.$appHelper.setLoading();
@@ -591,7 +591,7 @@
         }
       },
       handleDownload(commend) {
-        let unit = this.$refs.mainDiaglog.getDataGridSelect();
+        let unit = this.$refs.mainDialog.getDataGridSelect();
         let args = {};
         args.unit_id = unit.id;
         args = Object.assign(commend, args);
@@ -600,7 +600,7 @@
           .then((resp) => {
             if (resp.res_code == "0") {
               this.$appHelper.infoMsg("下载成功");
-              this.$refs.mainDiaglog.flushData();
+              this.$refs.mainDialog.flushData();
               this.dialogVisible = false;
             }
             this.$appHelper.setLoading();
@@ -712,7 +712,7 @@
     },
     created() {
       // 初始化
-      this.queryDataFunction = GetUserCreateUnitMes;
+      this.$appHelper.bindPage2Global(this, "unitMesMangerVue");
     },
   };
 </script>
