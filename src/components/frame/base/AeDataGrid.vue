@@ -92,6 +92,9 @@
       clickItem(index) {
         this.selectIndex = index;
       },
+      getSelect() {
+        return this.data[this.selectIndex];
+      },
       onPageNowChange(pageNow) {
         this.$emit("onPageNowChange", pageNow);
       },

@@ -49,7 +49,7 @@ export default {
         this.clickAction[index] &&
         this.clickAction[index] instanceof Function
       ) {
-        this.clickAction[index]();
+        this.clickAction[index].bind(this.$parent)();
       }
     },
   },

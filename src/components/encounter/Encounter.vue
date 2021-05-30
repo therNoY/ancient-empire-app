@@ -1,4 +1,4 @@
-<!-- 用户地图选择器 -->
+<!-- 遭遇战 -->
 <template>
   <div class="userMap-select">
     <ae-complex-dialog ref="aeDialog" v-model="showModel" :showItem="showItem" :title="$t('encounter.title')"
@@ -15,10 +15,10 @@
 
         <table>
           <tr>
-            <th>军队</th>
-            <th>行动顺序</th>
-            <th>玩家类型</th>
-            <th>阵营</th>
+            <th>{{$t("encounter.army")}}</th>
+            <th>{{$t("encounter.actionOrder")}}</th>
+            <th>{{$t("encounter.playerType")}}</th>
+            <th>{{$t("encounter.camp")}}</th>
           </tr>
           <tr v-for="(army, index) in initArmys" :key="index">
             <td>
@@ -42,15 +42,15 @@
         </table>
 
         <div class="common_init">
-          <span>初始金币:</span>
+          <span>{{$t("encounter.initGold")}}:</span>
           <uni-number-box v-model="initMoney" :min="500" :max="2000" :step="500">
           </uni-number-box>
-          <span style="padding-left: 1%">最大人口:</span>
+          <span style="padding-left: 1%">{{$t("encounter.maxPop")}}:</span>
           <uni-number-box v-model="maxPop" :min="15" :max="50" :step="5"></uni-number-box>
         </div>
         <div style="width: 100%">
           <ae-button :marginLeft="25" :width="50" @click="clickSetMap">
-            确认
+            {{$t("common.confirm")}}
           </ae-button>
         </div>
       </div>
@@ -92,17 +92,17 @@
           des: "",
           items: [{
             key: "1",
-            value: "系统地图",
+            value: this.$t("encounter.systemMap"),
             query: GetEncounterMap
           },
             {
               key: "2",
-              value: "我的地图",
+              value: this.$t("encounter.myMap"),
               query: GetUserMapList
             },
             {
               key: "3",
-              value: "我的下载",
+              value: this.$t("encounter.myDownload"),
               query: GetUserDownloadMap
             },
           ],
@@ -110,12 +110,12 @@
         showItem: ["map_name"],
         showModel: false,
         buttonList: [{
-          name: "选择",
-          action: "clickChooseMap"
+          name: this.$t("common.choose"),
+          action: this.clickChooseMap
         },
           {
-            name: "预览",
-            action: "clickPreviewButton"
+            name: this.$t("common.preview"),
+            action: this.clickPreviewButton
           },
         ],
         previewVisible: false,
@@ -128,15 +128,15 @@
         currentColor: null,
         armyType: [{
           key: "user",
-          value: "玩家",
+          value: this.$t("player.title"),
         },
           {
             key: "ai",
-            value: "电脑",
+            value: this.$t("player.ai"),
           },
           {
-            key: "无",
-            value: "no",
+            key: "no",
+            value: this.$t("player.noting"),
           },
         ],
         initMapConfig: {},

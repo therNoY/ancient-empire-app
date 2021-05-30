@@ -1,6 +1,10 @@
 <!--基础弹框-->
 <template>
-    <div class="ae-main-border" :style="{'background':background}">
+  <div>
+    <div v-if="noBorder">
+      <slot></slot>
+    </div>
+    <div v-else class="ae-main-border" :style="{'background':background}">
       <div class="ae-border-line">
         <img class="t_l_b corner" src="../../../assets/images/assist/t_l_b.png" />
         <img class="t_b border" src="../../../assets/images/assist/t_b.png" />
@@ -24,6 +28,8 @@
         <img class="r_d_b corner"  src="../../../assets/images/assist/r_d_b.png" />
       </div>
     </div>
+  </div>
+
 </template>
 
 <script>
@@ -34,6 +40,10 @@
         default(){
           return "#242a43";
         }
+      },
+      noBorder:{
+        type:Boolean,
+        default:false,
       }
     },
     data() {

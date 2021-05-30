@@ -26,8 +26,8 @@
     data() {
       return {
         footerButtons: [
-          {name: this.$t("common.start"), action: "startStoreGame"},
-          {name: this.$t("common.return"), action: "closeSelf"},
+          {name: this.$t("common.start"), action: this.startStoreGame},
+          {name: this.$t("common.return"), action: this.closeSelf},
         ],
         queryDataFunction: (query) => GetStoreList(query),
         showItem: ["map_name"],

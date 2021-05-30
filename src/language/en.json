@@ -7,17 +7,53 @@
     "cancel": "取消",
     "pleaseInput":"请输入",
     "start": "开始",
-    "return": "返回"
+    "return": "返回",
+    "change": "修改",
+    "changeSuccess": "修改成功",
+    "choose": "选择",
+    "preview": "预览",
+    "noting": "无"
   },
   "player": {
-    "title": "玩家"
+    "title": "玩家",
+    "ai": "电脑",
+    "login": "登录",
+    "register": "注册",
+    "userInfo": "用户信息",
+    "changePwd": "修改密码",
+    "logout": "登出",
+    "findPwd": "找回密码",
+    "confirm": "确认",
+    "againPwdErr": "确认密码不正确",
+    "nameIsNull": "用户名/邮箱 不能为空",
+    "loginOk": "登录成功",
+    "logoutOk": "退出成功",
+    "emailSend": "确认邮件已发出 请确认查收",
+    "nameOrMail": "用户名/邮箱",
+    "password": "密码",
+    "email": "邮箱",
+    "userName": "用户名",
+    "phone": "手机",
+    "rePassword": "确认密码",
+    "oldPwd": "原密码",
+    "newPwd": "新密码"
+
   },
   "battle": {
     "title": "战役",
     "chooseBattle":"选择战役"
   },
   "encounter": {
-    "title": "遭遇战"
+    "title": "遭遇战",
+    "systemMap": "系统地图",
+    "myMap": "我的地图",
+    "myDownload": "我的下载",
+    "army": "军队",
+    "actionOrder": "行动顺序",
+    "playerType": "玩家类型",
+    "camp": "阵营",
+    "initGold": "初始金币",
+    "maxPop": "最大人口"
   },
   "multiPlayer": {
     "title": "多人游戏"

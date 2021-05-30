@@ -21,6 +21,13 @@ export default {
         value(v) {
             this.showModel = v;
             if (v) {
+                if (this.beforeDialogCreate && this.beforeDialogCreate instanceof Function) {
+                    let res = this.beforeDialogCreate();
+                    if (res === false) {
+                        this.$emit("input", false);
+                    }
+                }
+
                 if (this.onDialogCreate && this.onDialogCreate instanceof Function) {
                     this.onDialogCreate();
                 }

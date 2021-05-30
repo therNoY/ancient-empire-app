@@ -2,26 +2,26 @@
 	<!--首页-->
 
 	<div class="home" :style="{ background: vueStyle.background }">
-		<img class="logo" src="../assets/images/assist/logo.png" alt />
-			<div class="buttons">
-				<!-- #ifdef H5 -->
-				<ae-button :size="buttonSize" class="home_button" @click="clickUserInfo">{{ $t('player.title') }}</ae-button>
-				<!-- #endif -->
-				<!-- #ifdef MP-WEIXIN -->
-				<ae-button :size="buttonSize" v-if="haveLogin" class="home_button" @click="clickUserInfo">{{ $t('player.title') }}</ae-button>
-				<button v-else class="ae-button loginButton" style="font-size: 0.7rem !important"  open-type="getPhoneNumber" @getphonenumber="onGetPhoneNumber">{{ $t('player.title') }}</button>
-				<!-- #endif -->
-				<ae-button id="battleButton" :size="buttonSize" class="home_button" @click="showChapter = true">{{ $t('battle.title') }}</ae-button>
-				<ae-button :size="buttonSize" class="home_button" @click="showEncounter = true">{{ $t('encounter.title') }}</ae-button>
-				<ae-button :size="buttonSize" class="home_button" @click="showNetGameDialog = true">{{ $t('multiPlayer.title') }}</ae-button>
-				<ae-button :size="buttonSize" class="home_button" @click="showUserRecord = true">{{ $t('loadGame.title') }}</ae-button>
-				<ae-button :size="buttonSize" class="home_button" @click="showUnitMange = true">{{ $t('unitManagement.title') }}</ae-button>
-				<ae-button :size="buttonSize" class="home_button" @click="showTemplateManger = true">{{ $t('templateManagement.title') }}</ae-button>
-				<ae-button :size="buttonSize" class="home_button" @click="showMapManger = true">{{ $t('mapManagement.title') }}</ae-button>
-				<ae-button :size="buttonSize" class="home_button" @click="router('mapEdit/0')">{{ $t('mapEdit.title') }}</ae-button>
-				<!--  <ae-button :size="buttonSize" class="home_button" @click="router('demo')">帮助</ae-button>   -->
-				<!--  <ae-button :size="buttonSize" class="home_button" @click="router('monitor')">监控</ae-button> -->
-			</div>
+		<img  class="logo" src="../assets/images/assist/logo.png" alt />
+		<div class="buttons">
+			<!-- #ifdef H5 -->
+			<ae-button :size="buttonSize" class="home_button" @click="clickUserInfo">{{ $t('player.title') }}</ae-button>
+			<!-- #endif -->
+			<!-- #ifdef MP-WEIXIN -->
+			<ae-button :size="buttonSize" v-if="haveLogin" class="home_button" @click="clickUserInfo">{{ $t('player.title') }}</ae-button>
+			<button v-else class="ae-button loginButton" style="font-size: 0.7rem !important"  open-type="getPhoneNumber" @getphonenumber="onGetPhoneNumber">{{ $t('player.title') }}</button>
+			<!-- #endif -->
+			<ae-button id="battleButton" :size="buttonSize" class="home_button" @click="showChapter = true">{{ $t('battle.title') }}</ae-button>
+			<ae-button :size="buttonSize" class="home_button" @click="showEncounter = true">{{ $t('encounter.title') }}</ae-button>
+			<ae-button :size="buttonSize" class="home_button" @click="showNetGameDialog = true">{{ $t('multiPlayer.title') }}</ae-button>
+			<ae-button :size="buttonSize" class="home_button" @click="showUserRecord = true">{{ $t('loadGame.title') }}</ae-button>
+			<ae-button :size="buttonSize" class="home_button" @click="showUnitMange = true">{{ $t('unitManagement.title') }}</ae-button>
+			<ae-button :size="buttonSize" class="home_button" @click="showTemplateManger = true">{{ $t('templateManagement.title') }}</ae-button>
+			<ae-button :size="buttonSize" class="home_button" @click="showMapManger = true">{{ $t('mapManagement.title') }}</ae-button>
+			<ae-button :size="buttonSize" class="home_button" @click="router('mapEdit/0')">{{ $t('mapEdit.title') }}</ae-button>
+			  <ae-button :size="buttonSize" class="home_button" @click="router('Test')">帮助</ae-button>
+			<!--  <ae-button :size="buttonSize" class="home_button" @click="router('monitor')">监控</ae-button> -->
+		</div>
 
 		<!-- #ifdef H5 -->
 		<user-info ref="userInfo" v-model="userInfoDialog" @close="userInfoDialog = false"></user-info>
@@ -107,7 +107,9 @@ export default {
 			this.userInfoDialog = true;
 		},
 		router(path) {
-			this.$router.push('/' + path);
+			uni.redirectTo({url: path, complete:(resp)=>{
+					console.log("跳转成功", resp)
+				}});
 		},
 		// 加载字体
 		loadFontFaceFromWeb() {
@@ -209,6 +211,9 @@ export default {
 	computed:{
 		haveLogin() {
 			return this.$store.getters.token && this.$store.getters.user && this.$store.getters.user.user_name;
+		},
+		zhiji(){
+			console.log("你是大傻叉？？？");
 		}
 	}
 };

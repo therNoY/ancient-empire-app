@@ -383,9 +383,7 @@
 				args.uuid = this.currentMapInfo.map_id;
 				args.share = this.currentMapInfo.share;
 				args.map_name = this.currentMapInfo.map_name;
-				this.$appHelper.setLoading();
-				SaveUserMap(args)
-					.then((resp) => {
+				SaveUserMap(args, true, false).then((resp) => {
 						if (resp.res_code == 0) {
 							this.$appHelper.infoMsg("保存成功");
 							this.saveMapDialog = false;
@@ -394,11 +392,7 @@
 						}
 						this.showChangeMsg = false;
 						this.getLastEditMap();
-						this.$appHelper.setLoading();
 					})
-					.catch((err) => {
-						this.$appHelper.setLoading();
-					});
 			},
 			// 从创建过的地图里面选择编辑地图
 			editMap(editMap) {
@@ -406,68 +400,50 @@
 					this.currPreviewMap = this.$refs.myMap.getDataGridSelect();
 					editMap = this.currPreviewMap;
 				}
-				GetUserMapById(editMap.map_id).then((resp) => {
-					if (resp && resp.res_code == 0) {
-						let userMap = resp.res_val;
-						this.maps = userMap.regions;
-						this.mapColumn = userMap.column;
-						this.mapRow = userMap.row;
-						this.unitList = userMap.units;
-						this.showMapVisible = false;
-						this.currentMapInfo.map_name = userMap.map_name;
-						this.currentMapInfo.share = userMap.share;
-						this.currentMapInfo.map_id = userMap.uuid;
-						if (resp.res_val.template_id) {
-							let args = {};
-							args.template_id = resp.res_val.template_id;
-							GetUserTemplateBindUnit(args).then((resp) => {
-								this.flushUnitFlag = false;
-								this.initMapInfo.unit_mes_list = resp.res_val.unit_mes_list;
-								this.initMapInfo.region_mes = resp.res_val.region_mes;
-								this.flushUnitFlag = true;
-							});
-						}
+				GetUserMapById(editMap.map_id).then(({res_val}) => {
+					let userMap = res_val;
+					this.maps = userMap.regions;
+					this.mapColumn = userMap.column;
+					this.mapRow = userMap.row;
+					this.unitList = userMap.units;
+					this.showMapVisible = false;
+					this.currentMapInfo.map_name = userMap.map_name;
+					this.currentMapInfo.share = userMap.share;
+					this.currentMapInfo.map_id = userMap.uuid;
+					if (res_val.template_id) {
+						let args = {};
+						args.template_id = res_val.template_id;
+						GetUserTemplateBindUnit(args).then((resp) => {
+							this.flushUnitFlag = false;
+							this.initMapInfo.unit_mes_list = res_val.unit_mes_list;
+							this.initMapInfo.region_mes = res_val.region_mes;
+							this.flushUnitFlag = true;
+						});
 					}
 				});
 			},
 			// 初始化
-			createNewMap({
-				tempId,
-				mapRow,
-				mapColumn,
-				mapName
-			}) {
+			createNewMap({tempId, mapRow, mapColumn, mapName }) {
 				let args = {};
 				args.template_id = tempId;
 				args.map_row = mapRow;
 				args.map_column = mapColumn;
 				args.map_name = mapName;
-
-				this.$appHelper.setLoading();
-				CreateDraftMap(args)
-					.then((resp) => {
-						if (resp.res_code == 0) {
-							this.currentMapInfo.map_name = mapName;
-							// 默认共享
-							this.currentMapInfo.share = "1";
-							this.initMapInfo = resp.res_val;
-							this.userSetting = resp.res_val.user_setting;
-							this.unitList = this.initMapInfo.un_save_map.units;
-							this.currentMapInfo.map_id = this.initMapInfo.un_save_map.uuid;
-							if (!this.unitList) {
-								this.unitList = [];
-							}
-							this.maps = this.initMapInfo.un_save_map.regions;
-							this.mapColumn = this.initMapInfo.un_save_map.column;
-							this.mapRow = this.initMapInfo.un_save_map.row;
-						} else {
-							this.$appHelper.errorMsg(resp.res_mes);
-						}
-						this.$appHelper.setLoading();
-					})
-					.catch((err) => {
-						this.$appHelper.setLoading();
-					});
+				CreateDraftMap(args).then(({res_val}) => {
+					this.currentMapInfo.map_name = mapName;
+					// 默认共享
+					this.currentMapInfo.share = "1";
+					this.initMapInfo = res_val;
+					this.userSetting = res_val.user_setting;
+					this.unitList = this.initMapInfo.un_save_map.units;
+					this.currentMapInfo.map_id = this.initMapInfo.un_save_map.uuid;
+					if (!this.unitList) {
+						this.unitList = [];
+					}
+					this.maps = this.initMapInfo.un_save_map.regions;
+					this.mapColumn = this.initMapInfo.un_save_map.column;
+					this.mapRow = this.initMapInfo.un_save_map.row;
+				});
 			},
 
 			createNewMapByTemplateId(tempId, templateName) {
@@ -480,23 +456,21 @@
 			 * 获取上一个编辑的地图
 			 */
 			getLastEditMap() {
-				GetLastEditMap().then((resp) => {
-					if (resp.res_code == "0") {
-						this.initMapInfo = resp.res_val;
-						this.userSetting = resp.res_val.user_setting;
+				GetLastEditMap().then(({res_val}) => {
+						this.initMapInfo = res_val;
+						this.userSetting = res_val.user_setting;
 						this.unitList = this.initMapInfo.un_save_map.units;
 						if (!this.unitList) {
 							this.unitList = [];
 						}
-						this.currentMapInfo.map_name = resp.res_val.un_save_map.map_name;
-						this.currentMapInfo.share = resp.res_val.un_save_map.share;
-						this.currentMapInfo.map_id = resp.res_val.un_save_map.uuid;
+						this.currentMapInfo.map_name = res_val.un_save_map.map_name;
+						this.currentMapInfo.share = res_val.un_save_map.share;
+						this.currentMapInfo.map_id = res_val.un_save_map.uuid;
 
 						this.maps = this.initMapInfo.un_save_map.regions;
 						this.mapColumn = this.initMapInfo.un_save_map.column;
 						this.mapRow = this.initMapInfo.un_save_map.row;
 						this.currentTemplateId = this.initMapInfo.user_template.id;
-					}
 				});
 			},
 		},
@@ -626,7 +600,7 @@
 
 		.map img {
 			float: left;
-			margin: 0px;
+			margin: 0;
 			cursor: pointer;
 		}
 

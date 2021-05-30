@@ -37,7 +37,6 @@
 <script>
   import { setUser, setToken } from "@/utils/authUtil";
   import { Login, Register } from "@/api";
-  let _this = null;
   export default {
     name:"userInfoPage",
     props: {
@@ -85,21 +84,21 @@
     },
     methods: {
       closeDialog() {
-        _this.$emit("input", false);
-        _this.showRegister = false;
-        _this.showUserInfo = false;
+        this.$emit("input", false);
+        this.showRegister = false;
+        this.showUserInfo = false;
       },
 
       logout() {
-        _this.$store.dispatch("logout");
-        _this.user.user_name = "";
-        _this.user.password = "";
-        _this.$appHelper.infoMsg(_this.$t("player.logoutOk"));
-        _this.closeDialog();
+        this.$store.dispatch("logout");
+        this.user.user_name = "";
+        this.user.password = "";
+        this.$appHelper.infoMsg(this.$t("player.logoutOk"));
+        this.closeDialog();
       },
 
       doRegister() {
-        let args = _this.$refs.registerForm.getFormData();
+        let args = this.$refs.registerForm.getFormData();
         Register(args).then(({res_val}) => {
           let loginUser = {};
           loginUser.user_name = res_val.user_name;
@@ -108,12 +107,12 @@
           setUser(loginUser);
           let token = res_val.token;
           setToken(token);
-          _this.closeDialog();
-          _this.$appHelper.infoMsg(_this.$t("player.loginOk"));
+          this.closeDialog();
+          this.$appHelper.infoMsg(this.$t("player.loginOk"));
         });
       },
       cancelRegister() {
-        _this.closeDialog();
+        this.closeDialog();
       },
       onDialogCreate(){
         console.log(
@@ -139,7 +138,6 @@
     },
     created() {
       this.$appHelper.bindPage2Global(this, "userInfoVue");
-      _this = this;
     },
   };
 </script>

@@ -236,7 +236,7 @@
       },
 
       clickFooterAction(index){
-        this.$parent[this.footerButtons[index].action]();
+        this.footerButtons[index].action.bind(this.$parent)();
       },
 
       setPageStyle() {

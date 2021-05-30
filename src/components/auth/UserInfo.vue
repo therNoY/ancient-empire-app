@@ -68,7 +68,6 @@
 <script>
 import { setUser, setToken } from "@/utils/authUtil";
 import { Login, Register, ChangePwd } from "@/api";
-let _this = null;
 export default {
   name:"userInfoPage",
   props: {
@@ -212,14 +211,14 @@ export default {
     },
 
     doLogin() {
-      _this.user = _this.$refs.loginForm.formData;
-      console.log(_this.user);
+      this.user = this.$refs.loginForm.formData;
+      console.log(this.user);
       // 验证
-      if (_this.user.user_name == null || _this.user.user_name === "") {
-        _this.$appHelper.infoMsg(this.$t("player.nameIsNull"));
+      if (this.user.user_name == null || this.user.user_name === "") {
+        this.$appHelper.infoMsg(this.$t("player.nameIsNull"));
         return;
       }
-      Login(_this.user).then((resp) => {
+      Login(this.user).then((resp) => {
         let loginUser = {};
         loginUser.user_name = resp.res_val.user_name;
         loginUser.password = resp.res_val.password;
@@ -228,10 +227,10 @@ export default {
         let token = resp.res_val.token;
         console.log(token);
         setToken(token);
-        _this.showLogin = false;
-        _this.showChangePwd = false;
-        _this.$emit("input", false);
-        _this.$appHelper.infoMsg(this.$t("player.loginOk"));
+        this.showLogin = false;
+        this.showChangePwd = false;
+        this.$emit("input", false);
+        this.$appHelper.infoMsg(this.$t("player.loginOk"));
       });
     },
     doRegister() {
@@ -278,7 +277,6 @@ export default {
   },
   created() {
     this.$appHelper.bindPage2Global(this, "userInfoVue");
-    _this = this;
   },
 };
 </script>

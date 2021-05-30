@@ -7,15 +7,13 @@ export default {
 		console.log('App Launch');
 		uni.getSystemInfo().then(resp => {
 			console.log('系统信息', resp);
+			this.$store.commit("setSystemInfo" ,resp[1]);
+			if (resp[1].platform === "windows") {
+        uni.isH5 = true;
+      } else {
+        uni.isH5 = false;
+      }
 		});
-		// #ifdef H5
-		uni.platform = 'H5';
-		uni.isH5 = true;
-		// #endif
-
-		// #ifdef MP-WEIXIN
-		uni.platform = 'mpWeiXin';
-		// #endif
 	},
 	onShow: function() {
 		console.log('App Show')

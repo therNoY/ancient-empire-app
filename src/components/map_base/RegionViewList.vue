@@ -2,7 +2,7 @@
 <template>
   <div v-if="regions">
     <img
-      style="float: left"
+      style="float: left;width:24px;height:24px;"
       v-for="(region, index) in regions"
       :key="region.id"
       :src="$appHelper.getRegionImg(region.type, region.color)"
@@ -79,6 +79,8 @@ div {
   .castleTitle {
     position: absolute;
     pointer-events: none;
+    width:24px;
+    height:24px;
   }
 }
 </style>

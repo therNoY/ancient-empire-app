@@ -38,5 +38,7 @@ export default {
 .tomb img {
   position: absolute;
   cursor: pointer;
+  width:24px;
+  height:24px;
 }
 </style>

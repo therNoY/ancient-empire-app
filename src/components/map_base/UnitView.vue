@@ -1,33 +1,35 @@
 <!--显示一个单位详情信息-->
 <template>
-  <div :style="unitSiteStyle" @click="clickUnit">
+  <div :style="{top:unitSiteStyle.top, left:unitSiteStyle.left, transitionDuration:unitSiteStyle.transitionDuration}" @click="clickUnit">
     <div class="unitImg">
       <div v-if="unit.done">
         <img :src="doneImg" />
       </div>
       <div v-else>
-        <img v-show="singo % 2 == 0" :src="unitImg" />
-        <img v-show="singo % 2 != 0" :src="unitImg2" />
+        <img v-show="singo % 2 === 0" :src="unitImg" />
+        <img v-show="singo % 2 !== 0" :src="unitImg2" />
       </div>
     </div>
 
     <!--单位的状态 血量 等级 buff-->
     <div class="status">
       <!--状态-->
-      <div v-if="unit.status && unit.status != 'normal'" class="unit_status">
+      <div v-if="unit.status && unit.status !== 'normal'" class="unit_status">
         <img :src="statusImg" />
       </div>
-      <!--等级-->
-      <div v-if="unit.level && unit.level > 0" class="unit_level">
-        <img :src="levelImg" />
-      </div>
+
       <!--血量-->
-      <div v-if="unit.life_num && isNotMaxLife" class="lifeNum">
+      <div v-if="isNotMaxLife" class="lifeNum">
         <img
           v-for="(lifeNum, index) in unit.life_num"
           :key="index"
           :src="liftImg(lifeNum)"
         />
+      </div>
+
+      <!--等级-->
+      <div v-if="hasLevel" class="unit_level">
+<!--        <img :src="levelImg" />-->
       </div>
     </div>
   </div>
@@ -35,7 +37,14 @@
 
 <script>
 export default {
-  props: ["unit", "color", "singo"],
+  props: {
+    unit:{},
+    color:{},
+    signo:{
+      type:Number,
+      default:0,
+    }
+  },
   computed: {
     unitImg() {
       return this.$appHelper.getUnitImg(
@@ -43,9 +52,19 @@ export default {
         this.color ? this.color : this.unit.color
       );
     },
+    unitImg2() {
+      return this.$appHelper.getUnitImg(
+          this.unit.type_id,
+          this.color ? this.color : this.unit.color,
+          "_2"
+      );
+    },
     isNotMaxLife() {
+      if (!this.unit.life_num) {
+        return true;
+      }
       let life = this.unit.life_num;
-      if (life.length != 3) {
+      if (life.length !== 3) {
         return true;
       } else {
         let lifeString = "";
@@ -70,32 +89,34 @@ export default {
     },
     liftImg() {
       return function (liftImg) {
-        return require("../../assets/images/assist/life_" + liftImg + ".png");
+        if (this.liftImg) {
+          return require("../../assets/images/assist/life_" + liftImg + ".png");
+        }
       };
+    },
+    hasLevel(){
+      if (!this.unit.level) {
+        return false;
+      }
+      return this.unit.level > 0
     },
     // 计算等级的图片
     levelImg() {
-      return require("../../assets/images/assist/level_" +
-        this.unit.level +
-        ".png");
+      if (this.unit.level) {
+        return require("../../assets/images/assist/level_" + this.unit.level + ".png");
+      }
+
     },
     statusImg() {
-      return require("../../assets/images/assist/status_" +
-        this.unit.status +
-        ".png");
+      if (this.unit.status) {
+        return require("../../assets/images/assist/status_" + this.unit.status + ".png");
+      }
+
     },
     doneImg() {
       return this.$appHelper.getUnitDoneImg(
         this.unit.type_id,
         this.color ? this.color : this.unit.color
-      );
-    },
-
-    unitImg2() {
-      return this.$appHelper.getUnitImg(
-        this.unit.type_id,
-        this.color ? this.color : this.unit.color,
-        "_2"
       );
     },
     unitSiteStyle() {
@@ -130,6 +151,8 @@ div {
     transition-property: all !important;
     transition-timing-function: linear;
     transition-duration: 0s;
+    width:24px;
+    height:24px;
   }
 }
 .status {

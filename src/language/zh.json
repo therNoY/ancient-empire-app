@@ -9,10 +9,15 @@
     "start": "开始",
     "return": "返回",
     "change": "修改",
-    "changeSuccess": "修改成功"
+    "changeSuccess": "修改成功",
+    "choose": "选择",
+    "preview": "预览",
+    "noting": "无",
+    "confirm": "确认"
   },
   "player": {
     "title": "玩家",
+    "ai": "电脑",
     "login": "登录",
     "register": "注册",
     "userInfo": "用户信息",
@@ -39,7 +44,16 @@
     "chooseBattle":"选择战役"
   },
   "encounter": {
-    "title": "遭遇战"
+    "title": "遭遇战",
+    "systemMap": "系统地图",
+    "myMap": "我的地图",
+    "myDownload": "我的下载",
+    "army": "军队",
+    "actionOrder": "行动顺序",
+    "playerType": "玩家类型",
+    "camp": "阵营",
+    "initGold": "初始金币",
+    "maxPop": "最大人口"
   },
   "multiPlayer": {
     "title": "多人游戏"

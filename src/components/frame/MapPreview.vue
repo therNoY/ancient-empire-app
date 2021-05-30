@@ -1,30 +1,39 @@
 <template>
   <ae-base-dialog
     id="mapPreview"
-    v-if="!loading"
     :title="mapName"
     :value="showModel"
+    setFullScreen
     @close="close"
+    mainPadding="0"
     :width="$appHelper.getMapSize(currentMap.column)"
   >
-    <el-container :style="containerStyle">
-      <el-main style="position: relative">
-        <div class="preview_map" :style="mapStyle" v-if="value">
-          <region-view-list
+    <movable-area
+         class="main_map"
+         v-if="value && currentMap && currentMap.hasOwnProperty('regions')"
+         :style='{width: mapContainer.width, maxWidth: mapContainer.maxWidth, height:mapContainer.height}'>
+      <movable-view
+          direction="all"
+          class="preview_map"
+          :style='{width: mapStyle.width, height: mapStyle.height,}'
+          :x="x"
+          :y="y"
+          :damping="50"
+          @change="onChange">
+        <region-view-list
             ref="regionViewList"
             :regions="currentMap.regions"
             :row="currentMap.row"
             :column="currentMap.column"
-          ></region-view-list>
-          <tomb-view v-if="currentMap.tombs" :tombs="currentMap.tombs" />
-          <unit-view-list :units="currentMap.units"></unit-view-list>
-          <point-view
+        ></region-view-list>
+        <tomb-view v-if="currentMap.tombs" :tombs="currentMap.tombs"/>
+        <unit-view-list :units="currentMap.units"></unit-view-list>
+        <point-view
             v-if="currentMap.currPoint"
             :point="currentMap.currPoint"
-          ></point-view>
-        </div>
-      </el-main>
-    </el-container>
+        ></point-view>
+      </movable-view>
+    </movable-area>
   </ae-base-dialog>
 </template>
 
@@ -38,7 +47,6 @@ import dialogShow from "@/mixins/frame/dialogShow.js";
 
 export default {
   mixins: [dialogShow],
-
   components: {
     RegionViewList,
     UnitViewList,
@@ -73,23 +81,40 @@ export default {
   data() {
     return {
       currentMap: {},
-      loading: false,
+      x:0,
+      y:0,
+      maxX:0,
+      minY:0,
+      old: {
+        x: 0,
+        y: 0,
+      }
     };
   },
   created() {
     this.initMap();
+    this.$appHelper.bindPage2Global(this, "MapPreview");
   },
   computed: {
+    mapContainer(){
+      // #ifdef H5
+      return {
+        width:(this.currentMap.column * 24 > 600 ? 600 : this.currentMap.column * 24) + "px",
+        maxWidth:(this.currentMap.column * 24 > 600 ? 600 - 12 : this.currentMap.column * 24 - 12) + "px"
+      };
+      // #endif
+      // #ifndef H5
+      return {
+        width:"100%",
+        height:"100%",
+        maxWidth:"100%"
+      }
+      // #endif
+    },
     mapStyle() {
       return {
         width: this.$appHelper.getMapSize(this.currentMap.column),
         height: this.$appHelper.getMapSize(this.currentMap.row),
-      };
-    },
-    containerStyle() {
-      return {
-        width: this.$appHelper.getMapSize(this.currentMap.column),
-        height: "400px",
       };
     },
     mapName() {
@@ -101,60 +126,66 @@ export default {
     },
   },
   methods: {
-    onDialogCreate(){
+    beforeDialogCreate(){
       this.initMap();
+    },
+    onChange({detail}){
+      // #ifndef H5
+      if(detail.source === 'touch') {
+        if(detail.y < this.minY) {
+          // 解决view层不同步的问题
+          this.x = this.old.x;
+          this.y = this.old.y;
+          this.$nextTick(function() {
+            this.x =  0;
+            this.y = this.minY
+          })
+        }
+      }
+      // #endif
     },
     initMap() {
       if (this.map) {
         this.currentMap = this.map;
       } else if (this.mapId) {
-        // TODO 通过ID获取地图
         if (this.isRecord) {
-          this.loading = this.$appHelper.setLoading();
-          GetRecordById(this.mapId)
-            .then((resp) => {
-              if (resp && resp.res_code == 0) {
-                this.currentMap = {};
-                this.currentMap.regions = resp.res_val.game_map.regions;
-                this.currentMap.tombs = resp.res_val.tomb_list;
-                this.currentMap.row = resp.res_val.game_map.row;
-                this.currentMap.column = resp.res_val.game_map.column;
-                this.currentMap.map_name = resp.res_val.record_name;
-                this.currentMap.currPoint = resp.res_val.curr_point;
-
-                let army_list = resp.res_val.army_list;
-                this.currentMap.units = [];
-                for (let army of army_list) {
-                  army.units.forEach((unit) => {
-                    unit["color"] = army["color"];
-                    unit["id"] = unit["type_id"];
-                  });
-                  this.currentMap.units = this.currentMap.units.concat(
-                    army.units
-                  );
-                }
+          GetRecordById(this.mapId).then(({res_val}) => {
+              let currentMap = {};
+              currentMap.regions = res_val.game_map.regions;
+              currentMap.tombs = res_val.tomb_list;
+              currentMap.row = res_val.game_map.row;
+              currentMap.column = res_val.game_map.column;
+              currentMap.map_name = res_val.record_name;
+              currentMap.currPoint = res_val.curr_point;
+              currentMap.units = [];
+              for (let army of res_val.army_list) {
+                army.units.forEach((unit) => {
+                  unit["color"] = army["color"];
+                  unit["id"] = unit["type_id"];
+                });
+                currentMap.units = currentMap.units.concat(army.units);
               }
-              this.loading = this.$appHelper.setLoading();
-            })
-            .catch((error) => {
-              this.loading = this.$appHelper.setLoading();
-            });
+              this.currentMap = currentMap;
+              this.setMaxXAndMinY();
+          })
         } else {
-          this.loading = this.$appHelper.setLoading();
           let args = {};
           args.map_id = this.mapId;
           args.army_config_list = this.armyConfigList;
-          GetUserMapWithConfig(args)
-            .then((resp) => {
-              if (resp && resp.res_code == 0) {
-                this.currentMap = resp.res_val;
-              }
-              this.loading = this.$appHelper.setLoading();
-            })
-            .catch((error) => {
-              this.loading = this.$appHelper.setLoading();
-            });
+          GetUserMapWithConfig(args).then(({res_val}) => {
+            this.currentMap = res_val;
+            this.setMaxXAndMinY();
+          })
         }
+      }
+    },
+    setMaxXAndMinY(){
+      this.x = 0;
+      this.y = 0;
+      let systemInfo = this.$store.getters.systemInfo;
+      this.minY = -1 * (this.currentMap.row * 24 - systemInfo.screenHeight + 10);
+      if (this.currentMap.column * 24 < systemInfo.screenWidth ) {
+        this.x = (systemInfo.screenWidth - this.currentMap.column * 24) / 2;
       }
     },
     close() {
@@ -167,6 +198,13 @@ export default {
 
 <style lang="scss" >
 #mapPreview {
+  /deep/ .main_map{
+    height: 400px;
+    max-height: 400px;
+    overflow-x: scroll;
+    overflow-y: scroll;
+    position: relative;
+  }
   .preview_map {
     position: absolute;
     float: left;
@@ -174,8 +212,8 @@ export default {
       float: left;
     }
   }
-  .el-main {
-    padding: 0px !important;
+  .ae-base-dialog-popup-main {
+    padding: 0 !important;
   }
 }
 </style>

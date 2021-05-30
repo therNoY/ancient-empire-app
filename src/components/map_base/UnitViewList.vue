@@ -1,8 +1,7 @@
 <!--军队集合-->
 <template>
-  <div>
+  <div class="unit-view-list">
     <unit-view
-      style="position: absolute"
       v-for="(unit, index) in units"
       :key="index"
       :unit="unit"
@@ -31,4 +30,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  /deep/ .unit-view-list{
+    position: absolute
+  }
 </style>

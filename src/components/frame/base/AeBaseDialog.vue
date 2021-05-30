@@ -3,17 +3,17 @@
   <div class="ae-base-dialog-container"
        :style="{'display':vueStyle.dialogDisplay, 'backgroundColor': vueStyle.dialogBackgroundColor, 'left': vueStyle.dialogLeft,'top': vueStyle.dialogTop,}"
        v-if="value">
-    <ae-border :style="{'width':vueStyle.popupWidth}">
+    <ae-border :noBorder="fullScreen" :style="{'width':vueStyle.popupWidth, height:vueStyle.popupHeight, backgroundColor: vueStyle.mainBackgroundColor}">
       <div class="ae-base-dialog-popup" :class="[fullScreen?'fullScreenStyle':'h5Style']"
            :style="{'width':vueStyle.popupWidth}">
         <div class="ae-base-dialog-content" :style="{'width':vueStyle.contentWidth}">
-          <div class="ae-base-dialog-popup-header">
+          <div class="ae-base-dialog-popup-header" v-if="!fullScreen">
             <span>{{ title }}</span>
             <!-- #ifdef H5 -->
             <uni-icons type="closeempty" color="#b0b8ac" class="btn-close" :size="closeButtonSiz" @click="close"/>
             <!-- #endif -->
           </div>
-          <div class="ae-base-dialog-popup-main">
+          <div class="ae-base-dialog-popup-main" :style="{'padding':mainPadding}">
             <slot/>
           </div>
           <div class="ae-base-dialog-footer">
@@ -22,6 +22,7 @@
         </div>
       </div>
     </ae-border>
+
     <!-- #ifndef H5 -->
       <img
           class="app-close-button click-cursor"
@@ -73,10 +74,9 @@
         type: Boolean,
         default: false,
       },
-      // 不使用边框默认使用
-      notBorder: {
-        type: Boolean,
-        default: false,
+      mainPadding:{
+        type:String,
+        default:"2%"
       }
     },
     data() {
@@ -88,6 +88,7 @@
           popupWidth: null,
           dialogDisplay: "inline",
           dialogBackgroundColor: "rgba(167, 167, 167, 0)",
+          mainBackgroundColor: "#242a43",
           dialogLeft: null,
           dialogTop: null,
           borderWidth: null,
@@ -150,8 +151,10 @@
       value(v) {
         if (v) {
           this.$emit("open");
+          // 全屏
           if (this.setFullScreen && !uni.isH5) {
             this.vueStyle.popupWidth = "100%";
+            this.vueStyle.popupHeight = "100%";
             this.fullScreen = true;
           }
         }
@@ -193,7 +196,6 @@
   }
 
   .ae-base-dialog-popup-main {
-    padding: 2%;
   }
 
   .ae-base-dialog-content{
