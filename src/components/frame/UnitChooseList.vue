@@ -11,13 +11,13 @@
           v-for="(unit,index) in unit_list"
           :key="index"
         >
-          <el-tooltip
+          <ae-tooltip
             :content="unit.description"
             placement="bottom"
             effect="light"
           >
             <unit :unit_id="unit.id" :color="color"></unit>
-          </el-tooltip>
+          </ae-tooltip>
         </div>
       </div>
     </ae-base-dialog>

@@ -63,7 +63,7 @@
           <editable-animate
             :disabled="!edit || form.disabled"
             v-model="formData[form.key]"
-            :singo="singo"
+            :signal="signal"
             :template_id="templateId"
           ></editable-animate>
         </div>
@@ -96,7 +96,7 @@ export default {
       type: Boolean,
       default: false,
     },
-    singo: {
+    signal: {
       type: Number,
       default: 0,
     },
@@ -166,9 +166,6 @@ export default {
       .ae-form-label {
         width: 20%;
         color: white;
-        /* #ifdef H5*/
-        font-size: 14px;
-        /* #endif*/
         /* #ifndef H5*/
         font-size: 0.7rem;
         /* #endif*/

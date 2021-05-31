@@ -2,15 +2,15 @@
   <div>
     <ae-base-dialog v-model="show" :title="title" width="35">
       <div class="start_comment">
-        <div class="start_comment_label">打分</div>
+        <div class="start_comment_label">{{$t('common.rate')}}</div>
         <div class="start_comment_item">
-          <el-rate v-model="comment.start"></el-rate>
+          <uni-rate size="18" v-model="comment.start" />
         </div>
       </div>
       <div>
         <ae-input
-          label="评论"
-          placeholder="请输入评论..."
+          :label="$t('common.comment')"
+          :placeholder="$t('common.inputComment')"
           v-model="comment.comment"
         />
       </div>
@@ -27,7 +27,9 @@ export default {
   props: {
     title: {
       type: String,
-      default: "评价",
+      default(){
+        return uni.$t("common.comment")
+      },
     },
   },
   data() {
@@ -38,8 +40,8 @@ export default {
         start: 5,
       },
       buttonList: [
-        { name: "确 定", action: this.ok },
-        { name: "取 消", action: () => (this.show = false) },
+        { name: this.$t("common.sure"), action: this.ok },
+        { name: this.$t("common.cancel"), action: () => (this.show = false) },
       ],
     };
   },
@@ -59,15 +61,13 @@ export default {
 
 <style lang="scss" scoped>
 .start_comment {
-  padding: 2%;
-  .start_comment_item {
-    float: left;
-  }
+  width: 96%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   .start_comment_label {
     width: 20%;
-    float: left;
     height: 20px;
-    font-size: 14px;
     color: white;
   }
 }

@@ -3,12 +3,12 @@
     <!--指针框 -->
     <div v-if="!attachPoint.hasOwnProperty('row')" @click="clickPoint">
       <img
-        v-show="singo % 2 == 0"
+        v-show="signal % 2 == 0"
         src="../../assets/images/assist/point_0.png"
         :style="pointPosition"
       />
       <img
-        v-show="singo % 2 == 1"
+        v-show="signal % 2 == 1"
         src="../../assets/images/assist/point_1.png"
         :style="pointPosition"
       />
@@ -33,7 +33,7 @@
 import eventype from "../../manger/eventType";
 export default {
   props: {
-    singo:{
+    signal:{
       default:0,
     },
     point:{}
@@ -67,7 +67,7 @@ export default {
     },
     attachPointImg() {
       return require("../../assets/images/assist/cursor_0" +
-        ((this.singo % 3) + 2) +
+        ((this.signal % 3) + 2) +
         ".png");
     },
   },

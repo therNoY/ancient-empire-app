@@ -82,13 +82,12 @@ export default {
 <style lang="scss" scoped>
 .ae-input {
   width: 96%;
-  float: left;
   padding: 1%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   .ae-input-label {
     width: 20%;
-    float: left;
-    font-size: 14px;
-    padding-top: 2%;
     color: white;
   }
   input::-webkit-input-placeholder {
@@ -99,13 +98,10 @@ export default {
 
 .ae-input-real {
   outline: none;
-  float: left;
-  margin-left: 1%;
   background-color: #494949;
   -webkit-text-fill-color: white;
   -webkit-text-stroke: 0 #000000;
   /* #ifdef H5*/
-  font-size: 14px;
   height: 20px;
   border-top: 2px #494949 solid;
   border-left: 2px #494949 solid;
@@ -120,9 +116,7 @@ export default {
   border-bottom: 2rpx #818181 solid;
   display: flex;
   min-height: 1rem;
-
   justify-content: space-evenly;
-  font-size: 0.6rem;
   /* #endif */
 }
 

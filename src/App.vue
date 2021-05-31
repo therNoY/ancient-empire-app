@@ -16,10 +16,10 @@ export default {
 		});
 	},
 	onShow: function() {
-		console.log('App Show')
+		// console.log('App Show')
 	},
 	onHide: function() {
-		console.log('App Hide')
+		// console.log('App Hide')
 	}
 };
 </script>
@@ -33,6 +33,12 @@ export default {
 
 page {
 	height: 100%;
+  /* #ifdef H5 */
+  font-size: 14px;
+  /* #endif */
+  /* #ifdef MP-WEIXIN */
+  font-size: 0.6rem;
+  /* #endif*/
 }
 
 .disable-cursor{
@@ -49,5 +55,10 @@ input:-webkit-autofill {
   background-image: none;
   -webkit-transition: background-color 50000s ease-in-out 0s;
   transition: background-color 50000s ease-in-out 0s;
+}
+.tabFontStyle{
+  /* #ifndef H5 */
+  font-size: 0.6rem !important;
+  /* #endif */
 }
 </style>

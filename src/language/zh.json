@@ -13,7 +13,10 @@
     "choose": "选择",
     "preview": "预览",
     "noting": "无",
-    "confirm": "确认"
+    "confirm": "确认",
+    "rate":"评分",
+    "comment":"评论",
+    "inputComment":"请输入评论..."
   },
   "player": {
     "title": "玩家",

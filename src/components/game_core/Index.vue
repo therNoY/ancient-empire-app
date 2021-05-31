@@ -23,9 +23,9 @@
             <army-view
               @unitOnClick="clickUnit"
               :armys="game.army_list"
-              :singo="singo"
+              :signal="signal"
             />
-            <point-view :point="game.curr_point" :singo="singo" />
+            <point-view :point="game.curr_point" :signal="signal" />
             <action-view />
             <left-change />
             <animate-view />
@@ -91,7 +91,7 @@ export default {
       // 当前地图
       game: {},
       // 当前变化信号
-      singo: 1,
+      signal: 1,
     };
   },
   computed: {
@@ -135,10 +135,10 @@ export default {
     // 开启一个后台进程 计时器
     startWorker() {
       setInterval(() => {
-        if (this.singo < 1000) {
-          this.singo++;
+        if (this.signal < 1000) {
+          this.signal++;
         } else {
-          this.singo = 0;
+          this.signal = 0;
         }
       }, 500);
     },

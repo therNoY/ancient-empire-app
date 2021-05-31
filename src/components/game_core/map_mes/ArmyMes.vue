@@ -2,33 +2,33 @@
   <div class="army_mes" :style="$appHelper.getBkColor(curr_color)">
     <!--当前回合信息-->
     <div class="bar_mes">
-      <el-tooltip content="金币" placement="top" effect="light">
+      <ae-tooltip content="金币" placement="top" effect="light">
         <div>
           <img src="../../../assets/images/assist/bar_money.png" />
           <span>&nbsp;{{ currentArmy.money }}</span>
         </div>
-      </el-tooltip>
+      </ae-tooltip>
 
-      <el-tooltip content="人口" placement="top" effect="light">
+      <ae-tooltip content="人口" placement="top" effect="light">
         <div>
           <img src="../../../assets/images/assist/bar_pop.png" />
           <span>&nbsp;{{ currentArmy.pop }} / {{ currentArmy.max_pop }}</span>
         </div>
-      </el-tooltip>
+      </ae-tooltip>
 
-      <el-tooltip content="回合" placement="top" effect="light">
+      <ae-tooltip content="回合" placement="top" effect="light">
         <div>
           <img src="../../../assets/images/assist/bar_round.png" />
           <span>&nbsp;&nbsp;{{ currentArmy.current_round }}</span>
         </div>
-      </el-tooltip>
+      </ae-tooltip>
 
-      <el-tooltip content="阵营" placement="top" effect="light">
+      <ae-tooltip content="阵营" placement="top" effect="light">
         <div>
           <img src="../../../assets/images/assist/bar_camp.png" />
           <span>&nbsp;&nbsp;{{ currentArmy.camp }}</span>
         </div>
-      </el-tooltip>
+      </ae-tooltip>
     </div>
     <div class="bar_button">
       <el-button size="mini" :type="getButtonType" @click="goHome"
@@ -136,7 +136,7 @@ export default {
     margin-top: 15px;
     width: 40%;
     float: left;
-    .el-tooltip {
+    .ae-tooltip {
       float: left;
       width: 60px;
       font-size: 13px;

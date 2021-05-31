@@ -6,7 +6,7 @@
       :units="army.units"
       :armyColor="army.color"
       @unitOnClick="clickUnit"
-      :singo="singo"
+      :signal="signal"
     ></unit-view-list>
   </div>
 </template>
@@ -14,7 +14,7 @@
 <script>
 import UnitViewList from "./UnitViewList.vue";
 export default {
-  props: ["armys", "singo"],
+  props: ["armys", "signal"],
   components: {
     UnitViewList,
   },

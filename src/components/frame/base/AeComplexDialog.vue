@@ -199,6 +199,7 @@
             _this.$appHelper.setLoading();
           })
           .catch((error) => {
+            console.error(error);
             _this.$appHelper.setLoading();
           });
         });

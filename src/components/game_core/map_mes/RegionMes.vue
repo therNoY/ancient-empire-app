@@ -5,9 +5,9 @@
     <div v-if="region" style="height: 60%">
       <!--地形名称-->
       <div class="int_title">
-        <el-tag size="small" :type="tagType">
+        <uni-tag size="small" :type="tagType">
           {{ region.name }}
-        </el-tag>
+        </uni-tag>
       </div>
       <!--地形图片-->
       <div class="unit_p">
@@ -43,30 +43,30 @@
       </div>
       <!--地形数据-->
       <div class="unit_ci">
-        <el-tooltip content="增加防御" placement="bottom" effect="light">
+        <ae-tooltip content="增加防御" placement="bottom" effect="light">
           <div>
             <img src="../../../assets/images/assist/action_defense.png" />
             <span class="noBac">{{ region.buff }}</span>
           </div>
-        </el-tooltip>
-        <el-tooltip content="回合恢复" placement="bottom" effect="light">
+        </ae-tooltip>
+        <ae-tooltip content="回合恢复" placement="bottom" effect="light">
           <div>
             <img src="../../../assets/images/assist/action_restore.png" />
             <span class="noBac">{{ region.restore }}</span>
           </div>
-        </el-tooltip>
-        <el-tooltip content="增加金币" placement="bottom" effect="light">
+        </ae-tooltip>
+        <ae-tooltip content="增加金币" placement="bottom" effect="light">
           <div>
             <img src="../../../assets/images/assist/action_buy.png" />
             <span class="noBac">{{ region.tax }}</span>
           </div>
-        </el-tooltip>
-        <el-tooltip content="消耗移动" placement="bottom" effect="light">
+        </ae-tooltip>
+        <ae-tooltip content="消耗移动" placement="bottom" effect="light">
           <div>
             <img src="../../../assets/images/assist/action_move.png" />
             <span class="noBac">{{ region.deplete }}</span>
           </div>
-        </el-tooltip>
+        </ae-tooltip>
       </div>
       <div class="region_description">描述：{{ region.description }}</div>
     </div>

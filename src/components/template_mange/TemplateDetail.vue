@@ -11,7 +11,7 @@
         ref="templateInfoForm"
         :edit="model == 'myTemp'"
         :dataObj="TemplateDetail"
-        :singo="singo"
+        :signal="signal"
         :templateId="TemplateDetail.id"
         :formConfig="templateInfoFormConfig"
       >
@@ -193,7 +193,7 @@ export default {
       activeNames: ["1"],
       showDetail: true,
       derivativeTip: "具有召唤能力的单位从坟墓中召唤出来的单位类型",
-      singo: 0,
+      signal: 0,
       downloadComment: {},
       dialogTimer: null,
     };
@@ -201,10 +201,10 @@ export default {
   methods: {
     onDialogCreate() {
       this.dialogTimer = setInterval(() => {
-        if (this.singo < 1000) {
-          this.singo++;
+        if (this.signal < 1000) {
+          this.signal++;
         } else {
-          this.singo = 0;
+          this.signal = 0;
         }
       }, 500);
       this.templateInfoFormConfig;

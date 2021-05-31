@@ -11,7 +11,7 @@
         <ae-form
           ref="baseForm"
           :dataObj="dataObj"
-          :singo="singo"
+          :signal="signal"
           :templateId="templateId"
           :edit="edit"
           :formConfig="config"
@@ -42,7 +42,7 @@ export default {
       type: Boolean,
       default: false,
     },
-    singo: {
+    signal: {
       type: Number,
       default: 0,
     },

@@ -140,8 +140,8 @@
         this.vueStyle.dialogLeft = "0";
         this.vueStyle.dialogTop = "0";
       } else {
-        this.vueStyle.dialogLeft = this.top + "%";
-        this.vueStyle.dialogTop = (100 - this.width) / 2 + "%";
+        this.vueStyle.dialogTop = this.top + "%";
+        this.vueStyle.dialogLeft = (100 - this.width) / 2 + "%";
       }
       // #ifdef H5
       this.closeButtonSiz = 25;

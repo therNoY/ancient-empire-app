@@ -6,8 +6,8 @@
         <img :src="doneImg" />
       </div>
       <div v-else>
-        <img v-show="singo % 2 === 0" :src="unitImg" />
-        <img v-show="singo % 2 !== 0" :src="unitImg2" />
+        <img v-show="signal % 2 === 0" :src="unitImg" />
+        <img v-show="signal % 2 !== 0" :src="unitImg2" />
       </div>
     </div>
 

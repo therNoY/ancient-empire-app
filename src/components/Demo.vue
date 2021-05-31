@@ -34,7 +34,7 @@
         <img
           src="../assets/images/assist/cursor_00.png"
           :style="{top: position(1, currentPoint.row), left: position(1, currentPoint.column)}"
-          v-if="singo"
+          v-if="signal"
         />
         <img
           :style="{top: position(1, currentPoint.row), left: position(1, currentPoint.column)}"
@@ -89,7 +89,7 @@
             />
             <div v-else>
               <img
-                v-if="singo"
+                v-if="signal"
                 :src="img(army.color, unit.type)"
                 :style="{top: position(1, unit.row), left: position(1, unit.column), transitionDuration: (moveLength*0.25) + 's'}"
               />
@@ -142,7 +142,7 @@
         <img
           src="../assets/images/assist/cursor_03.png"
           :style="{top: attachTop(beAttachUnit.row), left: attachLeft(beAttachUnit.column)}"
-          v-if="singo"
+          v-if="signal"
         />
         <img
           :style="{top: attachTop(beAttachUnit.row), left: attachLeft(beAttachUnit.column)}"
@@ -205,7 +205,7 @@ export default {
       showAttachPoint: false,
       showAction: false,
       worker: null, // H5的后台任务 单独线程
-      singo: true, // 控制单位一闪一闪
+      signal: true, // 控制单位一闪一闪
       currentArmyIndex: 0, // 当前单位的军队index
       currentUnitIndex: 0, // 当前单位的Index
       currentUnit: { id: 0 }, // 表示当前的单位
@@ -716,7 +716,7 @@ export default {
       }
     },
     timer() {
-      this.singo = !this.singo;
+      this.signal = !this.signal;
     }
   },
   computed: {

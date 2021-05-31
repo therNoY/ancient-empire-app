@@ -31,11 +31,11 @@
         @dragenter="handleDragEnter($event, item, index)"
         @dragend="handleDragEnd($event, item, index)"
       >
-        <el-tooltip content="拖动改变顺序" placement="bottom" effect="light">
+        <ae-tooltip content="拖动改变顺序" placement="bottom" effect="light">
           <ae-click-point @clickPoint="clickPoint(index)">
             <img :src="$appHelper.getTemplateImg(item)" />
           </ae-click-point>
-        </el-tooltip>
+        </ae-tooltip>
       </div>
     </ae-base-dialog>
   </div>
@@ -49,7 +49,7 @@ export default {
     value: {
       type: String,
     },
-    singo: {
+    signal: {
       type: Number,
     },
     dialog_title: {
@@ -110,7 +110,7 @@ export default {
     animImg() {
       let list = this.value.split(",");
       if (list && list.length > 0) {
-        let index = this.singo % list.length;
+        let index = this.signal % list.length;
         let imgUrl = this.$appHelper.getTemplateImg(list[index]);
         return imgUrl;
       } else {

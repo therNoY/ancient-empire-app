@@ -1,7 +1,7 @@
 <template>
   <div class="ae-loading-container" v-show="globleLoading">
     <div class="ae-loading-body">
-      <unit :unit_id="unitId" :singo="singo"></unit>
+      <unit :unit_id="unitId" :signal="signal"></unit>
       <div>加载中...</div>
     </div>
   </div>
@@ -16,8 +16,8 @@ export default {
     return {
       loading: false,
       unitId: 1,
-      singo: 0,
-      timerChangeSingo: -1,
+      signal: 0,
+      timerChangesignal: -1,
     };
   },
   computed: {
@@ -31,7 +31,7 @@ export default {
       }
       this.loading = this.$store.getters.gloadLoading;
       if (!this.loading) {
-        clearInterval(this.timerChangeSingo);
+        clearInterval(this.timerChangesignal);
       }
       return this.$store.getters.gloadLoading;
     },
@@ -42,11 +42,11 @@ export default {
     },
     startWork() {
       let _this = this;
-      this.timerChangeSingo = setInterval(() => {
-        if (_this.singo < 1000) {
-          _this.singo++;
+      this.timerChangesignal = setInterval(() => {
+        if (_this.signal < 1000) {
+          _this.signal++;
         } else {
-          _this.singo = 0;
+          _this.signal = 0;
         }
       }, 300);
     },

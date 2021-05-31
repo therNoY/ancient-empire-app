@@ -1,8 +1,8 @@
 <!--简单显示单位-->
 <template>
   <div v-if="unit_id">
-    <img class="unit-img" v-show="singo % 2 == 0" :src="unitImg" />
-    <img class="unit-img" v-show="singo % 2 != 0" :src="unitImg2" />
+    <img class="unit-img" v-show="signal % 2 == 0" :src="unitImg" />
+    <img class="unit-img" v-show="signal % 2 != 0" :src="unitImg2" />
   </div>
 </template>
 
@@ -14,7 +14,7 @@ export default {
       type: String,
       default: "blue",
     },
-    singo: {
+    signal: {
       type: Number,
       default: 0,
     },

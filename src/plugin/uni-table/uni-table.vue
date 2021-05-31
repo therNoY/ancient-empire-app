@@ -314,30 +314,14 @@ $border-color: #ebeef5;
 	width: 100%;
 	border-radius: 5px;
 	// box-shadow: 0px 0px 3px 1px rgba(0, 0, 0, 0.1);
-	background-color: #fff;
 	/* #ifndef APP-NVUE */
 	box-sizing: border-box;
 	display: table;
 	overflow-x: auto;
-	::v-deep .uni-table-tr:nth-child(n + 2) {
-		&:hover {
-			background-color: #f5f7fa;
-		}
-	}
-	::v-deep .uni-table-thead {
-		.uni-table-tr {
-			// background-color: #f5f7fa;
-			&:hover {
-				background-color:#fafafa;
-			}
-		}
-	}
 	/* #endif */
 }
 
 .table--border {
-	border: 1px $border-color solid;
-	border-right: none;
 }
 
 .border-none {
@@ -347,11 +331,6 @@ $border-color: #ebeef5;
 }
 
 .table--stripe {
-	/* #ifndef APP-NVUE */
-	::v-deep .uni-table-tr:nth-child(2n + 3) {
-		background-color: #fafafa;
-	}
-	/* #endif */
 }
 
 /* 表格加载、无数据样式 */
@@ -366,7 +345,6 @@ $border-color: #ebeef5;
 	box-sizing: border-box;
 }
 .empty-border {
-	border-right: 1px $border-color solid;
 }
 .uni-table-text {
 	position: absolute;
@@ -383,7 +361,6 @@ $border-color: #ebeef5;
 	bottom: 0;
 	left: 0;
 	right: 0;
-	background-color: rgba(255, 255, 255, 0.8);
 	z-index: 99;
 	/* #ifndef APP-NVUE */
 	display: flex;
@@ -397,7 +374,6 @@ $border-color: #ebeef5;
 .uni-table--loader {
 	width: 30px;
 	height: 30px;
-	border: 2px solid #aaa;
 	// border-bottom-color: transparent;
 	border-radius: 50%;
 	/* #ifndef APP-NVUE */

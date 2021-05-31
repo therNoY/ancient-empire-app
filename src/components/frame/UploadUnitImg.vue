@@ -29,8 +29,8 @@
 
     <ae-base-dialog title="预览" :width="30" v-model="showPreview">
       <div v-for="(color,index) in colorList" :key = index class="previewImg">
-        <img v-show="singo % 2 == 0" :src="$appHelper.getUnitImg(previewUnitImg.img1, color)" />
-        <img v-show="singo % 2 != 0" :src="$appHelper.getUnitImg(previewUnitImg.img2, color)" />
+        <img v-show="signal % 2 == 0" :src="$appHelper.getUnitImg(previewUnitImg.img1, color)" />
+        <img v-show="signal % 2 != 0" :src="$appHelper.getUnitImg(previewUnitImg.img2, color)" />
       </div>
     </ae-base-dialog>
   </div>
@@ -56,8 +56,8 @@ export default {
       uploadImg: [],
       showPreview: false,
       saveButtonList: ["预览", "创建"],
-      timerChangeSingo: null,
-      singo: 0,
+      timerChangesignal: null,
+      signal: 0,
       colorList : ["blue", "red", "green", "black"],
       previewUnitImg: {},
     };
@@ -65,21 +65,21 @@ export default {
   methods: {
     onDialogCreate() {
       let _this = this;
-      if (this.timerChangeSingo == null) {
-        this.timerChangeSingo = setInterval(() => {
-          if (_this.singo < 1000) {
-            _this.singo++;
+      if (this.timerChangesignal == null) {
+        this.timerChangesignal = setInterval(() => {
+          if (_this.signal < 1000) {
+            _this.signal++;
           } else {
-            _this.singo = 0;
+            _this.signal = 0;
           }
         }, 300);
       }
       this.uploadImg = [];
     },
     onDialogDestroy() {
-      if (this.timerChangeSingo != null) {
-        clearInterval(this.timerChangeSingo);
-        this.timerChangeSingo = null;
+      if (this.timerChangesignal != null) {
+        clearInterval(this.timerChangesignal);
+        this.timerChangesignal = null;
       }
     },
     checkSize() {

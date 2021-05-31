@@ -4,11 +4,11 @@
     <div>
       <!--单位名称-->
       <div class="int_title">
-        <el-tag
+        <uni-tag
           v-if="unitInfo && unitInfo.unit_mes"
           size="small"
           :type="tagType"
-          >{{ unitInfo.unit_mes.name }}</el-tag
+          >{{ unitInfo.unit_mes.name }}</uni-tag
         >
       </div>
       <!--单位图片-->
@@ -24,7 +24,7 @@
           class="unit_view"
           :unit="unitInfo"
           :color="bg_color"
-          singo="1"
+          signal="1"
         ></unit-view>
       </div>
     </div>

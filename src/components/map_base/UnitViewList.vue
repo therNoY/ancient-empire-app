@@ -6,7 +6,7 @@
       :key="index"
       :unit="unit"
       :color="armyColor"
-      :singo="singo"
+      :signal="signal"
       @unitOnClick="unitOnClick"
     ></unit-view>
   </div>
@@ -18,7 +18,14 @@ export default {
   components: {
     UnitView,
   },
-  props: ["units", "armyColor", "singo"],
+  props: {
+    units:{},
+    armyColor:{},
+    // 信号
+    signal:{
+
+    }
+  },
   created() {},
   methods: {
     unitOnClick(unit) {

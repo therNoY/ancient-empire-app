@@ -16,17 +16,17 @@
           @clickPoint="addValue(item, index)"
           :disabled="disabled"
         >
-          <el-tooltip
+          <ae-tooltip
             v-if="showTipKey"
             :content="item[showTipKey]"
             placement="top"
             effect="light"
           >
-            <el-tag effect="dark">{{ showKey ? item[showKey] : item }}</el-tag>
-          </el-tooltip>
-          <el-tag v-else effect="dark">{{
+            <uni-tag type="primary">{{ showKey ? item[showKey] : item }}</uni-tag>
+          </ae-tooltip>
+          <uni-tag v-else type="success">{{
             showKey ? item[showKey] : item
-          }}</el-tag>
+          }}</uni-tag>
         </ae-click-point>
       </div>
     </div>
@@ -42,19 +42,19 @@
           :key="index"
           @clickPoint="removeValue(item, index)"
         >
-          <el-tooltip
+          <ae-tooltip
             v-if="showTipKey"
             :content="item[showTipKey]"
             placement="top"
             effect="light"
           >
-            <el-tag type="success" effect="dark">{{
+            <uni-tag type="success" effect="dark">{{
               showKey ? item[showKey] : item
-            }}</el-tag>
-          </el-tooltip>
-          <el-tag v-else type="success" effect="dark">{{
+            }}</uni-tag>
+          </ae-tooltip>
+          <uni-tag v-else type="success" effect="dark">{{
             showKey ? item[showKey] : item
-          }}</el-tag>
+          }}</uni-tag>
         </ae-click-point>
       </div>
     </div>
