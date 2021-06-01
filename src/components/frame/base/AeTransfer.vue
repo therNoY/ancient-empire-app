@@ -22,9 +22,9 @@
             placement="top"
             effect="light"
           >
-            <uni-tag size="small" type="primary">{{ showKey ? item[showKey] : item }}</uni-tag>
+            <uni-tag :size="size" type="primary">{{ showKey ? item[showKey] : item }}</uni-tag>
           </ae-tooltip>
-          <uni-tag v-else type="success" size="small">{{
+          <uni-tag v-else type="success" :size="size">{{
             showKey ? item[showKey] : item
           }}</uni-tag>
         </ae-click-point>
@@ -48,11 +48,11 @@
             placement="top"
             effect="light"
           >
-            <uni-tag type="success" size="small" effect="dark">{{
+            <uni-tag type="success" :size="size" effect="dark">{{
               showKey ? item[showKey] : item
             }}</uni-tag>
           </ae-tooltip>
-          <uni-tag v-else type="success" size="small" effect="dark">{{
+          <uni-tag v-else type="success" :size="size" effect="dark">{{
             showKey ? item[showKey] : item
           }}</uni-tag>
         </ae-click-point>
@@ -137,18 +137,18 @@ export default {
 <style lang="scss" scoped>
 .transfer_body {
   width: 100%;
-  float: left;
   font-size: 12px;
-  .transfer_left {
+  display: flex;
+  flex-direction: row;
+  border-top: 2px #242424 solid;
+  border-left: 2px #242424 solid;
+  border-right: 2px #aaaaaa solid;
+  border-bottom: 2px #aaaaaa solid;
+  .transfer_left, .transfer_right {
     width: 45%;
-    float: left;
+    padding: 2%;
     color: white;
-  }
-  .transfer_right {
-    width: 45%;
-    float: left;
-    margin-left: 5%;
-    color: white;
+    justify-content: space-around
   }
   .transfer_item {
     float: left;

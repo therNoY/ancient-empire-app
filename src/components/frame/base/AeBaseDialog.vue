@@ -1,71 +1,70 @@
 <!--基础弹框-->
 <template>
-  <div
-    class="ae-base-dialog-container"
-    :style="{
-      display: vueStyle.dialogDisplay,
-      backgroundColor: vueStyle.dialogBackgroundColor,
-      left: vueStyle.dialogLeft,
-      top: vueStyle.dialogTop,
-      width: vueStyle.dialogWidth,
-    }"
-    v-if="value"
-  >
-    <ae-border
-      :noBorder="fullScreen"
+  <div class="ae-base-dialog-base" v-if="value">
+    <div
+      class="ae-base-dialog-container"
       :style="{
-        width: vueStyle.popupWidth,
-        height: vueStyle.popupHeight,
-        backgroundColor: vueStyle.mainBackgroundColor,
+        display: vueStyle.dialogDisplay,
+        backgroundColor: vueStyle.dialogBackgroundColor,
+        left: vueStyle.dialogLeft,
+        top: vueStyle.dialogTop,
+        width: vueStyle.dialogWidth,
       }"
     >
-      <div
-        class="ae-base-dialog-popup"
-        :class="[fullScreen ? 'fullScreenStyle' : 'h5Style']"
-        :style="{ width: vueStyle.popupWidth }"
+      <ae-border
+        :noBorder="fullScreen"
+        :style="{
+          width: vueStyle.popupWidth,
+          height: vueStyle.popupHeight,
+          backgroundColor: vueStyle.mainBackgroundColor,
+        }"
       >
         <div
-          class="ae-base-dialog-content"
-          :style="{ width: vueStyle.contentWidth }"
+          class="ae-base-dialog-popup"
+          :class="[fullScreen ? 'fullScreenStyle' : 'h5Style']"
+          :style="{ width: vueStyle.popupWidth }"
         >
-          <div class="ae-base-dialog-popup-header" v-if="!fullScreen">
-            <span>{{ title }}</span>
-            <!-- #ifdef H5 -->
-            <uni-icons
-              type="closeempty"
-              color="#b0b8ac"
-              class="btn-close"
-              :size="closeButtonSiz"
-              @click="close"
-            />
-            <!-- #endif -->
-          </div>
           <div
-            class="ae-base-dialog-popup-main"
-            :style="{ padding: mainPadding }"
+            class="ae-base-dialog-content"
+            :style="{ width: vueStyle.contentWidth }"
           >
-            <slot />
-          </div>
-          <div class="ae-base-dialog-footer">
-            <slot name="footer"></slot>
+            <div class="ae-base-dialog-popup-header" v-if="!fullScreen">
+              <span>{{ title }}</span>
+              <!-- #ifdef H5 -->
+              <uni-icons
+                type="closeempty"
+                color="#b0b8ac"
+                class="btn-close"
+                :size="closeButtonSiz"
+                @click="close"
+              />
+              <!-- #endif -->
+            </div>
+            <div
+              class="ae-base-dialog-popup-main"
+              :style="{ padding: mainPadding }"
+            >
+              <slot />
+            </div>
+            <div class="ae-base-dialog-footer">
+              <slot name="footer"></slot>
+            </div>
           </div>
         </div>
-      </div>
-    </ae-border>
+      </ae-border>
 
-    <!-- #ifndef H5 -->
+      <ae-tip
+        v-show="showTip"
+        v-model="showTip"
+        :closeTip="closeTip"
+        @ok="closeOk"
+      ></ae-tip>
+    </div>
     <img
       class="app-close-button click-cursor"
       @click="close"
       src="../../../assets/images/assist/return1.png"
     />
-    <!-- #endif -->
-    <ae-tip
-      v-show="showTip"
-      v-model="showTip"
-      :closeTip="closeTip"
-      @ok="closeOk"
-    ></ae-tip>
   </div>
 </template>
 
@@ -128,7 +127,7 @@ export default {
         dialogTop: null,
         borderWidth: null,
         contentWidth: null,
-        dialogWidth:'100%',
+        dialogWidth: "100%",
       },
     };
   },
@@ -166,7 +165,7 @@ export default {
       this.vueStyle.dialogTop = "0";
     } else {
       this.vueStyle.dialogTop = this.top + "%";
-      this.vueStyle.dialogLeft = (100 - this.width) / 2 + "%";
+      this.vueStyle.dialogLeft = (100 - this.width) / 2.5 + "%";
       // #ifndef H5
       this.vueStyle.dialogWidth = this.width + "%";
       // #endif
@@ -192,6 +191,16 @@ export default {
 </script>
 
 <style lang="scss" scope>
+.ae-base-dialog-base {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width:100%;
+  height:100%;
+  background-color: rgba(167, 167, 167, 0.3);
+  z-index: 9999;
+}
+
 .ae-base-dialog-container {
   position: fixed;
   display: flex;
@@ -274,5 +283,6 @@ export default {
   height: 32px;
   right: 3px;
   bottom: 3px;
+  z-index: 10000;
 }
 </style>

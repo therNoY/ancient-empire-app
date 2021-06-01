@@ -22,6 +22,7 @@ export default {
   },
   methods: {
     clickPoint() {
+      console.log("点击clickPoint")
       if (!this.disabled) {
         this.$emit("clickPoint");
       }

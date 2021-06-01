@@ -14,11 +14,15 @@
         :style="{ width: renderConfig.width, height: renderConfig.height }"
       />
     </div>
+    <div v-else-if="renderConfig.label === 'aeButton'">
+      <ae-button :width="renderConfig.width" :size="renderConfig.size" @click="renderConfig['click']()">{{ renderConfig.slot }}</ae-button>
+    </div>
   </div>
 </template>
 
 <script>
 const dynamicRender = function (label, options, slot) {
+
   let renderConfig = {
     label: label,
     slot: slot,
@@ -26,6 +30,15 @@ const dynamicRender = function (label, options, slot) {
 
   if (options.attrs) {
     renderConfig = Object.assign(renderConfig, options.attrs);
+  }
+  if (options.props) {
+    renderConfig = Object.assign(renderConfig, options.props);
+  }
+
+  if (options.on) {
+    for(let key in options.on) {
+      renderConfig[key] = options.on[key];
+    }
   }
 
   return renderConfig;
@@ -36,6 +49,8 @@ export default {
       type: String,
     },
     item: {},
+    itemList:{},
+    // 微信小程序使用 function传递值为空 可以根据发function渲染 也可以根据 functionIndex
     componentFunction: {
       type: Function,
     },
@@ -52,7 +67,7 @@ export default {
     if (this.componentFunction instanceof Function) {
       this.renderConfig = this.componentFunction(dynamicRender, this.item);
     } else {
-      this.renderConfig = this.$parent.realShowItem[this.functionIndex](
+      this.renderConfig = this.itemList[this.functionIndex](
         dynamicRender,
         this.item
       );
@@ -63,7 +78,7 @@ export default {
       if (this.componentFunction instanceof Function) {
         this.renderConfig = this.componentFunction(dynamicRender, this.item);
       } else {
-        this.renderConfig = this.$parent.realShowItem[this.functionIndex](
+        this.renderConfig = this.itemList[this.functionIndex](
           dynamicRender,
           this.item
         );

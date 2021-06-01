@@ -6,7 +6,7 @@
       placeholder="最小值"
       :width="100"
       v-model="min"
-      :disabled="!editAble"
+      :editAble="editAble"
       @onChange="minValueChange"
     />
     <div class="ae-range-select-mid"> - </div>
@@ -69,18 +69,17 @@ export default {
 
 <style lang="scss"  scoped>
 .ae-range-select {
-  width: 100%;
+  width: 96%;
   display: flex;
   flex-direction: row;
-  align-items: baseline;
   .ae-range-select-mid {
-    width: 2%;
+    width: 4%;
     color: white;
     font-size: 14px;
-    padding-top: 15px;
+    align-self: center;
   }
   .ae-range-select-input {
-    width: 30%;
+    width: 38%;
   }
 }
 </style>

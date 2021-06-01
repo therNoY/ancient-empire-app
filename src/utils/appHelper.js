@@ -181,6 +181,7 @@ const appHelper = {
 	},
 
 	bindPage2Global: function(vue, name) {
+		vue.bindTime = new Date();
 		// #ifdef H5
 		window[name] = vue;
 		// #endif

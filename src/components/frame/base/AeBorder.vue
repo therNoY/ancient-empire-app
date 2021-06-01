@@ -54,10 +54,6 @@
     },
     computed: {},
     mounted(){
-      let query = uni.createSelectorQuery().in(this);
-      query.select('.ae-border-content-slot').boundingClientRect(data => {
-        console.log(data)
-      }).exec();
     },
     created() {
     },

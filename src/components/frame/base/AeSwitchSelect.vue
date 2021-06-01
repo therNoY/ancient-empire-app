@@ -68,6 +68,9 @@
     },
     methods: {
       getRightItem() {
+        if(!this.editAble) {
+          return
+        }
         if (this.showIndex > 0) {
           this.$emit("input", this.items[this.showIndex - 1].key);
         } else {
@@ -75,6 +78,9 @@
         }
       },
       getLeftItem() {
+        if(!this.editAble) {
+          return
+        }
         if (this.showIndex < this.items.length - 1) {
           this.$emit("input", this.items[this.showIndex + 1].key);
         } else {
@@ -90,6 +96,7 @@
             return item.value;
           }
         }
+        console.error("获取展示值错误", this.items, this.value);
       },
     },
   };

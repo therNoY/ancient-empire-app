@@ -4,7 +4,7 @@
     input, switchSelect, userMapSelect
  -->
 <template>
-  <div class="ae-form-content">
+  <div :class="['ae-form-content', hasBorder ? 'ae-form-border' : '']">
     <div
       v-for="(form, index) in formConfig"
       :key="index"
@@ -105,6 +105,10 @@ export default {
       default: 1,
     },
     templateId:{
+    },
+    hasBorder:{
+      type:Boolean,
+      default:false,
     }
   },
   data() {
@@ -184,6 +188,12 @@ export default {
     .half-width{
       width:50%
     }
+  }
+  .ae-form-border{
+    border-top: 2px #242424 solid;
+    border-left: 2px #242424 solid;
+    border-right: 2px #aaaaaa solid;
+    border-bottom: 2px #aaaaaa solid;
   }
 
 </style>

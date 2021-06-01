@@ -37,8 +37,9 @@
         <ae-form
           ref="unitBaseInfoForm"
           :dataObj="unit"
+          hasBorder
           :edit="showPageIndex == '1'"
-          :column="unitInfoShowColumn"
+          :column="formShowColumn"
           :formConfig="unitBaseInfoFormConfig"
         />
       </div>
@@ -59,7 +60,7 @@
         :showItem="unitLevelShowItem"
       >
       </ae-data-grid>
-      <ae-button-list
+      <ae-button-list slot="footer"
         :buttonList="getButtonList"
         :clickAction="getClickAction"
       ></ae-button-list>
@@ -67,7 +68,7 @@
 
     <ae-base-dialog
       :title="$t('unitManagement.changeLevelInfo')"
-      :width="40"
+      :width="unitLevelInfoWidth"
       v-model="editUnitLevelInfoDialog"
     >
       <ae-form
@@ -75,15 +76,18 @@
         v-if="currentLevelInfo"
         :dataObj="currentLevelInfo"
         :edit="showPageIndex == '1'"
+        :column="formShowColumn"
         :formConfig="unitLevelInfoFormConfig"
       />
-      <ae-button @click="saveLevelInfo">{{ $t("common.sure") }}</ae-button>
+      <div style="width:40%;margin-left:30%" slot="footer">
+        <ae-button @click="saveLevelInfo">{{ $t("common.sure") }}</ae-button>
+      </div>
     </ae-base-dialog>
 
     <start-comment ref="startComment" @ok="handleDownload" />
     <upload-unit-img
       ref="uploadUnitImg"
-      v-model="showUplpadUnitImg"
+      v-model="showUploadUnitImg"
       @uploadOk="createUnit"
     />
   </div>
@@ -125,7 +129,8 @@ export default {
   data() {
     return {
       unitInfoWidth: 48,
-      unitInfoShowColumn: 1,
+      unitLevelInfoWidth: 40,
+      formShowColumn: 1,
       titleSwitchSelect: {
         type: "switchSelect",
         key: "queryType",
@@ -154,7 +159,7 @@ export default {
           name: this.$t("common.add"),
           action: () =>
             this.$appHelper.showTip(createUnitTip, () => {
-              this.showUplpadUnitImg = true;
+              this.showUploadUnitImg = true;
             }),
         },
       ],
@@ -481,21 +486,6 @@ export default {
         this.$t("unitManagement.magicDefense"),
         this.$t("unitManagement.maxLife"),
         this.$t("unitManagement.mobility"),
-        (h, p) => {
-          return h(
-            "aeButton",
-            {
-              props: {
-                width: 80,
-                size: 12,
-              },
-              on: {
-                onClick: this.addNewLevel,
-              },
-            },
-            this.$t("common.add")
-          );
-        },
       ],
       unitLevelShowItem: [
         "level",
@@ -505,23 +495,8 @@ export default {
         "magic_defense",
         "max_life",
         "speed",
-        (h, p) => {
-          return h(
-            "aeButton",
-            {
-              props: {
-                width: 80,
-                size: 12,
-              },
-              on: {
-                onClick: () => this.editUnitLevelInfo(p),
-              },
-            },
-            this.$t("common.change")
-          );
-        },
       ],
-      showUplpadUnitImg: false,
+      showUploadUnitImg: false,
       newUploadImg: {},
     };
   },
@@ -696,25 +671,44 @@ export default {
     },
     switchChange(value) {
       this.showPageIndex = value;
+      if (value === "1") {
+        this.unitLevelShowTitle.push((h, p) => {
+          return h(
+              "aeButton",
+              {
+                props: {
+                  width: 80,
+                  size:0.65,
+                },
+                on: {
+                  click: this.addNewLevel,
+                },
+              },
+              this.$t("common.add")
+          );
+        });
+        this.unitLevelShowItem.push((h, p) => {
+          return h(
+              "aeButton",
+              {
+                props: {
+                  width: 70,
+                  size:0.65,
+                },
+                on: {
+                  click: () => this.editUnitLevelInfo(p),
+                },
+              },
+              this.$t("common.change")
+          );
+        });
+      } else {
+        this.unitLevelShowTitle.splice(7, 1);
+        this.unitLevelShowItem.splice(7, 1);
+      }
     },
   },
   computed: {
-    UnitImg() {
-      return function (id) {
-        return this.$appHelper.getUnitImg(id);
-      };
-    },
-    GetAttachType() {
-      return function (type) {
-        if (type == "1") {
-          return this.$t("unitManagement.physicalAttack");
-        } else if (type == "2") {
-          return this.$t("unitManagement.magicAttack");
-        } else {
-          return "-";
-        }
-      };
-    },
     getButtonList() {
       if (this.showPageIndex == "1") {
         if (this.diaTitle === this.$t("unitManagement.editUnit")) {
@@ -775,7 +769,8 @@ export default {
     this.$appHelper.bindPage2Global(this, "unitMesMangerVue");
     // #ifndef H5
     this.unitInfoWidth = 84;
-    this.unitInfoShowColumn = 2;
+    this.unitLevelInfoWidth = 80;
+    this.formShowColumn = 2;
     // #endif
   },
 };

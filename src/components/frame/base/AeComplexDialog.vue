@@ -209,7 +209,7 @@
         });
       },
       onDialogCreate() {
-        if (!this.titleSwitchSelect && this.queryDataGrid != null) {
+        if (this.queryDataGrid != null) {
           console.log("初始化查询");
           this.flushData();
         }

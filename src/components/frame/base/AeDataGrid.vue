@@ -8,7 +8,7 @@
               {{ key }}
             </div>
             <div v-else>
-              <ae-dynamic :componentFunction="key" :functionIndex="keyIndex"></ae-dynamic>
+              <ae-dynamic ref="titleDynamic" :itemList="showTitle" :componentFunction="key" :functionIndex="keyIndex"></ae-dynamic>
             </div>
           </td>
         </tr>
@@ -23,7 +23,7 @@
               {{ item[key] == null ? '' : item[key]}}
             </div>
             <div v-else>
-              <ae-dynamic :componentFunction="key" :functionIndex="keyIndex" :item="item"></ae-dynamic>
+              <ae-dynamic :componentFunction="key" :itemList="realShowItem" :functionIndex="keyIndex" :item="item"></ae-dynamic>
             </div>
           </td>
         </tr>
@@ -61,7 +61,6 @@
 export default {
   props: {
     data: {
-      type: Array,
     },
     showTitle: {
       type: Array,
@@ -105,7 +104,7 @@ export default {
   },
   watch: {
     data(_data) {
-      console.log("数据改变");
+      console.log("数据改变", _data);
       this.realDisplayData = [];
       this.realDisplayData = _data;
     },
