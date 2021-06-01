@@ -7,14 +7,14 @@
   <div class="ae-form-content">
     <div
       v-for="(form, index) in formConfig"
-      v-bind:key="index"
-      class="ae-form-item"
+      :key="index"
+      :class="['ae-form-item', column === 2 ? 'half-width' : '']"
     >
       <div class="ae-form-label">
         {{ form.des }}
       </div>
       <div class="ae-form-real-camp">
-        <div v-if="form.type == 'input'">
+        <div v-if="form.type === 'input'">
           <ae-input
             v-model="formData[form.key]"
             :type="form.style"
@@ -23,7 +23,7 @@
             :editAble="edit && !form.disabled"
           ></ae-input>
         </div>
-        <div v-else-if="form.type == 'switchSelect'">
+        <div v-else-if="form.type === 'switchSelect'">
           <ae-switch-select
             v-model="formData[form.key]"
             :default="form.default"
@@ -31,10 +31,10 @@
             :editAble="edit && !form.disabled"
           ></ae-switch-select>
         </div>
-        <div v-else-if="form.type == 'userMapSelect'">
+        <div v-else-if="form.type === 'userMapSelect'">
           <user-map-select v-model="formData[form.key]"></user-map-select>
         </div>
-        <div v-else-if="form.type == 'rangeSelect'">
+        <div v-else-if="form.type === 'rangeSelect'">
           <ae-range-select
             :minValue="formData[form.minKey]"
             :maxValue="formData[form.maxKey]"
@@ -46,20 +46,20 @@
           >
           </ae-range-select>
         </div>
-        <div v-else-if="form.type == 'unitRadio'">
+        <div v-else-if="form.type === 'unitRadio'">
           <unit-radio
             :editAble="edit && !form.disabled"
             v-model="formData[form.key]"
             :unitList="form.unitList"
           ></unit-radio>
         </div>
-        <div v-else-if="form.type == 'unitCheckbox'">
+        <div v-else-if="form.type === 'unitCheckbox'">
           <unit-checkbox
             :disabled="!edit || form.disabled"
             v-model="formData[form.key]"
           ></unit-checkbox>
         </div>
-        <div v-else-if="form.type == 'editableAnimate'">
+        <div v-else-if="form.type === 'editableAnimate'">
           <editable-animate
             :disabled="!edit || form.disabled"
             v-model="formData[form.key]"
@@ -100,6 +100,10 @@ export default {
       type: Number,
       default: 0,
     },
+    column:{
+      type: Number,
+      default: 1,
+    },
     templateId:{
     }
   },
@@ -114,7 +118,7 @@ export default {
         if (config.type === "rangeSelect") {
         }
         if (config.require && !this.formData[config.key]) {
-          this.$appHelper.infoMsg(config.des + "不能为空");
+          this.$appHelper.infoMsg(config.des + this.$t('common.notNull'));
           throw new Error("数据" + config.des + "不完整");
         }
       }
@@ -155,10 +159,13 @@ export default {
 <style lang="scss"  scoped>
   .ae-form-content{
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    flex-wrap: wrap;
     .ae-form-item {
       width: 100%;
+      /* #ifdef H5*/
       height: 40px;
+      /* #endif */
       display: flex;
       flex-direction: row;
       justify-content: space-between;
@@ -167,12 +174,15 @@ export default {
         width: 20%;
         color: white;
         /* #ifndef H5*/
-        font-size: 0.7rem;
+        font-size: 0.65rem;
         /* #endif*/
       }
       .ae-form-real-camp {
         width: 80%;
       }
+    }
+    .half-width{
+      width:50%
     }
   }
 

@@ -1,7 +1,7 @@
 <template>
   <div style="width: 100%">
     <div class="ae-data-grid">
-      <table v-if="realDiaplayData && realDiaplayData.length > 0" :style="{width:tableWidth}">
+      <table v-if="realDisplayData && realDisplayData.length > 0" :style="{width:tableWidth}">
         <tr v-if="showTitle && showTitle.length > 0" class="ae-data-grid-title">
           <td v-for="(key, keyIndex) in showTitle" :key="keyIndex" :style="{width:tdWidth}">
             <div v-if="isNotFunction(key)">
@@ -13,7 +13,7 @@
           </td>
         </tr>
         <tr
-          v-for="(item, index) in realDiaplayData"
+          v-for="(item, index) in realDisplayData"
           :key="index"
           @click="clickItem(index)"
           :class="index === selectIndex ? 'choose-td' : ''"
@@ -82,7 +82,7 @@ export default {
   data() {
     return {
       selectIndex: 0,
-      realDiaplayData: [],
+      realDisplayData: [],
     };
   },
   created() {
@@ -106,8 +106,8 @@ export default {
   watch: {
     data(_data) {
       console.log("数据改变");
-      this.realDiaplayData = [];
-      this.realDiaplayData = _data;
+      this.realDisplayData = [];
+      this.realDisplayData = _data;
     },
   },
   computed: {
@@ -116,8 +116,8 @@ export default {
         return this.showItem;
       } else {
         let realShowItems = [];
-        if (this.realDiaplayData && this.realDiaplayData.length > 0) {
-          for (let key in this.realDiaplayData[0]) {
+        if (this.realDisplayData && this.realDisplayData.length > 0) {
+          for (let key in this.realDisplayData[0]) {
             realShowItems.push(key);
           }
         }
@@ -168,7 +168,6 @@ export default {
     font-size: 13px;
     /* #endif */
     /* #ifndef H5 */
-    font-size: 0.6rem;
     width: 140%;
     /* #endif */
     color: #ffffff;
@@ -197,7 +196,8 @@ export default {
     padding: 8px;
     /* #endif */
     /* #ifndef H5 */
-    padding: 4rpx;
+    padding: 3rpx;
+    font-size: 0.6rem;
     /* #endif */
     border-style: solid;
   }

@@ -130,6 +130,10 @@
       formConfig: {
         type: Array,
       },
+      column:{
+        type: Number,
+        default: 1,
+      },
       titleSwitchSelect: {
         type: Object,
         default: null,

@@ -23,11 +23,11 @@
       v-model="dialogVisible"
       inlineDialog
       :top="3"
-      :width="48"
+      :width="unitInfoWidth"
     >
       <uni-segmented-control
         :current="currentActiveTab"
-        :values="tabitems"
+        :values="tabItems"
         style-type="text"
         active-color="#4993a0"
         @clickItem="onClickTab"
@@ -38,6 +38,7 @@
           ref="unitBaseInfoForm"
           :dataObj="unit"
           :edit="showPageIndex == '1'"
+          :column="unitInfoShowColumn"
           :formConfig="unitBaseInfoFormConfig"
         />
       </div>
@@ -65,7 +66,7 @@
     </ae-base-dialog>
 
     <ae-base-dialog
-      title="修改等级信息"
+      :title="$t('unitManagement.changeLevelInfo')"
       :width="40"
       v-model="editUnitLevelInfoDialog"
     >
@@ -76,7 +77,7 @@
         :edit="showPageIndex == '1'"
         :formConfig="unitLevelInfoFormConfig"
       />
-      <ae-button @click="saveLevelInfo">确 定</ae-button>
+      <ae-button @click="saveLevelInfo">{{ $t("common.sure") }}</ae-button>
     </ae-base-dialog>
 
     <start-comment ref="startComment" @ok="handleDownload" />
@@ -123,6 +124,8 @@ export default {
   },
   data() {
     return {
+      unitInfoWidth: 48,
+      unitInfoShowColumn: 1,
       titleSwitchSelect: {
         type: "switchSelect",
         key: "queryType",
@@ -131,24 +134,24 @@ export default {
         items: [
           {
             key: "1",
-            value: "我的单位",
+            value: this.$t("unitManagement.myUnit"),
             query: GetUserCreateUnitMes,
           },
           {
             key: "2",
-            value: "我的下载",
+            value: this.$t("common.myDownload"),
             query: GetUserDownloadUnitList,
           },
           {
             key: "3",
-            value: "单位商城",
+            value: this.$t("unitManagement.unitShop"),
             query: GetCanDownloadUnit,
           },
         ],
       },
       titleButtonList: [
         {
-          name: "新增",
+          name: this.$t("common.add"),
           action: () =>
             this.$appHelper.showTip(createUnitTip, () => {
               this.showUplpadUnitImg = true;
@@ -159,25 +162,30 @@ export default {
       showPageIndex: "1",
       unit: {},
       currentActiveTab: 0,
-      tabitems: ["基础信息", "绑定能力", "等级面板"],
+      tabItems: [
+        this.$t("unitManagement.baseInfo"),
+        this.$t("unitManagement.bindAbility"),
+        this.$t("unitManagement.levelData"),
+        "",
+      ],
       unitBaseInfoFormConfig: [
         {
           type: "input",
           key: "name",
-          des: "名称",
+          des: this.$t("common.name"),
         },
         {
           type: "switchSelect",
           key: "attack_type",
-          des: "攻击类型",
+          des: this.$t("unitManagement.attachType"),
           items: [
             {
               key: "1",
-              value: "物理攻击",
+              value: this.$t("unitManagement.physicalAttack"),
             },
             {
               key: "2",
-              value: "魔法攻击",
+              value: this.$t("unitManagement.magicAttack"),
             },
           ],
         },
@@ -185,38 +193,39 @@ export default {
           type: "rangeSelect",
           minKey: "min_attach_range",
           maxKey: "max_attach_range",
-          des: "攻击范围",
+          des: this.$t("unitManagement.attachArea"),
         },
         {
           type: "input",
           key: "population",
-          des: "人口",
+          des: this.$t("unitManagement.population"),
           style: "number",
         },
         {
           type: "input",
           key: "price",
-          des: "价格",
+          des: this.$t("unitManagement.price"),
           style: "number",
         },
         {
           type: "unitRadio",
           key: "promotion",
-          des: "晋升单位",
+          des: this.$t("unitManagement.promotion"),
           unitList: this.allUnitList,
         },
+
         {
           type: "switchSelect",
-          key: "tradeable",
-          des: "是否可以购买",
+          key: "tradable",
+          des: this.$t("unitManagement.tradable"),
           items: [
             {
               key: "1",
-              value: "是",
+              value: this.$t("common.yes"),
             },
             {
               key: "0",
-              value: "否",
+              value: this.$t("common.no"),
             },
           ],
         },
@@ -224,14 +233,14 @@ export default {
         {
           type: "input",
           key: "description",
-          des: "描述",
+          des: this.$t("common.description"),
         },
       ],
       unitLevelInfoFormConfig: [
         {
           type: "input",
           key: "level",
-          des: "等级",
+          des: this.$t("unitManagement.level"),
           style: "number",
           disabled: true,
           require: true,
@@ -239,49 +248,49 @@ export default {
         {
           type: "input",
           key: "min_attack",
-          des: "最小攻击",
+          des: this.$t("unitManagement.minAttack"),
           style: "number",
           require: true,
         },
         {
           type: "input",
           key: "max_attack",
-          des: "最大攻击",
+          des: this.$t("unitManagement.maxAttack"),
           style: "number",
           require: true,
         },
         {
           type: "input",
           key: "physical_defense",
-          des: "物理防御",
+          des: this.$t("unitManagement.physicalDefense"),
           style: "number",
           require: true,
         },
         {
           type: "input",
           key: "magic_defense",
-          des: "魔法防御",
+          des: this.$t("unitManagement.magicDefense"),
           style: "number",
           require: true,
         },
         {
           type: "input",
           key: "max_life",
-          des: "最大生命",
+          des: this.$t("unitManagement.maxLife"),
           style: "number",
           require: true,
         },
         {
           type: "input",
           key: "speed",
-          des: "移动力",
+          des: this.$t("unitManagement.mobility"),
           style: "number",
           require: true,
         },
       ],
       dialogVisible: false,
       editUnitLevelInfoDialog: false,
-      diaTitle: "新增单位",
+      diaTitle: this.$t("unitManagement.addNewUnit"),
       addLevel: false,
       activeName: "baseInfo",
       allAbilityList: [],
@@ -292,45 +301,45 @@ export default {
       },
       deleteAbleButList: [
         {
-          name: "详情",
+          name: this.$t("common.desc"),
           action: this.handleEdit,
         },
         {
-          name: "删除",
+          name: this.$t("common.delete"),
           action: this.handleDelete,
         },
       ],
       downloadButList: [
         {
-          name: "详情",
+          name: this.$t("common.desc"),
           action: this.handleEdit,
         },
         {
-          name: "下载",
+          name: this.$t("common.download"),
           action: this.downloadUnit,
         },
       ],
       currentLevelInfo: null,
       queryDataFunction: () => GetUserCreateUnitMes(),
       queryShowTitle: [
-        "单位",
-        "名称",
-        "攻击类型",
-        "攻击范围",
-        "价格",
-        "可以购买",
-        "晋升",
-        "版本",
+        this.$t("common.unit"),
+        this.$t("common.name"),
+        this.$t("unitManagement.attachType"),
+        this.$t("unitManagement.attachArea"),
+        this.$t("unitManagement.price"),
+        this.$t("unitManagement.tradable"),
+        this.$t("unitManagement.promotion"),
+        this.$t("common.version"),
       ],
       downShowTitle: [
-        "单位",
-        "名称",
-        "作者",
-        "可以购买",
-        "晋升",
-        "版本",
-        "评分",
-        "下载次数",
+        this.$t("common.unit"),
+        this.$t("common.name"),
+        this.$t("common.author"),
+        this.$t("unitManagement.tradable"),
+        this.$t("unitManagement.promotion"),
+        this.$t("common.version"),
+        this.$t("common.score"),
+        this.$t("common.downloadCount"),
       ],
       queryShowItem: [
         (h, p) => {
@@ -345,9 +354,9 @@ export default {
         "name",
         (h, p) => {
           if (p.attack_type == "1") {
-            return h("div", {}, "物理攻击");
+            return h("div", {}, this.$t("unitManagement.physicalAttack"));
           } else if (p.attack_type == "2") {
-            return h("div", {}, "魔法攻击");
+            return h("div", {}, this.$t("unitManagement.magicAttack"));
           }
         },
         (h, p) => {
@@ -355,10 +364,10 @@ export default {
         },
         "price",
         (h, p) => {
-          if (p.tradeable) {
-            return h("div", {}, "是");
+          if (p.tradable) {
+            return h("div", {}, this.$t("common.yes"));
           } else {
-            return h("div", {}, "否");
+            return h("div", {}, this.$t("common.no"));
           }
         },
         (h, p) => {
@@ -379,12 +388,26 @@ export default {
             return h(
               "div",
               {},
-              "V" + p.version + "(可更新至V" + p.max_version + ")"
+              "V" +
+                p.version +
+                "(" +
+                this.$t("common.draftVersion") +
+                "V" +
+                p.max_version +
+                ")"
             );
           } else if (p.status == "0") {
-            return h("div", {}, "V" + p.version + "(草稿版本)");
+            return h(
+              "div",
+              {},
+              "V" + p.version + "(" + this.$t("common.draftVersion") + ")"
+            );
           } else {
-            return h("div", {}, "V" + p.version + "(最新版本)");
+            return h(
+              "div",
+              {},
+              "V" + p.version + "(" + this.$t("common.latestVersion") + ")"
+            );
           }
         },
       ],
@@ -401,10 +424,10 @@ export default {
         "name",
         "create_user_name",
         (h, p) => {
-          if (p.tradeable) {
-            return h("div", {}, "是");
+          if (p.tradable) {
+            return h("div", {}, this.$t("common.yes"));
           } else {
-            return h("div", {}, "否");
+            return h("div", {}, this.$t("common.no"));
           }
         },
         (h, p) => {
@@ -425,25 +448,39 @@ export default {
             return h(
               "div",
               {},
-              "V" + p.version + "(可更新至V" + p.max_version + ")"
+              "V" +
+                p.version +
+                "(" +
+                this.$t("common.draftVersion") +
+                "V" +
+                p.max_version +
+                ")"
             );
           } else if (p.status == "0") {
-            return h("div", {}, "V" + p.version + "(草稿版本)");
+            return h(
+              "div",
+              {},
+              "V" + p.version + "(" + this.$t("common.draftVersion") + ")"
+            );
           } else {
-            return h("div", {}, "V" + p.version + "(最新版本)");
+            return h(
+              "div",
+              {},
+              "V" + p.version + "(" + this.$t("common.latestVersion") + ")"
+            );
           }
         },
         "start_count",
         "down_load_count",
       ],
       unitLevelShowTitle: [
-        "等级",
-        "最小攻击",
-        "最大攻击",
-        "物理防御",
-        "魔法防御",
-        "最大生命",
-        "移动力",
+        this.$t("unitManagement.level"),
+        this.$t("unitManagement.minAttack"),
+        this.$t("unitManagement.maxAttack"),
+        this.$t("unitManagement.physicalDefense"),
+        this.$t("unitManagement.magicDefense"),
+        this.$t("unitManagement.maxLife"),
+        this.$t("unitManagement.mobility"),
         (h, p) => {
           return h(
             "aeButton",
@@ -456,7 +493,7 @@ export default {
                 onClick: this.addNewLevel,
               },
             },
-            "新增"
+            this.$t("common.add")
           );
         },
       ],
@@ -480,7 +517,7 @@ export default {
                 onClick: () => this.editUnitLevelInfo(p),
               },
             },
-            "修改"
+            this.$t("common.change")
           );
         },
       ],
@@ -495,7 +532,7 @@ export default {
     createUnit(newImg) {
       this.newUploadImg = newImg;
       this.dialogVisible = true;
-      this.diaTitle = "新建单位";
+      this.diaTitle = this.$t("unitManagement.addNewUnit");
       this.unit = {};
       this.currUnitInfo.baseInfo = {};
       this.currUnitInfo.abilityInfo = [];
@@ -503,52 +540,38 @@ export default {
       console.log("创建单位");
     },
     doCreateNewUnit() {
-      this.$appHelper.setLoading();
       let args = {};
       args.opt_type = "3";
       args.new_upload_img = this.newUploadImg;
       args.base_info = this.unit;
       args.ability_info = this.currUnitInfo.abilityInfo;
       args.level_info_data = this.currUnitInfo.levelInfoData;
-      SaveUnitInfo(args)
-        .then((resp) => {
-          if (resp.res_code == 0) {
-            this.dialogVisible = false;
-            this.$appHelper.infoMsg("创建成功");
-          } else {
-            this.$appHelper.errorMsg(resp.res_mes);
-          }
-          this.$appHelper.setLoading();
-        })
-        .catch(function () {
-          console.log(error);
-          this.$appHelper.setLoading();
-        });
+      SaveUnitInfo(args).then((resp) => {
+        this.dialogVisible = false;
+        this.$appHelper.infoMsg(this.$t("common.addSuccess"));
+      });
     },
     downloadUnit() {
       this.$refs.startComment.showComment();
     },
-    reverVersion() {
+    /**
+     * 回退版本
+     */
+    revertVersion() {
       let unit = this.$refs.mainDialog.getDataGridSelect();
       if (unit.status == "0") {
         console.log("回退单位草稿版本");
         let args = {};
         args.unit_id = unit.id;
-        this.$appHelper.setLoading();
-        RevertUnitVersion(args)
-          .then((resp) => {
-            if (resp.res_code == 0) {
-              this.$appHelper.infoMsg("回退成功");
-              this.$refs.mainDialog.flushData();
-              this.dialogVisible = false;
-            }
-            this.$appHelper.setLoading();
-          })
-          .catch((error) => {
-            this.$appHelper.setLoading();
-          });
+        RevertUnitVersion(args).then((resp) => {
+          if (resp.res_code == 0) {
+            this.$appHelper.infoMsg(this.$t("common.rollbackSuccess"));
+            this.$refs.mainDialog.flushData();
+            this.dialogVisible = false;
+          }
+        });
       } else {
-        this.$appHelper.infoMsg("当前单位是正式版本 无需回退");
+        this.$appHelper.infoMsg(this.$t("common.cannotRollback"));
       }
     },
     updateVersion() {
@@ -556,71 +579,48 @@ export default {
       this.$appHelper.setLoading();
       let args = {};
       args.unit_id = unit.id;
-      UpdateUnitVersion(args)
-        .then((resp) => {
-          if (resp.res_code == "0") {
-            this.$appHelper.infoMsg("更新成功");
-            this.$refs.mainDialog.flushData();
-            this.dialogVisible = false;
-          } else {
-            this.$appHelper.infoMsg(resp.res_mes);
-          }
-          this.$appHelper.setLoading();
-        })
-        .catch((error) => {
-          this.$appHelper.setLoading();
-        });
+      UpdateUnitVersion(args).then((resp) => {
+        this.$appHelper.infoMsg(this.$t("common.updateSuccess"));
+        this.$refs.mainDialog.flushData();
+        this.dialogVisible = false;
+      });
     },
     save(optType = 0) {
       if (optType == "1") {
-        this.$appHelper.showTip("发布新版本会覆盖历史版本, 确定么？", () => {
+        this.$appHelper.showTip(this.$t("common.publicVersionTip"), () => {
           this.saveUnitInfo(optType);
         });
       } else {
-        this.$appHelper.showTip(
-          "保存之后 不会修改最新版本 需要发布才能生效",
-          () => {
-            this.saveUnitInfo(optType);
-          }
-        );
+        this.$appHelper.showTip(this.$t("common.saveDraftTip"), () => {
+          this.saveUnitInfo(optType);
+        });
       }
     },
     saveUnitInfo(optType) {
-      this.$appHelper.setLoading();
       let args = {};
       args.opt_type = optType;
       args.base_info = this.unit;
       args.ability_info = this.currUnitInfo.abilityInfo;
       args.level_info_data = this.currUnitInfo.levelInfoData;
-      SaveUnitInfo(args)
-        .then((resp) => {
-          if (resp.res_code == 0) {
-            this.dialogVisible = false;
-            this.$appHelper.infoMsg("保存成功");
-          } else {
-            this.$appHelper.errorMsg(resp.res_mes);
-          }
-          this.$appHelper.setLoading();
-        })
-        .catch(function (error) {
-          console.log(error);
-          this.$appHelper.setLoading();
-        });
+      SaveUnitInfo(args).then((resp) => {
+        this.dialogVisible = false;
+        this.$appHelper.infoMsg(this.$t("common.saveSuccess"));
+      });
     },
     onDialogCreate() {
       this.init();
     },
     handleEdit() {
       let unit = this.$refs.mainDialog.getDataGridSelect();
-      this.diaTitle = "编辑单位";
+      this.diaTitle = this.$t("unitManagement.editUnit");
       this.dialogVisible = true;
       this.unit = unit;
-      GetUnitAbilityInfo(unit.id).then((resp) => {
+      GetUnitAbilityInfo(unit.id, false).then((resp) => {
         if (resp.res_code == 0) {
           this.currUnitInfo.abilityInfo = resp.res_val;
         }
       });
-      GetUnitLevelInfoById(unit.id).then((resp) => {
+      GetUnitLevelInfoById(unit.id, false).then((resp) => {
         if (resp.res_code == 0) {
           this.currUnitInfo.levelInfoData = resp.res_val;
         }
@@ -629,40 +629,25 @@ export default {
     handleDelete() {
       let unit = this.$refs.mainDialog.getDataGridSelect();
       if (this.showPageIndex == "2") {
-        this.$appHelper.showTip("确定要删除下载么?", () => {
+        this.$appHelper.showTip(this.$t("common.deleteDownloadTip"), () => {
           let args = {};
           args.id = unit.id;
           this.$appHelper.setLoading();
-          DeletDownLoadUnit(args)
-            .then((resp) => {
-              if (resp.res_code == "0") {
-                this.$appHelper.infoMsg("删除成功");
-                this.$refs.mainDialog.flushData();
-                this.dialogVisible = false;
-              }
-              this.$appHelper.setLoading();
-            })
-            .catch((error) => {
-              this.$appHelper.setLoading();
-            });
+          DeletDownLoadUnit(args).then((resp) => {
+            this.$appHelper.infoMsg(this.$t("common.deleteSuccess"));
+            this.$refs.mainDialog.flushData();
+            this.dialogVisible = false;
+          });
         });
       } else if (this.showPageIndex == "1") {
-        this.$appHelper.showTip("操做将会永久删除单位信息,确实么?", () => {
+        this.$appHelper.showTip(this.$t("common.deleteEntryTip"), () => {
           let args = {};
           args.id = unit.id;
-          this.$appHelper.setLoading();
-          DeleteCreateUnit(args)
-            .then((resp) => {
-              if (resp.res_code == "0") {
-                this.$appHelper.infoMsg("删除成功");
-                this.$refs.mainDialog.flushData();
-                this.dialogVisible = false;
-              }
-              this.$appHelper.setLoading();
-            })
-            .catch((error) => {
-              this.$appHelper.setLoading();
-            });
+          DeleteCreateUnit(args).then((resp) => {
+            this.$appHelper.infoMsg(this.$t("common.deleteSuccess"));
+            this.$refs.mainDialog.flushData();
+            this.dialogVisible = false;
+          });
         });
       }
     },
@@ -671,19 +656,11 @@ export default {
       let args = {};
       args.unit_id = unit.id;
       args = Object.assign(commend, args);
-      this.$appHelper.setLoading();
-      DownLoadUnit(args)
-        .then((resp) => {
-          if (resp.res_code == "0") {
-            this.$appHelper.infoMsg("下载成功");
-            this.$refs.mainDialog.flushData();
-            this.dialogVisible = false;
-          }
-          this.$appHelper.setLoading();
-        })
-        .catch((error) => {
-          this.$appHelper.setLoading();
-        });
+      DownLoadUnit(args).then((resp) => {
+        this.$appHelper.infoMsg(this.$t("common.downloadSuccess"));
+        this.$refs.mainDialog.flushData();
+        this.dialogVisible = false;
+      });
     },
     editUnitLevelInfo(unitLevelInfo) {
       this.addLevel = false;
@@ -705,13 +682,13 @@ export default {
       }
     },
     init() {
-      GetAllUserEnableUnitMes().then((resp) => {
+      GetAllUserEnableUnitMes(false).then((resp) => {
         if (resp.res_code == 0) {
           this.allUnitList = resp.res_val;
           this.unitBaseInfoFormConfig[6].unitList = resp.res_val;
         }
       });
-      GetAllAbilityInfo().then((resp) => {
+      GetAllAbilityInfo(false).then((resp) => {
         if (resp.res_code == 0) {
           this.allAbilityList = resp.res_val;
         }
@@ -730,9 +707,9 @@ export default {
     GetAttachType() {
       return function (type) {
         if (type == "1") {
-          return "物理攻击";
+          return this.$t("unitManagement.physicalAttack");
         } else if (type == "2") {
-          return "魔法攻击";
+          return this.$t("unitManagement.magicAttack");
         } else {
           return "-";
         }
@@ -740,21 +717,28 @@ export default {
     },
     getButtonList() {
       if (this.showPageIndex == "1") {
-        if (this.diaTitle == "编辑单位") {
-          return ["保存草稿", "发布版本", "草稿回退"];
+        if (this.diaTitle === this.$t("unitManagement.editUnit")) {
+          return [
+            this.$t("common.saveDraft"),
+            this.$t("common.publicVersion"),
+            this.$t("common.draftRollback"),
+          ];
         } else {
-          return ["创 建", "返 回"];
+          return [this.$t("common.create"), this.$t("common.return")];
         }
       } else if (this.showPageIndex == "2") {
-        return ["更新版本", "删除下载"];
+        return [
+          this.$t("common.updateVersion"),
+          this.$t("common.deleteDownload"),
+        ];
       } else if (this.showPageIndex == "3") {
-        return ["下载单位"];
+        return [this.$t("common.download")];
       }
     },
     getClickAction() {
       if (this.showPageIndex == "1") {
-        if (this.diaTitle == "编辑单位") {
-          return [this.save, () => this.save(1), this.reverVersion];
+        if (this.diaTitle === this.$t("unitManagement.editUnit")) {
+          return [this.save, () => this.save(1), this.revertVersion];
         } else {
           return [this.doCreateNewUnit, () => (this.dialogVisible = false)];
         }
@@ -789,31 +773,17 @@ export default {
   created() {
     // 初始化
     this.$appHelper.bindPage2Global(this, "unitMesMangerVue");
+    // #ifndef H5
+    this.unitInfoWidth = 84;
+    this.unitInfoShowColumn = 2;
+    // #endif
   },
 };
 </script>
 
 <style lang="css" scoped>
-.unitMesMangerMainTableStyle {
-  max-height: 500px;
-  width: 100%;
-}
-
-.serchInput {
-  width: 200px;
-  float: left;
-}
-
-.addButton {
-  float: left;
-}
-
 .input_mes {
   padding: 1%;
-}
-
-.el-form-item__content {
-  float: left;
 }
 
 .levelInfoStyle th {

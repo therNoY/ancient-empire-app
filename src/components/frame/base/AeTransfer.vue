@@ -22,9 +22,9 @@
             placement="top"
             effect="light"
           >
-            <uni-tag type="primary">{{ showKey ? item[showKey] : item }}</uni-tag>
+            <uni-tag size="small" type="primary">{{ showKey ? item[showKey] : item }}</uni-tag>
           </ae-tooltip>
-          <uni-tag v-else type="success">{{
+          <uni-tag v-else type="success" size="small">{{
             showKey ? item[showKey] : item
           }}</uni-tag>
         </ae-click-point>
@@ -48,11 +48,11 @@
             placement="top"
             effect="light"
           >
-            <uni-tag type="success" effect="dark">{{
+            <uni-tag type="success" size="small" effect="dark">{{
               showKey ? item[showKey] : item
             }}</uni-tag>
           </ae-tooltip>
-          <uni-tag v-else type="success" effect="dark">{{
+          <uni-tag v-else type="success" size="small" effect="dark">{{
             showKey ? item[showKey] : item
           }}</uni-tag>
         </ae-click-point>
@@ -96,7 +96,9 @@ export default {
     },
   },
   data() {
-    return {};
+    return {
+      size:"normal",
+    };
   },
   computed: {
     addAbleList() {
@@ -125,6 +127,9 @@ export default {
     },
   },
   created() {
+    // #ifndef H5
+    this.size = 'small';
+    // #endif
   },
 };
 </script>

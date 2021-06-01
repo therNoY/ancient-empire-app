@@ -102,7 +102,7 @@
             },
             {
               key: "3",
-              value: this.$t("encounter.myDownload"),
+              value: this.$t("common.myDownload"),
               query: GetUserDownloadMap
             },
           ],

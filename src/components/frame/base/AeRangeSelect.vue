@@ -9,7 +9,7 @@
       :disabled="!editAble"
       @onChange="minValueChange"
     />
-    <div class="ae-range-select-mid">-</div>
+    <div class="ae-range-select-mid"> - </div>
     <ae-input
       class="ae-range-select-input"
       type="number"
@@ -70,16 +70,17 @@ export default {
 <style lang="scss"  scoped>
 .ae-range-select {
   width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
   .ae-range-select-mid {
     width: 2%;
-    float: left;
     color: white;
     font-size: 14px;
     padding-top: 15px;
   }
   .ae-range-select-input {
     width: 30%;
-    float: left;
   }
 }
 </style>
