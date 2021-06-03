@@ -1,14 +1,6 @@
 <template>
-  <div>
-    <el-upload
-      :action="uploadUrl"
-      :show-file-list="false"
-      :on-success="uploadSuccess"
-      :before-upload="beforeAvatarUpload"
-      :on-error="uploadError"
-    >
+  <div @click="beforeUpload">
       <slot></slot>
-    </el-upload>
   </div>
 </template>
 
@@ -30,33 +22,68 @@ export default {
   data() {
     return {
       uploadUrl: null,
+      uploadImgList: [],
     };
   },
   methods: {
-    beforeAvatarUpload(file) {
-      this.$emit("beforeUpload", file);
-      if (this.checkFunc) {
-        let res = this.checkFunc();
-        if (!res) {
-          return false;
+    beforeUpload(){
+      if (!this.checkFunc instanceof Function || this.checkFunc()) {
+        this.upload();
+      }
+    },
+    upload(){
+      let _this = this;
+      uni.chooseImage({
+        count: 1,
+        sizeType: ['compressed'],
+        sourceType: ['album'],
+        success: (res) => {
+          console.log('chooseImage success, temp path is', res.tempFilePaths[0]);
+          let imageSrc = res.tempFilePaths[0];
+          uni.uploadFile({
+            url: _this.uploadUrl,
+            filePath: imageSrc,
+            fileType: 'image',
+            name: 'file',
+            success: ({data}) => {
+              let {res_code, res_mes, res_val} = JSON.parse(data);
+              if (res_code !== 0) {
+                _this.$appHelper.errorMsg(res_mes);
+                _this.$emit("error");
+              } else {
+                _this.$appHelper.successMsg(_this.$t('common.uploadSuccess'));
+                _this.$emit("success", res_val);
+              }
+            },
+            fail: (err) => {
+              console.log('uploadImage fail', err);
+              _this.$appHelper.errorMsg(_this.$t('common.commonErr'));
+              _this.$emit("error");
+            }
+          });
+        },
+        fail: (err) => {
+          console.log('chooseImage fail', err);
+          // #ifdef MP
+          uni.getSetting({
+            success: (res) => {
+              let authStatus = res.authSetting['scope.album'];
+              if (!authStatus) {
+                uni.showModal({
+                  title: _this.$t("common.authErr"),
+                  content: _this.$t("common.gameName") + _this.$t("unitManagement.authErr"),
+                  success: (res) => {
+                    if (res.confirm) {
+                      uni.openSetting()
+                    }
+                  }
+                })
+              }
+            }
+          })
+          // #endif
         }
-      }
-      this.$appHelper.setLoading();
-    },
-    uploadSuccess(res, file) {
-      this.$appHelper.setLoading();
-      if (res.res_code == 0) {
-        console.log("上传文件成功保存文件名", res.res_val);
-        this.$emit("success", res.res_val);
-      } else {
-        this.$appHelper.errorMsg(res.res_mes);
-        this.$emit("error", res.res_val);
-      }
-    },
-    uploadError(files, fileList) {
-     this.$appHelper.setLoading();
-      this.$appHelper.errorMsg("系统异常,请联系游戏开发商");
-      this.$emit("error");
+      })
     },
   },
   created() {

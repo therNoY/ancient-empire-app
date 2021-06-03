@@ -1,5 +1,5 @@
 <template>
-  <div class="ae-loading-container" v-show="globleLoading">
+  <div class="ae-loading-container" v-show="loading">
     <div class="ae-loading-body">
       <unit :unit_id="unitId" :signal="signal"></unit>
       <div>加载中...</div>
@@ -11,6 +11,12 @@
 import Unit from "../Unit.vue";
 
 export default {
+  props:{
+    showLoading:{
+      type:Boolean,
+      default: false,
+    }
+  },
   components: { Unit },
   data() {
     return {
@@ -20,21 +26,18 @@ export default {
       timerChangesignal: -1,
     };
   },
-  computed: {
-    globleLoading() {
-      if (
-        this.loading != this.$store.getters.gloadLoading &&
-        this.$store.getters.gloadLoading
-      ) {
+  watch:{
+    showLoading(show){
+      this.loading = show;
+      if (this.loading) {
         this.changeUnit();
         this.startWork();
-      }
-      this.loading = this.$store.getters.gloadLoading;
-      if (!this.loading) {
+      } else {
         clearInterval(this.timerChangesignal);
       }
-      return this.$store.getters.gloadLoading;
-    },
+    }
+  },
+  computed: {
   },
   methods: {
     changeUnit() {

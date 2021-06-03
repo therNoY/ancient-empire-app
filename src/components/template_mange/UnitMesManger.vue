@@ -551,7 +551,6 @@ export default {
     },
     updateVersion() {
       let unit = this.$refs.mainDialog.getDataGridSelect();
-      this.$appHelper.setLoading();
       let args = {};
       args.unit_id = unit.id;
       UpdateUnitVersion(args).then((resp) => {
@@ -603,18 +602,17 @@ export default {
     },
     handleDelete() {
       let unit = this.$refs.mainDialog.getDataGridSelect();
-      if (this.showPageIndex == "2") {
+      if (this.showPageIndex === "2") {
         this.$appHelper.showTip(this.$t("common.deleteDownloadTip"), () => {
           let args = {};
           args.id = unit.id;
-          this.$appHelper.setLoading();
           DeletDownLoadUnit(args).then((resp) => {
             this.$appHelper.infoMsg(this.$t("common.deleteSuccess"));
             this.$refs.mainDialog.flushData();
             this.dialogVisible = false;
           });
         });
-      } else if (this.showPageIndex == "1") {
+      } else if (this.showPageIndex === "1") {
         this.$appHelper.showTip(this.$t("common.deleteEntryTip"), () => {
           let args = {};
           args.id = unit.id;

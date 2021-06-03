@@ -13,11 +13,16 @@
 
       <div class="ae-dialog-body-title">
         <ae-button-list
-            v-if="titleButtons && setFullScreen.length > 0"
+            v-if="titleButtons && titleButtons.length > 1"
             :style="{'width':vueStyle.titleButtonWidth}"
             :buttonList="titleButtons.map((a) => a.name)"
             :clickAction="titleButtons.map((a) => a.action)"
         ></ae-button-list>
+        <ae-button
+            :style="{'width':vueStyle.titleButtonWidth}"
+            v-if="titleButtons && titleButtons.length === 1"
+            @click="titleButtons[0].action"
+        >{{titleButtons[0].name}}</ae-button>
         <ae-switch-select
             v-if="titleSwitchSelect"
             ref="titleSwitchSelect"
@@ -251,7 +256,10 @@
           } else if (!this.showSearch && this.titleSwitchSelect) {
             this.vueStyle.titleButtonWidth = "20%";
           } else {
-            this.vueStyle.titleButtonWidth = "15%";
+            this.vueStyle.titleButtonWidth = "10%";
+            // #ifndef H5
+            this.vueStyle.titleButtonWidth = "14%";
+            // #endif
           }
         } else {
           this.vueStyle.titleButtonWidth = "50%";
@@ -309,7 +317,7 @@
     .ae-dialog-body-title {
       display: flex !important;
       flex-direction: row;
-      align-items: flex-end;
+      align-items: center;
       justify-content: space-between;
     }
 

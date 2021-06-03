@@ -44,7 +44,10 @@ page {
 .disable-cursor{
   cursor: not-allowed;
 }
-
+.upload-img-icon{
+  width: 32px;
+  height: 32px;
+}
 .click-cursor{
   cursor: pointer;
 }

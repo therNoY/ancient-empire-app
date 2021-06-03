@@ -91,7 +91,7 @@ export function request(url = '', data = {}, type = 'POST', showLoading = true, 
   let realUrl = getRealUrl(url);
   return new Promise((resolve, reject) => {
     if (showLoading) {
-      appHelper.setLoading();
+      appHelper.setLoading(true);
     }
     uni.request({
       url: realUrl,
@@ -101,7 +101,7 @@ export function request(url = '', data = {}, type = 'POST', showLoading = true, 
       timeout: serviceConfig.timeout,
       success: response => {
         if (showLoading) {
-          appHelper.setLoading();
+          appHelper.setLoading(false);
         }
 
         if (!response || !response.data) {
@@ -128,10 +128,11 @@ export function request(url = '', data = {}, type = 'POST', showLoading = true, 
         }
       },
       fail: (res) => {
-        reject(res);
         if (showLoading) {
-          appHelper.setLoading();
+          appHelper.setLoading(false);
         }
+        console.error("请求报错", res);
+        reject(res);
       }
     });
   });

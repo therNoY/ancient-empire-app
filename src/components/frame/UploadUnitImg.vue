@@ -1,15 +1,14 @@
 <template>
   <div>
-    <ae-base-dialog title="上传图片" v-model="showModel">
-      <div style="width: 100%; float: left">
+    <ae-base-dialog :title="$t('common.uploadImg')" v-model="showModel">
+      <div class="upload-unit-img">
         <upload-game-img
           class="uploadComp"
-          @beforeUpload="checkSize"
-          :unitId="unitId"
           :checkFunc="checkSize"
+          :unitId="unitId"
           @success="uploadSuccess"
         >
-          <ae-button :width="80">上传</ae-button>
+          <img class="upload-img-icon click-cursor" src="../../assets/images/assist/add.png"/>
         </upload-game-img>
         <div
           class="uploadImg"
@@ -22,15 +21,16 @@
         </div>
       </div>
       <ae-button-list
+        slot="footer"
         :buttonList="saveButtonList"
         :clickAction="[previewUnit, createUnit]"
       ></ae-button-list>
     </ae-base-dialog>
 
-    <ae-base-dialog title="预览" :width="30" v-model="showPreview">
+    <ae-base-dialog :title="$t('common.preview')" :width="30" v-model="showPreview">
       <div v-for="(color,index) in colorList" :key = index class="previewImg">
-        <img v-show="signal % 2 == 0" :src="$appHelper.getUnitImg(previewUnitImg.img1, color)" />
-        <img v-show="signal % 2 != 0" :src="$appHelper.getUnitImg(previewUnitImg.img2, color)" />
+        <img v-show="signal % 2 === 0" :src="$appHelper.getUnitImg(previewUnitImg.img1, color)" />
+        <img v-show="signal % 2 !== 0" :src="$appHelper.getUnitImg(previewUnitImg.img2, color)" />
       </div>
     </ae-base-dialog>
   </div>
@@ -55,8 +55,8 @@ export default {
     return {
       uploadImg: [],
       showPreview: false,
-      saveButtonList: ["预览", "创建"],
-      timerChangesignal: null,
+      saveButtonList: [this.$t('common.preview'), this.$t('common.create')],
+      timerChangeSignal: null,
       signal: 0,
       colorList : ["blue", "red", "green", "black"],
       previewUnitImg: {},
@@ -65,8 +65,8 @@ export default {
   methods: {
     onDialogCreate() {
       let _this = this;
-      if (this.timerChangesignal == null) {
-        this.timerChangesignal = setInterval(() => {
+      if (this.timerChangeSignal == null) {
+        this.timerChangeSignal = setInterval(() => {
           if (_this.signal < 1000) {
             _this.signal++;
           } else {
@@ -77,15 +77,15 @@ export default {
       this.uploadImg = [];
     },
     onDialogDestroy() {
-      if (this.timerChangesignal != null) {
-        clearInterval(this.timerChangesignal);
-        this.timerChangesignal = null;
+      if (this.timerChangeSignal != null) {
+        clearInterval(this.timerChangeSignal);
+        this.timerChangeSignal = null;
       }
     },
     checkSize() {
       if (this.uploadImg.length > 1) {
-        this.$appHelper.infoMsg("单位图片只能传两个");
-        return false;
+        this.$appHelper.infoMsg(this.$t('unitManagement.unitPicTip1'));
+        throw new Error(this.$t('unitManagement.unitPicTip1'));
       }
       return true;
     },
@@ -94,31 +94,23 @@ export default {
     },
     previewUnit() {
       console.log("预览");
-      if (this.uploadImg.length != 2) {
-        this.$appHelper.infoMsg("单位图片需要两张");
+      if (this.uploadImg.length !== 2) {
+        this.$appHelper.infoMsg(this.$t('unitManagement.unitPicTip2'));
         return false;
       }
       let args = {};
       args.img_list = this.uploadImg;
-      this.$appHelper.setLoading();
-      CreateUnitImg(args)
-        .then((resp) => {
-          if (resp && resp.res_code == "0") {
+      CreateUnitImg(args).then(({res_val}) => {
             this.showPreview = true;
-            this.previewUnitImg = resp.res_val;
-          }
-          this.$appHelper.setLoading();
+            this.previewUnitImg = res_val;
         })
-        .catch((error) => {
-          this.$appHelper.setLoading();
-        });
     },
     createUnit() {
         if (this.previewUnitImg && this.previewUnitImg.img1 && this.previewUnitImg.img2) {
             this.$emit("input", false);
             this.$emit("uploadOk", this.previewUnitImg);
         } else {
-            this.$appHelper.infoMsg("请先预览,看是否复合要求")
+            this.$appHelper.infoMsg(this.$t('unitManagement.needPreviewTip'))
         }
     },
     uploadSuccess(fileName) {
@@ -132,12 +124,9 @@ export default {
 
 <style lang="scss" scope>
 .uploadComp {
-  width: 30%;
-  float: left;
 }
 .uploadImg {
   margin-top: 2%;
-  float: left;
   margin-left: 3%;
 }
 .previewImg{
@@ -145,4 +134,9 @@ export default {
     float: left;
     margin-left: 5%;
 }
+  .upload-unit-img{
+    display: flex;
+    width: 70%;
+    margin-left: 12%;
+  }
 </style>

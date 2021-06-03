@@ -1,6 +1,6 @@
 <template>
   <div style="display: inline">
-    <ae-loading style="z-index: 99999"></ae-loading>
+    <ae-loading :showLoading="loading" style="z-index: 99999"></ae-loading>
     <ae-tip
         v-model="showGlobalTip"
         :buttonList="buttonList"
@@ -33,6 +33,7 @@
         tipCallback: null,
         inputCallback: null,
         closeTip: null,
+        loading:false,
         inputDialog:{
           title:null,
           label:null,
@@ -41,12 +42,15 @@
         mes: null,
         show: false,
         type: "info",
-        buttonList: undefined,
+        buttonList: [this.$t("common.sure"), this.$t("common.cancel")],
       };
     },
     methods: {
       showTip({ message, callback, buttonList }) {
-        (this.buttonList = buttonList), (this.showGlobalTip = true);
+        if (buttonList) {
+          this.buttonList = buttonList;
+        }
+        this.showGlobalTip = true;
         this.closeTip = message;
         this.tipCallback = callback;
       },
@@ -77,12 +81,20 @@
         if (this.inputCallback && this.inputCallback instanceof Function) {
           this.inputCallback(res);
         }
+      },
+      showLoading(loading){
+        if (loading === undefined) {
+          this.loading = !this.loading;
+        } else {
+          this.loading = loading;
+        }
       }
     },
     created() {
       this.$eventBus.regist(this, "showTip");
       this.$eventBus.regist(this, "showMessage");
       this.$eventBus.regist(this, "showInputDialog");
+      this.$eventBus.regist(this, "showLoading");
     },
   };
 </script>

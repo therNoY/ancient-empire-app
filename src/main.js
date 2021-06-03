@@ -20,6 +20,30 @@ Vue.prototype.$color = color;
 Vue.prototype.$language = language;
 appHelper.store = store;
 
+// uni 目前不支持全局引入 会报错 只能逐个引入
+// const req = require.context('./plugin', true, /\.vue$/)
+// const requireAll = requireContext => requireContext.keys().forEach(fileName => {
+//   // 获取组件配置
+//   const componentConfig = requireContext(fileName)
+//   // 获取组件的 PascalCase 命名
+//   const componentName = upperFirst(
+//       camelCase(
+//           // 获取和目录深度无关的文件名
+//           fileName
+//           .split('/')
+//           .pop()
+//           .replace(/\.\w+$/, '')
+//       )
+//   );
+//
+//   // 全局注册组件
+//   Vue.component(
+//       componentName+"",
+//       componentConfig.default || componentConfig
+//   )
+// });
+// requireAll(req);
+
 // 引入自定义组件
 import AeBorder from "./components/frame/base/AeBorder";
 import AeButton from "./components/frame/base/AeButton.vue"
@@ -87,6 +111,13 @@ import UniTh from "./plugin/uni-th/uni-th"
 Vue.component("UniTh", UniTh);
 import UniTd from "./plugin/uni-td/uni-td"
 Vue.component("UniTd", UniTd);
+
+import UploadFile from "./plugin/uni-file-picker/upload-file"
+Vue.component("UploadFile", UploadFile);
+import UploadImage from "./plugin/uni-file-picker/upload-image"
+Vue.component("UploadImage", UploadImage);
+import UniFilePicker from "./plugin/uni-file-picker/uni-file-picker"
+Vue.component("UniFilePicker", UniFilePicker);
 
 Vue.config.productionTip = false;
 

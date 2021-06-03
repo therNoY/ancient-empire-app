@@ -17,9 +17,8 @@ const appHelper = {
 			.setAttribute("style", "background-color:#f7f7f7");
 	},
 
-	setLoading: function() {
-		this.store.commit("setLoading");
-		return this.store.getters.gloadLoading;
+	setLoading: function(loading = false) {
+		eventBus.publish("showLoading", loading);
 	},
 
 	infoMsg: function(mes) {
