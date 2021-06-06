@@ -27,7 +27,7 @@ export default {
   },
   methods: {
     beforeUpload(){
-      if (!this.checkFunc instanceof Function || this.checkFunc()) {
+      if (!this.checkFunc instanceof Function || this.checkFunc.bind()()) {
         this.upload();
       }
     },

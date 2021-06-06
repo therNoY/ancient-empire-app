@@ -20,6 +20,7 @@
 
     <ae-base-dialog
       :title="diaTitle"
+      v-if="dialogVisible"
       v-model="dialogVisible"
       inlineDialog
       :top="3"
@@ -36,7 +37,7 @@
       <div class="input_mes" v-show="currentActiveTab === 0">
         <ae-form
           ref="unitBaseInfoForm"
-          :dataObj="unit"
+          v-model="unit"
           hasBorder
           :edit="showPageIndex == '1'"
           :column="formShowColumn"
@@ -74,7 +75,7 @@
       <ae-form
         ref="levelInfoForm"
         v-if="currentLevelInfo"
-        :dataObj="currentLevelInfo"
+        v-model="currentLevelInfo"
         :edit="showPageIndex == '1'"
         :column="formShowColumn"
         :formConfig="unitLevelInfoFormConfig"
@@ -396,7 +397,7 @@ export default {
               "V" +
                 p.version +
                 "(" +
-                this.$t("common.draftVersion") +
+                this.$t("common.latestVersion") +
                 "V" +
                 p.max_version +
                 ")"
@@ -524,6 +525,7 @@ export default {
       SaveUnitInfo(args).then((resp) => {
         this.dialogVisible = false;
         this.$appHelper.infoMsg(this.$t("common.addSuccess"));
+        this.$refs.mainDialog.flushData();
       });
     },
     downloadUnit() {
@@ -579,6 +581,7 @@ export default {
       SaveUnitInfo(args).then((resp) => {
         this.dialogVisible = false;
         this.$appHelper.infoMsg(this.$t("common.saveSuccess"));
+        this.$refs.mainDialog.flushData();
       });
     },
     onDialogCreate() {
@@ -636,22 +639,29 @@ export default {
       });
     },
     editUnitLevelInfo(unitLevelInfo) {
+      this.currentLevelInfo = unitLevelInfo;
       this.addLevel = false;
       this.editUnitLevelInfoDialog = true;
-      this.currentLevelInfo = unitLevelInfo;
     },
     addNewLevel() {
+      this.currentLevelInfo = {};
+      this.currentLevelInfo.level = this.currUnitInfo.levelInfoData.length + '';
       this.addLevel = true;
       this.editUnitLevelInfoDialog = true;
-      this.currentLevelInfo = {};
-      this.currentLevelInfo.level = this.currUnitInfo.levelInfoData.length;
     },
     saveLevelInfo() {
+      this.$refs.levelInfoForm.getFormData(this.currentLevelInfo);
       this.editUnitLevelInfoDialog = false;
       if (this.addLevel) {
         this.currUnitInfo.levelInfoData.push(
           Object.assign(this.currentLevelInfo)
         );
+      } else {
+        for (let i = 0; i < this.currUnitInfo.levelInfoData.length; i++) {
+          if (this.currUnitInfo.levelInfoData[i].level == this.currentLevelInfo.level){
+            this.currUnitInfo.levelInfoData[i] = this.currentLevelInfo;
+          }
+        }
       }
     },
     init() {

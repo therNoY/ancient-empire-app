@@ -23,7 +23,7 @@
               {{ item[key] == null ? '' : item[key]}}
             </div>
             <div v-else>
-              <ae-dynamic :componentFunction="key" :itemList="realShowItem" :functionIndex="keyIndex" :item="item"></ae-dynamic>
+              <ae-dynamic  @change="updateRealDisplayData(_data, keyIndex, )" ref="itemDynamic" :componentFunction="key" :itemList="realShowItem" :functionIndex="keyIndex" v-bind:item="item"></ae-dynamic>
             </div>
           </td>
         </tr>
@@ -39,7 +39,7 @@
                 {{ key }}
               </div>
               <div v-else>
-                <ae-dynamic :componentFunction="key" :functionIndex="keyIndex"></ae-dynamic>
+                <ae-dynamic :itemList="showTitle" :componentFunction="key" :functionIndex="keyIndex"></ae-dynamic>
               </div>
             </td>
           </tr>
@@ -86,6 +86,11 @@ export default {
   },
   created() {
     this.$appHelper.bindPage2Global(this, "dataGrid");
+    if (this.realDisplayData.length === 0 && this.data) {
+      this.$nextTick(()=>{
+        this.realDisplayData = this.data;
+      });
+    }
   },
   methods: {
     isNotFunction(obj) {
@@ -101,12 +106,17 @@ export default {
       this.$emit("onPageNowChange", pageNow);
     },
 
+    updateRealDisplayData(data, item){
+      this.realShowItem[item] = data;
+    },
+
   },
   watch: {
     data(_data) {
       console.log("数据改变", _data);
-      this.realDisplayData = [];
-      this.realDisplayData = _data;
+      this.$nextTick(()=>{
+        this.realDisplayData = _data;
+      });
     },
   },
   computed: {

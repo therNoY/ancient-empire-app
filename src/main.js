@@ -65,6 +65,7 @@ import AeTabForm from "./components/frame/base/AeTabForm.vue"
 import AeTip from "./components/frame/base/AeTip.vue"
 import AeTransfer from "./components/frame/base/AeTransfer.vue"
 import AeTooltip from "./components/frame/base/AeTooltip.vue"
+import AeTag from "./components/frame/base/AeTag.vue"
 
 Vue.component("AeBorder", AeBorder);
 Vue.component("AeComplexDialog", AeComplexDialog);
@@ -86,6 +87,7 @@ Vue.component("AePage", AePage);
 Vue.component("AeTip", AeTip);
 Vue.component("AeTransfer", AeTransfer);
 Vue.component("AeTooltip", AeTooltip);
+Vue.component("AeTag", AeTag);
 
 // 引入插件组件
 import UniIcons from "./plugin/uni-icons/uni-icons"

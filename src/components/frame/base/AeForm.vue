@@ -13,9 +13,10 @@
       <div class="ae-form-label">
         {{ form.des }}
       </div>
-      <div class="ae-form-real-camp">
+      <div class="ae-form-real-camp" v-if="flushFormFlag">
         <div v-if="form.type === 'input'">
           <ae-input
+              ref="aeInput"
             v-model="formData[form.key]"
             :type="form.style"
             :default="form.default"
@@ -88,7 +89,7 @@ export default {
       type: Boolean,
       default: true,
     },
-    dataObj: {
+    value: {
       type: Object,
       default: null,
     },
@@ -114,10 +115,11 @@ export default {
   data() {
     return {
       formData: {},
+      flushFormFlag:true,
     };
   },
   methods: {
-    getFormData() {
+    getFormData(data) {
       for (let config of this.formConfig) {
         if (config.type === "rangeSelect") {
         }
@@ -126,7 +128,13 @@ export default {
           throw new Error("数据" + config.des + "不完整");
         }
       }
-      return this.formData;
+      if (!data) {
+        return this.formData;
+      }
+      for (let key of Object.keys(this.formData)){
+        data[key] = this.formData[key];
+      }
+      return data;
     },
     rangeMinKeyChange(value, key) {
       this.formData[key] = value;
@@ -136,25 +144,33 @@ export default {
     },
   },
   created() {
-    if (this.dataObj) {
-      if (this.closeBind) {
-        // 关闭双向绑定
-        this.formData = JSON.parse(JSON.stringify(this.dataObj));
-      } else {
-        this.formData = this.dataObj;
-      }
+    if (this.value) {
+      this.formData = JSON.parse(JSON.stringify(this.value));
     }
+    this.$appHelper.bindPage2Global(this, "activeForm");
   },
   watch:{
-    dataObj(){
-      if (this.dataObj) {
-        if (this.closeBind) {
-          // 关闭双向绑定
-          this.formData = JSON.parse(JSON.stringify(this.dataObj));
-        } else {
-          this.formData = this.dataObj;
+    value(){
+      if (this.value) {
+
+        let isHasDiff = false;
+        for (let key of Object.keys(this.value)){
+          if (this.value[key] !=  this.formData[key]) {
+            this.formData[key] = this.value[key];
+            isHasDiff = true;
+            console.log("有不一样")
+          }
+        }
+        if (isHasDiff) {
+          this.flushFormFlag = false;
+          this.$nextTick(()=>{
+            this.flushFormFlag = true;
+          });
         }
       }
+    },
+    formData(data){
+      this.$emit("input", data);
     }
   }
 };

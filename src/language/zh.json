@@ -74,6 +74,7 @@
     "nameIsNull": "用户名/邮箱 不能为空",
     "loginOk": "登录成功",
     "logoutOk": "退出成功",
+    "out": "退出",
     "emailSend": "确认邮件已发出 请确认查收",
     "nameOrMail": "用户名/邮箱",
     "password": "密码",
@@ -100,7 +101,16 @@
     "maxPop": "最大人口"
   },
   "multiPlayer": {
-    "title": "多人游戏"
+    "title": "多人游戏",
+    "invite":"邀请",
+    "join":"加入",
+    "kickOut":"踢出",
+    "readyBegin":"玩家还未全部加入,确定要开始么？",
+    "readyStart":"准备开始？",
+    "joinFail":"加入失败",
+    "homeOwner":"房主",
+    "team":"队伍",
+    "alliance":"同盟"
   },
   "loadGame": {
     "title": "读取游戏"

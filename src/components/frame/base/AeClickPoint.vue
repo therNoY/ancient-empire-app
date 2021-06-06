@@ -41,6 +41,7 @@ export default {
   background-color: #f56c6cd2;
   color: #fff;
   display: inline-block;
+  justify-content: center;
   font-size: 12px;
   text-align: center;
   white-space: nowrap;

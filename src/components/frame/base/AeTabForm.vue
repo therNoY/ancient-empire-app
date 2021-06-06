@@ -10,7 +10,7 @@
       >
         <ae-form
           ref="baseForm"
-          :dataObj="dataObj"
+          v-model="dataObj"
           :signal="signal"
           :templateId="templateId"
           :edit="edit"

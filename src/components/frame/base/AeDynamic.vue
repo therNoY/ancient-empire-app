@@ -50,6 +50,7 @@ export default {
     },
     item: {},
     itemList:{},
+    dataArray:{},
     // 微信小程序使用 function传递值为空 可以根据发function渲染 也可以根据 functionIndex
     componentFunction: {
       type: Function,
@@ -66,10 +67,10 @@ export default {
   created() {
     if (this.componentFunction instanceof Function) {
       this.renderConfig = this.componentFunction(dynamicRender, this.item);
-    } else {
+    } else if (this.itemList instanceof Array){
       this.renderConfig = this.itemList[this.functionIndex](
-        dynamicRender,
-        this.item
+          dynamicRender,
+          this.item
       );
     }
   },
@@ -83,6 +84,7 @@ export default {
           this.item
         );
       }
+      this.$emit("updateRealDisplayData", this.item);
     },
   },
   /**

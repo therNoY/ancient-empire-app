@@ -21,7 +21,7 @@
         <ae-button
             :style="{'width':vueStyle.titleButtonWidth}"
             v-if="titleButtons && titleButtons.length === 1"
-            @click="titleButtons[0].action"
+            @click="()=>{titleButtons[0].action()}"
         >{{titleButtons[0].name}}</ae-button>
         <ae-switch-select
             v-if="titleSwitchSelect"
@@ -61,7 +61,7 @@
               ref="aeForm"
               v-if="showModel"
               :formConfig="formConfig"
-              :dataObj="dataObj"
+              v-model="dataObj"
           ></ae-form>
         </div>
       </section>

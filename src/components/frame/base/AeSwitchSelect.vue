@@ -96,7 +96,8 @@
             return item.value;
           }
         }
-        console.error("获取展示值错误", this.items, this.value);
+        this.value = this.items[0].key;
+        return this.items[0].value;
       },
     },
   };

@@ -16,7 +16,7 @@
           :key="item.key"
         >
           <ae-click-point @clickPoint="removeUnit(index)">
-            <img :src="$appHelper.getUnitImg(item, 'temporary')" />
+            <img style="width:24px;height:24px" :src="$appHelper.getUnitImg(item, 'temporary')" />
           </ae-click-point>
         </div>
       </div>
@@ -29,8 +29,8 @@
 
     <ae-base-dialog :title="$t('common.preview')" :width="30" v-model="showPreview">
       <div v-for="(color,index) in colorList" :key = index class="previewImg">
-        <img v-show="signal % 2 === 0" :src="$appHelper.getUnitImg(previewUnitImg.img1, color)" />
-        <img v-show="signal % 2 !== 0" :src="$appHelper.getUnitImg(previewUnitImg.img2, color)" />
+        <img style="width:24px;height:24px" v-show="signal % 2 === 0" :src="$appHelper.getUnitImg(previewUnitImg.img1, color)" />
+        <img style="width:24px;height:24px" v-show="signal % 2 !== 0" :src="$appHelper.getUnitImg(previewUnitImg.img2, color)" />
       </div>
     </ae-base-dialog>
   </div>
@@ -41,6 +41,7 @@
 import UploadGameImg from "./UploadGameImg.vue";
 import dialogShow from "@/mixins/frame/dialogShow.js";
 import { CreateUnitImg } from "@/api";
+let _this;
 export default {
   mixins: [dialogShow],
   components: {
@@ -83,41 +84,42 @@ export default {
       }
     },
     checkSize() {
-      if (this.uploadImg.length > 1) {
-        this.$appHelper.infoMsg(this.$t('unitManagement.unitPicTip1'));
-        throw new Error(this.$t('unitManagement.unitPicTip1'));
+      if (_this.uploadImg.length > 1) {
+        _this.$appHelper.infoMsg(_this.$t('unitManagement.unitPicTip1'));
+        return false;
       }
       return true;
     },
     removeUnit(index) {
-      this.uploadImg.splice(index, 1);
+      _this.uploadImg.splice(index, 1);
     },
     previewUnit() {
       console.log("预览");
-      if (this.uploadImg.length !== 2) {
-        this.$appHelper.infoMsg(this.$t('unitManagement.unitPicTip2'));
+      if (_this.uploadImg.length !== 2) {
+        _this.$appHelper.infoMsg(_this.$t('unitManagement.unitPicTip2'));
         return false;
       }
       let args = {};
-      args.img_list = this.uploadImg;
+      args.img_list = _this.uploadImg;
       CreateUnitImg(args).then(({res_val}) => {
-            this.showPreview = true;
-            this.previewUnitImg = res_val;
-        })
+        _this.showPreview = true;
+        _this.previewUnitImg = res_val;
+      })
     },
     createUnit() {
-        if (this.previewUnitImg && this.previewUnitImg.img1 && this.previewUnitImg.img2) {
-            this.$emit("input", false);
-            this.$emit("uploadOk", this.previewUnitImg);
+        if (_this.previewUnitImg && _this.previewUnitImg.img1 && _this.previewUnitImg.img2) {
+          _this.$emit("input", false);
+          _this.$emit("uploadOk", _this.previewUnitImg);
         } else {
-            this.$appHelper.infoMsg(this.$t('unitManagement.needPreviewTip'))
+          _this.$appHelper.infoMsg(this.$t('unitManagement.needPreviewTip'))
         }
     },
     uploadSuccess(fileName) {
-      this.uploadImg.push(fileName);
+      _this.uploadImg.push(fileName);
     },
   },
   created() {
+    _this = this;
   },
 };
 </script>

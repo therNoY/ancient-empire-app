@@ -34,7 +34,7 @@
     >
       <ae-form
         ref="userInfoForm"
-        :dataObj="user"
+        v-model="user"
         :edit="editAble"
         :formConfig="userInfoFormConfig"
       ></ae-form>

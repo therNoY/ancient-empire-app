@@ -22,11 +22,11 @@
             placement="top"
             effect="light"
           >
-            <uni-tag :size="size" type="primary">{{ showKey ? item[showKey] : item }}</uni-tag>
+            <ae-tag :size="size" type="primary">{{ showKey ? item[showKey] : item }}</ae-tag>
           </ae-tooltip>
-          <uni-tag v-else type="success" :size="size">{{
+          <ae-tag v-else type="success" :size="size">{{
             showKey ? item[showKey] : item
-          }}</uni-tag>
+          }}</ae-tag>
         </ae-click-point>
       </div>
     </div>
@@ -48,13 +48,13 @@
             placement="top"
             effect="light"
           >
-            <uni-tag type="success" :size="size" effect="dark">{{
+            <ae-tag type="success" :size="size" effect="dark">{{
               showKey ? item[showKey] : item
-            }}</uni-tag>
+            }}</ae-tag>
           </ae-tooltip>
-          <uni-tag v-else type="success" :size="size" effect="dark">{{
+          <ae-tag v-else type="success" :size="size" effect="dark">{{
             showKey ? item[showKey] : item
-          }}</uni-tag>
+          }}</ae-tag>
         </ae-click-point>
       </div>
     </div>
@@ -120,16 +120,20 @@ export default {
   },
   methods: {
     addValue(item, index) {
+      console.log("add lable")
       this.value.push(item);
+      this.$emit("input", JSON.parse(JSON.stringify(this.value)));
     },
     removeValue(item, index) {
       this.value.splice(index, 1);
+      this.$emit("input", JSON.parse(JSON.stringify(this.value)));
     },
   },
   created() {
     // #ifndef H5
     this.size = 'small';
     // #endif
+    this.$appHelper.bindPage2Global(this, "aeTransfer");
   },
 };
 </script>

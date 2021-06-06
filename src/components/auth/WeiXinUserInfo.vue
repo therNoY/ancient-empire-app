@@ -6,7 +6,7 @@
         :title="$t('player.register')"
         @close="closeDialog"
     >
-      <ae-form ref="registerForm" :dataObj="register" :formConfig="registerFormConfig"></ae-form>
+      <ae-form ref="registerForm" v-model="register" :formConfig="registerFormConfig"></ae-form>
       <ae-button-list
           :buttonList="registerButton"
           :clickAction="[doRegister, cancelRegister]"
@@ -21,7 +21,7 @@
     >
       <ae-form
           ref="userInfoForm"
-          :dataObj="user"
+          v-model="user"
           :edit="editAble"
           :formConfig="userInfoFormConfig"
       ></ae-form>

@@ -68,7 +68,11 @@ export default {
     },
   },
   created() {
-    this.inputValue = this.value;
+    if (this.value == 0) {
+      this.inputValue = this.value + "";
+    } else {
+      this.inputValue = this.value;
+    }
   },
   mounted() {
     if (this.default) {

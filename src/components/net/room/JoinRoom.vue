@@ -5,8 +5,8 @@
 			<uni-table>
 				<uni-tr>
 					<uni-th>队伍</uni-th>
-					<uni-th>同盟</uni-th>
-					<uni-th>玩家</uni-th>
+					<uni-th>{{$t('multiPlayer.alliance')}}</uni-th>
+					<uni-th>{{$t("player.title")}}</uni-th>
 					<uni-th>操作</uni-th>
 				</uni-tr>
 				<uni-tr v-for="(army, index) in canJoinArmy" :key="index">
@@ -20,21 +20,20 @@
 						<div style="color: rgb(255, 255, 255); font-size: 14px">
 							{{ army.player_name }}
 							<span style="color: rgb(255, 255, 255); font-size: 13px"
-								v-if="roomOwner && army.player == roomOwner">(房主)</span>
+								v-if="roomOwner && army.player == roomOwner">({{$t('multiPlayer.homeOwner')}})</span>
 						</div>
 					</uni-td>
 					<uni-td>
-						<ae-button :width="80" v-if="!item.row.player" @click="changeCtlArmy(item.row.color)">加入
+						<ae-button :width="80" v-if="!item.row.player" @click="changeCtlArmy(item.row.color)">{{$t('multiPlayer.join')}}
 						</ae-button>
 						<ae-button :width="80" v-else-if="
 					    item.row.player &&
 					    item.row.player != $store.getters.user.user_id &&
 					    $store.getters.user.user_id == roomOwner
-					  " @click="levelCtlArmy(item.row.color, item.row.player)">踢出</ae-button>
+					  " @click="levelCtlArmy(item.row.color, item.row.player)">{{$t('multiPlayer.kickOut')}}</ae-button>
 						<ae-button :width="80" v-else-if="$store.getters.user.user_id == item.row.player"
-							@click="levelCtlArmy(item.row.color, item.row.player)">退出</ae-button>
+							@click="levelCtlArmy(item.row.color, item.row.player)">{{$t('common.out')}}</ae-button>
 					</uni-td>
-				</uni-tr>
 				</uni-tr>
 			</uni-table>
 		</div>
@@ -43,9 +42,9 @@
 		</div>
 		<map-preview v-model="showPreview" :mapId="mapId"></map-preview>
 		<div class="bottom-button">
-			<ae-button @click="showPreview = true">预览</ae-button>
-			<ae-button>邀请</ae-button>
-			<ae-button v-show="roomOwner && $store.getters.user.user_id == roomOwner" @click="showStartTip = true">开始
+			<ae-button @click="showPreview = true">{{$t('common.preview')}}</ae-button>
+			<ae-button>{{$t("multiPlayer.invite")}}</ae-button>
+			<ae-button v-show="roomOwner && $store.getters.user.user_id === roomOwner" @click="showStartTip = true">{{$t('common.start')}}}
 			</ae-button>
 		</div>
 		<ae-tip v-model="showStartTip" :closeTip="startTip()" @ok="startRoomGame"></ae-tip>
@@ -100,9 +99,9 @@
 					this.armyConfigList.filter((a) => a.type == "user" && !a.play_id)
 					.length > 0
 				) {
-					return "玩家还未全部加入,确定要开始么？";
+					return this.$("multiPlayer.readyBegin");
 				} else {
-					return "准备开始？";
+					return this.$('multiPlayer.readyStart');
 				}
 			},
 
@@ -197,7 +196,7 @@
 					.then((resp) => {
 						this.$appHelper.setLoading();
 						if (resp && resp.res_code == 0) {} else {
-							this.$appHelper.infoMsg("加入失败");
+							this.$appHelper.infoMsg(this.t("multiPlayer.joinFail"));
 						}
 					})
 					.catch((error) => {

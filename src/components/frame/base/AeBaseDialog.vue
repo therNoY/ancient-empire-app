@@ -2,7 +2,8 @@
 <template>
   <div class="ae-base-dialog-base" v-if="value">
     <div
-      class="ae-base-dialog-container"
+       v-if="value"
+       class="ae-base-dialog-container"
       :style="{
         display: vueStyle.dialogDisplay,
         backgroundColor: vueStyle.dialogBackgroundColor,
