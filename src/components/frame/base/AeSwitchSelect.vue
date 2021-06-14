@@ -34,6 +34,7 @@
       label: {
         type: String,
       },
+
       default: {},
     },
 
@@ -54,50 +55,37 @@
         }
       }
     },
-    watch: {
-      value(v) {
-        for (let i = 0; i < this.items.length; i++) {
-          let item = this.items[i];
-          if (item.key == v) {
-            this.key = item.key;
-            this.showIndex = i;
-            break;
-          }
-        }
-      },
-    },
     methods: {
       getRightItem() {
+        console.log("clickRight")
         if(!this.editAble) {
           return
         }
         if (this.showIndex > 0) {
           this.$emit("input", this.items[this.showIndex - 1].key);
+          this.showIndex = this.showIndex - 1;
         } else {
           this.$emit("input", this.items[this.items.length - 1].key);
+          this.showIndex = this.items.length - 1;
         }
       },
       getLeftItem() {
+        console.log("clickLeft")
         if(!this.editAble) {
           return
         }
         if (this.showIndex < this.items.length - 1) {
           this.$emit("input", this.items[this.showIndex + 1].key);
+          this.showIndex = this.showIndex + 1;
         } else {
           this.$emit("input", this.items[0].key);
+          this.showIndex = 0;
         }
       },
     },
     computed: {
       showValue() {
-        for (let i = 0; i < this.items.length; i++) {
-          let item = this.items[i];
-          if (item.key == this.value) {
-            return item.value;
-          }
-        }
-        this.value = this.items[0].key;
-        return this.items[0].value;
+        return this.items[this.showIndex].value;
       },
     },
   };

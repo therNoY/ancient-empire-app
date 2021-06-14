@@ -6,9 +6,10 @@
       :unitInfo="game.curr_unit"
       :region="game.curr_region"
     />
+
     <div class="game_core_container">
-      <el-container>
-        <el-main>
+      <movable-area class="main-area">
+        <movable-view class="main-view">
           <div class="base_map" :style="mapStyle">
             <region-view-list
               ref="regionViewList"
@@ -32,8 +33,8 @@
             <up-show-animate />
             <game-dialog />
           </div>
-        </el-main>
-      </el-container>
+        </movable-view>
+      </movable-area>
       <army-mes
         class="army_mes"
         :type="game.type"
@@ -47,15 +48,26 @@
       :curr_color="game.curr_color"
       :region="game.curr_region"
     />
-    <buy-unit/>
+    <buy-unit />
+
+    <!-- 基础监听类 -->
+		<base-lister/>
   </div>
 </template>
 
 <script>
 import RegionViewList from "../map_base/RegionViewList";
 import ArmyView from "../map_base/ArmyView.vue";
+// #ifdef H5
 import UnitMes from "./map_mes/UnitMes.vue";
+import ArmyMes from "./map_mes/ArmyMes.vue";
 import RegionMes from "./map_mes/RegionMes.vue";
+// #endif
+// #ifdef MP
+import UnitMes from "./map_mes/weixin/UnitMes.vue";
+import RegionMes from "./map_mes/weixin/RegionMes.vue";
+import ArmyMes from "./map_mes/weixin/ArmyMes.vue";
+// #endif
 import PointView from "../map_base/PointView.vue";
 import MoveArea from "../map_base/MoveArea.vue";
 import ActionView from "../map_base/ActionView.vue";
@@ -64,10 +76,11 @@ import LeftChange from "../map_base/LeftChangeView.vue";
 import AnimateView from "../map_base/AnimateView.vue";
 import TombView from "../map_base/TombView.vue";
 import BuyUnit from "./unit_map/BuyUnit.vue";
-import ArmyMes from "./map_mes/ArmyMes.vue";
 import eventype from "../../manger/eventType";
 import UpShowAnimate from "../map_base/UpShowAnimate.vue";
 import GameDialog from "../map_base/GameDialog.vue";
+import BaseLister from "../BaseLister.vue"
+import appHelper from "../../utils/appHelper";
 export default {
   components: {
     RegionViewList,
@@ -85,6 +98,7 @@ export default {
     ArmyMes,
     UpShowAnimate,
     GameDialog,
+    BaseLister,
   },
   data() {
     return {
@@ -129,7 +143,6 @@ export default {
         };
       }
     },
-
   },
   methods: {
     // 开启一个后台进程 计时器
@@ -153,7 +166,24 @@ export default {
     // 检测游戏是否可以开始
     checkGame() {
       // gameWS正常连接
-      return this.$store.dispatch("testGameConnect");
+      return new Promise((resolve, reject) => {
+        this.$store
+          .dispatch("testGameConnect")
+          .then((isOK) => {
+            if (isOK) {
+              // 验证数据
+              if (this.$store.getters.game) {
+                resolve(1);
+                return;
+              }
+            }
+            reject("无法开始游戏");
+          })
+          .catch((error) => {
+            console.error(error);
+            reject(error);
+          });
+      });
     },
     // 点击购买单位
     buyUnit() {
@@ -185,18 +215,32 @@ export default {
   },
   created() {
     // 检测webscoket连接
+    console.log("准备开始游戏, 检查ws连接情况");
+    this.$appHelper.bindPage2Global(this, "GameIndex");
     this.checkGame()
       .then((resp) => {
         if (resp) {
           this.game = this.$store.getters.game;
-          this.$appHelper.setWidthBack();
           this.startWorker();
         } else {
-          this.$router.push("/");
+          console.error("ws连接不正确");
+          appHelper.errorMsg("数据错误,无法进入游戏");
+          uni.redirectTo({
+            url: "/components/Home",
+            complete: (resp) => {
+              console.log(resp);
+            },
+          });
         }
       })
       .catch((error) => {
-        this.$router.push("/");
+        console.error(error);
+        uni.redirectTo({
+          url: "/components/Home",
+          complete: (resp) => {
+            console.log(resp);
+          },
+        });
       });
   },
   destroyed() {
@@ -210,6 +254,7 @@ export default {
   width: 100%;
   height: 100%;
   position: relative;
+  text-align: center;
   .unit-mes {
     float: left;
     width: 16%;
@@ -218,11 +263,11 @@ export default {
     height: 100%;
     float: left;
     width: 68%;
-    .el-container {
+    .main-area {
       width: 100%;
       height: 90%;
       float: left;
-      .el-main {
+      .main-view {
         width: 100%;
         height: 94%;
         margin-top: 2%;

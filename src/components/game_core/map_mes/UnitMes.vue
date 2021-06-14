@@ -1,17 +1,12 @@
 <template>
-  <!--单位信息-->
   <div class="unit-mes" :style="bkColor">
     <div>
-      <!--单位名称-->
       <div class="int_title">
-        <uni-tag
-          v-if="unitInfo && unitInfo.unit_mes"
-          size="small"
-          :type="tagType"
-          >{{ unitInfo.unit_mes.name }}</uni-tag
-        >
+        <div v-if="unitInfo && unitInfo.unit_mes">
+          {{ unitInfo.unit_mes.name }}
+        </div>
+        <div v-else></div>
       </div>
-      <!--单位图片-->
       <div class="unit_p">
         <img
           class="region"
@@ -29,19 +24,20 @@
       </div>
     </div>
 
-    <!--详细数据-->
+    <div class="unit_description" v-if="unitInfo">
+      {{ unitInfo.unit_mes.description }}
+    </div>
+
     <div class="unit_ci">
-      <!--生命值-->
-      <div>
+      <ae-tooltip class="unit-ci-tooltip" :content="$t('encounter.left')">
         <img src="../../../assets/images/assist/info_life.png" />
         <span v-if="unitInfo">
           <i :style="leftStyle" style="background-color: rgb(229, 255, 0)">{{
             unitLift
           }}</i>
         </span>
-      </div>
-      <!--经验值-->
-      <div>
+      </ae-tooltip>
+      <ae-tooltip class="unit-ci-tooltip" :content="$t('encounter.experience')">
         <img src="../../../assets/images/assist/info_experience.png" />
         <span v-if="unitInfo">
           <i
@@ -50,9 +46,8 @@
             >{{ unitInfo.experience }}</i
           >
         </span>
-      </div>
-      <!--攻击-->
-      <div>
+      </ae-tooltip>
+      <ae-tooltip class="unit-ci-tooltip" :content="$t('encounter.attach')">
         <img src="../../../assets/images/assist/info_attach.png" />
         <span
           v-if="unitInfo"
@@ -66,53 +61,47 @@
           {{ unitInfo.level_mes.min_attack }} -
           {{ unitInfo.level_mes.max_attack }}
         </span>
-      </div>
-      <div>
+      </ae-tooltip>
+      <ae-tooltip
+        class="unit-ci-tooltip"
+        :content="$t('unitManagement.mobility')"
+      >
         <img src="../../../assets/images/assist/info_move.png" />
         <span class="noBac" v-if="unitInfo">{{
           unitInfo.level_mes.speed
         }}</span>
-      </div>
-      <div>
+      </ae-tooltip>
+      <ae-tooltip
+        class="unit-ci-tooltip"
+        :content="$t('unitManagement.physicalDefense')"
+      >
         <img src="../../../assets/images/assist/info_physical_defense.png" />
         <span class="noBac" v-if="unitInfo">{{
           unitInfo.level_mes.physical_defense
         }}</span>
-      </div>
-      <div>
+      </ae-tooltip>
+      <ae-tooltip
+        class="unit-ci-tooltip"
+        :content="$t('unitManagement.magicDefense')"
+      >
         <img src="../../../assets/images/assist/info_magic_defense.png" />
         <span class="noBac" v-if="unitInfo">{{
           unitInfo.level_mes.magic_defense
         }}</span>
-      </div>
+      </ae-tooltip>
     </div>
 
-    <div class="unit_description" v-if="unitInfo">
-      描述：{{ unitInfo.unit_mes.description }}
-    </div>
-
-    <div class="unit_ability" v-if="unitInfo">
-      <span>能力列表</span>
-      <div
-        @click="unitInfoDialog = true"
-        v-for="(abilitie,index) in unitInfo.abilities"
-        :key="'ab'+index"
+    <div class="unit-abilitie" v-if="unitInfo">
+      <ae-tooltip
+        class="unit-abilitie-item"
+        v-for="abilitie in unitInfo.abilities"
+        :key="abilitie.name"
+        :content="abilitie.description"
+        placement="left"
       >
-        {{ abilitie.name }}
-      </div>
+        <ae-tag>{{ abilitie.name }}</ae-tag>
+      </ae-tooltip>
     </div>
-
-    <el-dialog title="提示" :visible.sync="unitInfoDialog" width="50%">
-      <div style="font-size: 12px; float: left; width: 100%; color: red">
-        {{ unitInfo }}
-      </div>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="unitInfoDialog = false">取 消</el-button>
-        <el-button type="primary" @click="unitInfoDialog = false"
-          >确 定</el-button
-        >
-      </span>
-    </el-dialog>
   </div>
 </template>
 
@@ -124,31 +113,9 @@ export default {
     UnitView,
   },
   data() {
-    return {
-      unitInfoDialog: false,
-    };
+    return {};
   },
   computed: {
-    // 标签颜色
-    tagType() {
-      let color = this.curr_color;
-      let type = "";
-      switch (color) {
-        case "blue":
-          type = "";
-          break;
-        case "red":
-          type = "danger";
-          break;
-        case "green":
-          type = "success";
-          break;
-        case "black":
-          type = "info";
-          break;
-      }
-      return type;
-    },
     // 背景
     bkColor() {
       return this.$appHelper.getBkColor(this.curr_color);
@@ -177,7 +144,7 @@ export default {
     },
 
     unitLift() {
-      if (typeof this.unitInfo.life == 'number') {
+      if (typeof this.unitInfo.life == "number") {
         return this.unitInfo.life;
       }
       let life = 0;
@@ -197,8 +164,7 @@ export default {
       };
     },
   },
-  created() {
-  },
+  created() {},
 };
 </script>
 
@@ -213,7 +179,7 @@ export default {
   font-size: 16px;
   margin-top: 10px;
   margin-bottom: 20px;
-  color: rgba(0, 0, 0, 0.658);
+  color: white;
 }
 .unit_p {
   position: relative;
@@ -232,86 +198,65 @@ export default {
   width: 24px;
   height: 24px;
 }
-.unit_border {
-  width: 72px;
-  height: 72px;
-  margin: auto;
-  position: absolute;
-}
-.unit_border .unit {
-  position: absolute;
-  top: 24px;
-  left: 24px;
-}
-.unit_border img {
-  float: left;
-}
 .unit_ci {
   margin-top: 10px;
-  float: left;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
   width: 100%;
-}
-.unit_ci div {
-  width: 100%;
-  float: left;
-  background-color: rgb(255, 255, 255);
-  margin-top: 10px;
-  padding: 5px 0;
-}
-.unit_ci img {
-  float: left;
-  width: 9.5%;
-  margin-left: 5%;
-}
-.unit_ci span {
-  float: left;
-  width: 75%;
-  margin-left: 5%;
-  color: rgb(97, 97, 97);
-  font-size: 12px;
-  background-color: rgba(0, 255, 157, 0.767);
-}
-.unit_ci i {
-  float: left;
-  transition-duration: 0.2s;
-  transition-property: all;
-  transition-timing-function: linear;
-  transition-delay: 0s;
-}
-.unit_ci .noBac {
-  background-color: rgba(255, 255, 255, 0.767);
+  .unit-ci-tooltip {
+    width: 100%;
+    background-color: rgb(255, 255, 255);
+    margin-top: 10px;
+    padding: 5px 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+  img {
+    float: left;
+    width: 9.5%;
+    margin-left: 5%;
+  }
+  span {
+    float: left;
+    width: 75%;
+    margin-left: 5%;
+    color: rgb(97, 97, 97);
+    font-size: 12px;
+    background-color: rgba(0, 255, 157, 0.767);
+  }
+  i {
+    float: left;
+    transition-duration: 0.2s;
+    transition-property: all;
+    transition-timing-function: linear;
+    transition-delay: 0s;
+    padding-top: 2px;
+    padding-bottom: 2px;
+  }
+  .noBac {
+    background-color: rgba(255, 255, 255, 0.767);
+  }
 }
 .unit_description {
   font-size: 12px;
-  color: rgb(85, 85, 85);
+  width: 100%;
+  color: rgb(255, 255, 255);
   float: left;
   margin-top: 20px;
   margin-bottom: 10px;
   padding-bottom: 10px;
 }
-.unit_ability {
-  font-size: 12px;
-  color: rgb(41, 41, 41);
-}
-.unit_ability span {
-  font-size: 14px;
-  font-weight: 600;
-}
-.unit_ability div {
-  margin-top: 10px;
-}
-.unit_ability div:hover {
-  cursor: pointer;
-  text-decoration: underline;
-}
-.unit_status {
-  position: absolute;
-  top: 24px;
-  left: 24px;
-}
-.unit_level {
-  position: absolute;
-  top: 24px;
-  left: 24px;
+.unit-abilitie {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  .unit-abilitie-item {
+    padding: 10px;
+    font-size: 12px !important;
+    color: white;
+  }
 }
 </style>

@@ -4,6 +4,7 @@ import commendType from "./commandType"
 import eventype from "./eventType"
 import appHelper from "../utils/appHelper"
 import { imgUrl } from "../api/env"
+import eventBus from "./EventBus";
 /**
  * 移动
  */
@@ -174,9 +175,9 @@ var animateHelper = {
         anim_list.push(imgUrl + "template/" + animObj);
       } else {
         // 可移动动画
-        anim_list.push({animImg:imgUrl + "template/" + animObj.anim_img, row:animObj.row, column:animObj.column});
+        anim_list.push({ animImg: imgUrl + "template/" + animObj.anim_img, row: animObj.row, column: animObj.column });
       }
-      
+
     }
     // 设置回调函数
     let callBackFunction = [];
@@ -281,7 +282,7 @@ var commendDispatcher = {
     } else {
       this.handleCommend(gameCommend, callback);
     }
-    
+
   },
 
   handleCommend({ game_commend_enum, aim_site, unit_index, ext_mes }, callback) {
@@ -384,12 +385,12 @@ var commendDispatcher = {
         console.log("单位移动", unit_index);
         moveHelper.move(ext_mes.army_index, unit_index, ext_mes.move_line, () => {
           console.log("移动完毕 展示行动", ext_mes.actions);
-          actionHelper.setActionShow(ext_mes.site, ext_mes.actions, ()=>{
+          actionHelper.setActionShow(ext_mes.site, ext_mes.actions, () => {
             if (callback) {
               this.dispatch(callback.next(), callback);
             }
           });
-          
+
         });
         break;
       case commendType.ROLLBACK_MOVE:
@@ -409,7 +410,7 @@ var commendDispatcher = {
         // 展示行动
         store.commit("setAttachArea", []);
         store.commit("setAttachPoint", {});
-        actionHelper.setActionShow(ext_mes.site, ext_mes.actions, ()=>{
+        actionHelper.setActionShow(ext_mes.site, ext_mes.actions, () => {
           if (callback) {
             this.dispatch(callback.next(), callback);
           }
@@ -508,8 +509,18 @@ var commendDispatcher = {
         }
         break;
       //---------------------其他-------------------------
+      case commendType.SHOW_SYSTEM_NEWS:
+        let message = {};
+        message.color = ext_mes.color;
+        message.mes = ext_mes.send_message ? ext_mes.send_message : ext_mes.message;
+        eventBus.publish("showMessage", message)
+        if (callback) {
+          this.dispatch(callback.next(), callback);
+        }
+        break;
       case commendType.SHOW_GAME_NEWS:
-        store.commit("addGameMessage", ext_mes.message);
+        let mes = ext_mes.send_message ? ext_mes.send_message : ext_mes.message;
+        eventBus.publish("addGameMessage", mes)
         if (callback) {
           this.dispatch(callback.next(), callback);
         }

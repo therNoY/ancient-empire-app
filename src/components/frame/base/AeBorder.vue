@@ -68,7 +68,7 @@
     .borderContent {
     }
     .corner {
-      z-index: 9999;
+      z-index: 9998;
       width: 16px;
       height: 16px;
     }

@@ -28,7 +28,7 @@
 		props: {
 			value: {
 				type: [Number, String],
-				default: 1
+				default: 1,
 			},
 			min: {
 				type: Number,
@@ -67,6 +67,7 @@
 				}
 				const scale = this._getDecimalScale();
 				let value = this.inputValue * scale;
+				let oldValue = this.inputValue;
 				let step = this.step * scale;
 				if (type === "minus") {
 					value -= step;
@@ -89,7 +90,7 @@
 				}
 
 				this.inputValue = (value / scale).toFixed(String(scale).length - 1);
-				this.$emit("change", +this.inputValue);
+				this.$emit("change", +this.inputValue, oldValue);
 				this.$emit("input", +this.inputValue);
 			},
 			_getDecimalScale() {
@@ -126,7 +127,12 @@
 	};
 </script>
 <style lang="scss" scoped>
-	$box-height: 35px;
+	/* #ifdef H5 */
+	$box-height: 26px;
+	/* #endif */
+	/* #ifdef MP */
+	$box-height: 20px;
+	/* #endif */
 	/* #ifdef APP-NVUE */
 	$box-line-height: 35px;
 	/* #endif */
@@ -140,7 +146,6 @@
 		flex-direction: row;
 		height: $box-height;
 		line-height: $box-height;
-		width: 120px;
 	}
 
 	.uni-cursor-point {
@@ -154,12 +159,12 @@
 		width: 50px;
 		height: $box-height;
 		text-align: center;
-		font-size: $uni-font-size-lg;
-		border-width: 1rpx;
+		border-width: 0;
 		border-style: solid;
 		border-color: $uni-border-color;
-		border-left-width: 0;
-		border-right-width: 0;
+	  /* #ifndef H5	*/
+		min-height: auto;
+	  /* #endif	*/
 	}
 
 	.uni-numbox__minus {
@@ -176,7 +181,7 @@
 		font-size: 20px;
 		color: $uni-text-color;
 		background-color: $uni-bg-color-grey;
-		border-width: 1rpx;
+		border-width: 0;
 		border-style: solid;
 		border-color: $uni-border-color;
 		border-top-left-radius: $uni-border-radius-base;
@@ -203,7 +208,9 @@
 	}
 
 	.uni-numbox--text {
+		/* #ifdef H5 */
 		font-size: 20px;
+		/* #endif */
 		color: $uni-text-color;
 	}
 

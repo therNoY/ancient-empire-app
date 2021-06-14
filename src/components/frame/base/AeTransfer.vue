@@ -19,8 +19,6 @@
           <ae-tooltip
             v-if="showTipKey"
             :content="item[showTipKey]"
-            placement="top"
-            effect="light"
           >
             <ae-tag :size="size" type="primary">{{ showKey ? item[showKey] : item }}</ae-tag>
           </ae-tooltip>
@@ -45,8 +43,6 @@
           <ae-tooltip
             v-if="showTipKey"
             :content="item[showTipKey]"
-            placement="top"
-            effect="light"
           >
             <ae-tag type="success" :size="size" effect="dark">{{
               showKey ? item[showKey] : item

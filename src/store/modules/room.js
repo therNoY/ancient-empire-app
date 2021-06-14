@@ -1,5 +1,5 @@
-import { gameCoreUrl } from '@/api/env'
 
+import { connectWS } from "../../utils/gameHelper.js"
 import dispatcher from '../../manger/roomDispacther.js'
 
 
@@ -9,7 +9,7 @@ const roomNet = {
     // 连接的socket
     roomSocket: null,
     room: {},
-    roomMessage:{},
+    roomMessage: {},
   },
 
   mutations: {
@@ -23,36 +23,11 @@ const roomNet = {
 
   actions: {
     // 连接一局游戏的socket 使用websocket
-    connectRoomSocket(store, {roomId, type}) {
-      return new Promise((resolve, reject) => {
-        let token = store.getters.token;
-        if (!token) {
-          reject("用户未登录");
-        }
-        // 首次登陆 需要验证token
-        let url = gameCoreUrl + "/ae/" + type + "/" + roomId + "/" + token;
-        let socket = new WebSocket(url);
-        store.commit("setRoomSocket", socket);
-        socket.onopen = () => {};
-        socket.onmessage = (e) => {
-          let data = JSON.parse(e.data);
-          if (data.open_status && data.open_status == '200') {
-            console.log("Room WS 连接成功", socket);
-            resolve(data.message);
-            return;
-          }
-          dispatcher.dispath(data);
-        };
-
-        socket.onclose = (e) => {
-          console.log("Room ws 连接关闭", e);
-          store.commit("setRoomSocket", null);
-          reject();
-        };
-        socket.onerror = (e) => {
-          console.error(e);
-        };
-      });
+    connectRoomSocket(store, { roomId, type }) {
+      let conInfo = {};
+      conInfo.typeId = roomId;
+      conInfo.type = type;
+      return connectWS(conInfo, "setRoomSocket", (data) => dispatcher.dispath(data));
     },
 
     // 发送 事件
@@ -61,7 +36,7 @@ const roomNet = {
       state.roomSocket.send(JSON.stringify(mes));
     },
 
-    disconnectRoomScoket({ state }){
+    disconnectRoomScoket({ state }) {
       if (state.roomSocket && state.roomSocket.close) {
         state.roomSocket.close();
       }

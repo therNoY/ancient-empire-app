@@ -3,19 +3,21 @@
 		{
 			"path": "components/Home",
 			"style": {
-				// "navigationBarTitleText": "uni-app"
 			}
 		},
 		{
 			"path": "components/Test",
 			"style": {
-				// "navigationBarTitleText": "uni-app"
+			}
+		},
+		{
+			"path": "components/game_core/Index",
+			"style": {
 			}
 		}
 	],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
-		// "navigationBarTitleText": "uni-app",
 		"navigationBarBackgroundColor": "#F8F8F8",
 		"backgroundColor": "#F8F8F8",
 		"pageOrientation": "landscape",

@@ -2,15 +2,17 @@
 <template>
   <div class="ae-button-list" v-if="buttonList.length > 0">
     <div
-        v-for="(button, index) in buttonList"
-        :key="index"
-        class="ae-button-list-item"
-        :style="{'width':buttonWidth+'%'}"
+      v-for="(button, index) in buttonList"
+      :key="index"
+      class="ae-button-list-item"
+      :style="{ width: buttonWidth + '%' }"
+      v-show="
+        config === null ||
+        config[index] === null ||
+        config[index].display === true
+      "
     >
-      <ae-button
-        @click="onClick(index)"
-        :size="size"
-      >
+      <ae-button @click="onClick(index)">
         {{ button }}
       </ae-button>
     </div>
@@ -20,24 +22,31 @@
 <script>
 export default {
   props: {
+    /***
+     * 配置某一个按钮的配置 比如可以控制某一个按钮不显示 {"测试":”{display:false}“}
+     */
     buttonConfig: {
-      type: Function,
+      type: Object,
       default: null,
     },
+    // 按钮的名称集合
     buttonList: {
       type: Array,
       default: () => [],
     },
+    // 按钮的方法集合
     clickAction: {
       type: Array,
       default: () => [],
     },
+    // 扩展因子 调节按钮之间的宽度
     factor: {
       type: Number,
       default: 50,
     },
-    size:{
-      type: Number,
+    // 按钮字体大小
+    size: {
+      type: [Number, String],
       default: 0.75,
     },
   },
@@ -53,22 +62,32 @@ export default {
       }
     },
   },
-  created() {
-    if (this.buttonConfig) {
-      let res = this.buttonConfig();
-      if (res instanceof Array) {
-        this.buttonList = res[0];
-        this.clickAction = res[1];
-      }
-    }
-    this.$appHelper.bindPage2Global(this, "ButtonList");
+  data() {
+    return {
+      config: null,
+    };
   },
+  created() {
+    this.$appHelper.bindPage2Global(this, "ButtonList");
+    if (this.buttonConfig !== null) {
+      this.config = Array.from(Array(this.buttonList.length), (v, k) => null);
+      for (let key of Object.keys(this.buttonConfig)) {
+        let index;
+        if ((index = Number.parseInt(key)) < this.buttonList.length) {
+          this.config[index] = this.buttonConfig[key];
+        }
+      }
+      console.log("buttonList: config", this.config);
+    }
+  },
+  watch: {},
   computed: {
     buttonWidth() {
       if (this.buttonList.length === 1) {
         return 40;
       } else {
-        return this.factor / this.buttonList.length;
+        let displayCount = 0;
+        return this.factor / (this.buttonList.length - displayCount);
       }
     },
   },

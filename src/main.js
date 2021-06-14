@@ -19,6 +19,9 @@ Vue.prototype.$eventBus = eventBus;
 Vue.prototype.$color = color;
 Vue.prototype.$language = language;
 appHelper.store = store;
+uni.$store=store;
+
+Vue.prototype.$uni=uni;
 
 // uni 目前不支持全局引入 会报错 只能逐个引入
 // const req = require.context('./plugin', true, /\.vue$/)
@@ -105,15 +108,6 @@ Vue.component("UniRate", UniRate);
 import UniTag from "./plugin/uni-tag/uni-tag"
 Vue.component("UniTag", UniTag);
 
-import UniTable from "./plugin/uni-table/uni-table"
-Vue.component("UniTable", UniTable);
-import UniTr from "./plugin/uni-tr/uni-tr"
-Vue.component("UniTr", UniTr);
-import UniTh from "./plugin/uni-th/uni-th"
-Vue.component("UniTh", UniTh);
-import UniTd from "./plugin/uni-td/uni-td"
-Vue.component("UniTd", UniTd);
-
 import UploadFile from "./plugin/uni-file-picker/upload-file"
 Vue.component("UploadFile", UploadFile);
 import UploadImage from "./plugin/uni-file-picker/upload-image"
@@ -130,6 +124,7 @@ const app = new Vue({
   store
 });
 app.$mount();
+
 
 // #ifndef H5
 Vue.prototype.__patch__ = myPatch;

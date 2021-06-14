@@ -13,7 +13,7 @@
       }"
     >
       <ae-border
-        :noBorder="fullScreen"
+        :noBorder="fullScreen || noBorder"
         :style="{
           width: vueStyle.popupWidth,
           height: vueStyle.popupHeight,
@@ -62,9 +62,15 @@
       ></ae-tip>
     </div>
     <img
-      class="app-close-button click-cursor"
-      @click="close"
-      src="../../../assets/images/assist/return1.png"
+      v-if="showChoose"
+      class="app-choose-button click-cursor"
+      @click="$emit('choose')"
+      src="../../../assets/images/assist/choose1.png"
+    />
+    <img
+        class="app-close-button click-cursor"
+        @click="close"
+        src="../../../assets/images/assist/return1.png"
     />
   </div>
 </template>
@@ -79,9 +85,16 @@ export default {
     // 弹出框宽度
     width: {
       default: "42",
+      // #ifdef MP
+      default: "64",
+      // #endif
     },
     // 是否全屏 只有是不是H5的时候有校
     setFullScreen: {
+      type: Boolean,
+      default: false,
+    },
+    noBorder:{
       type: Boolean,
       default: false,
     },
@@ -98,6 +111,10 @@ export default {
     showCloseTip: {
       type: Boolean,
       default: false,
+    },
+    showChoose:{
+      type:Boolean,
+      default:false,
     },
     // inlineDialog为true的时候有用
     top: {
@@ -277,7 +294,14 @@ export default {
   margin-top: 8%;
   margin-bottom: 8%;
 }
-
+.app-choose-button{
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  left: 3px;
+  bottom: 3px;
+  z-index: 10000;
+}
 .app-close-button {
   position: absolute;
   width: 32px;

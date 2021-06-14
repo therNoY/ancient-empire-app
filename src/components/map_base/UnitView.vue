@@ -29,7 +29,7 @@
 
       <!--等级-->
       <div v-if="hasLevel" class="unit_level">
-<!--        <img :src="levelImg" />-->
+       <img :src="levelImg" />
       </div>
     </div>
   </div>
@@ -40,8 +40,8 @@ export default {
   props: {
     unit:{},
     color:{},
-    signo:{
-      type:Number,
+    signal:{
+      type:[Number,String],
       default:0,
     }
   },
@@ -170,6 +170,7 @@ div {
 .lifeNum img {
   position: relative;
   width: 6px;
+  height: 7px;
   float: left;
 }
 </style>

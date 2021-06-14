@@ -1,6 +1,7 @@
-import { gameCoreUrl } from '@/api/env'
+import { connectWS } from "../../utils/gameHelper.js"
 import commendDispatcher from '../../manger/commandDispather.js'
 import chapterDialogDispather from '../../manger/chapterDialogDispather.js'
+import { SendMessage } from "../../api";
 
 // 前端游戏的核心控制器
 const gameCore = {
@@ -17,12 +18,11 @@ const gameCore = {
     mapState: "0",
     // 是否展示购买单位弹框
     buyUnitDialog: false,
-    // 游戏信息
-    gameMessage: null,
+
   },
 
   mutations: {
-    setSocket(state, ws) {
+    setGameSocket(state, ws) {
       state.socket = ws;
     },
     setGame(state, game) {
@@ -57,55 +57,45 @@ const gameCore = {
       console.log("准备改变地形", changeRegion);
       state.game.game_map.regions.splice(changeRegion.region_index, 1, changeRegion.region)
     },
-    addGameMessage(state, message) {
-      state.gameMessage = message;
-    }
   },
 
   actions: {
     // 连接一局游戏的socket 使用websocket
     connectGameSocket(store, { recordId, type }) {
-      return new Promise((resolve, reject) => {
-        let token = store.getters.token;
-        if (!token) {
-          reject("用户未登录");
+      // 收到游戏事件回调
+      let onGetGameMessage = function (data) {
+        console.log("收到游戏事件消息", data);
+        if (data instanceof Array && data.length > 0) {
+          commendDispatcher.dispatchOrder(data);
+        } else {
+          if (data.game_commend_enum) {
+            commendDispatcher.dispatch(data);
+          } else if (data.dialog_type) {
+            chapterDialogDispather.dispatch(data);
+          }
         }
-        // 首次登陆 需要验证token
-        let url = gameCoreUrl + "/ae/" + type + "/" + recordId + "/" + token;
-        let socket = new WebSocket(url);
-        store.commit("setSocket", socket);
-        socket.onopen = () => {
-          console.log("ws 连接成功", socket);
-          this.commit("setAttachArea", []);
-          this.commit("setAttachPoint", {});
-          this.commit("setMoveArea", []);
-          this.commit("setMoveLine", []);
-          this.commit("setAction", []);
-        };
-        socket.onmessage = (e) => {
-          let data = JSON.parse(e.data);
-          if (data.open_status && data.open_status == '200') {
-            console.log("Room WS 连接成功", socket);
-            resolve(1);
-            return;
-          }
-          console.log("收到服务发出的指令", data);
-          if (data instanceof Array && data.length > 0) {
-            commendDispatcher.dispatchOrder(data);
-          } else {
-            if (data.game_commend_enum) {
-              commendDispatcher.dispatch(data);
-            } else if (data.dialog_type) {
-              chapterDialogDispather.dispatch(data);
-            }
-          }
-        };
+      };
 
-        socket.onclose = (e) => {
-          console.log("ws 连接关闭", e);
-          reject();
-        }
-      });
+      // 初始化方法
+      let initFunction = function (store) {
+        store.commit("setAttachArea", []);
+        store.commit("setAttachPoint", {});
+        store.commit("setMoveArea", []);
+        store.commit("setMoveLine", []);
+        store.commit("setAction", []);
+      };
+
+      let conInfo = {};
+      conInfo.typeId = recordId;
+      conInfo.type = type;
+      return connectWS(conInfo, "setGameSocket", onGetGameMessage, initFunction);
+    },
+
+    sendGameMessage({ state }, { message }) {
+      let sendMes = {};
+      sendMes.message = message;
+      sendMes.send_type_enum = "SEND_TO_GAME";
+      SendMessage(sendMes);
     },
 
     // 发送 事件
@@ -118,7 +108,7 @@ const gameCore = {
       if (state.socket) {
         state.socket.close();
       }
-      this.commit("setSocket", null);
+      this.commit("setGameSocket", null);
     },
 
     // 测试是否连接

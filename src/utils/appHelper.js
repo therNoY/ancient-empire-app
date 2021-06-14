@@ -11,6 +11,9 @@ const appHelper = {
 
 	dp: [],
 
+	// 定时关闭全局toolTip
+	closeToolTipTimer: null,
+
 	setWidthBack: function() {
 		document
 			.querySelector("body")
@@ -187,6 +190,20 @@ const appHelper = {
 		// #ifdef MP-WEIXIN
 		wx[name] = vue;
 		// #endif
+	},
+
+	closeOtherToolTip:function(_uid){
+		if (_uid === "-999") {
+			return;
+		}
+		if (this.closeToolTipTimer != null) {
+			clearTimeout(this.closeToolTipTimer);
+		}
+		console.log("重新设置定时器");
+		this.closeToolTipTimer = setTimeout(()=>{
+			eventBus.publish("closeOtherToolTip", "-999");
+			this.closeToolTipTimer = null;
+		}, 5000);
 	}
 
 }
@@ -204,7 +221,7 @@ function initDp() {
 	}
 	return dp;
 }
-
+eventBus.regist(appHelper, "closeOtherToolTip");
 appHelper.dp = initDp();
 
 export default appHelper;

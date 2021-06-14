@@ -1,15 +1,11 @@
 <template>
   <!--地形信息-->
   <div class="region-mes" :style="bkColor">
-    <!--地形名称-->
     <div v-if="region" style="height: 60%">
-      <!--地形名称-->
       <div class="int_title">
-        <uni-tag size="small" :type="tagType">
-          {{ region.name }}
-        </uni-tag>
+        <div>{{ region.name }}</div>
       </div>
-      <!--地形图片-->
+
       <div class="unit_p">
         <div class="unit_border">
           <img class="region" src="../../../assets/images/Region/flat.png" />
@@ -41,41 +37,48 @@
           />
         </div>
       </div>
-      <!--地形数据-->
+
+      <div class="region_description">{{ region.description }}</div>
+
       <div class="unit_ci">
-        <ae-tooltip content="增加防御" placement="bottom" effect="light">
-          <div>
-            <img src="../../../assets/images/assist/action_defense.png" />
-            <span class="noBac">{{ region.buff }}</span>
-          </div>
+        <ae-tooltip
+          class="unit-ci-tooltip"
+          :content="$t('encounter.defenseAdd')"
+        >
+          <img src="../../../assets/images/assist/action_defense.png" />
+          <span class="noBac">{{ region.buff }}</span>
         </ae-tooltip>
-        <ae-tooltip content="回合恢复" placement="bottom" effect="light">
-          <div>
-            <img src="../../../assets/images/assist/action_restore.png" />
-            <span class="noBac">{{ region.restore }}</span>
-          </div>
+        <ae-tooltip
+          class="unit-ci-tooltip"
+          :content="$t('encounter.roundRecover')"
+        >
+          <img src="../../../assets/images/assist/action_restore.png" />
+          <span class="noBac">{{ region.restore }}</span>
         </ae-tooltip>
-        <ae-tooltip content="增加金币" placement="bottom" effect="light">
-          <div>
-            <img src="../../../assets/images/assist/action_buy.png" />
-            <span class="noBac">{{ region.tax }}</span>
-          </div>
+        <ae-tooltip class="unit-ci-tooltip" :content="$t('encounter.moneyAdd')">
+          <img src="../../../assets/images/assist/action_buy.png" />
+          <span class="noBac">{{ region.tax }}</span>
         </ae-tooltip>
-        <ae-tooltip content="消耗移动" placement="bottom" effect="light">
-          <div>
-            <img src="../../../assets/images/assist/action_move.png" />
-            <span class="noBac">{{ region.deplete }}</span>
-          </div>
+        <ae-tooltip
+          class="unit-ci-tooltip"
+          :content="$t('encounter.moveConsume')"
+        >
+          <img src="../../../assets/images/assist/action_move.png" />
+          <span class="noBac">{{ region.deplete }}</span>
         </ae-tooltip>
       </div>
-      <div class="region_description">描述：{{ region.description }}</div>
     </div>
-    <game-message style="height: 40%"></game-message>
+    <game-message
+      style="height: 35%"
+      sendEventMethod="sendGameMessage"
+      receiveMesEvent="addGameMessage"
+      :height="($uni.screenHeigh * 0.35)"
+    ></game-message>
   </div>
 </template>
 
 <script>
-import GameMessage from "./GameMessage";
+import GameMessage from "../../frame/GameMessage.vue";
 export default {
   components: {
     GameMessage,
@@ -86,73 +89,50 @@ export default {
     bkColor() {
       return this.$appHelper.getBkColor(this.curr_color);
     },
-    tagType() {
-      let color = this.curr_color;
-      let type = "";
-      switch (color) {
-        case "blue":
-          type = "";
-          break;
-        case "red":
-          type = "danger";
-          break;
-        case "green":
-          type = "success";
-          break;
-        case "black":
-          type = "info";
-          break;
-      }
-      return type;
-    },
   },
-  created() {
-  },
+  created() {},
 };
 </script>
 
 <style lang="scss" scoped>
 .region-mes {
   float: right;
+  text-align: center;
+  width: 100%;
+  height: 100%;
   .int_title {
-    text-align: center;
     font-size: 16px;
     margin-top: 10px;
     margin-bottom: 20px;
-    color: rgba(0, 0, 0, 0.658);
+    color: white;
   }
   .unit_p {
-    text-align: center;
-    position: realtive;
     width: 72px;
     margin: auto;
     .unit_border {
       width: 72px;
       height: 72px;
       margin: auto;
-      position: absolute;
       background-color: #f4f4e6;
-      .unit {
-        position: absolute;
-        top: 24px;
-        left: 24px;
-      }
       img {
         float: left;
       }
     }
   }
   .unit_ci {
-    text-align: center;
-    margin-top: 80px;
-    float: left;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
     width: 100%;
-    div {
+    .unit-ci-tooltip {
       width: 100%;
-      float: left;
       background-color: rgb(255, 255, 255);
       margin-top: 10px;
       padding: 5px 0;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
     }
     img {
       float: left;
@@ -173,6 +153,8 @@ export default {
       transition-property: all;
       transition-timing-function: linear;
       transition-delay: 0s;
+      padding-top: 2px;
+      padding-bottom: 2px;
     }
     .noBac {
       background-color: rgba(255, 255, 255, 0.767);
@@ -180,11 +162,12 @@ export default {
   }
   .region_description {
     font-size: 12px;
-    color: rgb(85, 85, 85);
+    color: rgb(255, 255, 255);
     float: left;
     margin-top: 20px;
     margin-bottom: 10px;
     padding-bottom: 10px;
+    width: 100%;
   }
 }
 </style>

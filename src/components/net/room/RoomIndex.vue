@@ -5,12 +5,13 @@
         ref="mainDiaglog"
         v-model="showModel"
         :showSearch="true"
-        title="游戏大厅"
+        :title="$t('multiPlayer.romeHome')"
         :titleButtons="titleButtonList"
         :footerButtons="buttonList"
         :initQueryDataGrid="queryDataFunction"
         :showItem="showItem"
         :showTitle="showTitle"
+        :width="$uni.isH5 ? 42 : 65"
         page
     >
     </ae-complex-dialog>
@@ -18,8 +19,8 @@
     <ae-complex-dialog
         ref="addNewRoomDialog"
         v-model="addNewDialogShowModel"
-        title="新建房间"
-        :width="35"
+        :title="$t('multiPlayer.addNewRome')"
+        :width="$uni.isH5 ? 35 : 55"
         :formConfig="addNewRoomFormConfig"
         :footerButtons="createRoomButtons"
     ></ae-complex-dialog>
@@ -63,64 +64,64 @@
         canJoinRoom: {},
         queryDataFunction: ()=> GetRoomListByPage(),
         buttonList: [
-          {name: "加入", action: "clickJoinGameButton"},
-          {name: "预览", action: "clickPreviewButton"},
+          {name: this.$t('multiPlayer.join'), action: this.clickJoinGameButton},
+          {name: this.$t('common.preview'), action: this.clickPreviewButton},
         ],
         titleButtonList: [
-          {name: "新增", action: this.clickAddbutton},
-          {name: "刷新", action: this.flushRoom},
+          {name: this.$t('common.add'), action: this.clickAddbutton},
+          {name: this.$t('common.flush'), action: this.flushRoom},
         ],
         showItem: ["room_id", "room_name", "creat_time_show", "ready"],
-        showTitle: ["房间号", "房间名字", "创建时间", "玩家"],
+        showTitle: [this.$t('multiPlayer.homeId'), this.$t('multiPlayer.homeName'), this.$t("common.createTime"), this.$t("player.title")],
         createRoomButtons: [
-          {name: "创建", action: "clickCreateRoom"},
-          {name: "取消", action: "clickCancelCreateRoom"},
+          {name: this.$t('common.create'), action: this.clickCreateRoom},
+          {name: this.$t('common.cancel'), action: this.clickCancelCreateRoom},
         ],
         addNewDialogShowModel: false,
         addNewRoomFormConfig: [
           {
             type: "input",
             key: "room_name",
-            des: "房间名字",
-            default: this.$store.getters.user.user_name + "的房间",
+            des: this.$t('multiPlayer.homeName'),
+            default: this.initRomeName(),
           },
           {
             type: "switchSelect",
             key: "game_type",
-            des: "房间类型",
+            des: this.$t("multiPlayer.romeType"),
             default: "1",
             items: [
-              {key: "1", value: "公开"},
-              {key: "2", value: "私有"},
+              {key: "1", value: this.$t("multiPlayer.public")},
+              {key: "2", value: this.$t("multiPlayer.private")},
             ],
           },
           {
             type: "switchSelect",
             key: "game_model",
-            des: "游戏模式",
+            des: this.$t("multiPlayer.gameModel"),
             default: "1",
             items: [
-              {key: "1", value: "无限"},
-              {key: "2", value: "限时"},
+              {key: "1", value: this.$t("multiPlayer.unlimited")},
+              {key: "2", value: this.$t("multiPlayer.timeout")},
             ],
           },
           {
             type: "switchSelect",
             key: "round_time",
-            des: "回合限制",
+            des: this.$t("multiPlayer.roundLimit"),
             default: "2",
             items: [
-              {key: "1", value: "1分钟"},
-              {key: "2", value: "2分钟"},
-              {key: "3", value: "3分钟"},
-              {key: "5", value: "5分钟"},
-              {key: "10", value: "10分钟"},
+              {key: "1", value: this.$t("common.minute", 1)},
+              {key: "2", value: this.$t("common.minute", 2)},
+              {key: "3", value: this.$t("common.minute", 3)},
+              {key: "5", value: this.$t("common.minute", 5)},
+              {key: "10", value: this.$t("common.minute", 10)},
             ],
           },
           {
             type: "userMapSelect",
             key: "init_map",
-            des: "选择地图",
+            des: this.$t("multiPlayer.chooseMap"),
           },
         ],
         joinMapId: "",
@@ -133,16 +134,20 @@
         roomOwner: "",
       };
     },
-
     methods: {
       onDialogCreate() {
         console.log("页面创建");
-        // this.flushRoom();
+        this.addNewRoomFormConfig[0].default = this.initRomeName();
+        this.$eventBus.regist(this, "flushRoom", "flushRoom");
       },
       closePreview() {
       },
+      initRomeName(){
+        return this.$store.getters.user.user_name + this.$t("multiPlayer.whoRome");
+      },
       onDialogDestroy() {
         console.log("页面销毁");
+        this.$eventBus.unRegist(this, "flushRoom");
       },
       clickAddbutton() {
         console.log("点击新增");
@@ -153,20 +158,20 @@
 
         this.$appHelper.setLoading();
         let joinRoomSocket = this.$refs.joinRoom.joinRoomSocket(selectMap.room_id);
-        joinRoomSocket.then((resp) => {
+        joinRoomSocket.then(({message}) => {
           this.joinMapId = selectMap.map_id;
           this.joinRoomId = selectMap.room_id;
           this.joinRoomName = selectMap.room_name;
-          this.armyConfigList = JSON.parse(resp);
+          this.armyConfigList = JSON.parse(message);
           this.roomOwner = selectMap.room_owner;
           this.setJoinRoomShow();
           this.showJoinRoom = true;
-          this.$appHelper.infoMsg("加入成功");
+          this.$appHelper.infoMsg(this.$t("multiPlayer.joinSuccess"));
           this.$appHelper.setLoading();
         })
         .catch((error) => {
           console.error(error);
-          this.$appHelper.infoMsg("加入失败");
+          this.$appHelper.infoMsg(this.$t("multiPlayer.joinFail"));
           this.$refs.mainDiaglog.flushData();
           this.$appHelper.setLoading();
         });
@@ -187,59 +192,45 @@
         let formData = this.$refs.addNewRoomDialog.getFormData();
         console.log(formData);
         if (!formData) {
-          this.$appHelper.infoMsg("创建房间数据不完整");
-          return;
-        }
-        if (!formData) {
-          this.$appHelper.infoMsg("创建房间数据不完整");
+          this.$appHelper.infoMsg(this.$t("multiPlayer.roomDataLost"));
           return;
         }
 
         if (!formData.room_name) {
-          this.$appHelper.infoMsg("房间名字不能为空");
+          this.$appHelper.infoMsg(this.$t("multiPlayer.roomNameLost"));
           return;
         }
 
         if (!formData.init_map) {
-          this.$appHelper.infoMsg("必须选择地图");
+          this.$appHelper.infoMsg(this.$t("multiPlayer.gameMapLostTip"));
           return;
         }
+        console.log(this.$refs.addNewRoomDialog.getFormData());
         let args = formData;
-        this.$appHelper.setLoading();
-        CreateRoom(args)
-        .then((resp) => {
-          if (resp.res_code == 0) {
-            this.addNewDialogShowModel = false;
-            this.joinMapId = this.$refs.addNewRoomDialog.getFormData().init_map.map_id;
-            this.joinRoomId = resp.res_val.room_id;
-            this.joinRoomName = resp.res_val.room_name;
-            this.roomOwner = this.$store.getters.user.user_id;
-            this.armyConfigList = JSON.parse(resp.res_val.map_config).armyList;
-            console.log(this.$refs.addNewRoomDialog.getFormData());
-            this.setJoinRoomShow();
-            let initSetting = this.$refs.joinRoom.initSetting(
-                resp.res_val.room_id
-            );
-            initSetting.then((joinRoomPromise) => {
+        CreateRoom(args).then(({res_val}) => {
+          this.addNewDialogShowModel = false;
+          this.joinMapId = this.$refs.addNewRoomDialog.getFormData().init_map.map_id;
+          this.joinRoomId = res_val.room_id;
+          this.joinRoomName = res_val.room_name;
+          this.roomOwner = this.$store.getters.user.user_id;
+          this.armyConfigList = JSON.parse(res_val.map_config).armyList;
+          this.setJoinRoomShow();
+          let initSetting = this.$refs.joinRoom.initSetting(
+              res_val.room_id
+          );
+          this.$appHelper.setLoading();
+          initSetting.then((joinRoomPromise) => {
               this.showJoinRoom = true;
-              console.log("joinRoomPromise result >>>", resp, joinRoomPromise);
-              this.$appHelper.infoMsg("创建成功");
+              console.log("joinRoomPromise result >>>", res_val, joinRoomPromise);
+              this.$appHelper.infoMsg(this.$t("multiPlayer.joinSuccess"));
               this.$appHelper.setLoading();
             })
             .catch((error) => {
-              this.$appHelper.infoMsg("加入房间失败");
+              this.$appHelper.infoMsg(this.$t("multiPlayer.joinFail"));
               this.$appHelper.setLoading();
               this.showJoinRoom = false;
             });
-          } else {
-            console.log("创建房间失败, 请稍后重试");
-            this.$appHelper.setLoading();
-          }
         })
-        .catch((error) => {
-          console.error(error);
-          this.$appHelper.setLoading();
-        });
       },
       clickCancelCreateRoom() {
         console.log("取消创建房间");
@@ -250,12 +241,8 @@
         }
       }
     },
-    computed: {},
     created() {
-      this.$eventBus.regist(this, "flushRoom", "flushRoom");
-    },
-    destroyed() {
-      this.$eventBus.unRegist(this, "flushRoom");
+      this.$appHelper.bindPage2Global(this, "RoomPage");
     },
   };
 </script>

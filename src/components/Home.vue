@@ -2,7 +2,7 @@
 	<!--首页-->
 
 	<div class="home" :style="{ background: vueStyle.background }">
-		<img  class="logo" src="../assets/images/assist/logo.png" alt />
+		<img class="logo" src="../assets/images/assist/logo.png" />
 		<div class="buttons">
 			<!-- #ifdef H5 -->
 			<ae-button :size="buttonSize" class="home_button" @click="clickUserInfo">{{ $t('player.title') }}</ae-button>
@@ -19,34 +19,34 @@
 			<ae-button :size="buttonSize" class="home_button" @click="showTemplateManger = true">{{ $t('templateManagement.title') }}</ae-button>
 			<ae-button :size="buttonSize" class="home_button" @click="showMapManger = true">{{ $t('mapManagement.title') }}</ae-button>
 			<ae-button :size="buttonSize" class="home_button" @click="router('mapEdit/0')">{{ $t('mapEdit.title') }}</ae-button>
-			  <ae-button :size="buttonSize" class="home_button" @click="router('Test')">帮助</ae-button>
+			<ae-button :size="buttonSize" class="home_button" @click="router('Test')">帮助</ae-button>
 			<!--  <ae-button :size="buttonSize" class="home_button" @click="router('monitor')">监控</ae-button> -->
 		</div>
 
 		<!-- #ifdef H5 -->
 		<user-info ref="userInfo" v-model="userInfoDialog" @close="userInfoDialog = false"></user-info>
 		<!-- #endif -->
-		<!-- #ifdef MP-WEIXIN -->
+		<!-- #ifdef MP -->
 		<wei-xin-user-info ref="userInfo" v-model="userInfoDialog" :register="loginUser" @close="userInfoDialog = false"></wei-xin-user-info>
 		<!-- #endif -->
 
 		<!--章节选择-->
-		<chapter-select v-model="showChapter"></chapter-select>
+		<chapter-select ref="chapter" v-model="showChapter"></chapter-select>
 		<!--遭遇战-->
-		<encounter v-if="showEncounter" v-model="showEncounter"></encounter>
+		<encounter-start ref="encounter" v-if="showEncounter" v-model="showEncounter"></encounter-start>
 		<!-- 多人游戏 房间管理 -->
-		<room-index v-model="showNetGameDialog"></room-index>
+		<room-index ref="room" v-model="showNetGameDialog"></room-index>
 		<!--模板管理-->
-		<template-manger v-model="showTemplateManger"></template-manger>
+		<template-manger ref="template" v-model="showTemplateManger"></template-manger>
 		<!--单位信息管理-->
-		<unit-mes-manger v-model="showUnitMange"></unit-mes-manger>
+		<unit-mes-manger ref="unit-mes" v-model="showUnitMange"></unit-mes-manger>
 		<!--用户记录-->
-		<user-record v-model="showUserRecord"></user-record>
-
+		<user-record ref="user-record"  v-model="showUserRecord"></user-record>
 
 		<!-- 地图管理 -->
-		<map-manger v-model="showMapManger"></map-manger>
+		<map-manger ref="map-manger" v-model="showMapManger"></map-manger>
 
+		<!-- 基础监听类 -->
 		<base-lister></base-lister>
 	</div>
 </template>
@@ -55,7 +55,7 @@
 import UserInfo from './auth/UserInfo.vue';
 import WeiXinUserInfo from './auth/WeiXinUserInfo.vue';
 import RoomIndex from './net/room/RoomIndex.vue';
-import Encounter from './encounter/Encounter.vue';
+import EncounterStart from './encounter/EncounterStart.vue';
 import UserRecord from './encounter/UserRecord.vue';
 import TemplateManger from './template_mange/TemplateManger.vue';
 import UnitMesManger from './template_mange/UnitMesManger.vue';
@@ -74,10 +74,10 @@ export default {
 		UserInfo,
 		WeiXinUserInfo,
 		RoomIndex,
-		Encounter,
 		UserRecord,
 		TemplateManger,
 		UnitMesManger,
+		EncounterStart,
 		MapEdit,
 		ChapterSelect,
 		MapManger,
@@ -200,9 +200,12 @@ export default {
 	},
 	created() {
 		// #ifdef MP-WEIXIN
-		this.buttonSize = 0.7;
 		wx.uni = uni;
 		// #endif
+
+		if (!this.$uni.isH5) {
+			this.buttonSize = 0.7;
+		}
 		this.loadFontFaceFromWeb();
 		this.vueStyle.background = this.$s('homeBase.background');
 		this.$appHelper.bindPage2Global(this, "HomeVue");
@@ -212,9 +215,6 @@ export default {
 		haveLogin() {
 			return this.$store.getters.token && this.$store.getters.user && this.$store.getters.user.user_name;
 		},
-		zhiji(){
-			console.log("你是大傻叉？？？");
-		}
 	}
 };
 </script>
@@ -228,7 +228,7 @@ export default {
 .logo {
 	margin: 0 auto;
 	height: 15%;
-	// #ifdef MP-WEIXIN
+	// #ifdef MP
 	width: 20%;
 	// #endif
 }

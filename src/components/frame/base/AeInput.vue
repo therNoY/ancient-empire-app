@@ -64,6 +64,8 @@ export default {
     value(v) {
       if (v && !this.inputValue) {
         this.inputValue = v;
+      } else if (v === null) {
+        this.inputValue = null;
       }
     },
   },

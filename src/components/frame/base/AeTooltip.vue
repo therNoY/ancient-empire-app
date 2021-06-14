@@ -1,12 +1,12 @@
 <template>
-  <div>
+  <div style="position: relative">
     <span
       v-show="show"
-      :class="['popuptext', show ? 'show' : '']"
+      :class="['popuptext', show ? 'show' : '', placement + '-placement']"
       @click="show = false"
       >{{ content }}</span
     >
-    <span @click="show = !show">
+    <span style="width: 100%;" @click="showToolTip">
       <slot></slot>
     </span>
   </div>
@@ -19,7 +19,11 @@ export default {
       type: String,
       default: "提示",
     },
-    placement: {},
+    // 正中显示 可选 left right
+    placement: {
+      type: String,
+      default: "center"
+    },
     effect: {},
   },
   data() {
@@ -27,8 +31,25 @@ export default {
       show: false,
     };
   },
-  created() {
+  methods:{
+    showToolTip(){
+      this.show = !this.show;
+      if (this.show) {
+        this.$eventBus.publish("closeOtherToolTip", this._uid)
+      }
+    },
+    closeOtherToolTip(id){
+      if (this.show && this._uid !== id) {
+        this.show = false;
+      }
+    }
   },
+  created() {
+    this.$eventBus.regist(this, "closeOtherToolTip");
+  },
+  destroyed(){
+    this.$eventBus.unRegist(this, "closeOtherToolTip");
+  }
 };
 </script>
 
@@ -43,9 +64,17 @@ export default {
   position: absolute;
   z-index: 1;
   bottom: 125%;
-  left: 50%;
   margin-left: -80px;
   -webkit-text-stroke: 0.2px #000000;
+}
+.center-placement{
+  left: 50%;
+}
+.left-placement{
+  left: 120%;
+}
+.right-placement{
+  left: 90%;
 }
 
 /* Popup arrow */
@@ -53,11 +82,19 @@ export default {
   content: "";
   position: absolute;
   top: 100%;
-  left: 50%;
   margin-left: -5px;
   border-width: 5px;
   border-style: solid;
   border-color: #555 transparent transparent transparent;
+}
+.center-placement::after{
+  left: 50%;
+}
+.left-placement::after{
+  left: 10%;
+}
+.right-placement::after{
+  left: 90%;
 }
 
 /* Toggle this class - hide and show the popup */

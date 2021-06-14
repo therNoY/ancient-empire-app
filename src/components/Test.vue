@@ -1,84 +1,147 @@
 <template>
-  <div>
-    <h1>移动</h1>
-    <movable-area>
-      <movable-view class="max" out-of-bounds :x="x" :y="y" direction="all" @change="onChange">
-        <img  class="logo" src="../assets/images/assist/main_texture.png" alt />
+  <div style="text-align: center;">
+    <h1>测试容器</h1>
+    <movable-area class="movable-area1">
+      <movable-view
+        class="max"
+        out-of-bounds
+        :x="x"
+        :y="y"
+        direction="all"
+        @change="onChange"
+      >
       </movable-view>
     </movable-area>
     <h1>分段</h1>
-    <uni-segmented-control :current="current" :values="items" style-type="text" active-color="red" @clickItem="onClickItem" />
+    <uni-segmented-control
+      :current="current"
+      :values="items"
+      style-type="text"
+      active-color="red"
+      @clickItem="onClickItem"
+    />
     <h1>tooltip</h1>
-    <ae-tooltip>
-      <h2>哈哈哈</h2>
-    </ae-tooltip>
-    <h1>表格</h1>
-    <uni-table>
-      <tr>
-        <uni-th>1</uni-th>
-        <uni-th>2</uni-th>
-        <uni-th>3</uni-th>
-      </tr>
-      <tr>
-        <uni-td>11</uni-td>
-        <uni-td>22</uni-td>
-        <uni-td>33</uni-td>
-      </tr><tr>
-        <uni-td>111</uni-td>
-        <uni-td>222</uni-td>
-        <uni-td>333</uni-td>
-      </tr>
-    </uni-table>
+    <div >
+      <ae-tooltip content="1111111">
+        <div style="width: 200px; height: 200px; margin-left: 100px">
+          哈哈哈
+        </div>
+      </ae-tooltip>
+    </div>
+
+    <h1>双向绑定</h1>
+    <ae-switch-select
+      label="值"
+      v-model="army"
+      :items="armyType"
+    ></ae-switch-select>
+    <ae-switch-select
+      label="对象"
+      v-model="config.army"
+      :items="armyType"
+    ></ae-switch-select>
+    <ae-switch-select
+      v-for="config in array"
+      label="数组"
+      v-model="config.army"
+      :key="config.army"
+      :items="armyType"
+    ></ae-switch-select>
+
+    <uni-number-box v-model="config.numberBox" />
+    <uni-number-box v-model="numberBox" />
+
+    <h1>buttonList</h1>
+    <ae-button-list
+      :buttonList="['测试1','测试2','测试3']"
+      :buttonConfig='{"2":{"display":current === 2}}'
+      :clickAction="clickAction"
+    ></ae-button-list>
+
+     <h1>baseDialog</h1>
+     <ae-base-dialog v-model="dailog" title="测试"></ae-base-dialog>
+     <ae-button @click="dailog = !dailog">弹出</ae-button>
+
   </div>
 </template>
 
 <script>
-import AeTooltip from './frame/base/AeTooltip.vue';
-  export default {
-    props:[],
-    data(){
-      return{
-        x:0,
-        y:0,
-        current:1,
-        items: ['选项卡1', '选项卡2', '选项卡3'],
-        styleType: 'button'
-      }
-    },
-    methods: {
-      onChange({detail}){
-        console.log(arguments)
+export default {
+  props: [],
+  data() {
+    return {
+      dailog:false,
+      x: 0,
+      y: 0,
+      current: 1,
+      items: ["选项卡1", "选项卡2", "选项卡3"],
+      styleType: "button",
+      army: "user",
+      config: {
+        army: "user",
+        numberBox: 2,
       },
-      onClickItem(){
-        console.log(arguments);
-      }
+      array: [
+        {
+          army: "user",
+        },
+        {
+          army: "no",
+        },
+      ],
+      numberBox: 1,
+      armyType: [
+        {
+          key: "user",
+          value: this.$t("player.title"),
+        },
+        {
+          key: "ai",
+          value: this.$t("player.ai"),
+        },
+        {
+          key: "no",
+          value: this.$t("common.noting"),
+        },
+      ],
+      clickAction:[],
+    };
+  },
+  methods: {
+    onChange({ detail }) {
+      console.log(arguments);
     },
-    computed: {
-
+    onClickItem() {
+      console.log(arguments);
     },
-  }
+    test(name){
+      alert('测试' + name);
+    }
+  },
+  computed: {},
+};
 </script>
 
 <style lang="scss" scoped>
-  movable-view {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    /*height: 150rpx;*/
-    /*width: 150rpx;*/
-    background-color: #007AFF;
-    color: #fff;
-  }
+movable-view {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /*height: 150rpx;*/
+  /*width: 150rpx;*/
+  background-color: #007aff;
+  color: #fff;
+}
 
-  movable-area {
-    height: 200px;
-    width: 200px;
-    background-color: #D8D8D8;
-    overflow: hidden;
-  }
+.movable-area1 {
+  height: 200px;
+  width: 200px;
+  background-color: #d8d8d8;
+  overflow: hidden;
+}
 
-  .max {
-    width:500rpx;
-    height: 500rpx;
-  }
+.max {
+  width: 500px;
+  height: 500px;
+}
 </style>

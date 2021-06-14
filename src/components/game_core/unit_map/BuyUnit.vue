@@ -1,7 +1,7 @@
 <template>
   <div>
     <!--招募军队弹框-->
-    <el-dialog title="招募" :visible.sync="buyUnitShow" width="40%">
+    <ae-base-dialog title="招募" v-model="buyUnitShow" width="40%">
       <div class="content" v-if="buyUnitShow && buyUnitsInfo">
         <!--信息头-->
         <div class="title">
@@ -61,7 +61,7 @@
             <b class="unit_ability_tit">能力:</b>
             <div
               v-for="(abilitie, index) in buyUnitsInfo[selectIndex].abilities"
-              :key="'ab' + index"
+              :key="index"
             >
               {{ abilitie.name }}
             </div>
@@ -73,7 +73,7 @@
           <div
             class="unit_show"
             v-for="(unitInfo, index) in buyUnitsInfo"
-            :key="'unit_info' + index"
+            :key="unitInfo.unit_mes.type"
             @click="selectIndex = index"
           >
             <img
@@ -89,10 +89,10 @@
         </div>
       </div>
       <span slot="footer" class="dialog-footer">
-        <el-button size="mini" @click="close">取 消</el-button>
-        <el-button size="mini" type="primary" @click="buyUnit">购 买</el-button>
+        <ae-button size="mini" @click="close">取 消</ae-button>
+        <ae-button size="mini" type="primary" @click="buyUnit">购 买</ae-button>
       </span>
-    </el-dialog>
+    </ae-base-dialog>
   </div>
 </template>
 
@@ -160,6 +160,7 @@ export default {
     color() {
       return this.$store.getters.game.curr_color;
     },
+    
   },
   created() {
     let args = {};

@@ -68,11 +68,11 @@
       </div>
       <!--坟墓-->
       <div class="tomb">
-        <img
-          v-for="tomb in tombs"
-          src="../assets/images/unit/tomb.png"
-          :style="{top: position(1, tomb.row), left: position(1, tomb.column)}"
-        />
+<!--        <img-->
+<!--          v-for="tomb in tombs"-->
+<!--          src="../assets/images/unit/tomb.png"-->
+<!--          :style="{top: position(1, tomb.row), left: position(1, tomb.column)}"-->
+<!--        />-->
       </div>
       <!--所有军队-->
       <div class="armys" v-for="(army, armyIndex) in armys">

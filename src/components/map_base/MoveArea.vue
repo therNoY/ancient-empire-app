@@ -5,7 +5,7 @@
     <div class="move_area" v-if="moveAreas && moveAreas.length > 0">
       <img
         v-for="(moveArea,index) in moveAreas"
-        :key="'MOVEAREA_' + index"
+        :key="index"
         src="../../assets/images/assist/alpha.png"
         @click="showMoveLine(moveArea.row, moveArea.column)"
         :style="{
@@ -18,7 +18,7 @@
     <div
       class="movePath"
       v-for="(pathPoint, index) in moveLine"
-      :key="'MOVELINE_' + index"
+      :key="moveLineKey(index)"
     >
       <div
         v-if="index < moveLine.length - 1"
@@ -88,6 +88,9 @@ export default {
     },
   },
   methods: {
+    moveLineKey(index){
+      return `${'MOVELINE_' + index}`;
+    },
     // 展示移动路线
     showMoveLine(row, column) {
       if (this.$appHelper.mapCanClick()) {

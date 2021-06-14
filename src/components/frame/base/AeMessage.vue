@@ -32,6 +32,10 @@ export default {
       type: Number,
       default: 60,
     },
+    color:{
+      type: String,
+      default: null,
+    }
   },
   data() {
     return {
@@ -49,6 +53,9 @@ export default {
   },
   computed: {
     unitColor() {
+      if (this.color) {
+        return this.color;
+      }
       const type = this.type;
       let color = "blue";
       if (type == "success") {

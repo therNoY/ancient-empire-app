@@ -3,6 +3,7 @@ import zh from "./zh.json"
 import Vue from 'vue'
 
 import store from "../store";
+import arrayWithHoles from "@babel/runtime/helpers/esm/arrayWithHoles";
 
 let language = {
 
@@ -16,7 +17,6 @@ let language = {
 	 * @param router
 	 */
 	getLanguage: function(router) {
-
 		if (!router) {
 			throw new Error("获取语言,配置错误" + router);
 		}
@@ -47,7 +47,7 @@ let language = {
 					obj = obj[key];
 				} else {
 					console.warn("获取语言错误,未配置" + router);
-					return router;
+					return routArray[i];
 				}
 			}
 			languageCatch[router] = obj;
@@ -57,7 +57,23 @@ let language = {
 
 }
 
-Vue.prototype.$t = (router) => language.getLanguage(router);
+Vue.prototype.$t = (router, args) => {
+	if (args !== undefined) {
+		let res = language.getLanguage(router);
+		res = res.replace("{}", args);
+		return res;
+	} else if (args instanceof Array && args.length > 0) {
+		let res = language.getLanguage(router);
+		let flag = 0, argLength = args.length;
+		while (argLength > 0 && flag < argLength && res.index("{}") > 0) {
+			res = res.replace("{}", args[flag]);
+			flag ++;
+		}
+		return res;
+	} else {
+		return  language.getLanguage(router);
+	}
+};
 uni.$t = Vue.prototype.$t;
 
 export default language;

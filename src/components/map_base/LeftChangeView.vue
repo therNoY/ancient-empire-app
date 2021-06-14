@@ -3,21 +3,30 @@
     <!-- 血量变化的vue -->
     <!--减少的生命值-->
     <div
-      v-for="(leftChange,index) in leftChanges"
-      :key = "index"
+      v-for="(leftChange, index) in leftChanges"
+      :key="index"
       class="attach_num animated bounce"
       :style="{
         top: attachNumTop(leftChange.row),
         left: $appHelper.getPosition(leftChange.column),
       }"
     >
-      <img v-for="(attachNum,index) in leftChange.attach" :key="'LIFE_' + index" :src="lifeCImg(attachNum)" />
+      <img
+        v-for="(attachNum, index) in leftChange.attach"
+        :key="leftNumIndex(index)"
+        :src="lifeCImg(attachNum)"
+      />
     </div>
   </div>
 </template>
 
 <script>
 export default {
+  methods: {
+    leftNumIndex(index) {
+      return "LIFE_" + index;
+    },
+  },
   computed: {
     leftChanges() {
       return this.$store.getters.leftChanges;
@@ -67,7 +76,12 @@ export default {
   transform-origin: center bottom;
 }
 @keyframes bounce {
-  0%, 15%, 47%, 73%,89%,100% {
+  0%,
+  15%,
+  47%,
+  73%,
+  89%,
+  100% {
     animation-timing-function: ease-out;
     transform: translate3d(0, 0, 0);
   }

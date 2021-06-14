@@ -1,6 +1,6 @@
 <template>
   <div class="ae-button-body">
-    <view class="ae-button" @click="click" :style="{'fontSize': fontSize + 'rem'}">
+    <view class="ae-button" @click="click" :style="{'fontSize': fontSize}">
       <span class="ae-button-text">
         <slot/>
       </span>
@@ -15,8 +15,9 @@
         type: Number,
         default: 5,
       },
+      // 大小默认0.75rem 可以指定
       size: {
-        type: Number,
+        type: [Number,String],
         default: 0.75,
       },
       disabled: {
@@ -31,13 +32,20 @@
     },
     data(){
       return{
-        fontSize: this.size,
+        fontSize: null,
       }
     },
     created() {
-      // #ifdef H5
-      this.fontSize = this.fontSize / 3;
-      // #endif
+      if (typeof this.size == 'number') {
+        if (this.$uni.isH5) {
+          this.fontSize = this.size / 3 + 'rem';
+        } else {
+          this.fontSize = this.size + 'rem';
+        }
+      } else {
+        this.fontSize = this.size;
+      }
+
     },
     computed: {},
   };

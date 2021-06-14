@@ -2,7 +2,7 @@
   <div>
     <unit-view-list
       v-for="(army, index) in armys"
-      :key="'ARMY_' + index"
+      :key="index"
       :units="army.units"
       :armyColor="army.color"
       @unitOnClick="clickUnit"
