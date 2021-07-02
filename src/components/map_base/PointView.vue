@@ -3,26 +3,45 @@
     <!--指针框 -->
     <div v-if="!attachPoint.hasOwnProperty('row')" @click="clickPoint">
       <img
-        v-show="signal % 2 == 0"
+        style="width: 26px; height: 26px"
+        v-show="signal % 2 === 0"
         src="../../assets/images/assist/point_0.png"
-        :style="pointPosition"
+        :style="{
+          top: $appHelper.getPosition(point.row),
+          left: $appHelper.getPosition(point.column),
+        }"
       />
       <img
-        v-show="signal % 2 == 1"
+        style="width: 26px; height: 26px"
+        v-show="signal % 2 === 1"
         src="../../assets/images/assist/point_1.png"
-        :style="pointPosition"
+        :style="{
+          top: $appHelper.getPosition(point.row),
+          left: $appHelper.getPosition(point.column),
+        }"
       />
     </div>
     <!--攻击/召唤/治疗 指针-->
     <div v-else class="attackPoint" @click="clickChoosePoint">
-      <img :src="attachPointImg" :style="attachPointStyle" />
+      <img
+        style="width: 40px; height: 41px"
+        :src="attachPointImg"
+        :style="{
+          top: (attachPoint.row - 1 - 0.3) * 24 + 'px',
+          left: (attachPoint.column - 1 - 0.3) * 24 + 'px',
+        }"
+      />
     </div>
 
     <!--目的地指针 只在移动区域显示的时候才会显示-->
-    <div class="aim_point" v-if="$store.getters.moveLine.length > 0">
+    <div class="aim_point" v-if="moveLine.length > 0">
       <img
+        style="width: 26px; height: 26px"
         src="../../assets/images/assist/cursor_target.png"
-        :style="aimPoint"
+        :style="{
+          top: $appHelper.getPosition(point.row),
+          left: $appHelper.getPosition(point.column),
+        }"
         @click="goAimPoint"
       />
     </div>
@@ -33,10 +52,10 @@
 import eventype from "../../manger/eventType";
 export default {
   props: {
-    signal:{
-      default:0,
+    signal: {
+      default: 0,
     },
-    point:{}
+    point: {},
   },
   data() {
     return {
@@ -47,23 +66,8 @@ export default {
     attachPoint() {
       return this.$store.getters.attachPoint;
     },
-    pointPosition() {
-      return {
-        top: this.$appHelper.getPosition(this.point.row),
-        left: this.$appHelper.getPosition(this.point.column),
-      };
-    },
-    aimPoint() {
-      return {
-        top: this.$appHelper.getPosition(this.point.row),
-        left: this.$appHelper.getPosition(this.point.column),
-      };
-    },
-    attachPointStyle() {
-      return {
-        top: (this.attachPoint.row - 1 - 0.3) * 24 + "px",
-        left: (this.attachPoint.column - 1 - 0.3) * 24 + "px",
-      };
+    moveLine() {
+      return this.$store.getters.moveLine;
     },
     attachPointImg() {
       return require("../../assets/images/assist/cursor_0" +

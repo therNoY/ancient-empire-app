@@ -14,6 +14,7 @@
     >
       <ae-border
         :noBorder="fullScreen || noBorder"
+        style="position: absolute;"
         :style="{
           width: vueStyle.popupWidth,
           height: vueStyle.popupHeight,
@@ -23,7 +24,6 @@
         <div
           class="ae-base-dialog-popup"
           :class="[fullScreen ? 'fullScreenStyle' : 'h5Style']"
-          :style="{ width: vueStyle.popupWidth }"
         >
           <div
             class="ae-base-dialog-content"

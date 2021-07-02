@@ -96,6 +96,12 @@ const appHelper = {
 	},
 
 	getBkColor: function(bg_color) {
+		return {
+			backgroundColor: this.getBkColorValue(bg_color)
+		};
+	},
+
+	getBkColorValue: function(bg_color) {
 		let color = bg_color;
 		let bkColor = "#96d9f4";
 		if (color) {
@@ -109,9 +115,7 @@ const appHelper = {
 				bkColor = "#007696";
 			}
 		}
-		return {
-			backgroundColor: bkColor
-		};
+		return bkColor;
 	},
 
 	// 获取地图的size

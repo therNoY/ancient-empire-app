@@ -285,8 +285,8 @@ var commendDispatcher = {
 
   },
 
-  handleCommend({ game_commend_enum, aim_site, unit_index, ext_mes }, callback) {
-    switch (game_commend_enum) {
+  handleCommend({ game_commend, aim_site, unit_index, ext_mes }, callback) {
+    switch (game_commend) {
       // ---------------------基础信息改变事件------------------------
       case commendType.CHANGE_CURR_UNIT:
         console.log("执行改变当前单位");

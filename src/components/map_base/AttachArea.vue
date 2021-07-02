@@ -7,7 +7,8 @@
       :key="index"
     >
       <img
-        src="../../assets/images/assist/alpha.png"
+        class="img_style"
+        src="../../assets/images/assist/attach_alpha.png"
         @click="clickAttachArea(attachArea)"
         :style="{
           top: $appHelper.getPosition(attachArea.row),

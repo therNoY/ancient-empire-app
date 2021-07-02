@@ -109,6 +109,7 @@
     "maxPop": "最大人口",
     "setMap": "设置地图",
     "leaveGameWarn": "确定要返回首页么? 游戏将会断开",
+    "endRound": "结束回合？",
     "left": "生命值",
     "experience": "经验值",
     "attach": "攻击力",
@@ -116,7 +117,11 @@
     "roundRecover":"回合恢复",
     "moneyAdd":"税收金币",
     "moveConsume":"消耗移动",
-    "sendMessage":"发送消息"
+    "sendMessage":"发送消息",
+    "send":"发送",
+    "buy":"招募",
+    "noMoney":"资金不足",
+    "unitTooMuch":"人口达到上限"
   },
   "multiPlayer": {
     "title": "多人游戏",

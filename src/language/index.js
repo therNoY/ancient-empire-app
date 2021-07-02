@@ -16,7 +16,7 @@ let language = {
 	 * 语言
 	 * @param router
 	 */
-	getLanguage: function(router) {
+	getLanguage: function (router) {
 		if (!router) {
 			throw new Error("获取语言,配置错误" + router);
 		}
@@ -58,20 +58,20 @@ let language = {
 }
 
 Vue.prototype.$t = (router, args) => {
-	if (args !== undefined) {
+	if (args instanceof Array && args.length > 0) {
+		let res = language.getLanguage(router);
+		let flag = 0, argLength = args.length;
+		while (argLength > 0 && flag < argLength && res.indexOf("{}") > 0) {
+			res = res.replace("{}", args[flag]);
+			flag++;
+		}
+		return res;
+	} else if (args !== undefined) {
 		let res = language.getLanguage(router);
 		res = res.replace("{}", args);
 		return res;
-	} else if (args instanceof Array && args.length > 0) {
-		let res = language.getLanguage(router);
-		let flag = 0, argLength = args.length;
-		while (argLength > 0 && flag < argLength && res.index("{}") > 0) {
-			res = res.replace("{}", args[flag]);
-			flag ++;
-		}
-		return res;
 	} else {
-		return  language.getLanguage(router);
+		return language.getLanguage(router);
 	}
 };
 uni.$t = Vue.prototype.$t;

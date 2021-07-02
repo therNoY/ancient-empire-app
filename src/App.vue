@@ -1,39 +1,48 @@
 <script>
 export default {
-	methods:{
-		
-	},
-	onLaunch: function() {
-		console.log('App Launch');
-		uni.getSystemInfo().then(resp => {
-			console.log('系统信息', resp);
-			this.$store.commit("setSystemInfo" ,resp[1]);
-			if (resp[1].platform === "windows") {
+  methods: {},
+  onLaunch: function () {
+    console.log("App Launch");
+    this.$nextTick(() => {
+      let resp = uni.getSystemInfoSync();
+      console.log("系统信息", resp);
+      this.$store.commit("setSystemInfo", resp);
+      if (resp.platform === "windows") {
         uni.isH5 = true;
       } else {
         uni.isH5 = false;
       }
-      uni.screenHeigh = resp[1].windowHeight;
-		});
-	},
-	onShow: function() {
-		// console.log('App Show')
-	},
-	onHide: function() {
-		// console.log('App Hide')
-	}
+      uni.screenHeigh = resp.windowHeight;
+      uni.screenWidth = resp.windowWidth;
+    });
+  },
+  onReady: function () {
+    // console.log('App Show')
+    let resp = uni.getSystemInfoSync();
+      console.log("系统信息", resp);
+      this.$store.commit("setSystemInfo", resp);
+      if (resp.platform === "windows") {
+        uni.isH5 = true;
+      } else {
+        uni.isH5 = false;
+      }
+      uni.screenHeigh = resp.windowHeight;
+      uni.screenWidth = resp.windowWidth;
+  },
+  onHide: function () {
+    // console.log('App Hide')
+  },
 };
 </script>
 
 <style lang="scss">
 /*每个页面公共css */
-@import 'uview-ui/index.scss';
-@import url('/style/font/aeFont.css');
-
-
+@import "uview-ui/index.scss";
+@import url("/style/font/aeFont.css");
+@import url("/style/animate.min.css");
 
 page {
-	height: 100%;
+  height: 100%;
   /* #ifdef H5 */
   font-size: 14px;
   /* #endif */
@@ -42,14 +51,14 @@ page {
   /* #endif*/
 }
 
-.disable-cursor{
+.disable-cursor {
   cursor: not-allowed;
 }
-.upload-img-icon{
+.upload-img-icon {
   width: 32px;
   height: 32px;
 }
-.click-cursor{
+.click-cursor {
   cursor: pointer;
 }
 
@@ -60,12 +69,12 @@ input:-webkit-autofill {
   -webkit-transition: background-color 50000s ease-in-out 0s;
   transition: background-color 50000s ease-in-out 0s;
 }
-.tabFontStyle{
+.tabFontStyle {
   /* #ifndef H5 */
   font-size: 0.6rem !important;
   /* #endif */
 }
-.img_style{
+.img_style {
   width: 24px;
   height: 24px;
 }
@@ -76,8 +85,8 @@ input:-webkit-autofill {
   height: 320px;
   /* #endif */
   /* #ifndef H5 */
-  max-height: 230rpx;
-  height: 230rpx;
+  max-height: 150px;
+  height: 150px;
   /* #endif */
   overflow: auto;
   border-top: 2px #242424 solid;

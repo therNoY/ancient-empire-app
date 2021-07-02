@@ -289,7 +289,7 @@
       }
       this.setPageStyle();
       // #ifdef MP-WEIXIN
-      this.searchWidth = 100;
+      this.searchWidth = 80;
       // #endif
     },
     computed: {},

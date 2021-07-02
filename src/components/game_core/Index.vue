@@ -7,10 +7,30 @@
       :region="game.curr_region"
     />
 
-    <div class="game_core_container">
-      <movable-area class="main-area">
-        <movable-view class="main-view">
-          <div class="base_map" :style="mapStyle">
+    <div class="game-core-container">
+      <div v-if="!$uni.isH5" class="game-core-black-title">&nbsp;_</div>
+      <movable-area
+        class="main-area"
+        :style="{ width: containerStyle.width, height: containerStyle.height }"
+      >
+        <movable-view
+          :x="x"
+          :y="y"
+          :damping="50"
+          :direction="direction"
+          class="main-view"
+          :style="{
+            width: game.game_map.column * 24 + 'px',
+            height: $appHelper.getMapSize(game.game_map.row),
+          }"
+        >
+          <div
+            class="base_map"
+            :style="{
+              width: game.game_map.column * 24 + 'px',
+              height: $appHelper.getMapSize(game.game_map.row),
+            }"
+          >
             <region-view-list
               ref="regionViewList"
               :regions="game.game_map.regions"
@@ -18,29 +38,39 @@
               :column="game.game_map.column"
               @clickRegion="clickRegion"
             />
-            <attach-area />
-            <tomb-view />
-            <move-area :point="game.curr_point" />
+            <attach-area ref="attachArea" />
+            <tomb-view ref="tombView" />
+            <move-area ref="moveArea" :point="game.curr_point" />
             <army-view
+              ref="armyView"
               @unitOnClick="clickUnit"
               :armys="game.army_list"
               :signal="signal"
             />
-            <point-view :point="game.curr_point" :signal="signal" />
-            <action-view />
-            <left-change />
-            <animate-view />
-            <up-show-animate />
-            <game-dialog />
+            <point-view
+              ref="ponitView"
+              :point="game.curr_point"
+              :signal="signal"
+            />
+            <action-view ref="activeView" />
+            <left-change ref="leftChange" />
+            <animate-view ref="animateView" />
+            <up-show-animate ref="upShowAnimate" />
+            <game-dialog ref="gameDialog" />
           </div>
         </movable-view>
       </movable-area>
       <army-mes
         class="army_mes"
+        ref="armyMes"
         :type="game.type"
         :gameId="game.uuid"
         :curr_color="game.curr_color"
+        :region="game.curr_region"
       />
+      <buy-unit />
+      <!-- 基础监听类 -->
+      <base-lister />
     </div>
 
     <region-mes
@@ -48,10 +78,6 @@
       :curr_color="game.curr_color"
       :region="game.curr_region"
     />
-    <buy-unit />
-
-    <!-- 基础监听类 -->
-		<base-lister/>
   </div>
 </template>
 
@@ -59,8 +85,8 @@
 import RegionViewList from "../map_base/RegionViewList";
 import ArmyView from "../map_base/ArmyView.vue";
 // #ifdef H5
-import UnitMes from "./map_mes/UnitMes.vue";
-import ArmyMes from "./map_mes/ArmyMes.vue";
+import UnitMes from "./map_mes/weixin/UnitMes.vue";
+import ArmyMes from "./map_mes/weixin/ArmyMes.vue";
 import RegionMes from "./map_mes/RegionMes.vue";
 // #endif
 // #ifdef MP
@@ -79,7 +105,7 @@ import BuyUnit from "./unit_map/BuyUnit.vue";
 import eventype from "../../manger/eventType";
 import UpShowAnimate from "../map_base/UpShowAnimate.vue";
 import GameDialog from "../map_base/GameDialog.vue";
-import BaseLister from "../BaseLister.vue"
+import BaseLister from "../BaseLister.vue";
 import appHelper from "../../utils/appHelper";
 export default {
   components: {
@@ -106,45 +132,24 @@ export default {
       game: {},
       // 当前变化信号
       signal: 1,
+      containerStyle: {},
+      x: 0,
+      y: 0,
+      direction: "all",
     };
   },
-  computed: {
-    mapStyle() {
-      let mapCount = document.body.clientWidth * 0.65;
-      let w = this.game.game_map.column * 24;
-      if (mapCount > w) {
-        return {
-          float: "left",
-          marginLeft: (mapCount - w) / 2 + "px",
-          width: w + "px",
-          height: this.$appHelper.getMapSize(this.game.game_map.row),
-        };
-      } else {
-        return {
-          width: w + "px",
-          height: this.$appHelper.getMapSize(this.game.game_map.row),
-        };
-      }
-    },
-    diaLogStyle() {
-      let mapCount = document.body.clientWidth * 0.65;
-      let w = this.game.game_map.column * 24;
-      if (mapCount > w) {
-        return {
-          float: "left",
-          marginLeft: (mapCount - w) / 2 + "px",
-          width: w + "px",
-          height: this.$appHelper.getMapSize(this.game.game_map.row),
-        };
-      } else {
-        return {
-          width: w + "px",
-          height: this.$appHelper.getMapSize(this.game.game_map.row),
-        };
-      }
-    },
-  },
+  computed: {},
   methods: {
+    initMapStyle() {
+      // #ifdef H5
+      this.containerStyle.height = "100%";
+      this.direction = "no";
+      // #endif
+      // #ifndef H5
+      this.containerStyle.width = this.$uni.screenWidth + "px";
+      this.containerStyle.height = this.$uni.screenHeigh - 40 + "px";
+      // #endif
+    },
     // 开启一个后台进程 计时器
     startWorker() {
       setInterval(() => {
@@ -216,6 +221,9 @@ export default {
   created() {
     // 检测webscoket连接
     console.log("准备开始游戏, 检查ws连接情况");
+
+    this.initMapStyle();
+
     this.$appHelper.bindPage2Global(this, "GameIndex");
     this.checkGame()
       .then((resp) => {
@@ -253,24 +261,35 @@ export default {
 #gameCore {
   width: 100%;
   height: 100%;
+  display: flex;
+  flex-direction: row;
   position: relative;
   text-align: center;
-  .unit-mes {
-    float: left;
+  .unit-mes,
+  .region-mes {
+    /* #ifdef H5 */
     width: 16%;
+    /* #endif */
+    /* #ifndef H5 */
+    width: 0;
+    /* #endif */
   }
-  .game_core_container {
-    height: 100%;
+  .game-core-container {
     float: left;
-    width: 68%;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 2;
+    background-color: rgb(70, 72, 70);
+    .game-core-black-title {
+      height: 20px;
+      color: rgb(70, 72, 70);
+    }
     .main-area {
       width: 100%;
-      height: 90%;
+      height: 80%;
+      padding: 2%;
       float: left;
       .main-view {
-        width: 100%;
-        height: 94%;
-        margin-top: 2%;
         position: relative;
         &:hover {
           cursor: pointer;
@@ -285,14 +304,8 @@ export default {
       }
     }
     .army_mes {
-      float: left;
       height: 10%;
     }
-  }
-
-  .region-mes {
-    width: 16%;
-    height: 100%;
   }
 }
 </style>

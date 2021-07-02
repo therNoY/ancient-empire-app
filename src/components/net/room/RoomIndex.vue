@@ -1,6 +1,5 @@
 <template>
   <div>
-
     <ae-complex-dialog
         ref="mainDiaglog"
         v-model="showModel"
@@ -27,7 +26,6 @@
 
     <join-room
         ref="joinRoom"
-        :width="55"
         v-model="showJoinRoom"
         :roomName="joinRoomName"
         :roomId="joinRoomId"

@@ -1,9 +1,10 @@
 <template>
-  <div class="ae-input">
+  <div :class="['ae-input', center?'ae-input-center':'']">
     <div v-if="label" class="ae-input-label">{{ label }}</div>
-    <input class = "ae-input-real"
+    <input
+      class="ae-input-real"
       :type="type"
-      :style="{'width':width+'%', flexDirection: textDir}"
+      :style="{ width: width + '%', flexDirection: textDir }"
       v-model="inputValue"
       :disabled="!editAble"
       :placeholder="placeholder"
@@ -24,32 +25,34 @@ export default {
       type: String,
       default: "text",
     },
-    value: {
-    },
-    default: {
-    },
+    value: {},
+    default: {},
     width: {
       type: Number,
       default: 85,
     },
     placeholder: {
       type: String,
-      default(){
+      default() {
         return uni.$t("common.pleaseInput");
       },
     },
     label: {
       type: String,
     },
-    max:{
-      type:Number,
+    max: {
+      type: Number,
     },
-    min:{
-      type:Number,
+    min: {
+      type: Number,
     },
-    textDir:{
-      default : 'column'
-    }
+    textDir: {
+      default: "column",
+    },
+    center: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -81,7 +84,6 @@ export default {
       this.inputValue = this.default;
     }
   },
-
 };
 </script>
 
@@ -101,6 +103,9 @@ export default {
     -webkit-text-stroke: 0px #000000;
   }
 }
+.ae-input-center{
+  justify-content: space-evenly;
+}
 
 .ae-input-real {
   outline: none;
@@ -116,6 +121,7 @@ export default {
   /* #endif*/
   /* #ifdef MP-WEIXIN */
   height: 16rpx;
+  font-size: 12px;
   border-top: 2rpx #494949 solid;
   border-left: 2rpx #494949 solid;
   border-right: 2rpx #818181 solid;

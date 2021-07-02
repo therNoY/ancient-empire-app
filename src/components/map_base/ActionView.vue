@@ -3,6 +3,7 @@
     <!--展示单位可以进行行动 攻击 召唤 购买 修复-->
     <div class="actionLogo" v-for="(action,index) in unitActions" :key="index">
       <img
+        style="width:20px;height:20px"
         :src="$appHelper.getActionImg(action.action)"
         @click="doAction(action.action)"
         :style="{

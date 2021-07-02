@@ -29,7 +29,7 @@
       @choose="clickSetMap"
       @close="closeSetMap"
     >
-      <div v-if="initArmys.length > 0" class="ae-data-grid">
+      <div v-if="initArmys.length > 0" class="ae-data-grid" style="height:100%;max-height:100%">
         <table style="width: 100%">
           <tr class="ae-data-grid-title">
             <td style="width: 10%">{{ $t("encounter.army") }}</td>
@@ -243,6 +243,7 @@ export default {
       this.initMapConfig.money = this.initMoney;
       this.initMapConfig.army_list = this.initArmys;
       this.initMapConfig.map_id = this.chooseMap.map_id;
+      this.initMapConfig.map_name = this.chooseMap.map_name;
       this.chooseMap.config = this.initMapConfig;
       this.$emit("input", false);
       this.$emit("chooseMap", this.initMapConfig);
@@ -250,7 +251,6 @@ export default {
       this.setMapShow = false;
       this.showModel = false;
     },
-
   },
   created() {
     this.$appHelper.bindPage2Global(this, "encounter");
@@ -283,6 +283,9 @@ export default {
     flex-direction: row;
     color: white;
     justify-content: space-evenly;
+    /* #ifndef H5*/
+    font-size: 12px;
+     /* #endif*/
     .common_init_one {
       display: flex;
       width: 40%;

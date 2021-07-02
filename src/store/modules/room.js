@@ -33,10 +33,16 @@ const roomNet = {
     // 发送 事件
     sendRoomEvent({ state }, mes) {
       console.log("发送mes:", mes);
-      state.roomSocket.send(JSON.stringify(mes));
+      state.roomSocket.send({
+        data: JSON.stringify(mes),
+        success(res) {
+        },
+        fail(err) {
+        }
+      })
     },
 
-    disconnectRoomScoket({ state }) {
+    disconnectRoomSocket({ state }) {
       if (state.roomSocket && state.roomSocket.close) {
         state.roomSocket.close();
       }

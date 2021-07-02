@@ -4,6 +4,7 @@
     <div v-for="(animate,index) in animates" :key="index">
       <img
         v-if="animate"
+        class="img_style"
         :src="animate.animImg"
         :style="{
           top: $appHelper.getPosition(animate.row),

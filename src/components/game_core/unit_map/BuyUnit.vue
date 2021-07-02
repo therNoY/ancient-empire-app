@@ -1,105 +1,126 @@
 <template>
-  <div>
-    <!--招募军队弹框-->
-    <ae-base-dialog title="招募" v-model="buyUnitShow" width="40%">
-      <div class="content" v-if="buyUnitShow && buyUnitsInfo">
-        <!--信息头-->
-        <div class="title">
-          <!--名称-->
-          <b>{{ buyUnitsInfo[selectIndex].unit_mes.name }}</b>
-          <!--价格-->
-          <div>
-            <img src="../../../assets/images/assist/action_buy.png" />
-            <span>{{ buyUnitsInfo[selectIndex].unit_mes.price }}</span>
-          </div>
-          <!--攻击范围-->
-          <div>
-            <img src="../../../assets/images/assist/show_attach_area.png" />
-            <span
-              >{{ buyUnitsInfo[selectIndex].unit_mes.min_attach_range }} -
-              {{ buyUnitsInfo[selectIndex].unit_mes.max_attach_range }}</span
-            >
-          </div>
-          <!--所占人口-->
-          <div>
-            <img src="../../../assets/images/assist/pop_show.png" />
-            <span>{{ buyUnitsInfo[selectIndex].unit_mes.population }}</span>
-          </div>
+  <!--招募军队弹框-->
+  <ae-base-dialog
+    :title="$t('encounter.buy')"
+    v-model="buyUnitShow"
+    :width="$uni.isH5 ? 55 : 80"
+  >
+    <div v-if="buyUnitShow && buyUnitsInfo" class="buy-unit-main">
+      <div class="buy-unit-title buy-unit-info">
+        <b>{{ buyUnitsInfo[selectIndex].unit_mes.name }}</b>
+        <div>
+          <img
+            style="width: 20px; height: 20px"
+            src="../../../assets/images/assist/action_buy.png"
+          />
+          <span>{{ buyUnitsInfo[selectIndex].unit_mes.price }}</span>
         </div>
-        <!--属性信息-->
-        <div class="unit_info">
-          <!--攻击信息-->
-          <div>
-            <img src="../../../assets/images/assist/info_attach.png" />
-            <span
-              >{{ buyUnitsInfo[selectIndex].level_mes.min_attack }} -
-              {{ buyUnitsInfo[selectIndex].level_mes.max_attack }}</span
-            >
-          </div>
-          <div>
-            <img
-              src="../../../assets/images/assist/info_physical_defense.png"
-            />
-            <span>{{
-              buyUnitsInfo[selectIndex].level_mes.physical_defense
-            }}</span>
-          </div>
-          <div>
-            <img src="../../../assets/images/assist/info_magic_defense.png" />
-            <span>{{ buyUnitsInfo[selectIndex].level_mes.magic_defense }}</span>
-          </div>
-          <div>
-            <img src="../../../assets/images/assist/info_move.png" />
-            <span>{{ buyUnitsInfo[selectIndex].level_mes.speed }}</span>
-          </div>
-        </div>
-        <!--介绍信息-->
-        <div class="unit_intr">
-          <div>{{ buyUnitsInfo[selectIndex].unit_mes.description }}</div>
-          <!--能力类表-->
-          <div class="unit_ability">
-            <b class="unit_ability_tit">能力:</b>
-            <div
-              v-for="(abilitie, index) in buyUnitsInfo[selectIndex].abilities"
-              :key="index"
-            >
-              {{ abilitie.name }}
-            </div>
-          </div>
-        </div>
-
-        <!--图片信息-->
-        <div class="img">
-          <div
-            class="unit_show"
-            v-for="(unitInfo, index) in buyUnitsInfo"
-            :key="unitInfo.unit_mes.type"
-            @click="selectIndex = index"
+        <div>
+          <img
+            style="width: 20px; height: 20px"
+            src="../../../assets/images/assist/show_attach_area.png"
+          />
+          <span
+            >{{ buyUnitsInfo[selectIndex].unit_mes.min_attach_range }} -
+            {{ buyUnitsInfo[selectIndex].unit_mes.max_attach_range }}</span
           >
-            <img
-              class="unit_img"
-              :src="$appHelper.getUnitImg(unitInfo.unit_mes.img_index, color)"
-            />
-            <img
-              src="../../../assets/images/assist/show_unit.png"
-              v-if="index != selectIndex"
-            />
-            <img src="../../../assets/images/assist/select_unit.png" v-else />
+        </div>
+        <div>
+          <img
+            style="width: 20px; height: 20px"
+            src="../../../assets/images/assist/pop_show.png"
+          />
+          <span>{{ buyUnitsInfo[selectIndex].unit_mes.population }}</span>
+        </div>
+      </div>
+      <div class="buy-unit-info">
+        <div>
+          <img
+            style="width: 20px; height: 20px"
+            src="../../../assets/images/assist/info_attach.png"
+          />
+          <span
+            >{{ buyUnitsInfo[selectIndex].level_mes.min_attack }} -
+            {{ buyUnitsInfo[selectIndex].level_mes.max_attack }}</span
+          >
+        </div>
+        <div>
+          <img
+            style="width: 20px; height: 20px"
+            src="../../../assets/images/assist/info_physical_defense.png"
+          />
+          <span>{{
+            buyUnitsInfo[selectIndex].level_mes.physical_defense
+          }}</span>
+        </div>
+        <div>
+          <img
+            style="width: 20px; height: 20px"
+            src="../../../assets/images/assist/info_magic_defense.png"
+          />
+          <span>{{ buyUnitsInfo[selectIndex].level_mes.magic_defense }}</span>
+        </div>
+        <div>
+          <img
+            style="width: 20px; height: 20px"
+            src="../../../assets/images/assist/info_move.png"
+          />
+          <span>{{ buyUnitsInfo[selectIndex].level_mes.speed }}</span>
+        </div>
+      </div>
+      <div class="buy-unit-intr">
+        <div class="buy-unit-intr-mess">
+          {{ buyUnitsInfo[selectIndex].unit_mes.description }}
+        </div>
+        <div class="buy-unit-intr-ability">
+          <div
+            v-for="(abilitie, index) in buyUnitsInfo[selectIndex].abilities"
+            :key="index"
+          >
+            {{ abilitie.name }}
           </div>
         </div>
       </div>
-      <span slot="footer" class="dialog-footer">
-        <ae-button size="mini" @click="close">取 消</ae-button>
-        <ae-button size="mini" type="primary" @click="buyUnit">购 买</ae-button>
-      </span>
-    </ae-base-dialog>
-  </div>
+      <div class="buy-unit-img">
+        <div
+          class="unit_show"
+          v-for="(unitInfo, index) in buyUnitsInfo"
+          :key="unitInfo.unit_mes.type"
+          @click="selectIndex = index"
+        >
+          <img
+            class="unit_img"
+            :src="$appHelper.getUnitImg(unitInfo.unit_mes.img_index, color)"
+          />
+          <img
+            style="width: 32px; height: 33px"
+            src="../../../assets/images/assist/show_unit.png"
+            v-if="index != selectIndex"
+          />
+          <img
+            v-else
+            src="../../../assets/images/assist/select_unit.png"
+            style="width: 32px; height: 33px"
+          />
+        </div>
+      </div>
+    </div>
+
+    <span slot="footer" class="dialog-footer">
+      <ae-button-list
+        :buttonList="[$t('common.cancel'), $t('encounter.buy')]"
+        :clickAction="[close, buyUnit]"
+      ></ae-button-list>
+    </span>
+  </ae-base-dialog>
 </template>
 
 <script>
 import eventype from "../../../manger/eventType";
 import { GetUnitInfoList } from "../../../api";
+import AeButtonList from "../../frame/base/AeButtonList.vue";
 export default {
+  components: { AeButtonList },
   data() {
     return {
       selectIndex: 0,
@@ -115,7 +136,7 @@ export default {
       console.log("现有金币" + currArmy.money);
       console.log("需要金币" + unitInfo.unit_mes.price);
       if (currArmy.money < unitInfo.unit_mes.price) {
-        this.$appHelper.errorMsg("资金不足");
+        this.$appHelper.errorMsg(this.$t("encounter.noMoney"));
         return;
       }
       // 验证军队人口
@@ -125,7 +146,7 @@ export default {
         currArmy.pop + unitInfo.unit_mes.population >
         this.$store.getters.game.max_pop
       ) {
-        this.$appHelper.errorMsg("人口达到上限");
+        this.$appHelper.errorMsg(this.$t("encounter.unitTooMuch"));
         return;
       }
 
@@ -160,7 +181,6 @@ export default {
     color() {
       return this.$store.getters.game.curr_color;
     },
-    
   },
   created() {
     let args = {};
@@ -174,99 +194,90 @@ export default {
 };
 </script>
 
-<style lang="css" scoped>
-.content {
-  float: left;
-}
-.title {
-  float: left;
-  width: 100%;
-  padding-bottom: 10px;
-  text-align: center;
-  border-bottom: 1px rgb(202, 202, 202) solid;
-}
-.title b {
-  float: left;
-  width: 60px;
-  margin-left: 10px;
-  margin-right: 13px;
-}
-.title img {
-  float: left;
-  margin-left: 10px;
-}
-.title div {
-  float: left;
-}
-.title span {
-  font-size: 12px;
-  float: left;
-  margin: 0 auto;
-  margin-left: 10px;
-  background-color: rgb(214, 214, 214);
-  padding-top: 5px;
-  display: block;
-  width: 43px;
-}
-.unit_info {
-  float: left;
-  width: 100%;
-  margin-top: 10px;
-  padding-bottom: 10px;
-  border-bottom: 1px rgb(190, 190, 190) solid;
-  text-align: center;
-}
-.unit_info div {
-  float: left;
-}
-.unit_info img {
-  float: left;
-  margin-left: 10px;
-}
-.unit_info span {
-  font-size: 12px;
-  float: left;
-  margin: 0 auto;
-  margin-left: 10px;
-  background-color: rgb(223, 223, 223);
-  padding-top: 5px;
-  display: block;
-  width: 43px;
-}
-.unit_intr {
-  margin-left: 20px;
-  float: left;
-  font-size: 12px;
-  height: 100px;
-}
-.img {
-  float: left;
-}
-.unit_show {
-  float: left;
-  margin-left: 10px;
-  position: relative;
-  cursor: pointer;
-}
-.unit_img {
-  position: absolute;
-  top: 4px;
-  left: 4px;
-}
-.unit_ability {
-  font-size: 12px;
-  margin-top: 10px;
-  color: rgb(41, 41, 41);
-}
-.unit_ability b {
-  display: block;
-}
-.unit_ability div {
-  float: left;
-  margin-right: 10px;
-}
-.unit_ability div:hover {
-  cursor: pointer;
-  text-decoration: underline;
+<style lang="scss" scoped>
+.buy-unit-main {
+  display: flex;
+  flex-direction: column;
+  .buy-unit-title {
+    b {
+      width: 83px;
+      color: white;
+    }
+  }
+  .buy-unit-info {
+    width: 100%;
+    /* #ifdef H5 */
+    padding: 10px;
+    /* #endif */
+    /* #ifndef H5 */
+    padding: 4px;
+    /* #endif */
+    border-bottom: 1px rgb(190, 190, 190) solid;
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    div {
+      float: left;
+      display: flex;
+      flex-direction: row;
+      img {
+        float: left;
+        margin-left: 10px;
+      }
+      span {
+        font-size: 12px;
+        float: left;
+        margin: 0 auto;
+        margin-left: 10px;
+        background-color: rgb(223, 223, 223);
+        padding-top: 5px;
+        display: block;
+        width: 43px;
+      }
+    }
+  }
+  .buy-unit-intr {
+    color: white;
+    /* #ifdef H5 */
+    padding: 10px;
+    height: 100px;
+    /* #endif */
+    /* #ifndef H5 */
+    padding: 4px;
+    height: 66px;
+    /* #endif */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    .buy-unit-intr-ability {
+      margin-top: 10px;
+      display: flex;
+      flex-direction: row;
+      div {
+        margin-right: 10px;
+      }
+      div:hover {
+        cursor: pointer;
+        text-decoration: underline;
+      }
+    }
+  }
+  .buy-unit-img {
+    float: left;
+    .unit_show {
+      float: left;
+      margin-left: 10px;
+      position: relative;
+      cursor: pointer;
+      .unit_img {
+        position: absolute;
+        top: 4px;
+        left: 4px;
+        width: 24px;
+        height: 24px;
+      }
+    }
+  }
 }
 </style>

@@ -2,11 +2,12 @@
 <template>
   <div>
     <!--可移动区域-->
-    <div class="move_area" v-if="moveAreas && moveAreas.length > 0">
+    <div class="move_area" v-if="moveAreas.length > 0">
       <img
         v-for="(moveArea,index) in moveAreas"
         :key="index"
         src="../../assets/images/assist/alpha.png"
+        style="width:48px;height:24px"
         @click="showMoveLine(moveArea.row, moveArea.column)"
         :style="{
           top: $appHelper.getPosition(moveArea.row),

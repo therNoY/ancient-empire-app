@@ -72,7 +72,7 @@
       style="height: 35%"
       sendEventMethod="sendGameMessage"
       receiveMesEvent="addGameMessage"
-      :height="($uni.screenHeigh * 0.35)"
+      :height="($uni.screenHeigh * 0.3)"
     ></game-message>
   </div>
 </template>

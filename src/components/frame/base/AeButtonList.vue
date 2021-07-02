@@ -58,7 +58,22 @@ export default {
         this.clickAction[index] &&
         this.clickAction[index] instanceof Function
       ) {
-        this.clickAction[index].bind(this.$parent)();
+        let parent = this.$parent;
+        let actionFunc = this.clickAction[index];
+        let actionName = actionFunc.name;
+        if (actionName.indexOf("bound ") >= 0) {
+          actionName = actionName.split("bound ")[1];
+        }
+        while(parent !== undefined && !(parent[actionName] instanceof Function)) {
+          parent = parent.$parent;
+        }
+
+        if (parent[actionName] instanceof Function) {
+          actionFunc.bind(parent)();
+        } else {
+          console.error("无法执行函数", actionFunc);
+        }
+
       }
     },
   },

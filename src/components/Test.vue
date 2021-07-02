@@ -1,5 +1,5 @@
 <template>
-  <div style="text-align: center;">
+  <div style="text-align: center">
     <h1>测试容器</h1>
     <movable-area class="movable-area1">
       <movable-view
@@ -21,7 +21,7 @@
       @clickItem="onClickItem"
     />
     <h1>tooltip</h1>
-    <div >
+    <div>
       <ae-tooltip content="1111111">
         <div style="width: 200px; height: 200px; margin-left: 100px">
           哈哈哈
@@ -53,24 +53,48 @@
 
     <h1>buttonList</h1>
     <ae-button-list
-      :buttonList="['测试1','测试2','测试3']"
-      :buttonConfig='{"2":{"display":current === 2}}'
+      :buttonList="['测试1', '测试2', '测试3']"
+      :buttonConfig="{ '2': { display: current === 2 } }"
       :clickAction="clickAction"
     ></ae-button-list>
 
-     <h1>baseDialog</h1>
-     <ae-base-dialog v-model="dailog" title="测试"></ae-base-dialog>
-     <ae-button @click="dailog = !dailog">弹出</ae-button>
+    <h1>baseDialog</h1>
+    <ae-base-dialog v-model="dailog" title="测试"></ae-base-dialog>
+    <ae-button @click="dailog = !dailog">弹出</ae-button>
+
+    <h1>弹跳</h1>
+    <div
+      style="
+        background-color: #4cd964;
+        width: 240px;
+        height: 240px;
+        position: absolute;
+      "
+    >
+      <left-change-view></left-change-view>
+    </div>
+    <ae-button @click="setNum">开始</ae-button>
+
+    <h2 style="margin-top:300px" >aeBorder</h2>
+
+    <ae-border style="position: absolute" padding="4px">
+      <img
+        style="width: 24px; height: 24px"
+        src="../assets/images/Region/forest.png"
+      />
+    </ae-border>
 
   </div>
 </template>
 
 <script>
+import AeBorder from "./frame/base/AeBorder.vue";
 export default {
+  components: { AeBorder },
   props: [],
   data() {
     return {
-      dailog:false,
+      dailog: false,
       x: 0,
       y: 0,
       current: 1,
@@ -104,7 +128,7 @@ export default {
           value: this.$t("common.noting"),
         },
       ],
-      clickAction:[],
+      clickAction: [],
     };
   },
   methods: {
@@ -114,9 +138,15 @@ export default {
     onClickItem() {
       console.log(arguments);
     },
-    test(name){
-      alert('测试' + name);
-    }
+    test(name) {
+      alert("测试" + name);
+    },
+    setNum() {
+      let attach = [-1, 1, 1, 1];
+      let array = [];
+      array.push({ attach, row: 5, column: 5 });
+      this.$store.commit("setLeftChange", array);
+    },
   },
   computed: {},
 };

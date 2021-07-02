@@ -1,9 +1,9 @@
 <template>
   <ae-base-dialog
     v-model="value"
-    :width="width"
+    :width="$uni.isH5 ? 55 : 85"
     showCloseTip
-    :title="$t('multiPlayer.welcomeJoin', roomName, roomId)"
+    :title="$t('multiPlayer.welcomeJoin', [roomName, roomId])"
     :closeTip="$t('multiPlayer.leaveRoomWarning')"
   >
     <div class="join-room-container">
@@ -18,24 +18,24 @@
             </tr>
             <tr v-for="(army, index) in canJoinArmy" :key="index">
               <td>
-                <img :src="$appHelper.getUnitImg('10', army.color)" />
+                <img
+                  class="img_style"
+                  :src="$appHelper.getUnitImg('10', army.color)"
+                />
               </td>
               <td>
-                <div style="color: rgb(255, 255, 255)">{{ army.camp }}</div>
+                <div>{{ army.camp }}</div>
               </td>
               <td>
-                <div style="color: rgb(255, 255, 255); font-size: 14px">
-                  {{ army.player_name }}
-                  <span
-                    style="color: rgb(255, 255, 255); font-size: 13px"
-                    v-if="roomOwner && army.player == roomOwner"
+                <div>
+                  {{ army.player_name ? army.player_name : "-" }}
+                  <span v-if="roomOwner && army.player == roomOwner"
                     >({{ $t("multiPlayer.homeOwner") }})</span
                   >
                 </div>
               </td>
               <td>
                 <ae-button
-                  :width="80"
                   v-if="!army.player"
                   @click="changeCtlArmy(army.color)"
                   >{{ $t("multiPlayer.join") }}
@@ -64,21 +64,12 @@
             ref="roomMessage"
             sendEventMethod="sendRoomEvent"
             receiveMesEvent="roomMessage"
-            :height="320"
+            color="rgb(250, 250, 250)"
           ></game-message>
         </div>
       </div>
 
       <div class="join-room-footer">
-        <!-- <ae-button @click="showPreview = true">{{
-          $t("common.preview")
-        }}</ae-button>
-        <ae-button>{{ $t("multiPlayer.invite") }}</ae-button>
-        <ae-button
-          v-show="roomOwner && $store.getters.user.user_id === roomOwner"
-          @click="showStartTip"
-          >{{ $t("common.start") }}}
-        </ae-button> -->
         <ae-button-list
           :buttonList="[
             $t('common.preview'),
@@ -136,10 +127,6 @@ export default {
     roomName: {
       type: String,
     },
-    width: {
-      type: Number,
-      default: 40,
-    },
   },
   methods: {
     showStartTip() {
@@ -172,7 +159,7 @@ export default {
     },
     onDialogDestroy() {
       console.log("加入房間页面销毁");
-      this.$store.dispatch("disconnectRoomScoket");
+      this.$store.dispatch("disconnectRoomSocket");
       this.$eventBus.publish("flushRoom");
     },
     initSetting(roomId) {
@@ -239,6 +226,7 @@ export default {
     },
   },
   created() {
+    this.$appHelper.bindPage2Global(this, "JoinRoom");
     this.$eventBus.regist(this, "roomChangeArmy");
     this.$eventBus.regist(this, "changeRoomOwner");
     this.$eventBus.regist(this, "startGame");
@@ -266,10 +254,14 @@ export default {
     margin-top: 2%;
     display: flex;
     flex-direction: row;
-    height: 320px;
     width: 100%;
     .player_list {
       width: 60%;
+      /* #ifndef H5 */
+      tr {
+        width: 70%;
+      }
+      /* #endif */
       td {
         width: 25%;
       }

@@ -49,7 +49,7 @@ let startGameRecord = function (selectMap, gameType, initFunc) {
     return;
   }
 
-  if (!initFunc instanceof Function) {
+  if (initFunc === undefined) {
     initFunc = MapInit;
   }
 
@@ -104,7 +104,6 @@ let startGameRecord = function (selectMap, gameType, initFunc) {
  */
 export function connectWS({ typeId, type }, saveSocket, onMessage, initFunc) {
   return new Promise((resolve, reject) => {
-    debugger
     let token = store.getters.token;
     if (!token) {
       reject("用户未登录");
@@ -112,18 +111,28 @@ export function connectWS({ typeId, type }, saveSocket, onMessage, initFunc) {
     // 首次登陆 需要验证token
     let url = gameCoreUrl + "/ae/" + type + "/" + typeId + "/" + token;
     console.log("准备连接WS, url", url);
-    let socket = new WebSocket(url);
+    let socket = uni.connectSocket({
+      url: url,
+      // #ifdef MP
+      header: {
+        'content-type': 'application/json'
+      },
+      method: 'GET',
+      // #endif
+      complete: () => { }
+    })
+
     if (typeof saveSocket === 'string') {
       store.commit(saveSocket, socket);
     } else if (saveSocket instanceof Function) {
-      saveSocket();
+      saveSocket(socket);
     }
 
-    socket.onopen = () => {
-      console.log("ws连接打开...", socket);
-    };
+    socket.onOpen((res) => {
+      console.log("ws连接打开...", res);
+    });
 
-    socket.onmessage = (e) => {
+    socket.onMessage((e) => {
       let data = JSON.parse(e.data);
       if (data.open_status && data.open_status == '200') {
         console.log("ws 连接成功..", socket);
@@ -138,13 +147,17 @@ export function connectWS({ typeId, type }, saveSocket, onMessage, initFunc) {
       if (onMessage instanceof Function) {
         onMessage(data);
       }
-    };
+    });
 
-    socket.onclose = (e) => {
-      console.log("ws 连接关闭", e);
-      store.commit(saveSocket, null);
+    socket.onClose((res) => {
+      console.log("ws 连接关闭", res);
+      if (typeof saveSocket === 'string') {
+        store.commit(saveSocket, null);
+      } else if (saveSocket instanceof Function) {
+        saveSocket(null);
+      }
       reject();
-    }
+    });
   });
 }
 
@@ -160,7 +173,7 @@ export function startGame(selectMap, type) {
  * 多人游戏开始游戏
  * @param selectMap
  */
- export function startRoomGame(selectMap) {
+export function startRoomGame(selectMap) {
   startGameRecord(selectMap, "room", GetRecordById);
 }
 
@@ -168,6 +181,6 @@ export function startGame(selectMap, type) {
  * 从存档开始游戏
  * @param selectMap
  */
- export function startRecordGame(selectMap) {
+export function startRecordGame(selectMap) {
   startGameRecord(selectMap, "stand_game", RecordInit);
 }

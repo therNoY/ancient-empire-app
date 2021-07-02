@@ -68,7 +68,7 @@ const gameCore = {
         if (data instanceof Array && data.length > 0) {
           commendDispatcher.dispatchOrder(data);
         } else {
-          if (data.game_commend_enum) {
+          if (data.game_commend) {
             commendDispatcher.dispatch(data);
           } else if (data.dialog_type) {
             chapterDialogDispather.dispatch(data);
@@ -94,14 +94,20 @@ const gameCore = {
     sendGameMessage({ state }, { message }) {
       let sendMes = {};
       sendMes.message = message;
-      sendMes.send_type_enum = "SEND_TO_GAME";
+      sendMes.send_type = "SEND_TO_GROUP";
       SendMessage(sendMes);
     },
 
     // 发送 事件
     sendEvent({ state }, mes) {
       console.log("发送mes:", mes);
-      state.socket.send(JSON.stringify(mes));
+      state.socket.send({
+        data: JSON.stringify(mes),
+        success(res) {
+        },
+        fail(err) {
+        }
+      })
     },
 
     levelGame({ state }) {

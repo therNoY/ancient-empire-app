@@ -15,7 +15,7 @@
     <div class="status">
       <!--状态-->
       <div v-if="unit.status && unit.status !== 'normal'" class="unit_status">
-        <img :src="statusImg" />
+        <img style="width:7px;height:9px" :src="statusImg" />
       </div>
 
       <!--血量-->
