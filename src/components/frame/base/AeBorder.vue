@@ -40,13 +40,13 @@ export default {
 <style lang="scss" scope>
 .ae-main-border {
   .corner {
-    z-index: 9999;
+    z-index: 999;
     width: 16px;
     height: 16px;
   }
 
   .border {
-    z-index: 9998;
+    z-index: 998;
   }
 
   .t_b,

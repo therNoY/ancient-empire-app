@@ -92,7 +92,7 @@ export default {
   justify-content: flex-start;
   align-items: center;
   flex-direction: row;
-  z-index: 99999;
+  z-index: 9999;
 }
 .msg-unit {
 

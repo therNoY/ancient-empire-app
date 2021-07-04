@@ -1,10 +1,11 @@
 <template>
   <div style="display: inline">
-    <ae-loading :showLoading="loading" style="z-index: 99999"></ae-loading>
+    <ae-loading :showLoading="loading" style="z-index: 9999"></ae-loading>
     <ae-tip
       v-model="showGlobalTip"
       :buttonList="buttonList"
       :closeTip="closeTip"
+      :title="tipTitle"
       @ok="tipOk"
     ></ae-tip>
     <ae-input-dialog
@@ -20,7 +21,7 @@
       :show="show"
       :type="type"
       :color="color"
-      style="z-index: 999999"
+      style="z-index: 9999"
     ></ae-message>
   </div>
 </template>
@@ -32,6 +33,11 @@ export default {
       showGlobalTip: false,
       showGlobalInputDialog: false,
       tipCallback: null,
+      tipTitle: null,
+      buttonList: [],
+      defTipTitle: this.$t("common.tip"),
+      defTipButtonList: [this.$t("common.sure"), this.$t("common.cancel")],
+
       inputCallback: null,
       closeTip: null,
       loading: false,
@@ -44,27 +50,31 @@ export default {
       show: false,
       type: "info",
       color: null,
-      buttonList: [this.$t("common.sure"), this.$t("common.cancel")],
+      
     };
   },
   methods: {
-    showTip({ message, callback, buttonList }) {
+    showTip({ message, callback, buttonList, tipTitle }) {
+      this.buttonList = this.defTipButtonList;
+      this.tipTitle = this.defTipTitle;
       if (buttonList) {
         this.buttonList = buttonList;
+      }
+      if (tipTitle) {
+        this.tipTitle = tipTitle;
       }
       this.showGlobalTip = true;
       this.closeTip = message;
       this.tipCallback = callback;
     },
     showMessage({ type, mes, color }) {
-
       this.type = null;
       this.mes = mes;
       this.color = null;
       if (this.show) {
         return;
       }
-       this.type = type;
+      this.type = type;
       this.color = color;
       this.show = true;
       setTimeout(() => {

@@ -50,7 +50,10 @@
               @click="goHome"
             />
             <!--聊天-->
-            <img src="../../../../assets/images/assist/icon_chat.png" />
+            <img
+              @click="showGameChat = !showGameChat"
+              src="../../../../assets/images/assist/icon_chat.png"
+            />
             <!--保存-->
             <img
               src="../../../../assets/images/assist/net.png"
@@ -58,7 +61,7 @@
             />
             <!--详情-->
             <img
-              @click="showUnitDetailInfo = true"
+              @click="showDetail"
               src="../../../../assets/images/assist/icon_deatil.png"
             />
             <!---结束回合-->
@@ -83,7 +86,7 @@
           <ae-border padding="0px" class="mobile-unit-detail-unit">
             <unit-view
               :unit="localUnitInfo"
-              :color="bg_color"
+              :color="curr_unit_color"
               :top="24"
               :left="24"
             ></unit-view>
@@ -146,12 +149,26 @@
       </ae-border>
     </div>
 
+    <div v-show="showGameChat" class="game-chat-dialog">
+      <game-message
+        color="rgb(250, 250, 250)"
+        sendEventMethod="sendGameMessage"
+        receiveMesEvent="addGameMessage"
+        :height="chatDialogHeight"
+      ></game-message>
+    </div>
+
     <ae-base-dialog
       v-if="showUnitDetailInfo"
       v-model="showUnitDetailInfo"
-      :title="localUnitInfo.unit_mes.name"
+      :title="deatilTitle"
     >
-      <unit-mes :unitInfo="unitInfo" :color="curr_color"></unit-mes>
+      <unit-region-mes
+        :showMode="showMode"
+        :unitInfo="unitInfo"
+        :region="region"
+        :color="curr_unit_color"
+      ></unit-region-mes>
     </ae-base-dialog>
   </div>
 </template>
@@ -159,19 +176,22 @@
 <script>
 import UnitView from "../../../map_base/UnitView.vue";
 import indexOptMixins from "../../indexOptMixins";
-import UnitMes from "../../unit_map/UnitMes.vue";
+import GameMessage from "../../../frame/GameMessage.vue";
+import UnitRegionMes from "../../unit_map/UnitRegionMes.vue";
 export default {
   components: {
     UnitView,
-    UnitMes,
+    UnitRegionMes,
+    GameMessage,
   },
   props: {
     region: {},
     curr_color: {},
     point: {},
     column: {},
+    gameId: {},
     unitInfo: {},
-    bg_color: {},
+    curr_unit_color: {},
   },
   data() {
     return {
@@ -180,15 +200,32 @@ export default {
       localUnitInfo: null,
       // 展示单位或者地形详情
       showUnitDetailInfo: false,
+      deatilTitle: null,
+      showMode: "region",
+      showGameChat: false,
+      chatDialogHeight: null,
     };
   },
   mixins: [indexOptMixins],
   created() {
+    this.chatDialogHeight = this.$uni.screenHeigh * 0.3;
     this.$appHelper.bindPage2Global(this, "ArmyMesIndex");
     this.armyWidth = this.$uni.screenWidth - this.regionWidth;
     if (this.unitInfo) {
       this.localUnitInfo = this.unitInfo;
     }
+  },
+  methods: {
+    showDetail() {
+      if (this.localUnitInfo) {
+        this.deatilTitle = this.localUnitInfo.unit_mes.name;
+        this.showMode = "unit";
+      } else {
+        this.deatilTitle = this.region.name;
+        this.showMode = "region";
+      }
+      this.showUnitDetailInfo = true;
+    },
   },
   watch: {
     unitInfo(info) {
@@ -322,20 +359,10 @@ $distance: 10px;
 .mobile-unit-detail-right {
   right: $distance;
 }
-.m-show-unit {
-  .m-show-unit-info {
-    .show-unit-detail-img {
-      position: relative;
-      width: 74px;
-      height: 72px;
-      background-color: rgb(70, 72, 70);
-    }
-  }
-  .m-show-unit-mes {
-  }
-  .m-show-unit-desc {
-  }
-  .show-unit-ability-list {
-  }
+.game-chat-dialog {
+  position: absolute;
+  right: 0px;
+  bottom: 34px;
+  width: 25%;
 }
 </style>

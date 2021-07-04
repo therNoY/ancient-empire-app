@@ -2,7 +2,7 @@
   <div id="gameCore">
     <curr-unit-mes
       v-if="!isMobileStyle"
-      :bg_color="game.bg_color"
+      :curr_unit_color="game.curr_unit_color"
       :curr_color="game.curr_color"
       :unitInfo="game.curr_unit"
       :region="game.curr_region"
@@ -25,13 +25,7 @@
             height: $appHelper.getMapSize(game.game_map.row),
           }"
         >
-          <div
-            class="base_map"
-            :style="{
-              width: game.game_map.column * 24 + 'px',
-              height: $appHelper.getMapSize(game.game_map.row),
-            }"
-          >
+          <div class="base_map">
             <region-view-list
               ref="regionViewList"
               :regions="game.game_map.regions"
@@ -70,7 +64,8 @@
         :column="game.game_map.column"
         :curr_color="game.curr_color"
         :region="game.curr_region"
-        :bg_color="game.bg_color"
+        :gameId="game.uuid"
+        :curr_unit_color="game.curr_unit_color"
       />
       <army-mes
         v-else
@@ -88,7 +83,6 @@
 
     <curr-region-mes
       v-if="!isMobileStyle"
-      :bg_color="game.bg_color"
       :curr_color="game.curr_color"
       :region="game.curr_region"
     />
@@ -160,7 +154,6 @@ export default {
       this.containerStyle.height = this.$uni.screenHeigh - 40 + "px";
       this.isMobileStyle = true;
       // #endif
-      // 非H5只支持移动风格
     },
     // 开启一个后台进程 计时器
     startWorker() {
@@ -223,6 +216,7 @@ export default {
     },
   },
   created() {
+    this.$appHelper.loadFontFaceFromWeb();
     // 检测webscoket连接
     console.log("准备开始游戏, 检查ws连接情况");
     this.$appHelper.bindPage2Global(this, "GameIndex");
@@ -263,6 +257,7 @@ export default {
 #gameCore {
   width: 100%;
   height: 100%;
+  overflow: hidden;
   display: flex;
   flex-direction: row;
   position: relative;
@@ -281,7 +276,7 @@ export default {
     display: flex;
     flex-direction: column;
     flex-grow: 2;
-    background-color: rgb(70, 72, 70);
+    background-color: #242b44;
     .game-core-black-title {
       height: 20px;
       color: rgb(70, 72, 70);

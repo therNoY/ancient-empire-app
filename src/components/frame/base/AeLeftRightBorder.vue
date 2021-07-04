@@ -15,7 +15,7 @@
     display: flex;
     flex-direction: row;
     .border {
-      z-index: 9998;
+      z-index: 998;
     }
 
     .ae-border-line {

@@ -54,13 +54,6 @@
           </div>
         </div>
       </ae-border>
-
-      <ae-tip
-        v-show="showTip"
-        v-model="showTip"
-        :closeTip="closeTip"
-        @ok="closeOk"
-      ></ae-tip>
     </div>
     <img
       v-if="showChoose"
@@ -134,7 +127,6 @@ export default {
   },
   data() {
     return {
-      showTip: false,
       fullScreen: false,
       closeButtonSiz: 15,
       vueStyle: {
@@ -153,7 +145,9 @@ export default {
   methods: {
     close() {
       if (this.showCloseTip) {
-        this.showTip = true;
+        this.$appHelper.showTip(this.closeTip, ()=>{
+          this.closeOk();
+        })
       } else {
         this.$emit("input", false);
         this.$emit("close");
@@ -217,7 +211,7 @@ export default {
   width: 100%;
   height: 100%;
   background-color: rgba(167, 167, 167, 0.3);
-  z-index: 9999;
+  z-index: 999;
 }
 
 .no-left {
@@ -231,7 +225,7 @@ export default {
   right: 0;
   justify-content: center;
   align-items: center;
-  z-index: 9999;
+  z-index: 999;
 }
 
 .ae-base-dialog-popup {
@@ -298,7 +292,7 @@ export default {
   height: 32px;
   left: 3px;
   bottom: 3px;
-  z-index: 10000;
+  z-index: 1000;
 }
 .app-close-button {
   position: absolute;
@@ -306,6 +300,6 @@ export default {
   height: 32px;
   right: 3px;
   bottom: 3px;
-  z-index: 10000;
+  z-index: 1000;
 }
 </style>

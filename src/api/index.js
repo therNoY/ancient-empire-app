@@ -374,7 +374,7 @@ export const GetUserRecordList = (args, showLoading, handleErr) => request('/api
  * @returns {undefined|*|Promise<unknown>}
  * @constructor
  */
-export const SendMessage = (args, showLoading, handleErr) => request("/api/message/send", args, POST, showLoading, handleErr);
+export const SendMessage = (args) => request("/api/message/send", args, POST, false, false);
 
 
 /**
@@ -406,3 +406,12 @@ export const ChangeArmy = (args, showLoading, handleErr) =>request("/api/room/ch
  * @returns
  */
 export const LevelCtlArmy = (args, showLoading, handleErr) =>request("/api/room/levelCtlArmy", args, POST, showLoading, handleErr);
+
+/**
+ * 获取buff信息
+ * @param {*} args 
+ * @param {*} showLoading 
+ * @param {*} handleErr 
+ * @returns 
+ */
+export const GetBuffByType = (args) =>request("/buff/get", args, GET, false, true);

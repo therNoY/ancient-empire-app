@@ -1,9 +1,12 @@
 import {
-	imgUrl
+	imgUrl, baseUrl
 } from "../api/env"
 import store from "../store";
 import eventBus from "../manger/EventBus";
 import color from "../style/color/index.js"
+
+// const url = baseUrl + "/font/download/aeFont.ttf";
+const url = '/static/font/aeFont.ttf';
 
 const appHelper = {
 
@@ -14,17 +17,17 @@ const appHelper = {
 	// 定时关闭全局toolTip
 	closeToolTipTimer: null,
 
-	setWidthBack: function() {
+	setWidthBack: function () {
 		document
 			.querySelector("body")
 			.setAttribute("style", "background-color:#f7f7f7");
 	},
 
-	setLoading: function(loading = false) {
+	setLoading: function (loading = false) {
 		eventBus.publish("showLoading", loading);
 	},
 
-	infoMsg: function(mes) {
+	infoMsg: function (mes) {
 		let message = {};
 		message.type = "info";
 		message.mes = mes;
@@ -32,37 +35,38 @@ const appHelper = {
 	},
 
 
-	successMsg: function(mes) {
+	successMsg: function (mes) {
 		let message = {};
 		message.type = "success";
 		message.mes = mes;
 		eventBus.publish("showMessage", message)
 	},
 
-	warningMsg: function(mes) {
+	warningMsg: function (mes) {
 		let message = {};
 		message.type = "warning";
 		message.mes = mes;
 		eventBus.publish("showMessage", message)
 	},
 
-	errorMsg: function(mes) {
+	errorMsg: function (mes) {
 		let message = {};
 		message.type = "error";
 		message.mes = mes;
 		eventBus.publish("showMessage", message)
 	},
 
-	showTip: function(message, fun, buttonList) {
+	showTip: function (message, fun, buttonList, tipTitle) {
 		let mes = {
 			message: message,
 			callback: fun,
 			buttonList: buttonList,
+			tipTitle: tipTitle,
 		}
 		eventBus.publish("showTip", mes)
 	},
 
-	showInputDialog: function(title, label, fun, placeholder) {
+	showInputDialog: function (title, label, fun, placeholder) {
 		let mes = {
 			title: title,
 			label: label,
@@ -75,12 +79,12 @@ const appHelper = {
 	/**
 	 * 获取登录用户的角色
 	 */
-	getLoginRole: function() {
+	getLoginRole: function () {
 		return store.user.role;
 	},
 
 	// 获取地形的图片
-	getRegionImg: function(type, color) {
+	getRegionImg: function (type, color) {
 		if (!color) {
 			return require("../assets/images/Region/" + type + ".png");
 		}
@@ -95,13 +99,13 @@ const appHelper = {
 		}
 	},
 
-	getBkColor: function(bg_color) {
+	getBkColor: function (bg_color) {
 		return {
 			backgroundColor: this.getBkColorValue(bg_color)
 		};
 	},
 
-	getBkColorValue: function(bg_color) {
+	getBkColorValue: function (bg_color) {
 		let color = bg_color;
 		let bkColor = "#96d9f4";
 		if (color) {
@@ -119,7 +123,7 @@ const appHelper = {
 	},
 
 	// 获取地图的size
-	getMapSize: function(num) {
+	getMapSize: function (num) {
 		return num * 24 + "px";
 	},
 
@@ -129,7 +133,7 @@ const appHelper = {
 	 * @param {*} color  单位颜色
 	 * @param {*} num 单位动作控制
 	 */
-	getUnitImg: function(typeId, color = "blue", num = "") {
+	getUnitImg: function (typeId, color = "blue", num = "") {
 		return imgUrl + "unit/" + color + "/" + typeId + num + ".png";
 	},
 
@@ -137,32 +141,32 @@ const appHelper = {
 	 * 获取模板图片
 	 * @param {*} img
 	 */
-	getTemplateImg: function(img) {
+	getTemplateImg: function (img) {
 		return imgUrl + "template/" + img;
 	},
 
 	// 返回单位的图片位置
-	getUnitDoneImg: function(typeId, color) {
+	getUnitDoneImg: function (typeId, color) {
 		return imgUrl + "unit/" + color + "/" + typeId + "_3.png";
 	},
 
 	// 通过单位的行或者列返回单位的相对布局的位置
-	getPosition: function(num, index = 1) {
+	getPosition: function (num, index = 1) {
 		return (num - index) * 24 + "px";
 	},
 
 	// 通过单位的行或者列返回单位的相对布局的位置
-	getUnitPosition: function(num) {
+	getUnitPosition: function (num) {
 		return (num - 1) * 24 + "px";
 	},
 
 	// 获取单位的action 的图
-	getActionImg: function(name) {
+	getActionImg: function (name) {
 		return require("../assets/images/assist/action_" + name + ".png");
 	},
 
 	// 判断是否可以点击
-	mapCanClick: function() {
+	mapCanClick: function () {
 		return (store.getters.user.user_id == store.getters.game.curr_player) &&
 			store.getters.mapState == 0;
 	},
@@ -176,7 +180,7 @@ const appHelper = {
 	 * @param {*} regionIndex
 	 * @param {*} unitId
 	 */
-	sendEvent: function(event, initiateSite = null, aimSite = null, regionIndex, unitId) {
+	sendEvent: function (event, initiateSite = null, aimSite = null, regionIndex, unitId) {
 		this.store.dispatch("sendEvent", {
 			event: event,
 			initiateSite,
@@ -186,7 +190,7 @@ const appHelper = {
 		});
 	},
 
-	bindPage2Global: function(vue, name) {
+	bindPage2Global: function (vue, name) {
 		vue.bindTime = new Date();
 		// #ifdef H5
 		window[name] = vue;
@@ -201,11 +205,11 @@ const appHelper = {
 	 * @param {*} level 
 	 * @returns 
 	 */
-	getUnitMaxExp(level){
+	getUnitMaxExp(level) {
 		return this.dp[level];
 	},
 
-	closeOtherToolTip:function(_uid){
+	closeOtherToolTip: function (_uid) {
 		if (_uid === "-999") {
 			return;
 		}
@@ -213,10 +217,17 @@ const appHelper = {
 			clearTimeout(this.closeToolTipTimer);
 		}
 		console.log("重新设置定时器");
-		this.closeToolTipTimer = setTimeout(()=>{
+		this.closeToolTipTimer = setTimeout(() => {
 			eventBus.publish("closeOtherToolTip", "-999");
 			this.closeToolTipTimer = null;
 		}, 5000);
+	},
+
+	loadFontFaceFromWeb() {
+		uni.loadFontFace({
+			family: "aeFont",
+			source: `url("${url}")`,
+		});
 	}
 
 }

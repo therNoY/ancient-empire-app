@@ -141,7 +141,6 @@ import MapManger from "./map_manger/MapManger.vue";
 import MapEdit from "./map_manger/MapEdit.vue";
 import ChapterSelect from "./encounter/ChapterSelect.vue";
 import BaseLister from "./BaseLister.vue";
-import { baseUrl } from "../api/env.js";
 import { Login, GetWeiXinPhone } from "../api";
 import {
   getLocalSaveUser,
@@ -149,9 +148,6 @@ import {
   setToken,
   removeAllStorage,
 } from "../utils/authUtil";
-
-const url = baseUrl + "/font/download/aeFont.ttf";
-// const url = '/static/font/aeFont.ttf';
 export default {
   components: {
     UserInfo,
@@ -195,13 +191,6 @@ export default {
         complete: (resp) => {
           console.log("跳转成功", resp);
         },
-      });
-    },
-    // 加载字体
-    loadFontFaceFromWeb() {
-      uni.loadFontFace({
-        family: "aeFont",
-        source: `url("${url}")`,
       });
     },
     // 根据本地保存的信息登录
@@ -294,7 +283,7 @@ export default {
     if (!this.$uni.isH5) {
       this.buttonSize = 0.7;
     }
-    this.loadFontFaceFromWeb();
+    this.$appHelper.loadFontFaceFromWeb();
     this.vueStyle.background = this.$s("homeBase.background");
     this.$appHelper.bindPage2Global(this, "HomeVue");
     this.loginBySaveInfo();

@@ -3,7 +3,6 @@ import zh from "./zh.json"
 import Vue from 'vue'
 
 import store from "../store";
-import arrayWithHoles from "@babel/runtime/helpers/esm/arrayWithHoles";
 
 let language = {
 

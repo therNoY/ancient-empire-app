@@ -8,7 +8,10 @@
     :width="$uni.isH5 ? 30 : 80"
   >
     <div v-if="buyUnitShow && buyUnitsInfo" class="buy-unit-main">
-      <unit-mes :unitInfo="buyUnitsInfo[selectIndex]" :color="color"></unit-mes>
+      <unit-region-mes
+        :unitInfo="buyUnitsInfo[selectIndex]"
+        :color="color"
+      ></unit-region-mes>
       <div class="buy-unit-img">
         <div
           class="unit_show"
@@ -46,9 +49,9 @@
 <script>
 import eventype from "../../../manger/eventType";
 import { GetUnitInfoList } from "../../../api";
-import UnitMes from "./UnitMes.vue";
+import UnitRegionMes from "./UnitRegionMes.vue";
 export default {
-  components: { UnitMes },
+  components: { UnitRegionMes },
   data() {
     return {
       selectIndex: 0,
