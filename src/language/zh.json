@@ -119,7 +119,8 @@
     "moveConsume":"消耗移动",
     "sendMessage":"发送消息",
     "send":"发送",
-    "buy":"招募",
+    "buy":"招募[{}]",
+    "buyUnit":"招募",
     "noMoney":"资金不足",
     "unitTooMuch":"人口达到上限"
   },
@@ -152,7 +153,8 @@
     "private": "私有",
     "chooseMap": "选择地图",
     "welcomeJoin":"欢迎加入{} 房间号{}",
-    "leaveRoomWarning":"确定要退出房间吗？"
+    "leaveRoomWarning":"确定要退出房间吗？",
+    "roomInfoCopy":"房间信息已经复制"
   },
   "loadGame": {
     "title": "读取游戏",

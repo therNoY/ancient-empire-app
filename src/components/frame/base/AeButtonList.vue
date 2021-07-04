@@ -64,7 +64,14 @@ export default {
         if (actionName.indexOf("bound ") >= 0) {
           actionName = actionName.split("bound ")[1];
         }
-        while(parent !== undefined && !(parent[actionName] instanceof Function)) {
+        if (actionName == "") {
+          console.error("不支持匿名类调用");
+          return;
+        }
+        while (
+          parent !== undefined &&
+          !(parent[actionName] instanceof Function)
+        ) {
           parent = parent.$parent;
         }
 
@@ -73,7 +80,18 @@ export default {
         } else {
           console.error("无法执行函数", actionFunc);
         }
-
+      }
+    },
+    initConfig() {
+      if (this.buttonConfig !== null) {
+        this.config = Array.from(Array(this.buttonList.length), (v, k) => null);
+        for (let key of Object.keys(this.buttonConfig)) {
+          let index;
+          if ((index = Number.parseInt(key)) < this.buttonList.length) {
+            this.config[index] = this.buttonConfig[key];
+          }
+        }
+        console.log("buttonList: config", this.config);
       }
     },
   },
@@ -84,18 +102,13 @@ export default {
   },
   created() {
     this.$appHelper.bindPage2Global(this, "ButtonList");
-    if (this.buttonConfig !== null) {
-      this.config = Array.from(Array(this.buttonList.length), (v, k) => null);
-      for (let key of Object.keys(this.buttonConfig)) {
-        let index;
-        if ((index = Number.parseInt(key)) < this.buttonList.length) {
-          this.config[index] = this.buttonConfig[key];
-        }
-      }
-      console.log("buttonList: config", this.config);
-    }
+    this.initConfig();
   },
-  watch: {},
+  watch: {
+    buttonConfig() {
+      this.initConfig();
+    },
+  },
   computed: {
     buttonWidth() {
       if (this.buttonList.length === 1) {

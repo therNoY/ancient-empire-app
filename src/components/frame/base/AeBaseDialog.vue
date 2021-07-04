@@ -2,23 +2,24 @@
 <template>
   <div class="ae-base-dialog-base" v-if="value">
     <div
-       v-if="value"
-       class="ae-base-dialog-container"
+      v-if="value"
+      :class="['ae-base-dialog-container', inlineDialog ? 'no-left' : '']"
       :style="{
         display: vueStyle.dialogDisplay,
-        backgroundColor: vueStyle.dialogBackgroundColor,
-        left: vueStyle.dialogLeft,
         top: vueStyle.dialogTop,
+        backgroundColor: vueStyle.dialogBackgroundColor,
         width: vueStyle.dialogWidth,
       }"
     >
       <ae-border
         :noBorder="fullScreen || noBorder"
-        style="position: absolute;"
+        style="position: absolute"
         :style="{
-          width: vueStyle.popupWidth,
           height: vueStyle.popupHeight,
           backgroundColor: vueStyle.mainBackgroundColor,
+          top: inlineDialog ? vueStyle.dialogTop : null,
+          left: inlineDialog ? vueStyle.dialogLeft : null,
+          width: vueStyle.popupWidth,
         }"
       >
         <div
@@ -68,9 +69,9 @@
       src="../../../assets/images/assist/choose1.png"
     />
     <img
-        class="app-close-button click-cursor"
-        @click="close"
-        src="../../../assets/images/assist/return1.png"
+      class="app-close-button click-cursor"
+      @click="close"
+      src="../../../assets/images/assist/return1.png"
     />
   </div>
 </template>
@@ -94,7 +95,7 @@ export default {
       type: Boolean,
       default: false,
     },
-    noBorder:{
+    noBorder: {
       type: Boolean,
       default: false,
     },
@@ -112,9 +113,9 @@ export default {
       type: Boolean,
       default: false,
     },
-    showChoose:{
-      type:Boolean,
-      default:false,
+    showChoose: {
+      type: Boolean,
+      default: false,
     },
     // inlineDialog为true的时候有用
     top: {
@@ -213,10 +214,14 @@ export default {
   position: fixed;
   left: 0;
   top: 0;
-  width:100%;
-  height:100%;
+  width: 100%;
+  height: 100%;
   background-color: rgba(167, 167, 167, 0.3);
   z-index: 9999;
+}
+
+.no-left {
+  left: 0px;
 }
 
 .ae-base-dialog-container {
@@ -262,13 +267,6 @@ export default {
 .ae-base-dialog-popup-header {
   color: #b0b8ac;
   justify-content: space-between;
-  /*#ifdef H5*/
-  margin-bottom: 15px;
-  /*#endif*/
-  /*#ifdef MP-WEIXIN*/
-  margin-bottom: 5 rpx;
-  /*#endif*/
-
   span {
     /*#ifdef H5*/
     font-size: 18px;
@@ -294,7 +292,7 @@ export default {
   margin-top: 8%;
   margin-bottom: 8%;
 }
-.app-choose-button{
+.app-choose-button {
   position: absolute;
   width: 32px;
   height: 32px;

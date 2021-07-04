@@ -1,6 +1,7 @@
 <template>
   <ae-base-dialog
     v-model="value"
+    v-if="value"
     :width="$uni.isH5 ? 55 : 85"
     showCloseTip
     :title="$t('multiPlayer.welcomeJoin', [roomName, roomId])"
@@ -10,7 +11,7 @@
       <div class="join-room-main">
         <div class="player_list ae-data-grid">
           <table>
-            <tr>
+            <tr class="ae-data-grid-title">
               <th>{{ $t("multiPlayer.team") }}</th>
               <th>{{ $t("multiPlayer.alliance") }}</th>
               <th>{{ $t("player.title") }}</th>
@@ -68,7 +69,6 @@
           ></game-message>
         </div>
       </div>
-
       <div class="join-room-footer">
         <ae-button-list
           :buttonList="[
@@ -79,7 +79,7 @@
           size="16px"
           :buttonConfig="{
             '2': {
-              display: roomOwner && $store.getters.user.user_id === roomOwner,
+              display: isRoomOwner,
             },
           }"
           :clickAction="clickAction"
@@ -108,13 +108,7 @@ export default {
       armyConfigList: null,
       roomOwner: null,
       showPreview: false,
-      clickAction: [
-        () => {
-          this.showPreview = true;
-        },
-        () => {},
-        this.showStartTip,
-      ],
+      clickAction: [this.clickShowPreview, this.invate, this.showStartTip],
     };
   },
   props: {
@@ -130,12 +124,11 @@ export default {
   },
   methods: {
     showStartTip() {
+      if (!this.armyConfigList) {
+        return;
+      }
       let tip;
-      if (
-        this.armyConfigList &&
-        this.armyConfigList.filter((a) => a.type == "user" && !a.play_id)
-          .length > 0
-      ) {
+      if (this.armyConfigList.filter((a) => a.type == "user" && !a.player).length > 0) {
         tip = this.$t("multiPlayer.readyBegin");
       } else {
         tip = this.$t("multiPlayer.readyStart");
@@ -145,6 +138,30 @@ export default {
         args.room_id = this.roomId;
         RoomInit(args);
       });
+    },
+
+    clickShowPreview() {
+      this.showPreview = true;
+    },
+
+    invate() {
+      let _this = this;
+      // #ifndef H5
+      this.$uni.setClipboardData({
+        data: _this.roomId,
+        success: function () {},
+      });
+      // #endif
+      // #ifdef H5
+      var input = document.createElement("input");
+      input.setAttribute("readonly", "readonly"); // 防止手机上弹出软键盘
+      input.setAttribute("value", _this.roomId);
+      document.body.appendChild(input);
+      input.select();
+      var res = document.execCommand("copy");
+      document.body.removeChild(input);
+      this.$appHelper.successMsg(this.$t("multiPlayer.roomInfoCopy"));
+      // #endif
     },
 
     startGame({ record_id }) {
@@ -241,6 +258,11 @@ export default {
       if (this.armyConfigList) {
         return this.armyConfigList.filter((a) => a.type == "user");
       }
+    },
+    isRoomOwner() {
+      return (
+        this.roomOwner && this.$store.getters.user.user_id == this.roomOwner
+      );
     },
   },
 };

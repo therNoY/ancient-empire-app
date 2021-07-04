@@ -7,7 +7,7 @@
       :title="$t('battle.chooseBattle')"
       :initQueryDataGrid="queryDataFunction"
       :footerButtons="footerButtons"
-      :width="55"
+      :width="$uni.isH5 ? 40 : 70"
     ></ae-complex-dialog>
   </div>
 </template>

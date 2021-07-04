@@ -9,7 +9,7 @@
       :initQueryDataGrid="initQueryDataFunction"
       :titleSwitchSelect="titleSwitchSelect"
       :footerButtons="buttonList"
-      :width="dialogWidth"
+      :width="$uni.isH5 ? 40 : 70"
       page
     >
     </ae-complex-dialog>
@@ -178,7 +178,6 @@ export default {
         },
       ],
       initMapConfig: {},
-      dialogWidth: 40,
       initQueryDataFunction: () => GetEncounterMap(),
     };
   },
@@ -254,9 +253,6 @@ export default {
   },
   created() {
     this.$appHelper.bindPage2Global(this, "encounter");
-    if (!this.$uni.isH5) {
-      this.dialogWidth = 70;
-    }
   },
 };
 </script>

@@ -34,11 +34,7 @@
 </template>
 
 <script>
-import AeContainer from "./base/AeContainer.vue";
 export default {
-  components: {
-    AeContainer,
-  },
   props: {
     eventType: {
       type: String,
@@ -85,13 +81,6 @@ export default {
     onMessage(message) {
       console.log("收到消息", message);
       this.messageData.push(message);
-      // #ifdef H5
-      // let maxHeight = this.$refs.container.$refs.aeContainerMain.scrollHeight;
-      // this.$refs.container.$refs.aeContainerMain.scrollTop = maxHeight;
-      // this.$nextTick(() => {
-      //   this.$refs.container.$refs.aeContainerMain.scrollTop += 20;
-      // });
-      // #endif
       this.$nextTick(() => {
         this.scrollTop += 20;
       });

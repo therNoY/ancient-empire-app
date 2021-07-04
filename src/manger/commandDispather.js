@@ -290,6 +290,7 @@ var commendDispatcher = {
       // ---------------------基础信息改变事件------------------------
       case commendType.CHANGE_CURR_UNIT:
         console.log("执行改变当前单位");
+        ext_mes.unit_info.changeData = new Date;
         store.getters.game.curr_unit = ext_mes.unit_info;
         break;
       case commendType.CHANGE_CURR_REGION:

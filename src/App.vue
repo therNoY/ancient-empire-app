@@ -19,15 +19,15 @@ export default {
   onReady: function () {
     // console.log('App Show')
     let resp = uni.getSystemInfoSync();
-      console.log("系统信息", resp);
-      this.$store.commit("setSystemInfo", resp);
-      if (resp.platform === "windows") {
-        uni.isH5 = true;
-      } else {
-        uni.isH5 = false;
-      }
-      uni.screenHeigh = resp.windowHeight;
-      uni.screenWidth = resp.windowWidth;
+    console.log("系统信息", resp);
+    this.$store.commit("setSystemInfo", resp);
+    if (resp.platform === "windows") {
+      uni.isH5 = true;
+    } else {
+      uni.isH5 = false;
+    }
+    uni.screenHeigh = resp.windowHeight;
+    uni.screenWidth = resp.windowWidth;
   },
   onHide: function () {
     // console.log('App Hide')
@@ -136,6 +136,12 @@ input:-webkit-autofill {
 
   .choose-td {
     background-color: #2b6771;
+  }
+  .show-unit-detail-img {
+    position: relative;
+    width: 74px;
+    height: 72px;
+    background-color: rgb(70, 72, 70);
   }
 }
 </style>

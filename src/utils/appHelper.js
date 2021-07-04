@@ -196,6 +196,15 @@ const appHelper = {
 		// #endif
 	},
 
+	/**
+	 * 单位最大经验
+	 * @param {*} level 
+	 * @returns 
+	 */
+	getUnitMaxExp(level){
+		return this.dp[level];
+	},
+
 	closeOtherToolTip:function(_uid){
 		if (_uid === "-999") {
 			return;
@@ -216,9 +225,9 @@ function initDp() {
 	let dp = new Array(12);
 	for (let i = 0; i < 12; i++) {
 		if (i == 0) {
-			dp[i] = 1;
+			dp[i] = 100;
 		} else if (i == 1) {
-			dp[i] = 2;
+			dp[i] = 200;
 		} else {
 			dp[i] = dp[i - 1] + dp[i - 2];
 		}

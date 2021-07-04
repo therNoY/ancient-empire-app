@@ -1,6 +1,13 @@
 <!--显示一个单位详情信息-->
 <template>
-  <div :style="{top:unitSiteStyle.top, left:unitSiteStyle.left, transitionDuration:unitSiteStyle.transitionDuration}" @click="clickUnit">
+  <div
+    :style="{
+      top: unitSiteStyle.top,
+      left: unitSiteStyle.left,
+      transitionDuration: unitSiteStyle.transitionDuration,
+    }"
+    @click="clickUnit"
+  >
     <div class="unitImg">
       <div v-if="unit.done">
         <img :src="doneImg" />
@@ -15,7 +22,7 @@
     <div class="status">
       <!--状态-->
       <div v-if="unit.status && unit.status !== 'normal'" class="unit_status">
-        <img style="width:7px;height:9px" :src="statusImg" />
+        <img style="width: 7px; height: 9px" :src="statusImg" />
       </div>
 
       <!--血量-->
@@ -29,7 +36,7 @@
 
       <!--等级-->
       <div v-if="hasLevel" class="unit_level">
-       <img :src="levelImg" />
+        <img :src="levelImg" />
       </div>
     </div>
   </div>
@@ -38,12 +45,20 @@
 <script>
 export default {
   props: {
-    unit:{},
-    color:{},
-    signal:{
-      type:[Number,String],
-      default:0,
-    }
+    unit: {},
+    color: {},
+    signal: {
+      type: [Number, String],
+      default: 0,
+    },
+    top: {
+      type: Number,
+      default: null,
+    },
+    left: {
+      type: Number,
+      default: null,
+    },
   },
   computed: {
     unitImg() {
@@ -54,38 +69,20 @@ export default {
     },
     unitImg2() {
       return this.$appHelper.getUnitImg(
-          this.unit.type_id,
-          this.color ? this.color : this.unit.color,
-          "_2"
+        this.unit.type_id,
+        this.color ? this.color : this.unit.color,
+        "_2"
       );
     },
     isNotMaxLife() {
-      if (!this.unit.life_num) {
-        return true;
-      }
-      let life = this.unit.life_num;
-      if (life.length !== 3) {
-        return true;
-      } else {
-        let lifeString = "";
-        for (let i = 0; i < life.length; i++) {
-          lifeString += life[i];
-        }
-        if (
-          this.$store.getters.levelInfo[
-            this.unit.type_id + "," + this.unit.level
-          ]
-        ) {
-          let res =
-            lifeString ==
-            this.$store.getters.levelInfo[
-              this.unit.type_id + "," + this.unit.level
-            ].max_life;
-          return !res;
-        } else {
+      if (this.unit.max_life) {
+        if (this.unit.max_life == this.unit.life) {
           return false;
+        } else {
+          return true;
         }
       }
+      return true;
     },
     liftImg() {
       return function (liftImg) {
@@ -94,24 +91,26 @@ export default {
         }
       };
     },
-    hasLevel(){
+    hasLevel() {
       if (!this.unit.level) {
         return false;
       }
-      return this.unit.level > 0
+      return this.unit.level > 0;
     },
     // 计算等级的图片
     levelImg() {
       if (this.unit.level) {
-        return require("../../assets/images/assist/level_" + this.unit.level + ".png");
+        return require("../../assets/images/assist/level_" +
+          this.unit.level +
+          ".png");
       }
-
     },
     statusImg() {
       if (this.unit.status) {
-        return require("../../assets/images/assist/status_" + this.unit.status + ".png");
+        return require("../../assets/images/assist/status_" +
+          this.unit.status +
+          ".png");
       }
-
     },
     doneImg() {
       return this.$appHelper.getUnitDoneImg(
@@ -120,19 +119,23 @@ export default {
       );
     },
     unitSiteStyle() {
+      let unitSiteSty = {};
+      if (this.top) {
+        unitSiteSty.top = this.top + "px";
+      } else {
+        unitSiteSty.top = this.$appHelper.getUnitPosition(this.unit.row);
+      }
+      if (this.left) {
+        unitSiteSty.left = this.left + "px";
+      } else {
+        unitSiteSty.left = this.$appHelper.getUnitPosition(this.unit.column);
+      }
       let moveLength = this.$store.getters.moveLength;
       if (moveLength > 0) {
-        return {
-          top: this.$appHelper.getUnitPosition(this.unit.row),
-          left: this.$appHelper.getUnitPosition(this.unit.column),
-          transitionDuration: this.$store.getters.moveLength * 0.25 + "s",
-        };
-      } else {
-        return {
-          top: this.$appHelper.getUnitPosition(this.unit.row),
-          left: this.$appHelper.getUnitPosition(this.unit.column),
-        };
+        unitSiteSty.transitionDuration =
+          this.$store.getters.moveLength * 0.25 + "s";
       }
+      return unitSiteSty;
     },
   },
   methods: {
@@ -151,8 +154,8 @@ div {
     transition-property: all !important;
     transition-timing-function: linear;
     transition-duration: 0s;
-    width:24px;
-    height:24px;
+    width: 24px;
+    height: 24px;
   }
 }
 .status {

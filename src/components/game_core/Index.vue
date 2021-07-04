@@ -1,6 +1,7 @@
 <template>
   <div id="gameCore">
-    <unit-mes
+    <curr-unit-mes
+      v-if="!isMobileStyle"
       :bg_color="game.bg_color"
       :curr_color="game.curr_color"
       :unitInfo="game.curr_unit"
@@ -60,7 +61,19 @@
           </div>
         </movable-view>
       </movable-area>
+      <mobile-army-mes
+        v-if="isMobileStyle"
+        class="army_mes"
+        ref="armyMes"
+        :unitInfo="game.curr_unit"
+        :point="game.curr_point"
+        :column="game.game_map.column"
+        :curr_color="game.curr_color"
+        :region="game.curr_region"
+        :bg_color="game.bg_color"
+      />
       <army-mes
+        v-else
         class="army_mes"
         ref="armyMes"
         :type="game.type"
@@ -73,7 +86,8 @@
       <base-lister />
     </div>
 
-    <region-mes
+    <curr-region-mes
+      v-if="!isMobileStyle"
       :bg_color="game.bg_color"
       :curr_color="game.curr_color"
       :region="game.curr_region"
@@ -84,16 +98,10 @@
 <script>
 import RegionViewList from "../map_base/RegionViewList";
 import ArmyView from "../map_base/ArmyView.vue";
-// #ifdef H5
-import UnitMes from "./map_mes/weixin/UnitMes.vue";
-import ArmyMes from "./map_mes/weixin/ArmyMes.vue";
-import RegionMes from "./map_mes/RegionMes.vue";
-// #endif
-// #ifdef MP
-import UnitMes from "./map_mes/weixin/UnitMes.vue";
-import RegionMes from "./map_mes/weixin/RegionMes.vue";
-import ArmyMes from "./map_mes/weixin/ArmyMes.vue";
-// #endif
+import CurrUnitMes from "./map_mes/CurrUnitMes.vue";
+import ArmyMes from "./map_mes/ArmyMes.vue";
+import CurrRegionMes from "./map_mes/CurrRegionMes.vue";
+import MobileArmyMes from "./map_mes/mobile/ArmyMes.vue";
 import PointView from "../map_base/PointView.vue";
 import MoveArea from "../map_base/MoveArea.vue";
 import ActionView from "../map_base/ActionView.vue";
@@ -111,8 +119,9 @@ export default {
   components: {
     RegionViewList,
     ArmyView,
-    UnitMes,
-    RegionMes,
+    MobileArmyMes,
+    CurrUnitMes,
+    CurrRegionMes,
     PointView,
     MoveArea,
     ActionView,
@@ -136,6 +145,7 @@ export default {
       x: 0,
       y: 0,
       direction: "all",
+      isMobileStyle: true,
     };
   },
   computed: {},
@@ -148,7 +158,9 @@ export default {
       // #ifndef H5
       this.containerStyle.width = this.$uni.screenWidth + "px";
       this.containerStyle.height = this.$uni.screenHeigh - 40 + "px";
+      this.isMobileStyle = true;
       // #endif
+      // 非H5只支持移动风格
     },
     // 开启一个后台进程 计时器
     startWorker() {
@@ -163,10 +175,6 @@ export default {
     // 结束回合开始新的回合
     getNewRound() {
       this.$store.dispatch("getNewRound");
-    },
-    // 保存用户地图
-    saveUserRecord() {
-      //
     },
     // 检测游戏是否可以开始
     checkGame() {
@@ -189,10 +197,6 @@ export default {
             reject(error);
           });
       });
-    },
-    // 点击购买单位
-    buyUnit() {
-      console.log("购买单位");
     },
     clickRegion(index) {
       // 点击了其他的单位 或者已经行动过了
@@ -221,10 +225,8 @@ export default {
   created() {
     // 检测webscoket连接
     console.log("准备开始游戏, 检查ws连接情况");
-
-    this.initMapStyle();
-
     this.$appHelper.bindPage2Global(this, "GameIndex");
+    this.initMapStyle();
     this.checkGame()
       .then((resp) => {
         if (resp) {

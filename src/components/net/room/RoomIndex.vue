@@ -60,7 +60,7 @@
       return {
         willChange: false,
         canJoinRoom: {},
-        queryDataFunction: ()=> GetRoomListByPage(),
+        queryDataFunction: (args)=> GetRoomListByPage(args),
         buttonList: [
           {name: this.$t('multiPlayer.join'), action: this.clickJoinGameButton},
           {name: this.$t('common.preview'), action: this.clickPreviewButton},
@@ -232,6 +232,7 @@
       },
       clickCancelCreateRoom() {
         console.log("取消创建房间");
+        this.addNewDialogShowModel = false;
       },
       flushRoom() {
         if (this.$refs.mainDiaglog) {
