@@ -292,6 +292,7 @@ var commendDispatcher = {
         console.log("执行改变当前单位");
         ext_mes.unit_info.changeData = new Date;
         store.getters.game.curr_unit = ext_mes.unit_info;
+        store.getters.game.bg_color = ext_mes.unit_info.color;
         break;
       case commendType.CHANGE_CURR_REGION:
         console.log("执行改变当前地形");
@@ -300,10 +301,6 @@ var commendDispatcher = {
       case commendType.CHANGE_CURR_POINT:
         console.log("执行改变当前指针");
         store.getters.game.curr_point = aim_site;
-        break;
-      case commendType.CHANGE_CURR_BG_COLOR:
-        console.log("执行改变当前背景颜色");
-        store.getters.game.bg_color = ext_mes.bg_color;
         break;
       case commendType.CHANG_REGION:
         store.commit("changeRegion", ext_mes);
