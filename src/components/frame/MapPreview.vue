@@ -6,12 +6,16 @@
     setFullScreen
     @close="close"
     mainPadding="0"
-    :width="$appHelper.getMapSize(currentMap.column)"
   >
     <movable-area
-         class="main_map"
-         v-if="value && currentMap && currentMap.hasOwnProperty('regions')"
-         :style='{width: mapContainer.width, maxWidth: mapContainer.maxWidth, height:mapContainer.height}'>
+      class="main_map"
+      v-if="value && currentMap && currentMap.hasOwnProperty('regions')"
+      :style="{
+        width: $uni.isH5 ? h5Style.width : mpStyle.width,
+        maxWidth: $uni.isH5 ? h5Style.maxWidth : mpStyle.maxWidth,
+        height: $uni.isH5 ? h5Style.height : mpStyle.height,
+      }"
+    >
       <movable-view
         direction="all"
         class="preview_map"
@@ -83,29 +87,25 @@ export default {
       currentMap: {},
       x: 0,
       y: 0,
-      containerStyle: {},
+      mpStyle: {},
       dialogWidth: undefined,
     };
   },
   created() {
-    this.initMap();
     this.$appHelper.bindPage2Global(this, "MapPreview");
   },
   computed: {
-    mapContainer(){
-      // #ifdef H5
+    h5Style() {
       return {
-        width:(this.currentMap.column * 24 > 600 ? 600 : this.currentMap.column * 24) + "px",
-        maxWidth:(this.currentMap.column * 24 > 600 ? 600 - 12 : this.currentMap.column * 24 - 12) + "px"
+        width:
+          (this.currentMap.column * 24 > 600
+            ? 600
+            : this.currentMap.column * 24) + "px",
+        maxWidth:
+          (this.currentMap.column * 24 > 600
+            ? 600 - 12
+            : this.currentMap.column * 24 - 12) + "px",
       };
-      // #endif
-      // #ifndef H5
-      return {
-        width:"100%",
-        height:"100%",
-        maxWidth:"100%"
-      }
-      // #endif
     },
     mapStyle() {
       return {
@@ -122,26 +122,15 @@ export default {
     },
   },
   methods: {
-    beforeDialogCreate(){
+    beforeDialogCreate() {
+      this.initMapStyle();
       this.initMap();
       return true;
     },
     initMapStyle() {
-      // #ifdef H5
-      (this.containerStyle.width =
-        (this.currentMap.column * 24 > 600
-          ? 600
-          : this.currentMap.column * 24) + "px"),
-        (this.containerStyle.maxWidth =
-          (this.currentMap.column * 24 > 600
-            ? 600 - 12
-            : this.currentMap.column * 24 - 12) + "px");
-      // #endif
-      // #ifndef H5
-      this.containerStyle.width = this.$uni.screenWidth + "px";
-      this.containerStyle.maxWidth = this.$uni.screenWidth + "px";
-      this.containerStyle.height = this.$uni.screenHeigh - 40 + "px";
-      // #endif
+      this.mpStyle.width = this.$uni.screenWidth + "px";
+      this.mpStyle.maxWidth = this.$uni.screenWidth + "px";
+      this.mpStyle.height = this.$uni.screenHeigh - 40 + "px";
     },
     initMap() {
       if (this.map) {
