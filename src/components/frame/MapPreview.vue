@@ -13,24 +13,24 @@
          v-if="value && currentMap && currentMap.hasOwnProperty('regions')"
          :style='{width: mapContainer.width, maxWidth: mapContainer.maxWidth, height:mapContainer.height}'>
       <movable-view
-          direction="all"
-          class="preview_map"
-          :style='{width: mapStyle.width, height: mapStyle.height,}'
-          :x="x"
-          :y="y"
-          :damping="50"
-          @change="onChange">
+        direction="all"
+        class="preview_map"
+        :style="{ width: mapStyle.width, height: mapStyle.height }"
+        :x="x"
+        :y="y"
+        :damping="50"
+      >
         <region-view-list
-            ref="regionViewList"
-            :regions="currentMap.regions"
-            :row="currentMap.row"
-            :column="currentMap.column"
+          ref="regionViewList"
+          :regions="currentMap.regions"
+          :row="currentMap.row"
+          :column="currentMap.column"
         ></region-view-list>
-        <tomb-view v-if="currentMap.tombs" :tombs="currentMap.tombs"/>
+        <tomb-view v-if="currentMap.tombs" :tombs="currentMap.tombs" />
         <unit-view-list :units="currentMap.units"></unit-view-list>
         <point-view
-            v-if="currentMap.currPoint"
-            :point="currentMap.currPoint"
+          v-if="currentMap.currPoint"
+          :point="currentMap.currPoint"
         ></point-view>
       </movable-view>
     </movable-area>
@@ -81,14 +81,10 @@ export default {
   data() {
     return {
       currentMap: {},
-      x:0,
-      y:0,
-      maxX:0,
-      minY:0,
-      old: {
-        x: 0,
-        y: 0,
-      }
+      x: 0,
+      y: 0,
+      containerStyle: {},
+      dialogWidth: undefined,
     };
   },
   created() {
@@ -128,20 +124,23 @@ export default {
   methods: {
     beforeDialogCreate(){
       this.initMap();
+      return true;
     },
-    onChange({detail}){
+    initMapStyle() {
+      // #ifdef H5
+      (this.containerStyle.width =
+        (this.currentMap.column * 24 > 600
+          ? 600
+          : this.currentMap.column * 24) + "px"),
+        (this.containerStyle.maxWidth =
+          (this.currentMap.column * 24 > 600
+            ? 600 - 12
+            : this.currentMap.column * 24 - 12) + "px");
+      // #endif
       // #ifndef H5
-      if(detail.source === 'touch') {
-        if(detail.y < this.minY) {
-          // 解决view层不同步的问题
-          this.x = this.old.x;
-          this.y = this.old.y;
-          this.$nextTick(function() {
-            this.x =  0;
-            this.y = this.minY
-          })
-        }
-      }
+      this.containerStyle.width = this.$uni.screenWidth + "px";
+      this.containerStyle.maxWidth = this.$uni.screenWidth + "px";
+      this.containerStyle.height = this.$uni.screenHeigh - 40 + "px";
       // #endif
     },
     initMap() {
@@ -149,42 +148,43 @@ export default {
         this.currentMap = this.map;
       } else if (this.mapId) {
         if (this.isRecord) {
-          GetRecordById(this.mapId).then(({res_val}) => {
-              let currentMap = {};
-              currentMap.regions = res_val.game_map.regions;
-              currentMap.tombs = res_val.tomb_list;
-              currentMap.row = res_val.game_map.row;
-              currentMap.column = res_val.game_map.column;
-              currentMap.map_name = res_val.record_name;
-              currentMap.currPoint = res_val.curr_point;
-              currentMap.units = [];
-              for (let army of res_val.army_list) {
-                army.units.forEach((unit) => {
-                  unit["color"] = army["color"];
-                  unit["id"] = unit["type_id"];
-                });
-                currentMap.units = currentMap.units.concat(army.units);
-              }
-              this.currentMap = currentMap;
-              this.setMaxXAndMinY();
-          })
+          GetRecordById(this.mapId).then(({ res_val }) => {
+            let currentMap = {};
+            currentMap.regions = res_val.game_map.regions;
+            currentMap.tombs = res_val.tomb_list;
+            currentMap.row = res_val.game_map.row;
+            currentMap.column = res_val.game_map.column;
+            currentMap.map_name = res_val.record_name;
+            currentMap.currPoint = res_val.curr_point;
+            currentMap.units = [];
+            for (let army of res_val.army_list) {
+              army.units.forEach((unit) => {
+                unit["color"] = army["color"];
+                unit["id"] = unit["type_id"];
+              });
+              currentMap.units = currentMap.units.concat(army.units);
+            }
+            this.currentMap = currentMap;
+            this.setMaxXAndMinY();
+          });
         } else {
           let args = {};
           args.map_id = this.mapId;
           args.army_config_list = this.armyConfigList;
-          GetUserMapWithConfig(args).then(({res_val}) => {
+          GetUserMapWithConfig(args).then(({ res_val }) => {
             this.currentMap = res_val;
             this.setMaxXAndMinY();
-          })
+          });
         }
       }
     },
-    setMaxXAndMinY(){
+    setMaxXAndMinY() {
       this.x = 0;
       this.y = 0;
       let systemInfo = this.$store.getters.systemInfo;
-      this.minY = -1 * (this.currentMap.row * 24 - systemInfo.screenHeight + 10);
-      if (this.currentMap.column * 24 < systemInfo.screenWidth ) {
+      this.minY =
+        -1 * (this.currentMap.row * 24 - systemInfo.screenHeight + 10);
+      if (this.currentMap.column * 24 < systemInfo.screenWidth) {
         this.x = (systemInfo.screenWidth - this.currentMap.column * 24) / 2;
       }
     },
@@ -198,12 +198,20 @@ export default {
 
 <style lang="scss" >
 #mapPreview {
-  /deep/ .main_map{
+  .main_map {
+    /* #ifndef H5 */
+    width: 100%;
+    height: 80%;
+    padding: 2%;
+    float: left;
+    /* #endif */
+    /* #ifdef H5 */
     height: 400px;
     max-height: 400px;
     overflow-x: scroll;
     overflow-y: scroll;
     position: relative;
+    /* #endif */
   }
   .preview_map {
     position: absolute;
