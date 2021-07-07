@@ -1,5 +1,8 @@
 <template>
-  <div class="army_mes" :style="$appHelper.getBkColor(curr_color)">
+  <div
+    class="army_mes"
+    :style="{ backgroundColor: $appHelper.getBkColorValue(curr_color) }"
+  >
     <div class="bar_mes">
       <ae-tooltip class="army-mes-tooltip" :content="$t('common.money')">
         <div class="army-mes-item">
@@ -40,7 +43,9 @@
           $t('common.endRound'),
         ]"
         size="16px"
-        :buttonConfig="{ '1': { display: (type === 'encounter' || type === 'chapter') } }"
+        :buttonConfig="{
+          '1': { display: type === 'encounter' || type === 'chapter' },
+        }"
         :clickAction="[goHome, saveRecord, roundEnd]"
       ></ae-button-list>
     </div>
@@ -57,9 +62,7 @@ export default {
       saveRecordName: null,
     };
   },
-  methods: {
-  },
-
+  methods: {},
 };
 </script>
 

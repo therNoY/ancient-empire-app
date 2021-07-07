@@ -12,7 +12,7 @@
       :showTitle="showTitle"
       :titleSwitchSelect="titleSwitchSelect"
       @titleSwitchSelectChange="switchChange"
-      :width="70"
+      :width="$uni.isH5 ? 60 : 70"
       page
       setFullScreen
     >

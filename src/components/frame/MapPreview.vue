@@ -1,3 +1,4 @@
+<!--地图预览-->
 <template>
   <ae-base-dialog
     id="mapPreview"
@@ -154,7 +155,6 @@ export default {
               currentMap.units = currentMap.units.concat(army.units);
             }
             this.currentMap = currentMap;
-            this.setMaxXAndMinY();
           });
         } else {
           let args = {};
@@ -162,19 +162,8 @@ export default {
           args.army_config_list = this.armyConfigList;
           GetUserMapWithConfig(args).then(({ res_val }) => {
             this.currentMap = res_val;
-            this.setMaxXAndMinY();
           });
         }
-      }
-    },
-    setMaxXAndMinY() {
-      this.x = 0;
-      this.y = 0;
-      let systemInfo = this.$store.getters.systemInfo;
-      this.minY =
-        -1 * (this.currentMap.row * 24 - systemInfo.screenHeight + 10);
-      if (this.currentMap.column * 24 < systemInfo.screenWidth) {
-        this.x = (systemInfo.screenWidth - this.currentMap.column * 24) / 2;
       }
     },
     close() {

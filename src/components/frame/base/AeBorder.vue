@@ -11,7 +11,7 @@
       <img class="r_d_b corner" src="../../../assets/images/assist/r_d_b.png" />
       <img class="l_d_b corner" src="../../../assets/images/assist/l_d_b.png" />
     </div>
-    <div :style="{ padding: padding }" class="ae-border-main">
+    <div :style="{ padding: padding }">
       <slot></slot>
     </div>
   </div>

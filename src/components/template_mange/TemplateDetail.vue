@@ -23,11 +23,11 @@
         :clickAction="dynamicButton.map((a) => a.action)"
       ></ae-button-list>
     </ae-base-dialog>
-    <start-Comment
+    <start-comment
       ref="startComment"
       :comment="downloadComment"
       @ok="downLoadTemp"
-    ></start-Comment>
+    ></start-comment>
   </div>
 </template>
 
@@ -271,19 +271,11 @@ export default {
         this.TemplateDetail.max_version > this.TemplateDetail.version
       ) {
         args.template_id = this.TemplateDetail.id;
-        this.$appHelper.setLoading();
-        UpdateUserTempAttention(args)
-          .then((resp) => {
-            if (resp.res_code == "0") {
+        UpdateUserTempAttention(args).then((resp) => {
               this.$appHelper.successMsg("更新成功");
               this.$emit("input", false);
               this.$emit("saveOrDel");
-            }
-            this.$appHelper.setLoading();
           })
-          .catch((error) => {
-            this.$appHelper.setLoading();
-          });
       } else {
         this.$appHelper.warningMsg("当前最新版本,无需更新");
       }
@@ -294,19 +286,11 @@ export default {
         console.log("回退单位草稿版本");
         let args = {};
         args.template_id = template.id;
-        this.$appHelper.setLoading();
-        RevertTemplateVersion(args)
-          .then((resp) => {
-            if (resp.res_code == 0) {
-              this.$appHelper.infoMsg("回退成功");
-              this.$emit("input", false);
-              this.$emit("saveOrDel");
-            }
-            this.$appHelper.setLoading();
+        RevertTemplateVersion(args).then((resp) => {
+            this.$appHelper.infoMsg("回退成功");
+            this.$emit("input", false);
+            this.$emit("saveOrDel");
           })
-          .catch((error) => {
-            this.$appHelper.setLoading();
-          });
       } else {
         this.$appHelper.infoMsg("当前单位是正式版本 无需回退");
       }

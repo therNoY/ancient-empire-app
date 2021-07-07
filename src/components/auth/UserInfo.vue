@@ -183,21 +183,14 @@ export default {
         this.$appHelper.infoMsg(this.$t("player.againPwdErr"));
         return;
       }
-      this.$appHelper.setLoading();
-      ChangePwd(args)
-        .then((resp) => {
+      ChangePwd(args, true, false).then((resp) => {
           if (resp.res_code == 0) {
             this.$appHelper.infoMsg(this.$t("common.changeSuccess"));
           } else {
             this.$appHelper.infoMsg(resp.res_mes);
           }
-          this.$appHelper.setLoading();
           this.showChangePwd = false;
         })
-        .catch((error) => {
-          console.error(error);
-          this.$appHelper.setLoading();
-        });
     },
 
     logout() {

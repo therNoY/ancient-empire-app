@@ -158,7 +158,7 @@ export default {
       input.setAttribute("value", _this.roomId);
       document.body.appendChild(input);
       input.select();
-      var res = document.execCommand("copy");
+      document.execCommand("copy");
       document.body.removeChild(input);
       this.$appHelper.successMsg(this.$t("multiPlayer.roomInfoCopy"));
       // #endif
@@ -188,10 +188,8 @@ export default {
     changeCtlArmy(color) {
       let args = {};
       args.new_army = color;
-      this.$appHelper.setLoading();
       ChangeArmy(args)
         .then((resp) => {
-          this.$appHelper.setLoading();
           if (resp && resp.res_code == 0) {
           } else {
             this.$appHelper.infoMsg(this.t("multiPlayer.joinFail"));
@@ -199,21 +197,17 @@ export default {
         })
         .catch((error) => {
           console.error(error);
-          this.$appHelper.setLoading();
         });
     },
     levelCtlArmy(color, userId) {
       let args = {};
       args.color = color;
       args.player_id = userId;
-      this.$appHelper.setLoading();
       LevelCtlArmy(args)
         .then((resp) => {
-          this.$appHelper.setLoading();
         })
         .catch((error) => {
           console.error(error);
-          this.$appHelper.setLoading();
         });
     },
     joinRoomSocket(roomId) {

@@ -1,3 +1,4 @@
+<!--发送接受游戏消息-->
 <template>
   <div class="message-show">
     <scroll-view

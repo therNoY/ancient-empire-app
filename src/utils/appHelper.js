@@ -167,8 +167,11 @@ const appHelper = {
 
 	// 判断是否可以点击
 	mapCanClick: function () {
-		return (store.getters.user.user_id == store.getters.game.curr_player) &&
-			store.getters.mapState == 0;
+		let currPlayer = store.getters.game.curr_player;
+		if (currPlayer.startsWith('-')) {
+			currPlayer = currPlayer.substring(1);
+		}
+		return (store.getters.user.user_id == currPlayer) && store.getters.mapState == 0;
 	},
 
 

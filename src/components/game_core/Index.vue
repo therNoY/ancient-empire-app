@@ -112,8 +112,8 @@ import appHelper from "../../utils/appHelper";
 export default {
   components: {
     RegionViewList,
-    ArmyView,
     MobileArmyMes,
+    ArmyView,
     CurrUnitMes,
     CurrRegionMes,
     PointView,
@@ -193,13 +193,10 @@ export default {
     },
     clickRegion(index) {
       // 点击了其他的单位 或者已经行动过了
-      if (this.$appHelper.mapCanClick()) {
-        this.$appHelper.sendEvent(eventype.CLICK_REGION, null, null, index);
-      }
+      this.$appHelper.sendEvent(eventype.CLICK_REGION, null, null, index);
     },
     clickUnit(unit) {
-      if (this.$appHelper.mapCanClick()) {
-        if (this.$store.getters.game.curr_color == unit.color && !unit.done) {
+      if (this.$store.getters.game.curr_color == unit.color && !unit.done) {
           // 点击了自己的可以行动的单位
           this.$appHelper.sendEvent(eventype.CLICK_ACTIVE_UNIT, {
             row: Math.round(unit.row),
@@ -212,7 +209,6 @@ export default {
             column: Math.round(unit.column),
           });
         }
-      }
     },
   },
   created() {

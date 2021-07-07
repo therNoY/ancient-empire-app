@@ -5,30 +5,24 @@
       v-model="showModel"
       :showItem="showItem"
       :showTitle="showTitle"
-      title="选择存档"
+      :title="$t('loadGame.chooseRecord')"
       :initQueryDataGrid="queryDataFunction"
       :footerButtons="footerButtons"
+      :width="$uni.isH5 ? 48 : 70"
       showSearch
-      :width="40"
       page
     >
     </ae-complex-dialog>
-    <map-preview
-      v-model="showPreview"
-      :mapId="mapId"
-      isRecord
-    ></map-preview>
+    <map-preview v-model="showPreview" :mapId="mapId" isRecord></map-preview>
   </div>
 </template>
 
 <script>
 import {
   GetUserRecordList,
-  RecordInit,
-  GetUnitLevelByTemp,
-  GetUserTemp,
   DelUserRecord,
 } from "@/api";
+import {startRecordGame} from "../../utils/gameHelper"
 import dialogShow from "../../mixins/frame/dialogShow.js";
 import MapPreview from "../frame/MapPreview.vue";
 export default {
@@ -39,11 +33,11 @@ export default {
     return {
       queryDataFunction: null,
       footerButtons: [
-        { name: "继续", action: "continueRecord" },
-        { name: "预览", action: "preview" },
-        { name: "删除", action: "delUserRecord" },
+        { name: this.$t("loadGame.continue"), action: this.continueRecord },
+        { name: this.$t("common.preview"), action: this.preview },
+        { name: this.$t("common.delete"), action: this.delUserRecord },
       ],
-      showTitle: ["名称", "创建时间"],
+      showTitle: [this.$t("common.name"), this.$t("common.createTime")],
       showItem: ["record_name", "create_time"],
       showPreview: false,
       mapId: null,
@@ -59,19 +53,12 @@ export default {
       this.showPreview = true;
     },
     delUserRecord() {
-      this.$appHelper.showTip("确定要删除么？", () => {
+      this.$appHelper.showTip(this.$t("common.deleteTip"), () => {
         let record = this.$refs.aeDialog.getDataGridSelect();
-        this.$appHelper.setLoading();
-        DelUserRecord(record.uuid)
-          .then((resp) => {
-            this.$appHelper.setLoading();
-            this.$appHelper.infoMsg("删除成功");
-            this.$refs.aeDialog.flushData();
-          })
-          .catch((err) => {
-            console.log(err);
-            this.$appHelper.setLoading();
-          });
+        DelUserRecord(record.uuid).then((resp) => {
+          this.$appHelper.infoMsg(this.$t("common.deleteSuccess"));
+          this.$refs.aeDialog.flushData();
+        });
       });
     },
     /**
@@ -82,59 +69,9 @@ export default {
      */
     continueRecord() {
       let record = this.$refs.aeDialog.getDataGridSelect();
-      this.$appHelper.setLoading();
-      console.log("开始一个遭遇战的单机游戏");
       let args = {};
       args.uuid = record.uuid;
-      RecordInit(args)
-        .then((resp) => {
-          if (resp.res_code == 0) {
-            this.$store.commit("setGame", resp.res_val);
-            // 获取单位最大生命值
-            this.getUnitLevelByTemp(resp.res_val.template_id);
-            // 获取模板
-            GetUserTemp(resp.res_val.template_id).then((tempResp) => {
-              if (tempResp && tempResp.res_val) {
-                this.$store.commit("setTemplate", tempResp.res_val);
-                let connArgs = {};
-                connArgs.recordId = resp.res_val.uuid;
-                connArgs.type = "stand_game";
-                this.$store
-                  .dispatch("connectGameSocket", connArgs)
-                  .then((r) => {
-                    this.$appHelper.setLoading();
-                    this.loading = false;
-                    this.$router.push("/gameIndex");
-                  })
-                  .catch((e) => {
-                    console.error(e);
-                    this.$appHelper.setLoading();
-                  });
-              } else {
-                this.$appHelper.errorMsg(resp.res_mes);
-                this.$appHelper.setLoading();
-              }
-            });
-          } else {
-            this.$appHelper.errorMsg(resp.res_mes);
-            this.$appHelper.setLoading();
-          }
-        })
-        .catch((e) => {
-          console.error(e);
-          this.$appHelper.setLoading();
-        });
-    },
-
-    async getUnitLevelByTemp(tempId) {
-      const resp = await GetUnitLevelByTemp(tempId);
-      if (resp.res_code == 0) {
-        this.$store.commit("setUnitLevelInfo", resp.res_val);
-        return resp.res_val;
-      } else {
-        this.$appHelper.errorMsg(resp.res_mes);
-        return null;
-      }
+      startRecordGame(args);
     },
   },
 };

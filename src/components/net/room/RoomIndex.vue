@@ -3,7 +3,7 @@
     <ae-complex-dialog
         ref="mainDiaglog"
         v-model="showModel"
-        :showSearch="true"
+        showSearch
         :title="$t('multiPlayer.romeHome')"
         :titleButtons="titleButtonList"
         :footerButtons="buttonList"
@@ -154,7 +154,6 @@
       clickJoinGameButton() {
         let selectMap = this.$refs.mainDiaglog.getDataGridSelect();
 
-        this.$appHelper.setLoading();
         let joinRoomSocket = this.$refs.joinRoom.joinRoomSocket(selectMap.room_id);
         joinRoomSocket.then(({message}) => {
           this.joinMapId = selectMap.map_id;
@@ -165,13 +164,9 @@
           this.setJoinRoomShow();
           this.showJoinRoom = true;
           this.$appHelper.infoMsg(this.$t("multiPlayer.joinSuccess"));
-          this.$appHelper.setLoading();
-        })
-        .catch((error) => {
+        }).catch((error) => {
           console.error(error);
-          this.$appHelper.infoMsg(this.$t("multiPlayer.joinFail"));
           this.$refs.mainDiaglog.flushData();
-          this.$appHelper.setLoading();
         });
       },
       clickPreviewButton() {
@@ -216,16 +211,11 @@
           let initSetting = this.$refs.joinRoom.initSetting(
               res_val.room_id
           );
-          this.$appHelper.setLoading();
           initSetting.then((joinRoomPromise) => {
               this.showJoinRoom = true;
               console.log("joinRoomPromise result >>>", res_val, joinRoomPromise);
               this.$appHelper.infoMsg(this.$t("multiPlayer.joinSuccess"));
-              this.$appHelper.setLoading();
-            })
-            .catch((error) => {
-              this.$appHelper.infoMsg(this.$t("multiPlayer.joinFail"));
-              this.$appHelper.setLoading();
+            }).catch((error) => {
               this.showJoinRoom = false;
             });
         })

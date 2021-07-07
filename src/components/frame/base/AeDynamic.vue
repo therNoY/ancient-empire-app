@@ -1,5 +1,5 @@
 
-<!--uniapp目前不支持解析 只能手动 if else if 解析 以后支持可以直接返回render -->
+<!--uniapp目前不支持解析render 只能手动 if else if 解析 以后支持可以直接返回render -->
 <template>
   <div>
     <div v-if="renderConfig.label === 'button'">

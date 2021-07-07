@@ -58,6 +58,7 @@
     "publicVersionTip": "发布新版本会覆盖历史版本, 确定么？",
     "saveDraftTip": "保存之后 不会修改最新版本 需要发布才能生效",
     "deleteDownloadTip": "确定要删除下载么?",
+    "deleteTip": "确定要删除么?",
     "deleteEntryTip": "操做将会永久删除单位信息,确实么?",
     "notNull": "不能为空",
     "createTime": "创建时间",
@@ -159,7 +160,9 @@
   "loadGame": {
     "title": "读取游戏",
     "saveRecord": "保存存档",
-    "recordName": "存档名字"
+    "recordName": "存档名字",
+    "chooseRecord":"选择存档",
+    "continue":"继续"
   },
   "unitManagement": {
     "title": "单位管理",

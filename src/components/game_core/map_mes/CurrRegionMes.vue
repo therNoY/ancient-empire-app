@@ -7,35 +7,16 @@
       </div>
 
       <div class="unit_p">
-        <div class="unit_border">
-          <img class="region" src="../../../assets/images/Region/flat.png" />
-          <img
-            class="region"
-            v-if="region.type != 'castle'"
-            src="../../../assets/images/Region/flat.png"
-          />
-          <img
-            class="region"
-            v-else
-            src="../../../assets/images/Region/castle_title.png"
-          />
-          <img
-            class="region"
-            v-for="item in 2"
-            :key="item + '_1'"
-            src="../../../assets/images/Region/flat.png"
-          />
-          <img
-            class="region"
-            :src="$appHelper.getRegionImg(region.type, region.color)"
-          />
-          <img
-            class="region"
-            v-for="item in 4"
-            :key="item + '_2'"
-            src="../../../assets/images/Region/flat.png"
-          />
-        </div>
+        <ae-border padding="0px" class="show-unit-detail-img">
+          <div class="show-region-img">
+            <img
+              v-if="region.type == 'castle'"
+              src="../../../assets/images/Region/castle_title.png"
+            />
+            <div v-else style="width: 24px; height: 24px"></div>
+            <img :src="$appHelper.getRegionImg(region.type, region.color)" />
+          </div>
+        </ae-border>
       </div>
 
       <div class="region_description">{{ region.description }}</div>
@@ -72,7 +53,7 @@
       style="height: 35%"
       sendEventMethod="sendGameMessage"
       receiveMesEvent="addGameMessage"
-      :height="($uni.screenHeigh * 0.3)"
+      :height="$uni.screenHeigh * 0.3"
     ></game-message>
   </div>
 </template>

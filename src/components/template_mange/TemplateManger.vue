@@ -113,19 +113,11 @@ export default {
   methods: {
     clickAddButton() {
       let parms = {};
-      this.$appHelper.setLoading();
-      GetUserDraftTemplate(parms)
-        .then((resp) => {
-          if (resp.res_code == 0) {
-            this.currentTemp = resp.res_val;
-            this.model = "myTemp";
-            this.showTempDetail = true;
-          }
-          this.$appHelper.setLoading();
+      GetUserDraftTemplate(parms).then(({res_val}) => {
+          this.currentTemp = res_val;
+          this.model = "myTemp";
+          this.showTempDetail = true;
         })
-        .catch((error) => {
-          this.$appHelper.setLoading();
-        });
     },
     flushData() {
       this.$refs.aeDialog.flushData();

@@ -8,19 +8,15 @@
         <div v-else></div>
       </div>
       <div class="unit_p">
-        <img
-          class="region"
-          v-for="item in 9"
-          :key="'bk' + item"
-          src="../../../assets/images/Region/grove.png"
-        />
-        <unit-view
-          v-if="unitInfo"
-          class="unit_view"
-          :unit="unitInfo"
-          :color="curr_unit_color"
-          signal="1"
-        ></unit-view>
+        <ae-border padding="0px" class="show-unit-detail-img">
+          <unit-view
+            v-if="showMode == 'unit'"
+            :unit="unitInfo"
+            :color="color"
+            :top="20"
+            :left="20"
+          ></unit-view>
+        </ae-border>
       </div>
     </div>
 

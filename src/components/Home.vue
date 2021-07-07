@@ -82,6 +82,12 @@
       <ae-button :size="buttonSize" class="home_button" @click="router('Test')"
         >帮助</ae-button
       >
+      <ae-button
+        :size="buttonSize"
+        class="home_button"
+        @click="showMoitor = true"
+        >监控</ae-button
+      >
       <!--  <ae-button :size="buttonSize" class="home_button" @click="router('monitor')">监控</ae-button> -->
     </div>
 
@@ -124,6 +130,8 @@
     <!-- 地图管理 -->
     <map-manger ref="map-manger" v-model="showMapManger"></map-manger>
 
+    <monitor v-model="showMoitor"></monitor>
+
     <!-- 基础监听类 -->
     <base-lister></base-lister>
   </div>
@@ -132,6 +140,7 @@
 <script>
 import UserInfo from "./auth/UserInfo.vue";
 import WeiXinUserInfo from "./auth/WeiXinUserInfo.vue";
+import Monitor from "./Monitor.vue"
 import RoomIndex from "./net/room/RoomIndex.vue";
 import EncounterStart from "./encounter/EncounterStart.vue";
 import UserRecord from "./encounter/UserRecord.vue";
@@ -141,7 +150,8 @@ import MapManger from "./map_manger/MapManger.vue";
 import MapEdit from "./map_manger/MapEdit.vue";
 import ChapterSelect from "./encounter/ChapterSelect.vue";
 import BaseLister from "./BaseLister.vue";
-import { Login, GetWeiXinPhone } from "../api";
+import { Login, GetWeiXinPhone, GetCanReConnectRecord } from "../api";
+import { reRecordGame } from "../utils/gameHelper";
 import {
   getLocalSaveUser,
   setUser,
@@ -161,6 +171,7 @@ export default {
     ChapterSelect,
     MapManger,
     BaseLister,
+    Monitor
   },
   data() {
     return {
@@ -176,6 +187,7 @@ export default {
       showMapEdit: false,
       showChapter: false,
       showMapManger: false,
+      showMoitor: false,
       buttonSize: 0.8,
       vueStyle: {},
     };
@@ -206,11 +218,23 @@ export default {
             setUser(loginUser);
             let token = res_val.token;
             setToken(token);
+            this.reConnectGameRecord();
           })
           .catch((err) => {
             removeAllStorage();
           });
       }
+    },
+    // 重新连接
+    reConnectGameRecord() {
+      GetCanReConnectRecord().then(({ res_val }) => {
+        if (res_val) {
+          this.$appHelper.showTip("有正在进行的游戏,需要重新连接么", () => {
+            console.log("准备重连", res_val);
+            reRecordGame(res_val);
+          });
+        }
+      });
     },
     // 重试
     onGetPhoneNumber({ detail }) {

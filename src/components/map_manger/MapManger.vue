@@ -115,18 +115,10 @@ export default {
       let args = Object.assign(map, {});
       args.map_start = commend.start;
       args.map_comment = commend.comment;
-      this.$appHelper.setLoading();
-      DownloadMap(args)
-        .then((resp) => {
-          if (resp.res_code == "0") {
-            this.$appHelper.successMsg("下载成功");
-            this.flushData();
-          }
-          this.$appHelper.setLoading();
+      DownloadMap(args).then((resp) => {
+          this.$appHelper.successMsg("下载成功");
+          this.flushData();
         })
-        .catch((err) => {
-          this.$appHelper.setLoading();
-        });
     },
     flushData() {
       this.$refs.aeDialog.flushData();
@@ -172,19 +164,11 @@ export default {
     updateMapVersion() {
       let userMap = this.$refs.aeDialog.getDataGridSelect();
       if (userMap.max_version && userMap.max_version > userMap.version) {
-        this.$appHelper.setLoading();
         let args = { map_id: userMap.map_id };
-        UpdateMapVersion(args)
-          .then((resp) => {
-            if (resp.res_code == "0") {
-              this.$appHelper.successMsg("下载成功");
-              this.flushData();
-            }
-            this.$appHelper.setLoading();
+        UpdateMapVersion(args).then((resp) => {
+            this.$appHelper.successMsg("下载成功");
+            this.flushData();
           })
-          .catch((error) => {
-            this.$appHelper.setLoading();
-          });
       } else {
         this.$appHelper.warningMsg("已经是最新版本");
       }

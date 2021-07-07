@@ -1,12 +1,14 @@
 import eventype from "../../manger/eventType";
-import {RecordSaveAs} from "@/api";
+import { RecordSaveAs } from "@/api";
 
 export default {
   methods: {
     roundEnd() {
-      this.$appHelper.showTip(this.$t("encounter.endRound"), () => {
-        this.$appHelper.sendEvent(eventype.ROUND_END);
-      });
+      if (this.$appHelper.mapCanClick()) {
+        this.$appHelper.showTip(this.$t("encounter.endRound"), () => {
+          this.$appHelper.sendEvent(eventype.ROUND_END);
+        });
+      }
     },
     goHome() {
       this.$appHelper.showTip(this.$t("encounter.leaveGameWarn"), () => {
@@ -21,16 +23,16 @@ export default {
     saveRecord() {
       let _this = this;
       this.$appHelper.showInputDialog(
-          this.$t("loadGame.saveRecord"),
-          this.$t("loadGame.recordName"),
-          (saveRecordName) => {
-            let args = {};
-            args.uuid = _this.gameId;
-            args.name = saveRecordName;
-            RecordSaveAs(args).then(() => {
-              _this.$appHelper.infoMsg(_this.$t("common.saveSuccess"));
-            });
-          }
+        this.$t("loadGame.saveRecord"),
+        this.$t("loadGame.recordName"),
+        (saveRecordName) => {
+          let args = {};
+          args.uuid = _this.gameId;
+          args.name = saveRecordName;
+          RecordSaveAs(args).then(() => {
+            _this.$appHelper.infoMsg(_this.$t("common.saveSuccess"));
+          });
+        }
       );
     },
   },

@@ -1,6 +1,7 @@
+<!--预览单位列表-->
 <template>
   <div>
-    <div v-for="(unit,index) in unit_list" class="showList" v-bind:key="index">
+    <div v-for="(unit,index) in unit_list" :key="index">
       <unit v-if="index  < showNum" class="showUnit" :unit_id="unit.id"></unit>
     </div>
   </div>
@@ -41,10 +42,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.showList {
-  .showUnit {
-    float: left;
-    width: 19px;
-  }
+.showUnit {
+  float: left;
+  width: 19px;
 }
 </style>

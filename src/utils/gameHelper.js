@@ -3,6 +3,7 @@ import {
   GetUnitLevelByTemp,
   GetUserTemp,
   GetRecordById,
+  GetUserRecordInfo,
   RecordInit
 } from "../api"
 import { gameCoreUrl } from '@/api/env'
@@ -59,13 +60,13 @@ let startGameRecord = function (selectMap, gameType, initFunc) {
     record.game_type = gameType;
   }
   console.log("准备开始游戏 游戏类型", gameType);
-  appHelper.setLoading();
+  appHelper.setLoading(true);
 
   initFunc(record, false).then(({ res_val }) => {
     store.commit("setGame", res_val);
     console.log("初始化游戏信息", res_val);
     // 获取单位最大生命值
-    getUnitLevelByTemp(res_val.template_id);
+    // getUnitLevelByTemp(res_val.template_id);
     // 获取模板
     GetUserTemp(res_val.template_id, false, false).then((tempResp) => {
       if (tempResp && tempResp.res_val) {
@@ -84,14 +85,14 @@ let startGameRecord = function (selectMap, gameType, initFunc) {
           });
         }).catch((e) => {
           console.error(e);
-          appHelper.setLoading(false);
+          appHelper.setLoading();
         });
       } else {
-        appHelper.setLoading(false);
+        appHelper.setLoading();
       }
     });
   }).catch(err => {
-    appHelper.setLoading(false);
+    appHelper.setLoading();
   })
 };
 
@@ -182,5 +183,13 @@ export function startRoomGame(selectMap) {
  * @param selectMap
  */
 export function startRecordGame(selectMap) {
-  startGameRecord(selectMap, "stand_game", RecordInit);
+  startGameRecord(selectMap, "encounter", RecordInit);
+}
+
+/**
+ * 重新连接游戏
+ * @param selectMap
+ */
+export function reRecordGame(selectMap) {
+  startGameRecord(selectMap, "room", GetUserRecordInfo);
 }

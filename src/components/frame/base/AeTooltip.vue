@@ -65,6 +65,7 @@ export default {
   z-index: 1;
   bottom: 125%;
   margin-left: -80px;
+  z-index: 9999;
   -webkit-text-stroke: 0.2px #000000;
 }
 .center-placement{

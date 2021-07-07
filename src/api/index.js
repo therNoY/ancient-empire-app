@@ -268,8 +268,16 @@ export const RecordSaveAs = (args, showLoading, handleErr) => request("/api/reco
  * @param {*} args
  * @returns
  */
- export const RoomInit = (args, showLoading, handleErr) => request("/api/room/init", args, POST, showLoading, handleErr);
-// 根据Id获取存档
+export const RoomInit = (args, showLoading, handleErr) => request("/api/room/init", args, POST, showLoading, handleErr);
+
+/**
+ * 根据Id获取存档
+ * @param id
+ * @param showLoading
+ * @param handleErr
+ * @returns {undefined|*|Promise|Promise<unknown>}
+ * @constructor
+ */
 export const GetRecordById = (id, showLoading, handleErr) => request("/record/" + id, '', GET, showLoading, handleErr);
 /**
  * 根据Id删除记录
@@ -415,3 +423,14 @@ export const LevelCtlArmy = (args, showLoading, handleErr) =>request("/api/room/
  * @returns 
  */
 export const GetBuffByType = (args) =>request("/buff/get", args, GET, false, true);
+
+/**
+ * 获取是否有可以重连的多人游戏
+ * @param args
+ * @returns {undefined|*|Promise|Promise<unknown>}
+ * @constructor
+ */
+export const GetCanReConnectRecord = (args) =>request("/api/record/canReConnect", args, GET, false, true);
+
+export const GetMonitorRecordList = (args) =>request("/admin/monitor/record/list", args, POST, true, true);
+export const GetUserRecordInfo = (args) =>request("/api/runRecord/" + args, {}, GET, true, true);
