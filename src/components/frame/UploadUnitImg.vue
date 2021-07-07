@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ae-base-dialog :title="$t('common.uploadImg')" v-model="showModel">
+    <ae-base-dialog :title="$t('c.uploadImg')" v-model="showModel">
       <div class="upload-unit-img">
         <upload-game-img
           class="uploadComp"
@@ -27,7 +27,7 @@
       ></ae-button-list>
     </ae-base-dialog>
 
-    <ae-base-dialog :title="$t('common.preview')" :width="30" v-model="showPreview">
+    <ae-base-dialog :title="$t('c.preview')" :width="30" v-model="showPreview">
       <div v-for="(color,index) in colorList" :key = index class="previewImg">
         <img style="width:24px;height:24px" v-show="signal % 2 === 0" :src="$appHelper.getUnitImg(previewUnitImg.img1, color)" />
         <img style="width:24px;height:24px" v-show="signal % 2 !== 0" :src="$appHelper.getUnitImg(previewUnitImg.img2, color)" />
@@ -56,7 +56,7 @@ export default {
     return {
       uploadImg: [],
       showPreview: false,
-      saveButtonList: [this.$t('common.preview'), this.$t('common.create')],
+      saveButtonList: [this.$t('c.preview'), this.$t('c.create')],
       timerChangeSignal: null,
       signal: 0,
       colorList : ["blue", "red", "green", "black"],
@@ -85,7 +85,7 @@ export default {
     },
     checkSize() {
       if (_this.uploadImg.length > 1) {
-        _this.$appHelper.infoMsg(_this.$t('unitManagement.unitPicTip1'));
+        _this.$appHelper.infoMsg(_this.$t('um.unitPicTip1'));
         return false;
       }
       return true;
@@ -96,7 +96,7 @@ export default {
     previewUnit() {
       console.log("预览");
       if (_this.uploadImg.length !== 2) {
-        _this.$appHelper.infoMsg(_this.$t('unitManagement.unitPicTip2'));
+        _this.$appHelper.infoMsg(_this.$t('um.unitPicTip2'));
         return false;
       }
       let args = {};
@@ -111,7 +111,7 @@ export default {
           _this.$emit("input", false);
           _this.$emit("uploadOk", _this.previewUnitImg);
         } else {
-          _this.$appHelper.infoMsg(this.$t('unitManagement.needPreviewTip'))
+          _this.$appHelper.infoMsg(this.$t('um.needPreviewTip'))
         }
     },
     uploadSuccess(fileName) {

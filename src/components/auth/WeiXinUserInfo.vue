@@ -3,7 +3,7 @@
   <div>
     <ae-base-dialog
       v-model="showRegister"
-      :title="$t('player.register')"
+      :title="$t('pregister')"
       @close="closeDialog"
     >
       <ae-form
@@ -18,7 +18,7 @@
     </ae-base-dialog>
 
     <ae-base-dialog
-      :title="$t('player.userInfo')"
+      :title="$t('puserInfo')"
       v-model="showUserInfo"
       v-if="showUserInfo"
       @close="closeDialog"
@@ -58,14 +58,14 @@ export default {
         {
           type: "input",
           key: "phone",
-          des: this.$t("player.phone"),
+          des: this.$t("pphone"),
           require: true,
           edit: false,
         },
         {
           type: "input",
           key: "user_name",
-          des: this.$t("player.userName"),
+          des: this.$t("puserName"),
           require: true,
         },
       ],
@@ -73,14 +73,14 @@ export default {
         {
           type: "input",
           key: "user_name",
-          des: this.$t("player.userName"),
+          des: this.$t("puserName"),
           edit: false,
         },
       ],
       user: {},
       editAble: false,
-      userInfoButton: [this.$t("player.logout"), this.$t("common.cancel")],
-      registerButton: [this.$t("player.register"), this.$t("common.cancel")],
+      userInfoButton: [this.$t("plogout"), this.$t("c.cancel")],
+      registerButton: [this.$t("pregister"), this.$t("c.cancel")],
     };
   },
   methods: {
@@ -94,7 +94,7 @@ export default {
       this.$store.dispatch("logout");
       this.user.user_name = "";
       this.user.password = "";
-      this.$appHelper.infoMsg(this.$t("player.logoutOk"));
+      this.$appHelper.infoMsg(this.$t("plogoutOk"));
       this.closeDialog();
     },
 
@@ -109,7 +109,7 @@ export default {
         let token = res_val.token;
         setToken(token);
         this.closeDialog();
-        this.$appHelper.infoMsg(this.$t("player.loginOk"));
+        this.$appHelper.infoMsg(this.$t("ploginOk"));
       });
     },
     cancelRegister() {

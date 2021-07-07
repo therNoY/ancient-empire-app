@@ -1,8 +1,8 @@
 <!--预览单位列表-->
 <template>
   <div>
-    <div v-for="(unit,index) in unit_list" :key="index">
-      <unit v-if="index  < showNum" class="showUnit" :unit_id="unit.id"></unit>
+    <div v-for="(unit, index) in unit_list" :key="index">
+      <unit v-if="index < showNum" class="showUnit" :unit_id="unit.id"></unit>
     </div>
   </div>
 </template>
@@ -16,10 +16,10 @@ export default {
     unit_list: {
       type: Array,
     },
-    showNum:{
-      type:Number,
-      default:15,
-    }
+    showNum: {
+      type: Number,
+      default: 9,
+    },
   },
   data() {
     return {
@@ -36,7 +36,6 @@ export default {
     } else {
       this.showList = this.unit_list.map((a) => a.id);
     }
-    
   },
 };
 </script>

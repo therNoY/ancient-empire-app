@@ -2,7 +2,7 @@
   <div>
     <ae-complex-dialog
       ref="aeDialog"
-      title="模板管理"
+      :title="$t('tm.title')"
       v-model="showModel"
       :showItem="showItem"
       :showTitle="showTitle"
@@ -11,7 +11,7 @@
       :titleSwitchSelect="titleSwitchSelect"
       :initQueryDataGrid="initQueryDataFunction"
       :footerButtons="footerButtonList"
-      :width="65"
+      :width="$uni.isH5 ? 65 : 75"
       showSearch
       @titleSwitchSelectChange="switchSelectChange"
       page
@@ -30,7 +30,6 @@
 </template>
 
 <script>
-import PreviewUnitList from "../frame/PreviewUnitList.vue";
 import {
   GetUserTemplate,
   GetUserDraftTemplate,
@@ -44,8 +43,8 @@ import TemplateDetail from "./TemplateDetail.vue";
 
 const showBindUnitRender = function (h, params) {
   return h(
-    PreviewUnitList,
-    { props: { unit_list: params.bind_uint_list, showNum: 15 } },
+    "previewUnitList",
+    { props: { unit_list: params.bind_uint_list, showNum: 9 } },
     ""
   );
 };
@@ -62,9 +61,9 @@ export default {
         default: "1",
         des: "",
         items: [
-          { key: "1", value: "我的模板", query: GetUserTemplate },
-          { key: "2", value: "我的下载", query: GetUserAttentionTemp },
-          { key: "3", value: "世界模板", query: GetDownloadAbleTemplate },
+          { key: "1", value: this.$t('tm.myTemplate'), query: GetUserTemplate },
+          { key: "2", value: this.$t('c.myDownload'), query: GetUserAttentionTemp },
+          { key: "3", value: this.$t('tm.downLoadTemplate'), query: GetDownloadAbleTemplate },
         ],
       },
       showItem: [
@@ -76,12 +75,12 @@ export default {
             return h(
               "b",
               {},
-              "V" + p.version + "(可更新至V" + p.max_version + ")"
+              this.$t("c.thisVersion", p.version, p.max_version)
             );
           } else if (p.status == "0") {
-            return h("div", {}, "V" + p.version + "(草稿版本)");
+            return h("div", {}, this.$t("c.draftVersion", p.version));
           } else {
-            return h("div", {}, "V" + p.version + "(最新版本)");
+            return h("div", {}, this.$t("c.latestVersion", p.version));
           }
         },
         "update_time",
@@ -89,18 +88,18 @@ export default {
         "start_count",
       ],
       showTitle: [
-        "模板名字",
-        "单位预览",
-        "作者",
-        "版本",
-        "更新时间",
-        "下载次数",
-        "总评价",
+        this.$t('tm.templateName'),
+        this.$t('tm.unitPreview'),
+          this.$t('c.author'),
+          this.$t('c.version'),
+          this.$t('c.updateTime'),
+          this.$t('c.downloadCount'),
+          this.$t("c.score"),
       ],
       tableConfig: {
         1: { style: { width: "20%" } },
       },
-      titleButtonList: [{ name: "新建", action: this.clickAddButton }],
+      titleButtonList: [{ name: this.$t('c.create'), action: this.clickAddButton }],
       showTempDetail: false,
       currentTemp: {},
       model: "myTemp",
@@ -112,8 +111,8 @@ export default {
   },
   methods: {
     clickAddButton() {
-      let parms = {};
-      GetUserDraftTemplate(parms).then(({res_val}) => {
+      let params = {};
+      GetUserDraftTemplate(params).then(({res_val}) => {
           this.currentTemp = res_val;
           this.model = "myTemp";
           this.showTempDetail = true;
@@ -150,11 +149,9 @@ export default {
       args.template_id = this.$refs.aeDialog.getDataGridSelect().id;
       args.template_start = downloadComment.start;
       args.template_comment = downloadComment.comment;
-      DownloadTemplate(args).then((resp) => {
-        if (resp.res_code == 0) {
-          this.$appHelper.infoMsg("下载成功");
-          this.flushData();
-        }
+      DownloadTemplate(args).then(({res_code}) => {
+        this.$appHelper.infoMsg(this.$t('c.downloadSuccess'));
+        this.flushData();
       });
     },
 
@@ -165,15 +162,15 @@ export default {
   computed: {
     footerButtonList() {
       let footerButtonList = [];
-      footerButtonList.push({ name: "详 情", action: "showDetail" });
-      if (this.model == "myTemp") {
-        footerButtonList.push({ name: "删 除", action: "delTemp" });
-      } else if (this.model == "myDownload") {
-        footerButtonList.push({ name: "删 除", action: "delTemp" });
-      } else if (this.model == "download") {
+      footerButtonList.push({ name: this.$t('c.desc'), action: this.showDetail });
+      if (this.model === "myTemp") {
+        footerButtonList.push({ name: this.$t('c.delete'), action: this.delTemp });
+      } else if (this.model === "myDownload") {
+        footerButtonList.push({ name: this.$t('c.delete'), action: this.delTemp });
+      } else if (this.model ==="download") {
         footerButtonList.push({
-          name: "下 载",
-          action: "showComment"
+          name: this.$t('c.download'),
+          action: this.showComment
         });
       }
       return footerButtonList;

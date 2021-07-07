@@ -1,3 +1,4 @@
+<!--左右选择器-->
 <template>
   <div class="ae-switch-select">
     <div v-if="label" class="ae-switch-label">{{ label }}</div>
@@ -113,7 +114,7 @@
         width: 28px;
         height: 28px;
         /* #endif*/
-        /* #ifdef MP-WEIXIN */
+        /* #ifndef H5 */
         width: 20px;
         height: 20px;
         /* #endif */
@@ -127,7 +128,7 @@
         /* #ifdef H5*/
         height: 25.5px;
         /* #endif*/
-        /* #ifdef MP-WEIXIN */
+        /* #ifndef H5 */
         height: 18px;
         /* #endif */
         color: rgb(255, 255, 255);
@@ -136,7 +137,7 @@
           /* #ifdef H5*/
           font-size: 14px;
           /* #endif*/
-          /* #ifdef MP-WEIXIN */
+          /* #ifndef H5 */
           font-size : 0.65rem;
           /* #endif */
         }

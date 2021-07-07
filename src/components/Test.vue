@@ -117,15 +117,15 @@ export default {
       armyType: [
         {
           key: "user",
-          value: this.$t("player.title"),
+          value: this.$t("ptitle"),
         },
         {
           key: "ai",
-          value: this.$t("player.ai"),
+          value: this.$t("pai"),
         },
         {
           key: "no",
-          value: this.$t("common.noting"),
+          value: this.$t("c.noting"),
         },
       ],
       clickAction: [],

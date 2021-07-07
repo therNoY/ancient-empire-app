@@ -121,9 +121,8 @@ input:-webkit-autofill {
     font-size: 0.7rem;
     /* #endif */
     border-style: solid;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    word-wrap:break-word;
+    word-break:normal; 
   }
 
   .choose-td {

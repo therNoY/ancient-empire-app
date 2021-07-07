@@ -1,30 +1,29 @@
 <!-- 包含tab分页的form -->
 <template>
-  <div>
-    <el-tabs v-model="activeName">
-      <el-tab-pane
-        v-for="(config, tab) in tabFormConfig"
-        :key="tab"
-        :label="tab"
-        :name="tab"
-      >
-        <ae-form
-          ref="baseForm"
-          v-model="dataObj"
-          :signal="signal"
-          :templateId="templateId"
-          :edit="edit"
-          :formConfig="config"
-        />
-      </el-tab-pane>
-      <!--扩展插槽-->
-      <slot></slot>
-    </el-tabs>
+  <div style="width:100%">
+    <uni-segmented-control
+      :current="currentActiveTab"
+      :values="tabItems"
+      style-type="text"
+      active-color="#4993a0"
+      @clickItem="onClickTab"
+      class="tabFontStyle"
+    />
+    <div v-for="(config, tab) in tabFormConfig" :key="tab">
+      <ae-form
+        v-model="dataObj"
+        v-if="tabItems[currentActiveTab] === tab"
+        ref="baseForm"
+        :signal="signal"
+        :templateId="templateId"
+        :edit="edit"
+        :formConfig="config"
+      />
+    </div>
   </div>
 </template>
 
 <script>
-
 export default {
   props: {
     formConfig: {
@@ -56,18 +55,23 @@ export default {
     return {
       tabFormConfig: {},
       activeName: "",
+      currentActiveTab: 0,
+      tabItems: [],
     };
   },
-  methods:{
-    getFormData(){
+  methods: {
+    onClickTab({ currentIndex }) {
+      this.currentActiveTab = currentIndex;
+    },
+    getFormData() {
       let res = {};
       if (this.$refs.baseForm && this.$refs.baseForm.length > 0) {
-        for(let formComp of this.$refs.baseForm) {
+        for (let formComp of this.$refs.baseForm) {
           res = Object.assign(res, formComp.getFormData());
         }
       }
       return res;
-    }
+    },
   },
   created() {
     this.activeName = this.defaultActiveName;
@@ -83,9 +87,12 @@ export default {
         this.activeName = config.tab;
       }
       tabFormConfig[config.tab].push(config);
+      if (this.tabItems.indexOf(config.tab) < 0) {
+        this.tabItems.push(config.tab);
+      }
     }
-
     this.tabFormConfig = tabFormConfig;
+    this.$appHelper.bindPage2Global(this, "AeTabForm");
   },
 };
 </script>

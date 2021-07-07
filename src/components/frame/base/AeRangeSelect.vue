@@ -3,7 +3,7 @@
     <ae-input
       class="ae-range-select-input"
       type="number"
-      placeholder="最小值"
+      :placeholder="$t('c.minValue')"
       :width="100"
       v-model="min"
       :editAble="editAble"
@@ -14,7 +14,7 @@
       class="ae-range-select-input"
       type="number"
       :width="100"
-      placeholder="最大值"
+      :placeholder="$t('c.maxValue')"
       v-model="max"
       :disabled="!editAble"
       @onChange="maxValueChaneg"

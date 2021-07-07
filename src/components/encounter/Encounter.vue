@@ -5,7 +5,7 @@
       ref="aeDialog"
       v-model="showModel"
       :showItem="showItem"
-      :title="$t('encounter.title')"
+      :title="$t('etitle')"
       :initQueryDataGrid="initQueryDataFunction"
       :titleSwitchSelect="titleSwitchSelect"
       :footerButtons="buttonList"
@@ -23,7 +23,7 @@
     </div>
 
     <ae-base-dialog
-      :title="$t('encounter.setMap')"
+      :title="$t('esetMap')"
       showChoose
       v-model="setMapShow"
       @choose="clickSetMap"
@@ -32,10 +32,10 @@
       <div v-if="initArmys.length > 0" class="ae-data-grid" style="height:100%;max-height:100%">
         <table style="width: 100%">
           <tr class="ae-data-grid-title">
-            <td style="width: 10%">{{ $t("encounter.army") }}</td>
-            <td style="width: 25%">{{ $t("encounter.actionOrder") }}</td>
-            <td style="width: 30%">{{ $t("encounter.playerType") }}</td>
-            <td style="width: 25%">{{ $t("encounter.camp") }}</td>
+            <td style="width: 10%">{{ $t("earmy") }}</td>
+            <td style="width: 25%">{{ $t("eactionOrder") }}</td>
+            <td style="width: 30%">{{ $t("eplayerType") }}</td>
+            <td style="width: 25%">{{ $t("ecamp") }}</td>
           </tr>
           <tr v-for="(army, index) in initArmys" :key="index">
             <td style="width: 10%">
@@ -68,7 +68,7 @@
 
         <div class="common_init">
           <div class="common_init_one">
-            <span>{{ $t("encounter.initGold") }}:</span>
+            <span>{{ $t("einitGold") }}:</span>
             <uni-number-box
               v-model="initMoney"
               :min="500"
@@ -77,12 +77,12 @@
             />
           </div>
           <div class="common_init_one">
-            <span>{{ $t("encounter.maxPop") }}:</span>
+            <span>{{ $t("emaxPop") }}:</span>
             <uni-number-box v-model="maxPop" :min="15" :max="50" :step="5" />
           </div>
         </div>
         <div v-if="$uni.isH5" style="width: 50%; margin-left: 25%">
-          <ae-button @click="clickSetMap">{{ $t("common.confirm") }}</ae-button>
+          <ae-button @click="clickSetMap">{{ $t("c.confirm") }}</ae-button>
         </div>
       </div>
     </ae-base-dialog>
@@ -105,11 +105,10 @@ import {
   InitEncounterMap,
 } from "@/api";
 import MapPreview from "../frame/MapPreview.vue";
-import blackStyle from "@/mixins/style/blackStyle";
 import dialogShow from "@/mixins/frame/dialogShow";
 
 export default {
-  mixins: [blackStyle, dialogShow],
+  mixins: [dialogShow],
   components: {
     MapPreview,
   },
@@ -128,17 +127,17 @@ export default {
         items: [
           {
             key: "1",
-            value: this.$t("encounter.systemMap"),
+            value: this.$t("esystemMap"),
             query: GetEncounterMap,
           },
           {
             key: "2",
-            value: this.$t("encounter.myMap"),
+            value: this.$t("emyMap"),
             query: GetUserMapList,
           },
           {
             key: "3",
-            value: this.$t("common.myDownload"),
+            value: this.$t("c.myDownload"),
             query: GetUserDownloadMap,
           },
         ],
@@ -147,11 +146,11 @@ export default {
       showModel: false,
       buttonList: [
         {
-          name: this.$t("common.choose"),
+          name: this.$t("c.choose"),
           action: this.clickChooseMap,
         },
         {
-          name: this.$t("common.preview"),
+          name: this.$t("c.preview"),
           action: this.clickPreviewButton,
         },
       ],
@@ -166,15 +165,15 @@ export default {
       armyType: [
         {
           key: "user",
-          value: this.$t("player.title"),
+          value: this.$t("ptitle"),
         },
         {
           key: "ai",
-          value: this.$t("player.ai"),
+          value: this.$t("pai"),
         },
         {
           key: "no",
-          value: this.$t("common.noting"),
+          value: this.$t("c.noting"),
         },
       ],
       initMapConfig: {},

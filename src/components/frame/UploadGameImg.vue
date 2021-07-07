@@ -51,13 +51,13 @@ export default {
                 _this.$appHelper.errorMsg(res_mes);
                 _this.$emit("error");
               } else {
-                _this.$appHelper.successMsg(_this.$t('common.uploadSuccess'));
+                _this.$appHelper.successMsg(_this.$t('c.uploadSuccess'));
                 _this.$emit("success", res_val);
               }
             },
             fail: (err) => {
               console.log('uploadImage fail', err);
-              _this.$appHelper.errorMsg(_this.$t('common.commonErr'));
+              _this.$appHelper.errorMsg(_this.$t('c.commonErr'));
               _this.$emit("error");
             }
           });
@@ -70,8 +70,8 @@ export default {
               let authStatus = res.authSetting['scope.album'];
               if (!authStatus) {
                 uni.showModal({
-                  title: _this.$t("common.authErr"),
-                  content: _this.$t("common.gameName") + _this.$t("unitManagement.authErr"),
+                  title: _this.$t("c.authErr"),
+                  content: _this.$t("c.gameName") + _this.$t("um.authErr"),
                   success: (res) => {
                     if (res.confirm) {
                       uni.openSetting()

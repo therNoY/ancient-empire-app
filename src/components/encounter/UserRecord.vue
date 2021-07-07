@@ -5,7 +5,7 @@
       v-model="showModel"
       :showItem="showItem"
       :showTitle="showTitle"
-      :title="$t('loadGame.chooseRecord')"
+      :title="$t('lgchooseRecord')"
       :initQueryDataGrid="queryDataFunction"
       :footerButtons="footerButtons"
       :width="$uni.isH5 ? 48 : 70"
@@ -33,11 +33,11 @@ export default {
     return {
       queryDataFunction: null,
       footerButtons: [
-        { name: this.$t("loadGame.continue"), action: this.continueRecord },
-        { name: this.$t("common.preview"), action: this.preview },
-        { name: this.$t("common.delete"), action: this.delUserRecord },
+        { name: this.$t("lgcontinue"), action: this.continueRecord },
+        { name: this.$t("c.preview"), action: this.preview },
+        { name: this.$t("c.delete"), action: this.delUserRecord },
       ],
-      showTitle: [this.$t("common.name"), this.$t("common.createTime")],
+      showTitle: [this.$t("c.name"), this.$t("c.createTime")],
       showItem: ["record_name", "create_time"],
       showPreview: false,
       mapId: null,
@@ -53,10 +53,10 @@ export default {
       this.showPreview = true;
     },
     delUserRecord() {
-      this.$appHelper.showTip(this.$t("common.deleteTip"), () => {
+      this.$appHelper.showTip(this.$t("c.deleteTip"), () => {
         let record = this.$refs.aeDialog.getDataGridSelect();
         DelUserRecord(record.uuid).then((resp) => {
-          this.$appHelper.infoMsg(this.$t("common.deleteSuccess"));
+          this.$appHelper.infoMsg(this.$t("c.deleteSuccess"));
           this.$refs.aeDialog.flushData();
         });
       });

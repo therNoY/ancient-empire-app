@@ -1,6 +1,6 @@
 <!--
     根据配置自动设置的表单
-    支持类型
+    支持类型 uniapp 不支持 is 只能使用v-if
     input, switchSelect, userMapSelect
  -->
 <template>
@@ -124,7 +124,7 @@ export default {
         if (config.type === "rangeSelect") {
         }
         if (config.require && !this.formData[config.key]) {
-          this.$appHelper.infoMsg(config.des + this.$t('common.notNull'));
+          this.$appHelper.infoMsg(config.des + this.$t('c.notNull'));
           throw new Error("数据" + config.des + "不完整");
         }
       }

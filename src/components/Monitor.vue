@@ -77,7 +77,7 @@ export default {
         "sub_status_machine",
       ],
       titleButtonList: [
-        { name: this.$t("common.flush"), action: this.flushData },
+        { name: this.$t("c.flush"), action: this.flushData },
       ],
       showTitle: ["ID", "名称", "创建用户", "创建时间", "主状态", "子状态"],
       showDataJSON: "",

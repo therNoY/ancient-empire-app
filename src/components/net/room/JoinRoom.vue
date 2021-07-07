@@ -4,18 +4,18 @@
     v-if="value"
     :width="$uni.isH5 ? 55 : 85"
     showCloseTip
-    :title="$t('multiPlayer.welcomeJoin', [roomName, roomId])"
-    :closeTip="$t('multiPlayer.leaveRoomWarning')"
+    :title="$t('mpwelcomeJoin', [roomName, roomId])"
+    :closeTip="$t('mpleaveRoomWarning')"
   >
     <div class="join-room-container">
       <div class="join-room-main">
         <div class="player_list ae-data-grid">
           <table>
             <tr class="ae-data-grid-title">
-              <th>{{ $t("multiPlayer.team") }}</th>
-              <th>{{ $t("multiPlayer.alliance") }}</th>
-              <th>{{ $t("player.title") }}</th>
-              <th>{{ $t("common.operating") }}</th>
+              <th>{{ $t("mpteam") }}</th>
+              <th>{{ $t("mpalliance") }}</th>
+              <th>{{ $t("ptitle") }}</th>
+              <th>{{ $t("c.operating") }}</th>
             </tr>
             <tr v-for="(army, index) in canJoinArmy" :key="index">
               <td>
@@ -31,7 +31,7 @@
                 <div>
                   {{ army.player_name ? army.player_name : "-" }}
                   <span v-if="roomOwner && army.player == roomOwner"
-                    >({{ $t("multiPlayer.homeOwner") }})</span
+                    >({{ $t("mphomeOwner") }})</span
                   >
                 </div>
               </td>
@@ -39,7 +39,7 @@
                 <ae-button
                   v-if="!army.player"
                   @click="changeCtlArmy(army.color)"
-                  >{{ $t("multiPlayer.join") }}
+                  >{{ $t("mpjoin") }}
                 </ae-button>
                 <ae-button
                   v-else-if="
@@ -48,12 +48,12 @@
                     $store.getters.user.user_id == roomOwner
                   "
                   @click="levelCtlArmy(army.color, army.player)"
-                  >{{ $t("multiPlayer.kickOut") }}</ae-button
+                  >{{ $t("mpkickOut") }}</ae-button
                 >
                 <ae-button
                   v-else-if="$store.getters.user.user_id == army.player"
                   @click="levelCtlArmy(army.color, army.player)"
-                  >{{ $t("player.out") }}</ae-button
+                  >{{ $t("pout") }}</ae-button
                 >
               </td>
             </tr>
@@ -72,9 +72,9 @@
       <div class="join-room-footer">
         <ae-button-list
           :buttonList="[
-            $t('common.preview'),
-            $t('multiPlayer.invite'),
-            $t('common.start'),
+            $t('c.preview'),
+            $t('mpinvite'),
+            $t('c.start'),
           ]"
           size="16px"
           :buttonConfig="{
@@ -129,9 +129,9 @@ export default {
       }
       let tip;
       if (this.armyConfigList.filter((a) => a.type == "user" && !a.player).length > 0) {
-        tip = this.$t("multiPlayer.readyBegin");
+        tip = this.$t("mpreadyBegin");
       } else {
-        tip = this.$t("multiPlayer.readyStart");
+        tip = this.$t("mpreadyStart");
       }
       this.$appHelper.showTip(tip, () => {
         let args = {};
@@ -160,7 +160,7 @@ export default {
       input.select();
       document.execCommand("copy");
       document.body.removeChild(input);
-      this.$appHelper.successMsg(this.$t("multiPlayer.roomInfoCopy"));
+      this.$appHelper.successMsg(this.$t("mproomInfoCopy"));
       // #endif
     },
 
@@ -192,7 +192,7 @@ export default {
         .then((resp) => {
           if (resp && resp.res_code == 0) {
           } else {
-            this.$appHelper.infoMsg(this.t("multiPlayer.joinFail"));
+            this.$appHelper.infoMsg(this.t("mpjoinFail"));
           }
         })
         .catch((error) => {

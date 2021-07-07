@@ -25,7 +25,7 @@
     </div>
 
     <div class="unit_ci">
-      <ae-tooltip class="unit-ci-tooltip" :content="$t('encounter.left')">
+      <ae-tooltip class="unit-ci-tooltip" :content="$t('eleft')">
         <img src="../../../assets/images/assist/info_life.png" />
         <span v-if="unitInfo">
           <i :style="leftStyle" style="background-color: rgb(229, 255, 0)">{{
@@ -33,7 +33,7 @@
           }}</i>
         </span>
       </ae-tooltip>
-      <ae-tooltip class="unit-ci-tooltip" :content="$t('encounter.experience')">
+      <ae-tooltip class="unit-ci-tooltip" :content="$t('eexperience')">
         <img src="../../../assets/images/assist/info_experience.png" />
         <span v-if="unitInfo">
           <i
@@ -43,7 +43,7 @@
           >
         </span>
       </ae-tooltip>
-      <ae-tooltip class="unit-ci-tooltip" :content="$t('encounter.attach')">
+      <ae-tooltip class="unit-ci-tooltip" :content="$t('eattach')">
         <img src="../../../assets/images/assist/info_attach.png" />
         <span
           v-if="unitInfo"
@@ -60,7 +60,7 @@
       </ae-tooltip>
       <ae-tooltip
         class="unit-ci-tooltip"
-        :content="$t('unitManagement.mobility')"
+        :content="$t('um.mobility')"
       >
         <img src="../../../assets/images/assist/info_move.png" />
         <span class="noBac" v-if="unitInfo">{{
@@ -69,7 +69,7 @@
       </ae-tooltip>
       <ae-tooltip
         class="unit-ci-tooltip"
-        :content="$t('unitManagement.physicalDefense')"
+        :content="$t('um.physicalDefense')"
       >
         <img src="../../../assets/images/assist/info_physical_defense.png" />
         <span class="noBac" v-if="unitInfo">{{
@@ -78,7 +78,7 @@
       </ae-tooltip>
       <ae-tooltip
         class="unit-ci-tooltip"
-        :content="$t('unitManagement.magicDefense')"
+        :content="$t('um.magicDefense')"
       >
         <img src="../../../assets/images/assist/info_magic_defense.png" />
         <span class="noBac" v-if="unitInfo">{{

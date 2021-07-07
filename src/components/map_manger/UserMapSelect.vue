@@ -6,7 +6,7 @@
       class="userMap-select-button"
       @click="clickSelectMap"
     >
-      {{ $t("common.choose") }}
+      {{ $t("c.choose") }}
     </ae-button>
     <div
       @click="clickPreviewChooseMap"
@@ -27,10 +27,8 @@
 <script>
 import MapPreview from "../frame/MapPreview.vue";
 import Encounter from "../encounter/Encounter";
-import blackStyle from "@/mixins/style/blackStyle";
 
 export default {
-  mixins: [blackStyle],
   components: {
     MapPreview,
     Encounter,

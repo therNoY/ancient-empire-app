@@ -2,7 +2,7 @@
   <div>
     <ae-complex-dialog
       ref="aeDialog"
-      title="选择模板"
+      :title="$t('tm.chooseTemplate')"
       v-model="showModel"
       :showItem="showItem"
       :showTitle="showTitle"

@@ -1,3 +1,4 @@
+<!--可以点击的点-->
 <template>
   <div class="delete_black">
     <slot></slot>
@@ -51,7 +52,6 @@ export default {
   right: -10px;
   height: 14px;
   width: 14px;
-  font-size: 12px;
   padding: 1px;
   border-radius: 10px;
   line-height: 14px;

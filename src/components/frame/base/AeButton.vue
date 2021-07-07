@@ -1,6 +1,7 @@
+<!--基础按钮-->
 <template>
-  <div class="ae-button-body">
-    <view class="ae-button" @click="click" :style="{'fontSize': fontSize}">
+  <div>
+    <view :class="['ae-button',disabled?'ae-button-disable':'']" @click="click" :style="{'fontSize': fontSize}">
       <span class="ae-button-text">
         <slot/>
       </span>
@@ -11,10 +12,6 @@
 <script>
   export default {
     props: {
-      marginTop: {
-        type: Number,
-        default: 5,
-      },
       // 大小默认0.75rem 可以指定
       size: {
         type: [Number,String],
@@ -27,7 +24,9 @@
     },
     methods: {
       click() {
-        this.$emit("click");
+        if (!this.disabled) {
+          this.$emit("click");
+        }
       },
     },
     data(){

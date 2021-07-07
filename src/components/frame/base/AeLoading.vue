@@ -1,8 +1,9 @@
+<!--基础加载框-->
 <template>
   <div class="ae-loading-container" v-show="loading">
     <div class="ae-loading-body">
       <unit :unit_id="unitId" :signal="signal"></unit>
-      <div>加载中...</div>
+      <div>{{$t('c.loading')}}</div>
     </div>
   </div>
 </template>

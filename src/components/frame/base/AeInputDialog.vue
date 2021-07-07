@@ -48,7 +48,7 @@ export default {
     onClick(index) {
       if (index == 0) {
         if (this.inputValue === null || this.inputValue === '') {
-          this.$appHelper.errorMsg("输入不能为空!!");
+          this.$appHelper.errorMsg(this.$t('c.inputNotNull'));
           return;
         }
         this.$emit("input", false);

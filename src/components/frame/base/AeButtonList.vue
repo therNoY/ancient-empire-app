@@ -12,7 +12,7 @@
         config[index].display === true
       "
     >
-      <ae-button @click="onClick(index)">
+      <ae-button :size="size" @click="onClick(index)">
         {{ button }}
       </ae-button>
     </div>

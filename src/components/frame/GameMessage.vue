@@ -24,11 +24,11 @@
         @keyup.enter.native="sendMessage"
         v-model="inputMessage"
         center
-        :placeholder="$t('encounter.sendMessage')"
+        :placeholder="$t('esendMessage')"
       >
       </ae-input>
       <ae-button style="width: 20%" @click="sendMessage">{{
-        $t("encounter.send")
+        $t("esend")
       }}</ae-button>
     </div>
   </div>

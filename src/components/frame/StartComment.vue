@@ -3,15 +3,15 @@
   <div>
     <ae-base-dialog v-model="show" :title="title" width="35">
       <div class="start_comment">
-        <div class="start_comment_label">{{$t('common.rate')}}</div>
+        <div class="start_comment_label">{{$t('c.rate')}}</div>
         <div class="start_comment_item">
           <uni-rate size="18" v-model="comment.start" />
         </div>
       </div>
       <div>
         <ae-input
-          :label="$t('common.comment')"
-          :placeholder="$t('common.inputComment')"
+          :label="$t('c.comment')"
+          :placeholder="$t('c.inputComment')"
           v-model="comment.comment"
         />
       </div>
@@ -29,7 +29,7 @@ export default {
     title: {
       type: String,
       default(){
-        return uni.$t("common.comment")
+        return uni.$t("c.comment")
       },
     },
   },
@@ -41,8 +41,8 @@ export default {
         start: 5,
       },
       buttonList: [
-        { name: this.$t("common.sure"), action: this.ok },
-        { name: this.$t("common.cancel"), action: () => (this.show = false) },
+        { name: this.$t("c.sure"), action: this.ok },
+        { name: this.$t("c.cancel"), action: () => (this.show = false) },
       ],
     };
   },

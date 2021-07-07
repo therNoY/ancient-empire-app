@@ -5,13 +5,13 @@ export default {
   methods: {
     roundEnd() {
       if (this.$appHelper.mapCanClick()) {
-        this.$appHelper.showTip(this.$t("encounter.endRound"), () => {
+        this.$appHelper.showTip(this.$t("eendRound"), () => {
           this.$appHelper.sendEvent(eventype.ROUND_END);
         });
       }
     },
     goHome() {
-      this.$appHelper.showTip(this.$t("encounter.leaveGameWarn"), () => {
+      this.$appHelper.showTip(this.$t("eleaveGameWarn"), () => {
         this.$uni.redirectTo({
           url: "/components/Home",
           complete: (resp) => {
@@ -23,14 +23,14 @@ export default {
     saveRecord() {
       let _this = this;
       this.$appHelper.showInputDialog(
-        this.$t("loadGame.saveRecord"),
-        this.$t("loadGame.recordName"),
+        this.$t("lgsaveRecord"),
+        this.$t("lgrecordName"),
         (saveRecordName) => {
           let args = {};
           args.uuid = _this.gameId;
           args.name = saveRecordName;
           RecordSaveAs(args).then(() => {
-            _this.$appHelper.infoMsg(_this.$t("common.saveSuccess"));
+            _this.$appHelper.infoMsg(_this.$t("c.saveSuccess"));
           });
         }
       );

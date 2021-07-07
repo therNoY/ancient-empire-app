@@ -1,4 +1,3 @@
-
 <!--uniapp目前不支持解析render 只能手动 if else if 解析 以后支持可以直接返回render -->
 <template>
   <div>
@@ -15,14 +14,25 @@
       />
     </div>
     <div v-else-if="renderConfig.label === 'aeButton'">
-      <ae-button :width="renderConfig.width" :size="renderConfig.size" @click="renderConfig['click']()">{{ renderConfig.slot }}</ae-button>
+      <ae-button
+        :width="renderConfig.width"
+        :size="renderConfig.size"
+        @click="renderConfig['click']()"
+        >{{ renderConfig.slot }}</ae-button
+      >
+    </div>
+    <div v-else-if="renderConfig.label === 'previewUnitList'">
+      <preview-unit-list
+        :unit_list="renderConfig.unit_list"
+        :showNum="15"
+      ></preview-unit-list>
     </div>
   </div>
 </template>
 
 <script>
+import PreviewUnitList from "../PreviewUnitList.vue";
 const dynamicRender = function (label, options, slot) {
-
   let renderConfig = {
     label: label,
     slot: slot,
@@ -36,7 +46,7 @@ const dynamicRender = function (label, options, slot) {
   }
 
   if (options.on) {
-    for(let key in options.on) {
+    for (let key in options.on) {
       renderConfig[key] = options.on[key];
     }
   }
@@ -44,13 +54,16 @@ const dynamicRender = function (label, options, slot) {
   return renderConfig;
 };
 export default {
+  components: {
+    PreviewUnitList,
+  },
   props: {
     component: {
       type: String,
     },
     item: {},
-    itemList:{},
-    dataArray:{},
+    itemList: {},
+    dataArray: {},
     // 微信小程序使用 function传递值为空 可以根据发function渲染 也可以根据 functionIndex
     componentFunction: {
       type: Function,
@@ -67,10 +80,10 @@ export default {
   created() {
     if (this.componentFunction instanceof Function) {
       this.renderConfig = this.componentFunction(dynamicRender, this.item);
-    } else if (this.itemList instanceof Array){
+    } else if (this.itemList instanceof Array) {
       this.renderConfig = this.itemList[this.functionIndex](
-          dynamicRender,
-          this.item
+        dynamicRender,
+        this.item
       );
     }
   },

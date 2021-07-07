@@ -1,6 +1,7 @@
+<!--基础消息框-->
 <template>
   <transition name="msg" appear>
-    <div :class="['box-item']" v-if="show" :style="{ top: top + 'rpx' }">
+    <div class="box-item" v-if="show" :style="{ top: top + 'rpx' }">
       <unit class="msg-unit" :unit_id="unitId" :color="unitColor"></unit>
       <div class="msg-container">
         {{ mes }}
@@ -42,8 +43,6 @@ export default {
       unitId: 1,
     };
   },
-  created() {
-  },
   watch:{
     show(v){
       if (v) {
@@ -74,18 +73,14 @@ export default {
 .box-item {
   position: fixed;
   min-width: 380px;
-  // element-ui抄来的样式
   border-radius: 4px;
   color: rgb(255, 255, 255);
   left: 50%;
   transform: translateX(-50%);
   transition: opacity 0.3s, transform 0.4s, top 0.4s;
   padding: 1%;
-  align-items: center;
-  justify-content: space-between;
   background: #242a43;
   overflow-y: 0%;
-  flex-direction: column;
   border: 2px #afb7aa solid;
   box-shadow: 0 2px 12px 0 rgba(255, 255, 255, 0.692);
   display: flex;

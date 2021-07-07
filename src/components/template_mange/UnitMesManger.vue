@@ -4,7 +4,7 @@
       ref="mainDialog"
       v-model="showModel"
       showSearch
-      :title="$t('unitManagement.title')"
+      :title="$t('um.title')"
       :titleButtons="titleButtonList"
       :footerButtons="footButtonList"
       :initQueryDataGrid="queryDataFunction"
@@ -68,7 +68,7 @@
     </ae-base-dialog>
 
     <ae-base-dialog
-      :title="$t('unitManagement.changeLevelInfo')"
+      :title="$t('um.changeLevelInfo')"
       :width="unitLevelInfoWidth"
       v-model="editUnitLevelInfoDialog"
     >
@@ -81,7 +81,7 @@
         :formConfig="unitLevelInfoFormConfig"
       />
       <div style="width:40%;margin-left:30%" slot="footer">
-        <ae-button @click="saveLevelInfo">{{ $t("common.sure") }}</ae-button>
+        <ae-button @click="saveLevelInfo">{{ $t("c.sure") }}</ae-button>
       </div>
     </ae-base-dialog>
 
@@ -140,24 +140,24 @@ export default {
         items: [
           {
             key: "1",
-            value: this.$t("unitManagement.myUnit"),
+            value: this.$t("um.myUnit"),
             query: GetUserCreateUnitMes,
           },
           {
             key: "2",
-            value: this.$t("common.myDownload"),
+            value: this.$t("c.myDownload"),
             query: GetUserDownloadUnitList,
           },
           {
             key: "3",
-            value: this.$t("unitManagement.unitShop"),
+            value: this.$t("um.unitShop"),
             query: GetCanDownloadUnit,
           },
         ],
       },
       titleButtonList: [
         {
-          name: this.$t("common.add"),
+          name: this.$t("c.add"),
           action: () =>
             this.$appHelper.showTip(createUnitTip, () => {
               this.showUploadUnitImg = true;
@@ -169,29 +169,29 @@ export default {
       unit: {},
       currentActiveTab: 0,
       tabItems: [
-        this.$t("unitManagement.baseInfo"),
-        this.$t("unitManagement.bindAbility"),
-        this.$t("unitManagement.levelData"),
+        this.$t("um.baseInfo"),
+        this.$t("um.bindAbility"),
+        this.$t("um.levelData"),
         "",
       ],
       unitBaseInfoFormConfig: [
         {
           type: "input",
           key: "name",
-          des: this.$t("common.name"),
+          des: this.$t("c.name"),
         },
         {
           type: "switchSelect",
           key: "attack_type",
-          des: this.$t("unitManagement.attachType"),
+          des: this.$t("um.attachType"),
           items: [
             {
               key: "1",
-              value: this.$t("unitManagement.physicalAttack"),
+              value: this.$t("um.physicalAttack"),
             },
             {
               key: "2",
-              value: this.$t("unitManagement.magicAttack"),
+              value: this.$t("um.magicAttack"),
             },
           ],
         },
@@ -199,39 +199,39 @@ export default {
           type: "rangeSelect",
           minKey: "min_attach_range",
           maxKey: "max_attach_range",
-          des: this.$t("unitManagement.attachArea"),
+          des: this.$t("um.attachArea"),
         },
         {
           type: "input",
           key: "population",
-          des: this.$t("unitManagement.population"),
+          des: this.$t("um.population"),
           style: "number",
         },
         {
           type: "input",
           key: "price",
-          des: this.$t("unitManagement.price"),
+          des: this.$t("um.price"),
           style: "number",
         },
         {
           type: "unitRadio",
           key: "promotion",
-          des: this.$t("unitManagement.promotion"),
+          des: this.$t("um.promotion"),
           unitList: this.allUnitList,
         },
 
         {
           type: "switchSelect",
           key: "tradable",
-          des: this.$t("unitManagement.tradable"),
+          des: this.$t("um.tradable"),
           items: [
             {
               key: "1",
-              value: this.$t("common.yes"),
+              value: this.$t("c.yes"),
             },
             {
               key: "0",
-              value: this.$t("common.no"),
+              value: this.$t("c.no"),
             },
           ],
         },
@@ -239,14 +239,14 @@ export default {
         {
           type: "input",
           key: "description",
-          des: this.$t("common.description"),
+          des: this.$t("c.description"),
         },
       ],
       unitLevelInfoFormConfig: [
         {
           type: "input",
           key: "level",
-          des: this.$t("unitManagement.level"),
+          des: this.$t("um.level"),
           style: "number",
           disabled: true,
           require: true,
@@ -254,49 +254,49 @@ export default {
         {
           type: "input",
           key: "min_attack",
-          des: this.$t("unitManagement.minAttack"),
+          des: this.$t("um.minAttack"),
           style: "number",
           require: true,
         },
         {
           type: "input",
           key: "max_attack",
-          des: this.$t("unitManagement.maxAttack"),
+          des: this.$t("um.maxAttack"),
           style: "number",
           require: true,
         },
         {
           type: "input",
           key: "physical_defense",
-          des: this.$t("unitManagement.physicalDefense"),
+          des: this.$t("um.physicalDefense"),
           style: "number",
           require: true,
         },
         {
           type: "input",
           key: "magic_defense",
-          des: this.$t("unitManagement.magicDefense"),
+          des: this.$t("um.magicDefense"),
           style: "number",
           require: true,
         },
         {
           type: "input",
           key: "max_life",
-          des: this.$t("unitManagement.maxLife"),
+          des: this.$t("um.maxLife"),
           style: "number",
           require: true,
         },
         {
           type: "input",
           key: "speed",
-          des: this.$t("unitManagement.mobility"),
+          des: this.$t("um.mobility"),
           style: "number",
           require: true,
         },
       ],
       dialogVisible: false,
       editUnitLevelInfoDialog: false,
-      diaTitle: this.$t("unitManagement.addNewUnit"),
+      diaTitle: this.$t("um.addNewUnit"),
       addLevel: false,
       activeName: "baseInfo",
       allAbilityList: [],
@@ -307,45 +307,45 @@ export default {
       },
       deleteAbleButList: [
         {
-          name: this.$t("common.desc"),
+          name: this.$t("c.desc"),
           action: this.handleEdit,
         },
         {
-          name: this.$t("common.delete"),
+          name: this.$t("c.delete"),
           action: this.handleDelete,
         },
       ],
       downloadButList: [
         {
-          name: this.$t("common.desc"),
+          name: this.$t("c.desc"),
           action: this.handleEdit,
         },
         {
-          name: this.$t("common.download"),
+          name: this.$t("c.download"),
           action: this.downloadUnit,
         },
       ],
       currentLevelInfo: null,
       queryDataFunction: () => GetUserCreateUnitMes(),
       queryShowTitle: [
-        this.$t("common.unit"),
-        this.$t("common.name"),
-        this.$t("unitManagement.attachType"),
-        this.$t("unitManagement.attachArea"),
-        this.$t("unitManagement.price"),
-        this.$t("unitManagement.tradable"),
-        this.$t("unitManagement.promotion"),
-        this.$t("common.version"),
+        this.$t("c.unit"),
+        this.$t("c.name"),
+        this.$t("um.attachType"),
+        this.$t("um.attachArea"),
+        this.$t("um.price"),
+        this.$t("um.tradable"),
+        this.$t("um.promotion"),
+        this.$t("c.version"),
       ],
       downShowTitle: [
-        this.$t("common.unit"),
-        this.$t("common.name"),
-        this.$t("common.author"),
-        this.$t("unitManagement.tradable"),
-        this.$t("unitManagement.promotion"),
-        this.$t("common.version"),
-        this.$t("common.score"),
-        this.$t("common.downloadCount"),
+        this.$t("c.unit"),
+        this.$t("c.name"),
+        this.$t("c.author"),
+        this.$t("um.tradable"),
+        this.$t("um.promotion"),
+        this.$t("c.version"),
+        this.$t("c.score"),
+        this.$t("c.downloadCount"),
       ],
       queryShowItem: [
         (h, p) => {
@@ -360,9 +360,9 @@ export default {
         "name",
         (h, p) => {
           if (p.attack_type == "1") {
-            return h("div", {}, this.$t("unitManagement.physicalAttack"));
+            return h("div", {}, this.$t("um.physicalAttack"));
           } else if (p.attack_type == "2") {
-            return h("div", {}, this.$t("unitManagement.magicAttack"));
+            return h("div", {}, this.$t("um.magicAttack"));
           }
         },
         (h, p) => {
@@ -371,9 +371,9 @@ export default {
         "price",
         (h, p) => {
           if (p.tradable) {
-            return h("div", {}, this.$t("common.yes"));
+            return h("div", {}, this.$t("c.yes"));
           } else {
-            return h("div", {}, this.$t("common.no"));
+            return h("div", {}, this.$t("c.no"));
           }
         },
         (h, p) => {
@@ -397,7 +397,7 @@ export default {
               "V" +
                 p.version +
                 "(" +
-                this.$t("common.latestVersion") +
+                this.$t("c.latestVersion") +
                 "V" +
                 p.max_version +
                 ")"
@@ -406,13 +406,13 @@ export default {
             return h(
               "div",
               {},
-              "V" + p.version + "(" + this.$t("common.draftVersion") + ")"
+              "V" + p.version + "(" + this.$t("c.draftVersion") + ")"
             );
           } else {
             return h(
               "div",
               {},
-              "V" + p.version + "(" + this.$t("common.latestVersion") + ")"
+              "V" + p.version + "(" + this.$t("c.latestVersion") + ")"
             );
           }
         },
@@ -431,9 +431,9 @@ export default {
         "create_user_name",
         (h, p) => {
           if (p.tradable) {
-            return h("div", {}, this.$t("common.yes"));
+            return h("div", {}, this.$t("c.yes"));
           } else {
-            return h("div", {}, this.$t("common.no"));
+            return h("div", {}, this.$t("c.no"));
           }
         },
         (h, p) => {
@@ -457,7 +457,7 @@ export default {
               "V" +
                 p.version +
                 "(" +
-                this.$t("common.draftVersion") +
+                this.$t("c.draftVersion") +
                 "V" +
                 p.max_version +
                 ")"
@@ -466,13 +466,13 @@ export default {
             return h(
               "div",
               {},
-              "V" + p.version + "(" + this.$t("common.draftVersion") + ")"
+              "V" + p.version + "(" + this.$t("c.draftVersion") + ")"
             );
           } else {
             return h(
               "div",
               {},
-              "V" + p.version + "(" + this.$t("common.latestVersion") + ")"
+              "V" + p.version + "(" + this.$t("c.latestVersion") + ")"
             );
           }
         },
@@ -480,13 +480,13 @@ export default {
         "down_load_count",
       ],
       unitLevelShowTitle: [
-        this.$t("unitManagement.level"),
-        this.$t("unitManagement.minAttack"),
-        this.$t("unitManagement.maxAttack"),
-        this.$t("unitManagement.physicalDefense"),
-        this.$t("unitManagement.magicDefense"),
-        this.$t("unitManagement.maxLife"),
-        this.$t("unitManagement.mobility"),
+        this.$t("um.level"),
+        this.$t("um.minAttack"),
+        this.$t("um.maxAttack"),
+        this.$t("um.physicalDefense"),
+        this.$t("um.magicDefense"),
+        this.$t("um.maxLife"),
+        this.$t("um.mobility"),
       ],
       unitLevelShowItem: [
         "level",
@@ -508,7 +508,7 @@ export default {
     createUnit(newImg) {
       this.newUploadImg = newImg;
       this.dialogVisible = true;
-      this.diaTitle = this.$t("unitManagement.addNewUnit");
+      this.diaTitle = this.$t("um.addNewUnit");
       this.unit = {};
       this.currUnitInfo.baseInfo = {};
       this.currUnitInfo.abilityInfo = [];
@@ -524,7 +524,7 @@ export default {
       args.level_info_data = this.currUnitInfo.levelInfoData;
       SaveUnitInfo(args).then((resp) => {
         this.dialogVisible = false;
-        this.$appHelper.infoMsg(this.$t("common.addSuccess"));
+        this.$appHelper.infoMsg(this.$t("c.addSuccess"));
         this.$refs.mainDialog.flushData();
       });
     },
@@ -542,13 +542,13 @@ export default {
         args.unit_id = unit.id;
         RevertUnitVersion(args).then((resp) => {
           if (resp.res_code == 0) {
-            this.$appHelper.infoMsg(this.$t("common.rollbackSuccess"));
+            this.$appHelper.infoMsg(this.$t("c.rollbackSuccess"));
             this.$refs.mainDialog.flushData();
             this.dialogVisible = false;
           }
         });
       } else {
-        this.$appHelper.infoMsg(this.$t("common.cannotRollback"));
+        this.$appHelper.infoMsg(this.$t("c.cannotRollback"));
       }
     },
     updateVersion() {
@@ -556,18 +556,18 @@ export default {
       let args = {};
       args.unit_id = unit.id;
       UpdateUnitVersion(args).then((resp) => {
-        this.$appHelper.infoMsg(this.$t("common.updateSuccess"));
+        this.$appHelper.infoMsg(this.$t("c.updateSuccess"));
         this.$refs.mainDialog.flushData();
         this.dialogVisible = false;
       });
     },
     save(optType = 0) {
       if (optType == "1") {
-        this.$appHelper.showTip(this.$t("common.publicVersionTip"), () => {
+        this.$appHelper.showTip(this.$t("c.publicVersionTip"), () => {
           this.saveUnitInfo(optType);
         });
       } else {
-        this.$appHelper.showTip(this.$t("common.saveDraftTip"), () => {
+        this.$appHelper.showTip(this.$t("c.saveDraftTip"), () => {
           this.saveUnitInfo(optType);
         });
       }
@@ -580,7 +580,7 @@ export default {
       args.level_info_data = this.currUnitInfo.levelInfoData;
       SaveUnitInfo(args).then((resp) => {
         this.dialogVisible = false;
-        this.$appHelper.infoMsg(this.$t("common.saveSuccess"));
+        this.$appHelper.infoMsg(this.$t("c.saveSuccess"));
         this.$refs.mainDialog.flushData();
       });
     },
@@ -589,7 +589,7 @@ export default {
     },
     handleEdit() {
       let unit = this.$refs.mainDialog.getDataGridSelect();
-      this.diaTitle = this.$t("unitManagement.editUnit");
+      this.diaTitle = this.$t("um.editUnit");
       this.dialogVisible = true;
       this.unit = unit;
       GetUnitAbilityInfo(unit.id, false).then((resp) => {
@@ -606,21 +606,21 @@ export default {
     handleDelete() {
       let unit = this.$refs.mainDialog.getDataGridSelect();
       if (this.showPageIndex === "2") {
-        this.$appHelper.showTip(this.$t("common.deleteDownloadTip"), () => {
+        this.$appHelper.showTip(this.$t("c.deleteDownloadTip"), () => {
           let args = {};
           args.id = unit.id;
           DeletDownLoadUnit(args).then((resp) => {
-            this.$appHelper.infoMsg(this.$t("common.deleteSuccess"));
+            this.$appHelper.infoMsg(this.$t("c.deleteSuccess"));
             this.$refs.mainDialog.flushData();
             this.dialogVisible = false;
           });
         });
       } else if (this.showPageIndex === "1") {
-        this.$appHelper.showTip(this.$t("common.deleteEntryTip"), () => {
+        this.$appHelper.showTip(this.$t("c.deleteEntryTip"), () => {
           let args = {};
           args.id = unit.id;
           DeleteCreateUnit(args).then((resp) => {
-            this.$appHelper.infoMsg(this.$t("common.deleteSuccess"));
+            this.$appHelper.infoMsg(this.$t("c.deleteSuccess"));
             this.$refs.mainDialog.flushData();
             this.dialogVisible = false;
           });
@@ -633,7 +633,7 @@ export default {
       args.unit_id = unit.id;
       args = Object.assign(commend, args);
       DownLoadUnit(args).then((resp) => {
-        this.$appHelper.infoMsg(this.$t("common.downloadSuccess"));
+        this.$appHelper.infoMsg(this.$t("c.downloadSuccess"));
         this.$refs.mainDialog.flushData();
         this.dialogVisible = false;
       });
@@ -692,7 +692,7 @@ export default {
                   click: this.addNewLevel,
                 },
               },
-              this.$t("common.add")
+              this.$t("c.add")
           );
         });
         this.unitLevelShowItem.push((h, p) => {
@@ -707,7 +707,7 @@ export default {
                   click: () => this.editUnitLevelInfo(p),
                 },
               },
-              this.$t("common.change")
+              this.$t("c.change")
           );
         });
       } else {
@@ -719,27 +719,27 @@ export default {
   computed: {
     getButtonList() {
       if (this.showPageIndex == "1") {
-        if (this.diaTitle === this.$t("unitManagement.editUnit")) {
+        if (this.diaTitle === this.$t("um.editUnit")) {
           return [
-            this.$t("common.saveDraft"),
-            this.$t("common.publicVersion"),
-            this.$t("common.draftRollback"),
+            this.$t("c.saveDraft"),
+            this.$t("c.publicVersion"),
+            this.$t("c.draftRollback"),
           ];
         } else {
-          return [this.$t("common.create"), this.$t("common.return")];
+          return [this.$t("c.create"), this.$t("c.return")];
         }
       } else if (this.showPageIndex == "2") {
         return [
-          this.$t("common.updateVersion"),
-          this.$t("common.deleteDownload"),
+          this.$t("c.updateVersion"),
+          this.$t("c.deleteDownload"),
         ];
       } else if (this.showPageIndex == "3") {
-        return [this.$t("common.download")];
+        return [this.$t("c.download")];
       }
     },
     getClickAction() {
       if (this.showPageIndex == "1") {
-        if (this.diaTitle === this.$t("unitManagement.editUnit")) {
+        if (this.diaTitle === this.$t("um.editUnit")) {
           return [this.save, () => this.save(1), this.revertVersion];
         } else {
           return [this.doCreateNewUnit, () => (this.dialogVisible = false)];

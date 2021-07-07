@@ -24,25 +24,25 @@
       <div class="unit_ci">
         <ae-tooltip
           class="unit-ci-tooltip"
-          :content="$t('encounter.defenseAdd')"
+          :content="$t('edefenseAdd')"
         >
           <img src="../../../assets/images/assist/action_defense.png" />
           <span class="noBac">{{ region.buff }}</span>
         </ae-tooltip>
         <ae-tooltip
           class="unit-ci-tooltip"
-          :content="$t('encounter.roundRecover')"
+          :content="$t('eroundRecover')"
         >
           <img src="../../../assets/images/assist/action_restore.png" />
           <span class="noBac">{{ region.restore }}</span>
         </ae-tooltip>
-        <ae-tooltip class="unit-ci-tooltip" :content="$t('encounter.moneyAdd')">
+        <ae-tooltip class="unit-ci-tooltip" :content="$t('emoneyAdd')">
           <img src="../../../assets/images/assist/action_buy.png" />
           <span class="noBac">{{ region.tax }}</span>
         </ae-tooltip>
         <ae-tooltip
           class="unit-ci-tooltip"
-          :content="$t('encounter.moveConsume')"
+          :content="$t('emoveConsume')"
         >
           <img src="../../../assets/images/assist/action_move.png" />
           <span class="noBac">{{ region.deplete }}</span>

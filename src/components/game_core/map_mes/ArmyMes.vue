@@ -4,7 +4,7 @@
     :style="{ backgroundColor: $appHelper.getBkColorValue(curr_color) }"
   >
     <div class="bar_mes">
-      <ae-tooltip class="army-mes-tooltip" :content="$t('common.money')">
+      <ae-tooltip class="army-mes-tooltip" :content="$t('c.money')">
         <div class="army-mes-item">
           <img src="../../../assets/images/assist/bar_money.png" />
           <span>&nbsp;{{ currentArmy.money }}</span>
@@ -13,7 +13,7 @@
 
       <ae-tooltip
         class="army-mes-tooltip"
-        :content="$t('unitManagement.population')"
+        :content="$t('um.population')"
       >
         <div class="army-mes-item">
           <img src="../../../assets/images/assist/bar_pop.png" />
@@ -21,14 +21,14 @@
         </div>
       </ae-tooltip>
 
-      <ae-tooltip class="army-mes-tooltip" :content="$t('common.round')">
+      <ae-tooltip class="army-mes-tooltip" :content="$t('c.round')">
         <div class="army-mes-item">
           <img src="../../../assets/images/assist/bar_round.png" />
           <span>&nbsp;&nbsp;{{ currentArmy.current_round }}</span>
         </div>
       </ae-tooltip>
 
-      <ae-tooltip class="army-mes-tooltip" :content="$t('encounter.camp')">
+      <ae-tooltip class="army-mes-tooltip" :content="$t('ecamp')">
         <div class="army-mes-item">
           <img src="../../../assets/images/assist/bar_camp.png" />
           <span>&nbsp;&nbsp;{{ currentArmy.camp }}</span>
@@ -38,9 +38,9 @@
     <div class="bar_button">
       <ae-button-list
         :buttonList="[
-          $t('common.home'),
-          $t('common.saveGame'),
-          $t('common.endRound'),
+          $t('c.home'),
+          $t('c.saveGame'),
+          $t('c.endRound'),
         ]"
         size="16px"
         :buttonConfig="{

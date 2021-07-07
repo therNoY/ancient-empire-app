@@ -1,4 +1,4 @@
-<!--基础-->
+<!--基础外边框-->
 <template>
   <div>
     <div v-if="!noBorder" class="ae-main-border">

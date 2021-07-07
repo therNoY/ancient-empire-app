@@ -17,13 +17,13 @@ export default {
     closeTip: {
       type: String,
       default() {
-        return uni.$t("common.sureClose");
+        return uni.$t("c.sureClose");
       },
     },
     title: {
       type: String,
       default() {
-        return uni.$t("common.tip");
+        return uni.$t("c.tip");
       },
     },
     value: {
@@ -33,7 +33,7 @@ export default {
     buttonList: {
       type: Array,
       default() {
-        return [uni.$t("common.sure"), uni.$t("common.cancel")];
+        return [uni.$t("c.sure"), uni.$t("c.cancel")];
       },
     },
   },

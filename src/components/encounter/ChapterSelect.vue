@@ -4,7 +4,7 @@
       ref="aeDialog"
       v-model="showModel"
       :showItem="showItem"
-      :title="$t('battle.chooseBattle')"
+      :title="$t('bchooseBattle')"
       :initQueryDataGrid="queryDataFunction"
       :footerButtons="footerButtons"
       :width="$uni.isH5 ? 40 : 70"
@@ -22,8 +22,8 @@ export default {
   data() {
     return {
       footerButtons: [
-        { name: this.$t("common.start"), action: this.startStoreGame },
-        { name: this.$t("common.return"), action: this.closeSelf },
+        { name: this.$t("c.start"), action: this.startStoreGame },
+        { name: this.$t("c.return"), action: this.closeSelf },
       ],
       queryDataFunction: (query) => GetStoreList(query),
       showItem: ["map_name"],

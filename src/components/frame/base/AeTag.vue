@@ -1,3 +1,4 @@
+<!--tag标签-->
 <template>
   <div :class="['ae-' + size +'-tag', 'ae-tag', 'ae-'+ type +'-tag']">
     <slot></slot>

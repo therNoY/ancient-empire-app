@@ -1,3 +1,4 @@
+<!--基础输入框-->
 <template>
   <div :class="['ae-input', center?'ae-input-center':'']">
     <div v-if="label" class="ae-input-label">{{ label }}</div>
@@ -34,7 +35,7 @@ export default {
     placeholder: {
       type: String,
       default() {
-        return uni.$t("common.pleaseInput");
+        return uni.$t("c.pleaseInput");
       },
     },
     label: {

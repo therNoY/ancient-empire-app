@@ -38,7 +38,7 @@
             style="width:25%;padding:1%"
             v-if="showSearch"
             @onChange="flushPageAndData()"
-            :placeholder="$t('common.search')"
+            :placeholder="$t('c.search')"
             :width="searchWidth"
         ></ae-input>
       </div>
@@ -224,13 +224,13 @@
         if (this.$refs.dataGrid) {
           let res = this.$refs.dataGrid.getSelect();
           if (!res) {
-            this.$appHelper.warningMsg(this.$t("common.chooseLineWaring"));
+            this.$appHelper.warningMsg(this.$t("c.chooseLineWaring"));
             throw new Error("未选择数据");
           } else {
             return res;
           }
         } else {
-          this.$appHelper.warningMsg(this.$t("common.chooseLineWaring"));
+          this.$appHelper.warningMsg(this.$t("c.chooseLineWaring"));
           throw new Error("未选择数据");
         }
       },
@@ -288,7 +288,7 @@
         }
       }
       this.setPageStyle();
-      // #ifdef MP-WEIXIN
+      // #ifndef H5
       this.searchWidth = 80;
       // #endif
     },

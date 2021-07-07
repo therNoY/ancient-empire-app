@@ -3,9 +3,9 @@
     <ae-base-dialog
       v-model="showModel"
       :title="TemplateDetail.template_name"
-      :width="45"
+      :width="$uni.isH5 ? 45 : 84"
       inlineDialog
-      :top="9"
+      :top="5"
     >
       <ae-tab-form
         ref="templateInfoForm"
@@ -15,7 +15,6 @@
         :templateId="TemplateDetail.id"
         :formConfig="templateInfoFormConfig"
       >
-        <!--TODO 这里可以展示评论-->
       </ae-tab-form>
 
       <ae-button-list
@@ -68,131 +67,130 @@ export default {
         {
           type: "input",
           key: "template_name",
-          des: "模板名称",
-          tab: "基本信息",
+          des: this.$t("tm.templateName"),
+          tab: this.$t("tm.baseInfo"),
         },
         {
           type: "switchSelect",
           key: "shared",
-          des: "是否共享",
+          des: this.$t("tm.isShared"),
           items: [
-            { key: "1", value: "共享" },
-            { key: "2", value: "不共享" },
+            { key: "1", value: this.$t("tm.shared") },
+            { key: "2", value: this.$t("tm.notShared") },
           ],
-          tab: "基本信息",
+          tab: this.$t("tm.baseInfo"),
         },
         {
           type: "input",
           key: "template_desc",
-          des: "模板描述",
-          tab: "基本信息",
+          des: this.$t("tm.templateDesc"),
+          tab: this.$t("tm.baseInfo"),
         },
         {
           type: "input",
           key: "unit_max_level",
-          des: "最大等级",
+          des: this.$t("tm.maxLevel"),
           style: "number",
-          tab: "单位信息",
+          tab: this.$t("tm.unitInfo"),
         },
         {
           type: "unitCheckbox",
           key: "bind_uint_list",
-          des: "可选单位",
-          tab: "单位信息",
+          des: this.$t("tm.unitList"),
+          tab: this.$t("tm.unitInfo"),
         },
         {
           type: "unitRadio",
           key: "derivative_id",
-          des: "召唤类型",
-          tab: "单位信息",
+          des: this.$t("tm.summonType"),
+          tab: this.$t("tm.unitInfo"),
         },
         {
           type: "switchSelect",
           key: "attach_model",
-          des: "攻击模式",
+          des: this.$t("tm.attachMode"),
           items: [
-            { key: "1", value: "固定数值" },
-            { key: "2", value: "浮动数值" },
+            { key: "1", value: this.$t("tm.fixedNum") },
+            { key: "2", value: this.$t("tm.floatNum") },
           ],
-          tab: "攻击信息",
+          tab: this.$t("tm.attachInfo"),
         },
         {
           type: "input",
           key: "attach_experience",
-          des: "攻击经验",
+          des: this.$t("tm.attachExp"),
           style: "number",
-          tab: "攻击信息",
+          tab: this.$t("tm.attachInfo"),
         },
         {
           type: "input",
           key: "counterattack_experience",
-          des: "反击经验",
+          des: this.$t("tm.counterAttackExp"),
           style: "number",
-          tab: "攻击信息",
+          tab: this.$t("tm.attachInfo"),
         },
         {
           type: "input",
           key: "kill_experience",
-          des: "击杀经验",
+          des: this.$t("tm.killExp"),
           style: "number",
-          tab: "攻击信息",
+          tab: this.$t("tm.attachInfo"),
         },
         {
           type: "input",
           key: "antikill_experience",
-          des: "反杀经验",
+          des: this.$t("tm.antikillExp"),
           style: "number",
-          tab: "攻击信息",
+          tab: this.$t("tm.attachInfo"),
         },
         {
           type: "editableAnimate",
           key: "attach_animation",
-          des: "攻击动画",
-          tab: "动画设置",
+          des: this.$t("tm.attachAnimation"),
+          tab: this.$t("tm.animationSetting"),
         },
         {
           type: "editableAnimate",
           key: "summon_animation",
-          des: "召唤动画",
-          tab: "动画设置",
+          des: this.$t("tm.summonAnimation"),
+          tab: this.$t("tm.animationSetting"),
         },
         {
           type: "editableAnimate",
           key: "dead_animation",
-          des: "死亡动画",
-          tab: "动画设置",
+          des: this.$t("tm.deadAnimation"),
+          tab: this.$t("tm.animationSetting"),
         },
         {
           type: "switchSelect",
           key: "promotion_mode",
           items: [
-            { key: "0", value: "不晋升" },
-            { key: "1", value: "用户选择" },
-            { key: "2", value: "随机晋升" },
-            { key: "3", value: "达到晋升等级" },
+            { key: "0", value: this.$t("tm.notPromotion") },
+            { key: "1", value: this.$t("tm.userPromotion") },
+            { key: "2", value: this.$t("tm.randomPromotion") },
+            { key: "3", value: this.$t("tm.authPromotion") },
           ],
-          des: "晋升模式",
-          tab: "晋升设置",
+          des: this.$t("tm.promotionMode"),
+          tab: this.$t("tm.promotionSetting"),
         },
         {
           type: "input",
           key: "promotion_max_num",
-          des: "最大晋升数量",
+          des: this.$t("tm.maxNumPromotion"),
           style: "number",
-          tab: "晋升设置",
+          tab: this.$t("tm.promotionSetting"),
         },
         {
           type: "input",
           key: "promotion_level",
-          des: "最小晋升等级",
+          des: this.$t("tm.minLevelPromotion"),
           style: "number",
-          tab: "晋升设置",
+          tab: this.$t("tm.promotionSetting"),
         },
       ],
       activeName: "baseInfo",
       activeNames: ["1"],
       showDetail: true,
-      derivativeTip: "具有召唤能力的单位从坟墓中召唤出来的单位类型",
       signal: 0,
       downloadComment: {},
       dialogTimer: null,
@@ -212,8 +210,8 @@ export default {
     onDialogDestroy() {
       clearInterval(this.dialogTimer);
     },
-    downLoadTemp(comment){
-      this.$emit('downLoadTemp', comment)
+    downLoadTemp(comment) {
+      this.$emit("downLoadTemp", comment);
     },
     saveTemp() {
       let args = this.TemplateDetail;
@@ -223,7 +221,7 @@ export default {
       args.opt_type = "1";
       SaveTemplateInfo(args).then((resp) => {
         if (resp && resp.res_code == 0) {
-          this.$appHelper.successMsg("保存成功");
+          this.$appHelper.successMsg(this.$t("c.saveSuccess"));
           this.$emit("input", false);
           this.$emit("saveOrDel");
         }
@@ -231,18 +229,18 @@ export default {
     },
     delTemp(TemplateDetail = this.TemplateDetail) {
       let _this = this;
-      this.$appHelper.showTip("确定要删除么？", () => {
+      this.$appHelper.showTip(this.$t("c.deleteTip"), () => {
         let args = {};
         args.id = TemplateDetail.id;
         if (_this.model == "myTemp") {
           RemoveUserTemplate(args).then((resp) => {
-            _this.$appHelper.infoMsg("删除成功");
+            _this.$appHelper.infoMsg(_this.$t("c.deleteSuccess"));
             _this.$emit("input", false);
             _this.$emit("saveOrDel");
           });
         } else if (_this.model == "myDownload") {
           RemoveUserTemplateAttention(args).then((resp) => {
-            _this.$appHelper.infoMsg("移除成功");
+            _this.$appHelper.infoMsg(_this.$t("c.deleteSuccess"));
             _this.$emit("input", false);
             _this.$emit("saveOrDel");
           });
@@ -258,7 +256,7 @@ export default {
       args.opt_type = "0";
       SaveTemplateInfo(args).then((resp) => {
         if (resp && resp.res_code == 0) {
-          this.$appHelper.infoMsg("保存草稿成功");
+          this.$appHelper.infoMsg(this.$t("c.saveSuccess"));
           this.$emit("input", false);
           this.$emit("saveOrDel");
         }
@@ -272,48 +270,49 @@ export default {
       ) {
         args.template_id = this.TemplateDetail.id;
         UpdateUserTempAttention(args).then((resp) => {
-              this.$appHelper.successMsg("更新成功");
-              this.$emit("input", false);
-              this.$emit("saveOrDel");
-          })
+          this.$appHelper.successMsg(this.$t("c.updateSuccess"));
+          this.$emit("input", false);
+          this.$emit("saveOrDel");
+        });
       } else {
-        this.$appHelper.warningMsg("当前最新版本,无需更新");
+        this.$appHelper.warningMsg(this.$t("c.cannotUpdate"));
       }
     },
     reverVersion() {
       let template = this.TemplateDetail;
       if (template.status == "0") {
-        console.log("回退单位草稿版本");
         let args = {};
         args.template_id = template.id;
         RevertTemplateVersion(args).then((resp) => {
-            this.$appHelper.infoMsg("回退成功");
-            this.$emit("input", false);
-            this.$emit("saveOrDel");
-          })
+          this.$emit("input", false);
+          this.$emit("saveOrDel");
+        });
       } else {
-        this.$appHelper.infoMsg("当前单位是正式版本 无需回退");
+        this.$appHelper.warningMsg(this.$t("c.cannotRollback"));
       }
+    },
+    showComment() {
+      this.$refs.startComment.showComment();
     },
   },
   computed: {
     dynamicButton() {
       if (this.model == "myTemp") {
         return [
-          { name: "发布版本", action: this.saveTemp },
-          { name: "保存草稿", action: this.saveDraft },
-          { name: "草稿回退", action: this.reverVersion },
+          { name: this.$t("c.publicVersion"), action: this.saveTemp },
+          { name: this.$t("c.saveDraft"), action: this.saveDraft },
+          { name: this.$t("c.draftRollback"), action: this.reverVersion },
         ];
       } else if (this.model == "myDownload") {
         return [
-          { name: "更新版本", action: this.updateVersion },
-          { name: "删除下载", action: this.delTemp },
+          { name: this.$t("c.updateVersion"), action: this.updateVersion },
+          { name: this.$t("c.deleteDownload"), action: this.delTemp },
         ];
       } else if (this.model == "download") {
         return [
           {
-            name: "下载模板",
-            action: () => this.$refs.startComment.showComment(),
+            name: this.$t("c.downLoadTemplate"),
+            action: this.showComment,
           },
         ];
       } else {
@@ -323,6 +322,7 @@ export default {
   },
   watch: {},
   created() {
+    this.$appHelper.bindPage2Global(this, "TemplateDetail");
   },
 };
 </script>

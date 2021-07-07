@@ -1,7 +1,7 @@
 <template>
   <!--招募军队弹框-->
   <ae-base-dialog
-    :title="$t('encounter.buy', buyUnitsInfo[selectIndex].unit_mes.name)"
+    :title="$t('ebuy', buyUnitsInfo[selectIndex].unit_mes.name)"
     v-model="buyUnitShow"
     inlineDialog
     :top="3"
@@ -39,7 +39,7 @@
 
     <span slot="footer" class="dialog-footer">
       <ae-button-list
-        :buttonList="[$t('common.cancel'), $t('encounter.buyUnit')]"
+        :buttonList="[$t('c.cancel'), $t('ebuyUnit')]"
         :clickAction="[close, buyUnit]"
       ></ae-button-list>
     </span>
@@ -67,7 +67,7 @@ export default {
       console.log("现有金币" + currArmy.money);
       console.log("需要金币" + unitInfo.unit_mes.price);
       if (currArmy.money < unitInfo.unit_mes.price) {
-        this.$appHelper.errorMsg(this.$t("encounter.noMoney"));
+        this.$appHelper.errorMsg(this.$t("enoMoney"));
         return;
       }
       // 验证军队人口
@@ -77,7 +77,7 @@ export default {
         currArmy.pop + unitInfo.unit_mes.population >
         this.$store.getters.game.max_pop
       ) {
-        this.$appHelper.errorMsg(this.$t("encounter.unitTooMuch"));
+        this.$appHelper.errorMsg(this.$t("eunitTooMuch"));
         return;
       }
 

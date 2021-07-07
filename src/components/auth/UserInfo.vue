@@ -4,7 +4,7 @@
     <ae-base-dialog
       v-if="showLogin"
       v-model="showLogin"
-      :title="$t('player.login')"
+      :title="$t('plogin')"
       @close="closeLoginDialog"
     >
       <ae-form ref="loginForm" :formConfig="formConfig"></ae-form>
@@ -16,7 +16,7 @@
 
     <ae-base-dialog
       v-model="showRegister"
-      :title="$t('player.register')"
+      :title="$t('pregister')"
       @close="closeLoginDialog"
     >
       <ae-form ref="registerForm" :formConfig="registerFormConfig"></ae-form>
@@ -27,7 +27,7 @@
     </ae-base-dialog>
 
     <ae-base-dialog
-      :title="$t('player.userInfo')"
+      :title="$t('puserInfo')"
       v-model="showUserInfo"
       v-if="showUserInfo"
       @close="closeLoginDialog"
@@ -46,7 +46,7 @@
     </ae-base-dialog>
 
     <ae-base-dialog
-      :title="$t('player.changePwd')"
+      :title="$t('pchangePwd')"
       v-model="showChangePwd"
       v-if="showChangePwd"
       @close="closeLoginDialog"
@@ -85,12 +85,12 @@ export default {
         {
           type: "input",
           key: "user_name",
-          des: this.$t("player.nameOrMail")
+          des: this.$t("pnameOrMail")
         },
         {
           type: "input",
           key: "password",
-          des: this.$t("player.password"),
+          des: this.$t("ppassword"),
          style: "password",
         },
       ],
@@ -98,26 +98,26 @@ export default {
         {
           type: "input",
           key: "email",
-          des: this.$t("player.email"),
+          des: this.$t("pemail"),
           require: true,
         },
         {
           type: "input",
           key: "user_name",
-          des: this.$t("player.userName"),
+          des: this.$t("puserName"),
           require: true,
         },
         {
           type: "input",
           key: "password",
-          des: this.$t("player.password"),
+          des: this.$t("ppassword"),
          style: "password",
           require: true,
         },
         {
           type: "input",
           key: "re_password",
-          des: this.$t("player.rePassword"),
+          des: this.$t("prePassword"),
          style: "password",
           require: true,
         },
@@ -126,7 +126,7 @@ export default {
         {
           type: "input",
           key: "user_name",
-          des: this.$t("player.userName"),
+          des: this.$t("puserName"),
           edit: false,
         },
       ],
@@ -134,21 +134,21 @@ export default {
         {
           type: "input",
           key: "old_password",
-          des: this.$t("player.oldPwd"),
+          des: this.$t("poldPwd"),
           style: "password",
           require: true,
         },
         {
           type: "input",
           key: "new_password",
-          des: this.$t("player.newPwd"),
+          des: this.$t("pnewPwd"),
          style: "password",
           require: true,
         },
         {
           type: "input",
           key: "sure_password",
-          des: this.$t("player.rePassword"),
+          des: this.$t("prePassword"),
          style: "password",
           require: true,
         },
@@ -156,10 +156,10 @@ export default {
       user: {},
       showChangePwd: false,
       editAble: false,
-      loginButton: [this.$t("player.findPwd"), this.$t("player.register"), this.$t("player.login")],
-      userInfoButton: [this.$t("player.changePwd"), this.$t("player.logout")],
-      changePwdButton: [this.$t("common.change"), this.$t("common.cancel")],
-      registerButton: [this.$t("player.register"), this.$t("common.cancel")],
+      loginButton: [this.$t("pfindPwd"), this.$t("pregister"), this.$t("plogin")],
+      userInfoButton: [this.$t("pchangePwd"), this.$t("plogout")],
+      changePwdButton: [this.$t("c.change"), this.$t("c.cancel")],
+      registerButton: [this.$t("pregister"), this.$t("c.cancel")],
     };
   },
   methods: {
@@ -180,12 +180,12 @@ export default {
     changePwd() {
       let args = this.$refs.changePwdForm.getFormData();
       if (args.new_password != args.sure_password) {
-        this.$appHelper.infoMsg(this.$t("player.againPwdErr"));
+        this.$appHelper.infoMsg(this.$t("pagainPwdErr"));
         return;
       }
       ChangePwd(args, true, false).then((resp) => {
           if (resp.res_code == 0) {
-            this.$appHelper.infoMsg(this.$t("common.changeSuccess"));
+            this.$appHelper.infoMsg(this.$t("c.changeSuccess"));
           } else {
             this.$appHelper.infoMsg(resp.res_mes);
           }
@@ -208,7 +208,7 @@ export default {
       console.log(this.user);
       // 验证
       if (this.user.user_name == null || this.user.user_name === "") {
-        this.$appHelper.infoMsg(this.$t("player.nameIsNull"));
+        this.$appHelper.infoMsg(this.$t("pnameIsNull"));
         return;
       }
       Login(this.user).then((resp) => {
@@ -223,18 +223,18 @@ export default {
         this.showLogin = false;
         this.showChangePwd = false;
         this.$emit("input", false);
-        this.$appHelper.infoMsg(this.$t("player.loginOk"));
+        this.$appHelper.infoMsg(this.$t("ploginOk"));
       });
     },
     doRegister() {
       let args = this.$refs.registerForm.getFormData();
       if (args.password != args.re_password) {
-        this.$appHelper.infoMsg(this.$t("player.againPwdErr"));
+        this.$appHelper.infoMsg(this.$t("pagainPwdErr"));
         return;
       }
       Register(args).then((resp) => {
         if (resp.res_code == 0) {
-          this.$appHelper.successMsg(this.$t("player.emailSend"));
+          this.$appHelper.successMsg(this.$t("pemailSend"));
           this.close();
         } else {
           this.$appHelper.errorMsg(resp.res_mes);

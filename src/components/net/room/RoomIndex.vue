@@ -4,7 +4,7 @@
         ref="mainDiaglog"
         v-model="showModel"
         showSearch
-        :title="$t('multiPlayer.romeHome')"
+        :title="$t('mpromeHome')"
         :titleButtons="titleButtonList"
         :footerButtons="buttonList"
         :initQueryDataGrid="queryDataFunction"
@@ -18,7 +18,7 @@
     <ae-complex-dialog
         ref="addNewRoomDialog"
         v-model="addNewDialogShowModel"
-        :title="$t('multiPlayer.addNewRome')"
+        :title="$t('mpaddNewRome')"
         :width="$uni.isH5 ? 35 : 55"
         :formConfig="addNewRoomFormConfig"
         :footerButtons="createRoomButtons"
@@ -62,64 +62,64 @@
         canJoinRoom: {},
         queryDataFunction: (args)=> GetRoomListByPage(args),
         buttonList: [
-          {name: this.$t('multiPlayer.join'), action: this.clickJoinGameButton},
-          {name: this.$t('common.preview'), action: this.clickPreviewButton},
+          {name: this.$t('mpjoin'), action: this.clickJoinGameButton},
+          {name: this.$t('c.preview'), action: this.clickPreviewButton},
         ],
         titleButtonList: [
-          {name: this.$t('common.add'), action: this.clickAddbutton},
-          {name: this.$t('common.flush'), action: this.flushRoom},
+          {name: this.$t('c.add'), action: this.clickAddbutton},
+          {name: this.$t('c.flush'), action: this.flushRoom},
         ],
         showItem: ["room_id", "room_name", "creat_time_show", "ready"],
-        showTitle: [this.$t('multiPlayer.homeId'), this.$t('multiPlayer.homeName'), this.$t("common.createTime"), this.$t("player.title")],
+        showTitle: [this.$t('mphomeId'), this.$t('mphomeName'), this.$t("c.createTime"), this.$t("ptitle")],
         createRoomButtons: [
-          {name: this.$t('common.create'), action: this.clickCreateRoom},
-          {name: this.$t('common.cancel'), action: this.clickCancelCreateRoom},
+          {name: this.$t('c.create'), action: this.clickCreateRoom},
+          {name: this.$t('c.cancel'), action: this.clickCancelCreateRoom},
         ],
         addNewDialogShowModel: false,
         addNewRoomFormConfig: [
           {
             type: "input",
             key: "room_name",
-            des: this.$t('multiPlayer.homeName'),
+            des: this.$t('mphomeName'),
             default: this.initRomeName(),
           },
           {
             type: "switchSelect",
             key: "game_type",
-            des: this.$t("multiPlayer.romeType"),
+            des: this.$t("mpromeType"),
             default: "1",
             items: [
-              {key: "1", value: this.$t("multiPlayer.public")},
-              {key: "2", value: this.$t("multiPlayer.private")},
+              {key: "1", value: this.$t("mppublic")},
+              {key: "2", value: this.$t("mpprivate")},
             ],
           },
           {
             type: "switchSelect",
             key: "game_model",
-            des: this.$t("multiPlayer.gameModel"),
+            des: this.$t("mpgameModel"),
             default: "1",
             items: [
-              {key: "1", value: this.$t("multiPlayer.unlimited")},
-              {key: "2", value: this.$t("multiPlayer.timeout")},
+              {key: "1", value: this.$t("mpunlimited")},
+              {key: "2", value: this.$t("mptimeout")},
             ],
           },
           {
             type: "switchSelect",
             key: "round_time",
-            des: this.$t("multiPlayer.roundLimit"),
+            des: this.$t("mproundLimit"),
             default: "2",
             items: [
-              {key: "1", value: this.$t("common.minute", 1)},
-              {key: "2", value: this.$t("common.minute", 2)},
-              {key: "3", value: this.$t("common.minute", 3)},
-              {key: "5", value: this.$t("common.minute", 5)},
-              {key: "10", value: this.$t("common.minute", 10)},
+              {key: "1", value: this.$t("c.minute", 1)},
+              {key: "2", value: this.$t("c.minute", 2)},
+              {key: "3", value: this.$t("c.minute", 3)},
+              {key: "5", value: this.$t("c.minute", 5)},
+              {key: "10", value: this.$t("c.minute", 10)},
             ],
           },
           {
             type: "userMapSelect",
             key: "init_map",
-            des: this.$t("multiPlayer.chooseMap"),
+            des: this.$t("mpchooseMap"),
           },
         ],
         joinMapId: "",
@@ -141,7 +141,7 @@
       closePreview() {
       },
       initRomeName(){
-        return this.$store.getters.user.user_name + this.$t("multiPlayer.whoRome");
+        return this.$store.getters.user.user_name + this.$t("mpwhoRome");
       },
       onDialogDestroy() {
         console.log("页面销毁");
@@ -163,7 +163,7 @@
           this.roomOwner = selectMap.room_owner;
           this.setJoinRoomShow();
           this.showJoinRoom = true;
-          this.$appHelper.infoMsg(this.$t("multiPlayer.joinSuccess"));
+          this.$appHelper.infoMsg(this.$t("mpjoinSuccess"));
         }).catch((error) => {
           console.error(error);
           this.$refs.mainDiaglog.flushData();
@@ -185,17 +185,17 @@
         let formData = this.$refs.addNewRoomDialog.getFormData();
         console.log(formData);
         if (!formData) {
-          this.$appHelper.infoMsg(this.$t("multiPlayer.roomDataLost"));
+          this.$appHelper.infoMsg(this.$t("mproomDataLost"));
           return;
         }
 
         if (!formData.room_name) {
-          this.$appHelper.infoMsg(this.$t("multiPlayer.roomNameLost"));
+          this.$appHelper.infoMsg(this.$t("mproomNameLost"));
           return;
         }
 
         if (!formData.init_map) {
-          this.$appHelper.infoMsg(this.$t("multiPlayer.gameMapLostTip"));
+          this.$appHelper.infoMsg(this.$t("mpgameMapLostTip"));
           return;
         }
         console.log(this.$refs.addNewRoomDialog.getFormData());
@@ -214,7 +214,7 @@
           initSetting.then((joinRoomPromise) => {
               this.showJoinRoom = true;
               console.log("joinRoomPromise result >>>", res_val, joinRoomPromise);
-              this.$appHelper.infoMsg(this.$t("multiPlayer.joinSuccess"));
+              this.$appHelper.infoMsg(this.$t("mpjoinSuccess"));
             }).catch((error) => {
               this.showJoinRoom = false;
             });

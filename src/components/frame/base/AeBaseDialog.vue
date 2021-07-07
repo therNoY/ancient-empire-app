@@ -26,10 +26,7 @@
           class="ae-base-dialog-popup"
           :class="[fullScreen ? 'fullScreenStyle' : 'h5Style']"
         >
-          <div
-            class="ae-base-dialog-content"
-            :style="{ width: vueStyle.contentWidth }"
-          >
+          <div class="ae-base-dialog-content">
             <div class="ae-base-dialog-popup-header" v-if="!fullScreen">
               <span>{{ title }}</span>
               <!-- #ifdef H5 -->
@@ -78,8 +75,10 @@ export default {
     },
     // 弹出框宽度
     width: {
+      // #ifdef H5
       default: "42",
-      // #ifdef MP
+      // #endif
+      // #ifndef H5
       default: "64",
       // #endif
     },
@@ -99,7 +98,7 @@ export default {
     closeTip: {
       type: String,
       default() {
-        return uni.$t("common.sureClose");
+        return uni.$t("c.sureClose");
       },
     },
     showCloseTip: {
@@ -136,8 +135,6 @@ export default {
         mainBackgroundColor: "#242a43",
         dialogLeft: null,
         dialogTop: null,
-        borderWidth: null,
-        contentWidth: null,
         dialogWidth: "100%",
       },
     };
@@ -145,9 +142,9 @@ export default {
   methods: {
     close() {
       if (this.showCloseTip) {
-        this.$appHelper.showTip(this.closeTip, ()=>{
+        this.$appHelper.showTip(this.closeTip, () => {
           this.closeOk();
-        })
+        });
       } else {
         this.$emit("input", false);
         this.$emit("close");

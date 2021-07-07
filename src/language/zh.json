@@ -1,5 +1,5 @@
 {
-  "common": {
+  "c": {
     "gameName": "远古帝国",
     "authErr": "授权失败",
     "commonErr": "网络繁忙,请稍后",
@@ -9,6 +9,10 @@
     "sure": "确定",
     "cancel": "取消",
     "pleaseInput": "请输入",
+    "inputNotNull": "输入不能为空!",
+    "loading": "加载中...",
+    "minValue": "最小值",
+    "maxValue": "最大值",
     "start": "开始",
     "return": "返回",
     "change": "修改",
@@ -45,16 +49,18 @@
     "myDownload": "我的下载",
     "delete": "删除",
     "version": "版本",
-    "draftVersion": "草稿版本",
-    "latestVersion": "最新版本",
+    "draftVersion": "V{}(草稿版本)",
+    "thisVersion": "V{}(最新版本V{})",
+    "latestVersion": "V{}(最新版本)",
     "canUpdate": "可更新至",
     "addSuccess": "新增成功",
-    "updateSuccess": "修改成功",
+    "updateSuccess": "更新成功",
     "saveSuccess": "保存成功",
     "deleteSuccess": "删除成功",
     "rollbackSuccess": "回退成功",
     "downloadSuccess": "下载成功",
     "cannotRollback": "当前是非草稿 无需回退",
+    "cannotUpdate": "当前最新版本,无需更新",
     "publicVersionTip": "发布新版本会覆盖历史版本, 确定么？",
     "saveDraftTip": "保存之后 不会修改最新版本 需要发布才能生效",
     "deleteDownloadTip": "确定要删除下载么?",
@@ -62,6 +68,7 @@
     "deleteEntryTip": "操做将会永久删除单位信息,确实么?",
     "notNull": "不能为空",
     "createTime": "创建时间",
+    "updateTime": "更新时间",
     "minute": "{}分钟",
     "money": "金币",
     "round": "回合",
@@ -70,7 +77,7 @@
     "endRound": "结束回合",
     "operating": "操作"
   },
-  "player": {
+  "p": {
     "title": "玩家",
     "ai": "电脑",
     "login": "登录",
@@ -94,11 +101,11 @@
     "oldPwd": "原密码",
     "newPwd": "新密码"
   },
-  "battle": {
+  "b": {
     "title": "战役",
     "chooseBattle": "选择战役"
   },
-  "encounter": {
+  "e": {
     "title": "遭遇战",
     "systemMap": "系统地图",
     "myMap": "我的地图",
@@ -125,7 +132,7 @@
     "noMoney":"资金不足",
     "unitTooMuch":"人口达到上限"
   },
-  "multiPlayer": {
+  "mp": {
     "title": "多人游戏",
     "romeHome": "游戏大厅",
     "addNewRome": "新建房间",
@@ -157,14 +164,14 @@
     "leaveRoomWarning":"确定要退出房间吗？",
     "roomInfoCopy":"房间信息已经复制"
   },
-  "loadGame": {
+  "lg": {
     "title": "读取游戏",
     "saveRecord": "保存存档",
     "recordName": "存档名字",
     "chooseRecord":"选择存档",
     "continue":"继续"
   },
-  "unitManagement": {
+  "um": {
     "title": "单位管理",
     "addNewUnit": "新增单位",
     "editUnit": "编辑单位",
@@ -172,7 +179,7 @@
     "bindAbility": "绑定能力",
     "levelData": "等级数据",
     "myUnit": "我的单位",
-    "unitShop": "单位商城",
+    "unitShop": "下载单位",
     "attachType": "攻击类型",
     "physicalAttack": "物理攻击",
     "magicAttack": "魔法攻击",
@@ -194,13 +201,47 @@
     "authErr": "需要从您的相册获取图片，请在设置界面打开相关权限",
     "level": "等级"
   },
-  "templateManagement": {
-    "title": "模板管理"
+  "tm": {
+    "title": "模板管理",
+    "chooseTemplate": "选择模板",
+    "myTemplate": "我的模板",
+    "downLoadTemplate": "下载模板",
+    "unitPreview": "单位预览",
+    "templateName": "模板名称",
+    "templateDesc": "模板描述",
+    "baseInfo": "基本信息",
+    "isShared": "是否共享",
+    "shared": "共享",
+    "notShared": "不共享",
+    "maxLevel": "最大等级",
+    "unitInfo": "单位信息",
+    "unitList": "可选单位",
+    "summonType": "召唤类型",
+    "attachInfo": "攻击信息",
+    "attachMode": "攻击模式",
+    "fixedNum": "固定数值",
+    "floatNum": "浮动数值",
+    "attachExp": "攻击经验",
+    "counterAttackExp": "反击经验",
+    "killExp": "击杀经验",
+    "antikillExp": "反杀经验",
+    "animationSetting": "动画设置",
+    "attachAnimation": "攻击动画",
+    "summonAnimation": "召唤动画",
+    "deadAnimation": "死亡动画",
+    "promotionSetting": "晋升设置",
+    "promotionMode": "晋升模式",
+    "notPromotion": "不晋升",
+    "userPromotion": "用户选择",
+    "randomPromotion": "随机晋升",
+    "authPromotion": "自动晋升",
+    "maxNumPromotion": "最大晋升数量",
+    "minLevelPromotion": "最小晋升等级"
   },
-  "mapManagement": {
+  "mm": {
     "title": "地图管理"
   },
-  "mapEdit": {
+  "me": {
     "title": "地图编辑"
   }
 }

@@ -9,7 +9,7 @@
         :size="buttonSize"
         class="home_button"
         @click="clickUserInfo"
-        >{{ $t("player.title") }}</ae-button
+        >{{ $t("ptitle") }}</ae-button
       >
       <!-- #endif -->
       <!-- #ifdef MP-WEIXIN -->
@@ -18,7 +18,7 @@
         v-if="haveLogin"
         class="home_button"
         @click="clickUserInfo"
-        >{{ $t("player.title") }}</ae-button
+        >{{ $t("ptitle") }}</ae-button
       >
       <button
         v-else
@@ -27,7 +27,7 @@
         open-type="getPhoneNumber"
         @getphonenumber="onGetPhoneNumber"
       >
-        {{ $t("player.title") }}
+        {{ $t("ptitle") }}
       </button>
       <!-- #endif -->
       <ae-button
@@ -35,49 +35,49 @@
         :size="buttonSize"
         class="home_button"
         @click="showChapter = true"
-        >{{ $t("battle.title") }}</ae-button
+        >{{ $t("btitle") }}</ae-button
       >
       <ae-button
         :size="buttonSize"
         class="home_button"
         @click="showEncounter = true"
-        >{{ $t("encounter.title") }}</ae-button
+        >{{ $t("etitle") }}</ae-button
       >
       <ae-button
         :size="buttonSize"
         class="home_button"
         @click="showNetGameDialog = true"
-        >{{ $t("multiPlayer.title") }}</ae-button
+        >{{ $t("mptitle") }}</ae-button
       >
       <ae-button
         :size="buttonSize"
         class="home_button"
         @click="showUserRecord = true"
-        >{{ $t("loadGame.title") }}</ae-button
+        >{{ $t("lgtitle") }}</ae-button
       >
       <ae-button
         :size="buttonSize"
         class="home_button"
         @click="showUnitMange = true"
-        >{{ $t("unitManagement.title") }}</ae-button
+        >{{ $t("um.title") }}</ae-button
       >
       <ae-button
         :size="buttonSize"
         class="home_button"
         @click="showTemplateManger = true"
-        >{{ $t("templateManagement.title") }}</ae-button
+        >{{ $t("tm.title") }}</ae-button
       >
       <ae-button
         :size="buttonSize"
         class="home_button"
         @click="showMapManger = true"
-        >{{ $t("mapManagement.title") }}</ae-button
+        >{{ $t("mm.title") }}</ae-button
       >
       <ae-button
         :size="buttonSize"
         class="home_button"
         @click="router('mapEdit/0')"
-        >{{ $t("mapEdit.title") }}</ae-button
+        >{{ $t("metitle") }}</ae-button
       >
       <ae-button :size="buttonSize" class="home_button" @click="router('Test')"
         >帮助</ae-button

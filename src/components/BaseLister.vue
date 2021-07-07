@@ -35,8 +35,8 @@ export default {
       tipCallback: null,
       tipTitle: null,
       buttonList: [],
-      defTipTitle: this.$t("common.tip"),
-      defTipButtonList: [this.$t("common.sure"), this.$t("common.cancel")],
+      defTipTitle: this.$t("c.tip"),
+      defTipButtonList: [this.$t("c.sure"), this.$t("c.cancel")],
 
       inputCallback: null,
       closeTip: null,

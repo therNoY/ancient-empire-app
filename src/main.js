@@ -95,19 +95,12 @@ Vue.component("AeTag", AeTag);
 // 引入插件组件
 import UniIcons from "./plugin/uni-icons/uni-icons"
 Vue.component("UniIcons", UniIcons);
-
 import UniNumberBox from "./plugin/uni-number-box/uni-number-box"
 Vue.component("UniNumberBox", UniNumberBox);
-
 import UniSegmentedControl from "./plugin/uni-segmented-control/uni-segmented-control"
 Vue.component("UniSegmentedControl", UniSegmentedControl);
-
 import UniRate from "./plugin/uni-rate/uni-rate"
 Vue.component("UniRate", UniRate);
-
-import UniTag from "./plugin/uni-tag/uni-tag"
-Vue.component("UniTag", UniTag);
-
 import UploadFile from "./plugin/uni-file-picker/upload-file"
 Vue.component("UploadFile", UploadFile);
 import UploadImage from "./plugin/uni-file-picker/upload-image"
