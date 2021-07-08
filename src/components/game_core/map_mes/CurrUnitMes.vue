@@ -184,16 +184,6 @@ export default {
   height: 72px;
   margin: auto;
 }
-.region {
-  width: 24px;
-  height: 24px;
-}
-.unit_view {
-  top: 24px !important;
-  left: 24px !important;
-  width: 24px;
-  height: 24px;
-}
 .unit_ci {
   margin-top: 10px;
   display: flex;

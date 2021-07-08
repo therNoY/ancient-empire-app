@@ -19,9 +19,9 @@
     >
     </ae-complex-dialog>
     <template-detail
-      ref="TemplateDetail"
+      ref="templateDetail"
       v-model="showTempDetail"
-      :TemplateDetail="currentTemp"
+      :templateDetail="currentTemp"
       :model="model"
       @saveOrDel="flushData"
       @downLoadTemp="downLoadTemp"
@@ -61,9 +61,17 @@ export default {
         default: "1",
         des: "",
         items: [
-          { key: "1", value: this.$t('tm.myTemplate'), query: GetUserTemplate },
-          { key: "2", value: this.$t('c.myDownload'), query: GetUserAttentionTemp },
-          { key: "3", value: this.$t('tm.downLoadTemplate'), query: GetDownloadAbleTemplate },
+          { key: "1", value: this.$t("tm.myTemplate"), query: GetUserTemplate },
+          {
+            key: "2",
+            value: this.$t("c.myDownload"),
+            query: GetUserAttentionTemp,
+          },
+          {
+            key: "3",
+            value: this.$t("tm.downLoadTemplate"),
+            query: GetDownloadAbleTemplate,
+          },
         ],
       },
       showItem: [
@@ -88,35 +96,37 @@ export default {
         "start_count",
       ],
       showTitle: [
-        this.$t('tm.templateName'),
-        this.$t('tm.unitPreview'),
-          this.$t('c.author'),
-          this.$t('c.version'),
-          this.$t('c.updateTime'),
-          this.$t('c.downloadCount'),
-          this.$t("c.score"),
+        this.$t("tm.templateName"),
+        this.$t("tm.unitPreview"),
+        this.$t("c.author"),
+        this.$t("c.version"),
+        this.$t("c.updateTime"),
+        this.$t("c.downloadCount"),
+        this.$t("c.score"),
       ],
       tableConfig: {
         1: { style: { width: "20%" } },
       },
-      titleButtonList: [{ name: this.$t('c.create'), action: this.clickAddButton }],
+      titleButtonList: [
+        { name: this.$t("c.create"), action: this.clickAddButton },
+      ],
       showTempDetail: false,
       currentTemp: {},
       model: "myTemp",
-      initQueryDataFunction: null,
+      initQueryDataFunction: (condition) => GetUserTemplate(condition),
     };
   },
   created() {
-    this.initQueryDataFunction = GetUserTemplate;
+    this.$appHelper.bindPage2Global(this, "templateManger");
   },
   methods: {
     clickAddButton() {
       let params = {};
-      GetUserDraftTemplate(params).then(({res_val}) => {
-          this.currentTemp = res_val;
-          this.model = "myTemp";
-          this.showTempDetail = true;
-        })
+      GetUserDraftTemplate(params).then(({ res_val }) => {
+        this.currentTemp = res_val;
+        this.model = "myTemp";
+        this.showTempDetail = true;
+      });
     },
     flushData() {
       this.$refs.aeDialog.flushData();
@@ -139,7 +149,7 @@ export default {
     },
     delTemp() {
       console.log("删除模板");
-      this.$refs.TemplateDetail.delTemp(
+      this.$refs.templateDetail.delTemp(
         this.$refs.aeDialog.getDataGridSelect()
       );
     },
@@ -149,28 +159,37 @@ export default {
       args.template_id = this.$refs.aeDialog.getDataGridSelect().id;
       args.template_start = downloadComment.start;
       args.template_comment = downloadComment.comment;
-      DownloadTemplate(args).then(({res_code}) => {
-        this.$appHelper.infoMsg(this.$t('c.downloadSuccess'));
+      DownloadTemplate(args).then(({ res_code }) => {
+        this.$appHelper.infoMsg(this.$t("c.downloadSuccess"));
         this.flushData();
       });
     },
 
-    showComment(){
-      this.$refs.TemplateDetail.$refs.startComment.showComment();
-    }
+    showComment() {
+      this.$refs.templateDetail.$refs.startComment.showComment();
+    },
   },
   computed: {
     footerButtonList() {
       let footerButtonList = [];
-      footerButtonList.push({ name: this.$t('c.desc'), action: this.showDetail });
+      footerButtonList.push({
+        name: this.$t("c.desc"),
+        action: this.showDetail,
+      });
       if (this.model === "myTemp") {
-        footerButtonList.push({ name: this.$t('c.delete'), action: this.delTemp });
-      } else if (this.model === "myDownload") {
-        footerButtonList.push({ name: this.$t('c.delete'), action: this.delTemp });
-      } else if (this.model ==="download") {
         footerButtonList.push({
-          name: this.$t('c.download'),
-          action: this.showComment
+          name: this.$t("c.delete"),
+          action: this.delTemp,
+        });
+      } else if (this.model === "myDownload") {
+        footerButtonList.push({
+          name: this.$t("c.delete"),
+          action: this.delTemp,
+        });
+      } else if (this.model === "download") {
+        footerButtonList.push({
+          name: this.$t("c.download"),
+          action: this.showComment,
         });
       }
       return footerButtonList;

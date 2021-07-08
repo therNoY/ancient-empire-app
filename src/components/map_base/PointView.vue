@@ -1,9 +1,9 @@
 <template>
-  <div class="cursor_normal">
+  <div>
     <!--指针框 -->
     <div v-if="!attachPoint.hasOwnProperty('row')" @click="clickPoint">
       <img
-        style="width: 26px; height: 26px"
+        class="stand-click-point"
         v-show="signal % 2 === 0"
         src="../../assets/images/assist/point_0.png"
         :style="{
@@ -12,7 +12,7 @@
         }"
       />
       <img
-        style="width: 26px; height: 26px"
+        class="stand-click-point"
         v-show="signal % 2 === 1"
         src="../../assets/images/assist/point_1.png"
         :style="{
@@ -22,21 +22,21 @@
       />
     </div>
     <!--攻击/召唤/治疗 指针-->
-    <div v-else class="attackPoint" @click="clickChoosePoint">
+    <div v-else @click="clickChoosePoint">
       <img
-        style="width: 40px; height: 41px"
+        class="stand-choose-point"
         :src="attachPointImg"
         :style="{
-          top: (attachPoint.row - 1 - 0.3) * 24 + 'px',
-          left: (attachPoint.column - 1 - 0.3) * 24 + 'px',
+          top: (attachPoint.row - 1 - 0.3) * imgSize + 'px',
+          left: (attachPoint.column - 1 - 0.3) * imgSize + 'px',
         }"
       />
     </div>
 
     <!--目的地指针 只在移动区域显示的时候才会显示-->
-    <div class="aim_point" v-if="moveLine.length > 0">
+    <div v-if="moveLine.length > 0">
       <img
-        style="width: 26px; height: 26px"
+        class="stand-click-point"
         src="../../assets/images/assist/cursor_target.png"
         :style="{
           top: $appHelper.getPosition(point.row),
@@ -60,6 +60,7 @@ export default {
   data() {
     return {
       movePointIndex: 0, // 单位移动的辅助值 用于表示当前移动到第几个点了
+      imgSize:this.$c.imgSize,
     };
   },
   computed: {
@@ -105,17 +106,5 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-.cursor_normal img {
-  position: absolute;
-  cursor: pointer;
-}
-.aim_point img {
-  position: absolute;
-  cursor: pointer;
-}
-.attackPoint img {
-  position: absolute;
-  cursor: pointer;
-}
+<style>
 </style>

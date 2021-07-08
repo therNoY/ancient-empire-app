@@ -2,39 +2,43 @@
   单位单选组件
 -->
 <template>
-  <div class="unit-radio">
-    <ae-button
-      class="unit-radio-button"
-      :width="75"
-      :height="25"
-      :size="0.5"
-      @click="chooseOtherUnit"
-      :disabled="!editAble"
-      >选 择</ae-button
-    >
-
-    <div class="unit">
-      <ae-click-point :disabled="!editAble" v-if="value" @clickPoint="deleteUnit">
-        <unit :unit_id="value" :color="color"></unit>
+  <div>
+    <div class="unit-radio">
+      <ae-click-point
+        :disabled="!editAble"
+        class="choose-unit"
+        v-if="value"
+        @clickPoint="deleteUnit"
+      >
+        <unit style="width: 30px" :unit_id="value" :color="color"></unit>
       </ae-click-point>
+      <div>
+        <img
+          class="fixed-img"
+          src="../../assets/images/assist/add.png"
+          @click="chooseOtherUnit"
+        />
+      </div>
     </div>
 
     <unit-choose-list
       ref="unitChooseList"
-      dialog_title="选择其他单位"
-      :unit_list="unitList"
+      :dialog_title="$t('tm.chooseUnit')"
+      :unit_list="chooseAbleUnit"
       @clickUnit="changeUnit"
     ></unit-choose-list>
   </div>
 </template>
 
 <script>
+import { GetAddTempAbleUnit } from "@/api";
 import Unit from "./Unit.vue";
 import UnitChooseList from "./UnitChooseList.vue";
 export default {
   components: { Unit, UnitChooseList },
   props: {
     value: {},
+    template_id: {},
     color: {
       type: String,
       default: "blue",
@@ -42,9 +46,6 @@ export default {
     editAble: {
       type: Boolean,
       default: true,
-    },
-    unitList: {
-      type: Array,
     },
   },
   data() {
@@ -55,7 +56,15 @@ export default {
 
   methods: {
     chooseOtherUnit() {
-      this.$refs.unitChooseList.show = true;
+      let args = {
+        template_id: this.template_id,
+        filter: [this.value],
+      };
+      GetAddTempAbleUnit(args).then(({ res_val }) => {
+        this.$refs.unitChooseList.show = true;
+        this.chooseAbleUnit = res_val;
+        this.$refs.unitChooseList.show = true;
+      });
     },
     changeUnit(unit) {
       this.$refs.unitChooseList.show = false;
@@ -66,25 +75,15 @@ export default {
       this.$emit("input", null);
     },
   },
-  created() {
-  },
+  created() {},
 };
 </script>
 
 <style lang="scss" scope>
 .unit-radio {
-  width: 100%;
-  float: left;
-  text-align: center;
-  .unit {
-    float: left;
-    padding-top: 3%;
-  }
-  .unit-radio-button {
-    float: left;
-    padding-left: 1%;
-    margin-top: 2%;
-    width: 20%;
+  display: flex;
+  .choose-unit {
+    margin-right: 16px;
   }
 }
 </style>

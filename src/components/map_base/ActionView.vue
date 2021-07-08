@@ -1,9 +1,9 @@
 <template>
   <div v-if="unitActions.length > 0">
     <!--展示单位可以进行行动 攻击 召唤 购买 修复-->
-    <div class="actionLogo" v-for="(action,index) in unitActions" :key="index">
+    <div v-for="(action, index) in unitActions" :key="index">
       <img
-        style="width:20px;height:20px"
+        class="stand-action-size base-animate"
         :src="$appHelper.getActionImg(action.action)"
         @click="doAction(action.action)"
         :style="{
@@ -55,13 +55,5 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-.actionLogo img {
-  position: absolute;
-  cursor: pointer;
-  transition-duration: 0.2s;
-  transition-property: all;
-  transition-timing-function: linear;
-  transition-delay: 0s;
-}
+<style>
 </style>

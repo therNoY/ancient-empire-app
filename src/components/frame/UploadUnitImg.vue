@@ -8,7 +8,10 @@
           :unitId="unitId"
           @success="uploadSuccess"
         >
-          <img class="upload-img-icon click-cursor" src="../../assets/images/assist/add.png"/>
+          <img
+            class="upload-img-icon click-cursor"
+            src="../../assets/images/assist/add.png"
+          />
         </upload-game-img>
         <div
           class="uploadImg"
@@ -16,7 +19,10 @@
           :key="item.key"
         >
           <ae-click-point @clickPoint="removeUnit(index)">
-            <img style="width:24px;height:24px" :src="$appHelper.getUnitImg(item, 'temporary')" />
+            <img
+              class="stand-img-size"
+              :src="$appHelper.getUnitImg(item, 'temporary')"
+            />
           </ae-click-point>
         </div>
       </div>
@@ -28,16 +34,23 @@
     </ae-base-dialog>
 
     <ae-base-dialog :title="$t('c.preview')" :width="30" v-model="showPreview">
-      <div v-for="(color,index) in colorList" :key = index class="previewImg">
-        <img style="width:24px;height:24px" v-show="signal % 2 === 0" :src="$appHelper.getUnitImg(previewUnitImg.img1, color)" />
-        <img style="width:24px;height:24px" v-show="signal % 2 !== 0" :src="$appHelper.getUnitImg(previewUnitImg.img2, color)" />
+      <div v-for="(color, index) in colorList" :key="index" class="previewImg">
+        <img
+          class="stand-img-size"
+          v-show="signal % 2 === 0"
+          :src="$appHelper.getUnitImg(previewUnitImg.img1, color)"
+        />
+        <img
+          class="stand-img-size"
+          v-show="signal % 2 !== 0"
+          :src="$appHelper.getUnitImg(previewUnitImg.img2, color)"
+        />
       </div>
     </ae-base-dialog>
   </div>
 </template>
 
 <script>
-
 import UploadGameImg from "./UploadGameImg.vue";
 import dialogShow from "@/mixins/frame/dialogShow.js";
 import { CreateUnitImg } from "@/api";
@@ -56,10 +69,10 @@ export default {
     return {
       uploadImg: [],
       showPreview: false,
-      saveButtonList: [this.$t('c.preview'), this.$t('c.create')],
+      saveButtonList: [this.$t("c.preview"), this.$t("c.create")],
       timerChangeSignal: null,
       signal: 0,
-      colorList : ["blue", "red", "green", "black"],
+      colorList: ["blue", "red", "green", "black"],
       previewUnitImg: {},
     };
   },
@@ -85,7 +98,7 @@ export default {
     },
     checkSize() {
       if (_this.uploadImg.length > 1) {
-        _this.$appHelper.infoMsg(_this.$t('um.unitPicTip1'));
+        _this.$appHelper.infoMsg(_this.$t("um.unitPicTip1"));
         return false;
       }
       return true;
@@ -96,23 +109,27 @@ export default {
     previewUnit() {
       console.log("预览");
       if (_this.uploadImg.length !== 2) {
-        _this.$appHelper.infoMsg(_this.$t('um.unitPicTip2'));
+        _this.$appHelper.infoMsg(_this.$t("um.unitPicTip2"));
         return false;
       }
       let args = {};
       args.img_list = _this.uploadImg;
-      CreateUnitImg(args).then(({res_val}) => {
+      CreateUnitImg(args).then(({ res_val }) => {
         _this.showPreview = true;
         _this.previewUnitImg = res_val;
-      })
+      });
     },
     createUnit() {
-        if (_this.previewUnitImg && _this.previewUnitImg.img1 && _this.previewUnitImg.img2) {
-          _this.$emit("input", false);
-          _this.$emit("uploadOk", _this.previewUnitImg);
-        } else {
-          _this.$appHelper.infoMsg(this.$t('um.needPreviewTip'))
-        }
+      if (
+        _this.previewUnitImg &&
+        _this.previewUnitImg.img1 &&
+        _this.previewUnitImg.img2
+      ) {
+        _this.$emit("input", false);
+        _this.$emit("uploadOk", _this.previewUnitImg);
+      } else {
+        _this.$appHelper.infoMsg(this.$t("um.needPreviewTip"));
+      }
     },
     uploadSuccess(fileName) {
       _this.uploadImg.push(fileName);
@@ -131,14 +148,14 @@ export default {
   margin-top: 2%;
   margin-left: 3%;
 }
-.previewImg{
-    width: 30px;
-    float: left;
-    margin-left: 5%;
+.previewImg {
+  width: 30px;
+  float: left;
+  margin-left: 5%;
 }
-  .upload-unit-img{
-    display: flex;
-    width: 70%;
-    margin-left: 12%;
-  }
+.upload-unit-img {
+  display: flex;
+  width: 70%;
+  margin-left: 12%;
+}
 </style>

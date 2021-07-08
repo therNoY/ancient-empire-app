@@ -97,15 +97,16 @@ export default {
   },
   computed: {
     h5Style() {
+      let imgSize = this.$c.imgSize;
       return {
         width:
-          (this.currentMap.column * 24 > 600
+          (this.currentMap.column * imgSize > 600
             ? 600
-            : this.currentMap.column * 24) + "px",
+            : this.currentMap.column * imgSize) + "px",
         maxWidth:
-          (this.currentMap.column * 24 > 600
+          (this.currentMap.column * imgSize > 600
             ? 600 - 12
-            : this.currentMap.column * 24 - 12) + "px",
+            : this.currentMap.column * imgSize - 12) + "px",
       };
     },
     mapStyle() {

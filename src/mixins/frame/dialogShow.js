@@ -14,6 +14,7 @@ export default {
             this.$emit("input", false);
         },
         _doBeforeCreate() {
+            console.log("准备打开");
             if (this.onDialogCreate && this.onDialogCreate instanceof Function) {
                 this.onDialogCreate();
             }

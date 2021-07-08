@@ -2,7 +2,8 @@
 <template>
   <div v-if="regions">
     <img
-      style="float: left;width:24px;height:24px;"
+      class="stand-img"
+      style="float: left"
       v-for="(region, index) in regions"
       :key="region.id"
       :src="$appHelper.getRegionImg(region.type, region.color)"
@@ -12,7 +13,7 @@
 
     <!-- 城堡的地图 -->
     <img
-      class="castleTitle"
+      class="stand-img castle-title"
       v-for="(title, index) in mapCastleTitle"
       :key="index"
       src="../../assets/images/Region/castle_title.png"
@@ -43,15 +44,16 @@ export default {
         return (
           Math.floor(index / this.column + 1) +
           "行" +
-          ((index + 1) % this.column == 0 ? this.column : (index + 1) % this.column) +
+          ((index + 1) % this.column == 0
+            ? this.column
+            : (index + 1) % this.column) +
           "列"
         );
       }
       return null;
     },
   },
-  created(){
-  },
+  created() {},
   computed: {
     mapCastleTitle() {
       let sites = [];
@@ -63,8 +65,9 @@ export default {
         region = this.regions[index];
         if ("castle" == region.type) {
           let castleTitle = {};
-          castleTitle.row = Number.parseInt((index) / column);
-          castleTitle.column = (index + 1) % column == 0 ? column : (index + 1) % column;
+          castleTitle.row = Number.parseInt(index / column);
+          castleTitle.column =
+            (index + 1) % column == 0 ? column : (index + 1) % column;
           sites.push(castleTitle);
         }
       }
@@ -76,11 +79,9 @@ export default {
 
 <style lang="scss" scoped>
 div {
-  .castleTitle {
+  .castle-title {
     position: absolute;
     pointer-events: none;
-    width:24px;
-    height:24px;
   }
 }
 </style>

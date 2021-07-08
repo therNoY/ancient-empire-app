@@ -13,10 +13,10 @@
       <div class="ae-form-label">
         {{ form.des }}
       </div>
-      <div class="ae-form-real-camp" v-if="flushFormFlag">
+      <div class="ae-form-real-camp">
         <div v-if="form.type === 'input'">
           <ae-input
-              ref="aeInput"
+            ref="aeInput"
             v-model="formData[form.key]"
             :type="form.style"
             :default="form.default"
@@ -26,6 +26,7 @@
         </div>
         <div v-else-if="form.type === 'switchSelect'">
           <ae-switch-select
+            ref="switchSelect"
             v-model="formData[form.key]"
             :default="form.default"
             :items="form.items"
@@ -93,29 +94,23 @@ export default {
       type: Object,
       default: null,
     },
-    closeBind: {
-      type: Boolean,
-      default: false,
-    },
     signal: {
       type: Number,
       default: 0,
     },
-    column:{
+    column: {
       type: Number,
       default: 1,
     },
-    templateId:{
+    templateId: {},
+    hasBorder: {
+      type: Boolean,
+      default: false,
     },
-    hasBorder:{
-      type:Boolean,
-      default:false,
-    }
   },
   data() {
     return {
       formData: {},
-      flushFormFlag:true,
     };
   },
   methods: {
@@ -124,14 +119,14 @@ export default {
         if (config.type === "rangeSelect") {
         }
         if (config.require && !this.formData[config.key]) {
-          this.$appHelper.infoMsg(config.des + this.$t('c.notNull'));
+          this.$appHelper.infoMsg(config.des + this.$t("c.notNull"));
           throw new Error("数据" + config.des + "不完整");
         }
       }
       if (!data) {
         return this.formData;
       }
-      for (let key of Object.keys(this.formData)){
+      for (let key of Object.keys(this.formData)) {
         data[key] = this.formData[key];
       }
       return data;
@@ -149,67 +144,57 @@ export default {
     }
     this.$appHelper.bindPage2Global(this, "activeForm");
   },
-  watch:{
-    value(){
+  watch: {
+    value() {
       if (this.value) {
-
-        let isHasDiff = false;
-        for (let key of Object.keys(this.value)){
-          if (this.value[key] !=  this.formData[key]) {
+        for (let key of Object.keys(this.value)) {
+          if (this.value[key] != this.formData[key]) {
             this.formData[key] = this.value[key];
-            isHasDiff = true;
-            console.log("有不一样")
           }
-        }
-        if (isHasDiff) {
-          this.flushFormFlag = false;
-          this.$nextTick(()=>{
-            this.flushFormFlag = true;
-          });
         }
       }
     },
-    formData(data){
+    formData(data) {
       this.$emit("input", data);
-    }
-  }
+    },
+  },
 };
 </script>
 
 <style lang="scss"  scoped>
-  .ae-form-content{
+.ae-form-content {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  .ae-form-item {
+    width: 100%;
     display: flex;
     flex-direction: row;
-    flex-wrap: wrap;
-    .ae-form-item {
-      width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    .ae-form-label {
+      width: 20%;
+      color: white;
       /* #ifdef H5*/
-      height: 40px;
+      font-size: 14px;
       /* #endif */
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-      align-items: center;
-      .ae-form-label {
-        width: 20%;
-        color: white;
-        /* #ifndef H5*/
-        font-size: 0.65rem;
-        /* #endif*/
-      }
-      .ae-form-real-camp {
-        width: 80%;
-      }
+      /* #ifndef H5*/
+      font-size: 0.65rem;
+      /* #endif*/
     }
-    .half-width{
-      width:50%
+    .ae-form-real-camp {
+      width: 80%;
     }
   }
-  .ae-form-border{
-    border-top: 2px #242424 solid;
-    border-left: 2px #242424 solid;
-    border-right: 2px #aaaaaa solid;
-    border-bottom: 2px #aaaaaa solid;
+  .half-width {
+    width: 50%;
   }
-
+}
+.ae-form-border {
+  padding: 2%;
+  border-top: 2px #242424 solid;
+  border-left: 2px #242424 solid;
+  border-right: 2px #aaaaaa solid;
+  border-bottom: 2px #aaaaaa solid;
+}
 </style>

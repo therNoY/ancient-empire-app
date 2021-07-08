@@ -11,7 +11,6 @@
       :footerButtons="footerButtonList"
       :tableConfig="tableConfig"
       :width="40"
-      @titleSwitchSelectChange="switchSelectChange"
       page
     >
     </ae-complex-dialog>
@@ -24,19 +23,14 @@
 </template>
 
 <script>
-import PreviewUnitList from "../frame/PreviewUnitList.vue";
-import {
-  GetUserTemplate,
-  GetUserAttentionTemp,
-} from "@/api";
+import { GetUserTemplate, GetUserAttentionTemp } from "@/api";
 
 import dialogShow from "@/mixins/frame/dialogShow.js";
 import TemplateDetail from "./TemplateDetail.vue";
 
 const showBindUnitRender = function (h, params) {
-  console.log(params);
   return h(
-    PreviewUnitList,
+    "previewUnitList",
     { props: { unit_list: params.bind_uint_list, showNum: 15 } },
     ""
   );
@@ -45,8 +39,7 @@ const showBindUnitRender = function (h, params) {
 export default {
   mixins: [dialogShow],
   components: { TemplateDetail },
-  props: {
-  },
+  props: {},
   data() {
     return {
       titleSwitchSelect: {
@@ -55,43 +48,47 @@ export default {
         default: "1",
         des: "",
         items: [
-          { key: "1", value: "我的模板", query: GetUserTemplate },
-          { key: "2", value: "我的下载", query: GetUserAttentionTemp },
+          { key: "1", value: this.$t("tm.myTemplate"), query: GetUserTemplate },
+          {
+            key: "2",
+            value: this.$t("c.myDownload"),
+            query: GetUserAttentionTemp,
+          },
         ],
       },
-      showItem: [
-        "template_name",
-        showBindUnitRender,
-      ],
-      showTitle: ["模板名字", "单位预览"],
+      showItem: ["template_name", showBindUnitRender],
+      showTitle: [this.$t("tm.templateName"), this.$t("tm.unitPreview")],
       footerButtonList: [
-        { name: "确定", action: "selectTemp" },
-        { name: "详情", action: "showDetail" },
+        { name: this.$t("c.sure"), action: this.selectTemp },
+        { name: this.$t("c.desc"), action: this.showDetail },
       ],
       tableConfig: {
         1: { style: { width: "50%" } },
       },
       showTempDetail: false,
       currentTemp: {},
-      initQueryDataFunction:null,
-
+      initQueryDataFunction: (condition) => GetUserTemplate(condition),
     };
   },
   created() {
-    this.initQueryDataFunction = GetUserTemplate
+    this.$appHelper.bindPage2Global(this, "templateSelect");
   },
   methods: {
     showDetail() {
       console.log("查看详情");
-      this.currentTemp = JSON.parse(JSON.stringify(this.$refs.aeDialog.getDataGridSelect()));
+      this.currentTemp = JSON.parse(
+        JSON.stringify(this.$refs.aeDialog.getDataGridSelect())
+      );
       this.showTempDetail = true;
     },
-    selectTemp(){
+    selectTemp() {
       this.currentTemp = this.$refs.aeDialog.getDataGridSelect();
-      this.$emit("onSelect", this.currentTemp.id, this.currentTemp.template_name);
-      this.$emit("input", false)
-    },
-    switchSelectChange(value) {
+      this.$emit(
+        "onSelect",
+        this.currentTemp.id,
+        this.currentTemp.template_name
+      );
+      this.$emit("input", false);
     },
   },
   computed: {},

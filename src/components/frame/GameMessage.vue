@@ -24,11 +24,11 @@
         @keyup.enter.native="sendMessage"
         v-model="inputMessage"
         center
-        :placeholder="$t('esendMessage')"
+        :placeholder="$t('e.sendMessage')"
       >
       </ae-input>
       <ae-button style="width: 20%" @click="sendMessage">{{
-        $t("esend")
+        $t("e.send")
       }}</ae-button>
     </div>
   </div>
@@ -111,6 +111,7 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    pointer-events: none;
     .message-show-item {
       padding: 2px;
       text-align: left;

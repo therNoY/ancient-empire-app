@@ -1,7 +1,6 @@
 <script>
 export default {
-  methods: {
-  },
+  methods: {},
   onLaunch: function () {
     console.log("App Launch");
     this.$nextTick(() => {
@@ -17,10 +16,8 @@ export default {
       uni.screenWidth = resp.windowWidth;
     });
   },
-  onReady: function () {
-  },
-  onHide: function () {
-  },
+  onReady: function () {},
+  onHide: function () {},
 };
 </script>
 
@@ -29,6 +26,7 @@ export default {
 @import "uview-ui/index.scss";
 @import url("/style/font/aeFont.css");
 @import url("/style/animate.min.css");
+@import url("/style/stand-unit-size.css");
 
 page {
   height: 100%;
@@ -43,14 +41,17 @@ page {
 .disable-cursor {
   cursor: not-allowed;
 }
-.upload-img-icon {
-  width: 32px;
-  height: 32px;
-}
 .click-cursor {
   cursor: pointer;
 }
-
+.base-animate {
+  position: absolute;
+  cursor: pointer;
+  transition-duration: 0.2s;
+  transition-property: all;
+  transition-timing-function: linear;
+  transition-delay: 0s;
+}
 input:-webkit-autofill {
   -webkit-text-fill-color: #ffffff !important;
   background-color: transparent;
@@ -62,10 +63,6 @@ input:-webkit-autofill {
   /* #ifndef H5 */
   font-size: 0.6rem !important;
   /* #endif */
-}
-.img_style {
-  width: 24px;
-  height: 24px;
 }
 .ae-data-grid {
   width: 100%;
@@ -121,8 +118,8 @@ input:-webkit-autofill {
     font-size: 0.7rem;
     /* #endif */
     border-style: solid;
-    word-wrap:break-word;
-    word-break:normal; 
+    word-wrap: break-word;
+    word-break: normal;
   }
 
   .choose-td {

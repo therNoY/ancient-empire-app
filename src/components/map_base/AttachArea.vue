@@ -1,13 +1,13 @@
 <!--攻击范围区域-->
 <template>
-  <div v-if="attachArea.length > 0">
+  <div>
     <div
       class="attach_area"
       v-for="(attachArea, index) in attachArea"
       :key="index"
     >
       <img
-        class="img_style"
+        class="stand-img-size stand-attach-view"
         src="../../assets/images/assist/attach_alpha.png"
         @click="clickAttachArea(attachArea)"
         :style="{
@@ -37,10 +37,5 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-.attach_area img {
-  position: absolute;
-  cursor: pointer;
-  clip: rect(0px, 24px, 24px, 0px);
-}
+<style>
 </style>

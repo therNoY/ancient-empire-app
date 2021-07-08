@@ -32,6 +32,8 @@ const getters = {
   currentRegion: state => state.info.currentRegionInfo,
 
   // 框架层
-  gloadLoading: state => state.frame.globleLoading,
+  timer300: state => state.counter.signal[300],
+  timer500: state => state.counter.signal[500],
+  signal: state => state.counter.signal,
 };
 export default getters

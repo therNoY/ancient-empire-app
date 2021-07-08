@@ -1,8 +1,8 @@
 <!--简单显示单位-->
 <template>
   <div v-if="unit_id">
-    <img class="unit-img" v-show="signal % 2 == 0" :src="unitImg" />
-    <img class="unit-img" v-show="signal % 2 != 0" :src="unitImg2" />
+    <img class="fixed-img-size" v-show="signal % 2 == 0" :src="unitImg" />
+    <img class="fixed-img-size" v-show="signal % 2 != 0" :src="unitImg2" />
   </div>
 </template>
 
@@ -30,9 +30,5 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-  .unit-img{
-    width: 24px;
-    height: 24px;
-  }
+<style>
 </style>

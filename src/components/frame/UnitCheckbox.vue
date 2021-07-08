@@ -1,19 +1,9 @@
 <!--单位多选-->
 <template>
-  <div id="unit-check-box">
-    <ae-button
-      class="addButton"
-      :height="25"
-      :size="0.5"
-      :width="75"
-      :disabled="disabled"
-      @click="showAddAbleUnit"
-      >添 加
-    </ae-button>
-
-    <div class="removeAbleUnitList">
+  <div class="unit-check-box">
+    <div class="unit-check-box-added">
       <div
-        class="removeAbleUnit"
+        class="unit-check-box-added-item"
         v-for="(unit, index) in localUnitList"
         :key="index"
       >
@@ -21,8 +11,15 @@
           :disabled="disabled"
           @clickPoint="removeUnitFromList(unit, index)"
         >
-          <unit class="unit" :unit_id="unit.id"></unit>
+          <unit style="width: 30px" :unit_id="unit.id"></unit>
         </ae-click-point>
+      </div>
+      <div>
+        <img
+          class="fixed-img"
+          src="../../assets/images/assist/add.png"
+          @click="showAddAbleUnit"
+        />
       </div>
     </div>
 
@@ -48,7 +45,9 @@ export default {
     template_id: {},
     dialog_title: {
       type: String,
-      default: "添加单位",
+      default() {
+        return uni.$t("tm.addUnit");
+      },
     },
     disabled: {
       type: Boolean,
@@ -81,11 +80,9 @@ export default {
         template_id: this.template_id,
         filter: this.localUnitList.map((unit) => unit.id),
       };
-      GetAddTempAbleUnit(args).then((resp) => {
-        if (resp && resp.res_code == 0) {
-          this.$refs.unitChooseList.show = true;
-          this.addAbleUnitList = resp.res_val;
-        }
+      GetAddTempAbleUnit(args).then(({ res_val }) => {
+        this.$refs.unitChooseList.show = true;
+        this.addAbleUnitList = res_val;
       });
     },
     addUnit(unit) {
@@ -101,36 +98,18 @@ export default {
 };
 </script>
 
-<style lang="scss">
-#unit-check-box {
-  float: left;
-  width: 100%;
-
-  .removeAbleUnitList {
-    .removeAbleUnit {
-      float: left;
+<style lang="scss" scoped>
+.unit-check-box {
+  .unit-check-box-added {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    .unit-check-box-added-item {
       padding-top: 2%;
       padding-right: 13px;
-
-      .unit {
-        width: 30px;
-        background-color: rgba(255, 255, 255, 0);
-      }
     }
-  }
-
-  .addButton {
-    float: left;
-    padding-left: 1%;
-    margin-top: 2%;
-    width: 20%;
-    height: 100%;
-  }
-
-  .selectOneUnit {
-    float: left;
-    width: 48px;
-    height: 48px;
   }
 }
 </style>

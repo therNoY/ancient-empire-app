@@ -2,7 +2,7 @@
   <div>
     <ae-complex-dialog
       ref="aeDialog"
-      title="地图管理"
+      :title="$t('mm.title')"
       v-model="showModel"
       :showItem="showItem"
       :showTitle="showTitle"
@@ -38,7 +38,6 @@ import {
   DelDownloadMap,
   DelUserMap,
   GetUserDownloadMap,
-  ChangeBaseInfo,
   GetWorldMapList,
   UpdateMapVersion,
 } from "@/api";
@@ -63,9 +62,17 @@ export default {
         default: "1",
         des: "",
         items: [
-          { key: "1", value: "我的地图", query: GetUserMapList },
-          { key: "2", value: "我的下载", query: GetUserDownloadMap },
-          { key: "3", value: "世界地图", query: GetWorldMapList },
+          { key: "1", value: this.$t("e.myMap"), query: GetUserMapList },
+          {
+            key: "2",
+            value: this.$t("c.myDownload"),
+            query: GetUserDownloadMap,
+          },
+          {
+            key: "3",
+            value: this.$t("mm.downloadMap"),
+            query: GetWorldMapList,
+          },
         ],
       },
       showItem: [
@@ -77,12 +84,12 @@ export default {
             return h(
               "b",
               {},
-              "V" + p.version + "(可更新至V" + p.max_version + ")"
+              this.$t("c.thisVersion", p.version, p.max_version)
             );
           } else if (p.status == "0") {
-            return h("div", {}, "V" + p.version + "(草稿版本)");
+            return h("div", {}, this.$t("c.draftVersion", p.version));
           } else {
-            return h("div", {}, "V" + p.version + "(最新版本)");
+            return h("div", {}, this.$t("c.latestVersion", p.version));
           }
         },
         "update_time",
@@ -90,13 +97,13 @@ export default {
         "start_count",
       ],
       showTitle: [
-        "地图名称",
-        "使用模板",
-        "作者",
-        "版本",
-        "更新时间",
-        "下载次数",
-        "总评价",
+        this.$t("mm.mapName"),
+        this.$t("tm.templateName"),
+        this.$t("c.author"),
+        this.$t("c.version"),
+        this.$t("c.updateTime"),
+        this.$t("c.downloadCount"),
+        this.$t("c.score"),
       ],
       showTempDetail: false,
       TemplateDetail: {},
@@ -116,9 +123,9 @@ export default {
       args.map_start = commend.start;
       args.map_comment = commend.comment;
       DownloadMap(args).then((resp) => {
-          this.$appHelper.successMsg("下载成功");
-          this.flushData();
-        })
+        this.$appHelper.successMsg(this.$t("c.downloadSuccess"));
+        this.flushData();
+      });
     },
     flushData() {
       this.$refs.aeDialog.flushData();
@@ -139,23 +146,27 @@ export default {
     goEditMap() {
       this.currentMap = this.$refs.aeDialog.getDataGridSelect();
       const mapId = this.currentMap.map_id;
-      this.$router.push("/mapEdit/" + mapId);
+      uni.redirectTo({
+        url: "map_manger/MapEdit?mapId=" + mapId,
+        complete: (resp) => {
+          console.log("跳转成功");
+        },
+      });
     },
     delUserMap() {
-      console.log("删除地图");
       let userMap = this.$refs.aeDialog.getDataGridSelect();
       let _this = this;
-      this.$appHelper.showTip("确定要删除" + userMap.map_name + "么？", () => {
+      this.$appHelper.showTip(this.$t("c.deleteTip"), () => {
         if (_this.model == "myMap") {
           DelUserMap(userMap.uuid).then((resp) => {
-            _this.$appHelper.infoMsg("删除成功");
+            _this.$appHelper.infoMsg(this.$t("c.deleteSuccess"));
             _this.flushData();
           });
         } else if (_this.model == "myDownload") {
           let args = {};
           args.map_id = userMap.uuid;
           DelDownloadMap(args).then((resp) => {
-            _this.$appHelper.infoMsg("移除成功");
+            _this.$appHelper.infoMsg(this.$t("c.deleteSuccess"));
             _this.flushData();
           });
         }
@@ -166,30 +177,42 @@ export default {
       if (userMap.max_version && userMap.max_version > userMap.version) {
         let args = { map_id: userMap.map_id };
         UpdateMapVersion(args).then((resp) => {
-            this.$appHelper.successMsg("下载成功");
-            this.flushData();
-          })
+          this.$appHelper.successMsg(this.$t("c.downloadSuccess"));
+          this.flushData();
+        });
       } else {
-        this.$appHelper.warningMsg("已经是最新版本");
+        this.$appHelper.warningMsg(this.$t("c.cannotUpdate"));
       }
     },
   },
   computed: {
     footerButtonList() {
       let footerButtonList = [];
-      footerButtonList.push({ name: "预 览", action: this.previewMap });
+      footerButtonList.push({
+        name: this.$t("c.preview"),
+        action: this.previewMap,
+      });
       if (this.model == "myMap") {
         footerButtonList.push({
-          name: "修 改",
+          name: this.$t("c.change"),
           action: this.goEditMap,
         });
-        footerButtonList.push({ name: "删 除", action: this.delUserMap });
+        footerButtonList.push({
+          name: this.$t("c.delete"),
+          action: this.delUserMap,
+        });
       } else if (this.model == "myDownload") {
-        footerButtonList.push({ name: "更 新", action: this.updateMapVersion });
-        footerButtonList.push({ name: "删 除", action: this.delUserMap });
+        footerButtonList.push({
+          name: this.$t("c.update"),
+          action: this.updateMapVersion,
+        });
+        footerButtonList.push({
+          name: this.$t("c.delete"),
+          action: this.delUserMap,
+        });
       } else if (this.model == "download") {
         footerButtonList.push({
-          name: "下 载",
+          name: this.$t("c.download"),
           action: () => this.$refs.startComment.showComment(),
         });
       }

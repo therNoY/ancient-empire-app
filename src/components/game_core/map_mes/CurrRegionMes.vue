@@ -13,7 +13,7 @@
               v-if="region.type == 'castle'"
               src="../../../assets/images/Region/castle_title.png"
             />
-            <div v-else style="width: 24px; height: 24px"></div>
+            <div v-else class="stand-img-size"></div>
             <img :src="$appHelper.getRegionImg(region.type, region.color)" />
           </div>
         </ae-border>

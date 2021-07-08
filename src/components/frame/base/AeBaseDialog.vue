@@ -8,7 +8,6 @@
         display: vueStyle.dialogDisplay,
         top: vueStyle.dialogTop,
         backgroundColor: vueStyle.dialogBackgroundColor,
-        width: vueStyle.dialogWidth,
       }"
     >
       <ae-border
@@ -135,7 +134,6 @@ export default {
         mainBackgroundColor: "#242a43",
         dialogLeft: null,
         dialogTop: null,
-        dialogWidth: "100%",
       },
     };
   },
@@ -165,7 +163,7 @@ export default {
     } else if (!this.inlineDialog) {
       this.vueStyle.popupWidth = this.width + "%";
     } else {
-      this.vueStyle.popupWidth = this.width * 1.3 + "%";
+      this.vueStyle.popupWidth = this.width + "%";
     }
 
     if (!this.inlineDialog) {
@@ -175,10 +173,7 @@ export default {
       this.vueStyle.dialogTop = "0";
     } else {
       this.vueStyle.dialogTop = this.top + "%";
-      this.vueStyle.dialogLeft = (100 - this.width) / 2.5 + "%";
-      // #ifndef H5
-      this.vueStyle.dialogWidth = this.width + "%";
-      // #endif
+      this.vueStyle.dialogLeft = (100 - this.width) / 2 + "%";
     }
     // #ifdef H5
     this.closeButtonSiz = 25;
@@ -220,6 +215,7 @@ export default {
   display: flex;
   bottom: 0;
   right: 0;
+  width:100%;
   justify-content: center;
   align-items: center;
   z-index: 999;

@@ -7,7 +7,7 @@
       @click="show = false"
       >{{ content }}</span
     >
-    <span style="width: 100%;" @click="showToolTip">
+    <span style="width: 100%;" @click="showToolTip" @mouseenter="showToolTip">
       <slot></slot>
     </span>
   </div>

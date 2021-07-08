@@ -2,37 +2,29 @@
 <template>
   <div>
     <img
+      class="stand-img-size castle-title"
       src="../../assets/images/Region/castle_title.png"
       @click="getCastleTitle(title.row, title.column)"
-      :style="castleTitleStyle"
+      :style="{
+        top: $appHelper.getPosition(title.row),
+        left: $appHelper.getPosition(title.column),
+      }"
     />
   </div>
 </template>
 
 <script>
-  export default {
-    props:["title"],
-    methods: {
-      getCastleTitle(){
-
-      }
-    },
-    computed: {
-      castleTitleStyle(){
-        return{
-          top: this.$appHelper.getPosition(this.title.row),
-          left: this.$appHelper.getPosition(this.title.column)
-        }
-      }
-    },
-  }
+export default {
+  props: ["title"],
+  methods: {
+    getCastleTitle() {},
+  },
+};
 </script>
 
-<style lang="scss" scoped>
-div{
-  img{
-    position: absolute;
-    pointer-events: none;
-  }
+<style >
+.castle-title {
+  position: absolute;
+  pointer-events: none;
 }
 </style>

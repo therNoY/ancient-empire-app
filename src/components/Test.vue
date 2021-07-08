@@ -79,7 +79,7 @@
 
     <ae-border style="position: absolute" padding="4px">
       <img
-        style="width: 24px; height: 24px"
+        class="stand-img-size"
         src="../assets/images/Region/forest.png"
       />
     </ae-border>
@@ -117,11 +117,11 @@ export default {
       armyType: [
         {
           key: "user",
-          value: this.$t("ptitle"),
+          value: this.$t("p.title"),
         },
         {
           key: "ai",
-          value: this.$t("pai"),
+          value: this.$t("p.ai"),
         },
         {
           key: "no",

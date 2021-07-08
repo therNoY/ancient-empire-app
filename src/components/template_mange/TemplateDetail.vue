@@ -1,8 +1,9 @@
 <template>
   <div id="template_detail">
     <ae-base-dialog
+      v-if="showModel"
       v-model="showModel"
-      :title="TemplateDetail.template_name"
+      :title="templateDetail.template_name"
       :width="$uni.isH5 ? 45 : 84"
       inlineDialog
       :top="5"
@@ -10,10 +11,11 @@
       <ae-tab-form
         ref="templateInfoForm"
         :edit="model == 'myTemp'"
-        :dataObj="TemplateDetail"
+        :dataObj="templateDetail"
         :signal="signal"
-        :templateId="TemplateDetail.id"
+        :templateId="templateDetail.id"
         :formConfig="templateInfoFormConfig"
+        hasBorder
       >
       </ae-tab-form>
 
@@ -31,9 +33,6 @@
 </template>
 
 <script>
-import EditableAnimate from "../frame/EditableAnimate.vue";
-import UnitRadio from "../frame/UnitRadio.vue";
-import UnitCheckbox from "../frame/UnitCheckbox.vue";
 import PreviewUnitList from "../frame/PreviewUnitList.vue";
 import StartComment from "../frame/StartComment.vue";
 import dialogShow from "../../mixins/frame/dialogShow.js";
@@ -47,7 +46,7 @@ import {
 export default {
   mixins: [dialogShow],
   props: {
-    TemplateDetail: {},
+    templateDetail: {},
     // 查看模式 myTemp myDownload
     model: {
       type: String,
@@ -55,9 +54,6 @@ export default {
     },
   },
   components: {
-    EditableAnimate,
-    UnitRadio,
-    UnitCheckbox,
     PreviewUnitList,
     StartComment,
   },
@@ -76,7 +72,7 @@ export default {
           des: this.$t("tm.isShared"),
           items: [
             { key: "1", value: this.$t("tm.shared") },
-            { key: "2", value: this.$t("tm.notShared") },
+            { key: "0", value: this.$t("tm.notShared") },
           ],
           tab: this.$t("tm.baseInfo"),
         },
@@ -214,8 +210,8 @@ export default {
       this.$emit("downLoadTemp", comment);
     },
     saveTemp() {
-      let args = this.TemplateDetail;
-      args.relation_unit_list = this.TemplateDetail.bind_uint_list.map(
+      let args = this.templateDetail;
+      args.relation_unit_list = this.templateDetail.bind_uint_list.map(
         (u) => u.id
       );
       args.opt_type = "1";
@@ -227,11 +223,11 @@ export default {
         }
       });
     },
-    delTemp(TemplateDetail = this.TemplateDetail) {
+    delTemp(templateDetail = this.templateDetail) {
       let _this = this;
       this.$appHelper.showTip(this.$t("c.deleteTip"), () => {
         let args = {};
-        args.id = TemplateDetail.id;
+        args.id = templateDetail.id;
         if (_this.model == "myTemp") {
           RemoveUserTemplate(args).then((resp) => {
             _this.$appHelper.infoMsg(_this.$t("c.deleteSuccess"));
@@ -249,8 +245,8 @@ export default {
     },
 
     saveDraft() {
-      let args = this.TemplateDetail;
-      args.relation_unit_list = this.TemplateDetail.bind_uint_list.map(
+      let args = this.$refs.templateInfoForm.getFormData();
+      args.relation_unit_list = args.bind_uint_list.map(
         (u) => u.id
       );
       args.opt_type = "0";
@@ -265,10 +261,10 @@ export default {
     updateVersion() {
       let args = {};
       if (
-        this.TemplateDetail.max_version &&
-        this.TemplateDetail.max_version > this.TemplateDetail.version
+        this.templateDetail.max_version &&
+        this.templateDetail.max_version > this.templateDetail.version
       ) {
-        args.template_id = this.TemplateDetail.id;
+        args.template_id = this.templateDetail.id;
         UpdateUserTempAttention(args).then((resp) => {
           this.$appHelper.successMsg(this.$t("c.updateSuccess"));
           this.$emit("input", false);
@@ -279,7 +275,7 @@ export default {
       }
     },
     reverVersion() {
-      let template = this.TemplateDetail;
+      let template = this.templateDetail;
       if (template.status == "0") {
         let args = {};
         args.template_id = template.id;
@@ -311,7 +307,7 @@ export default {
       } else if (this.model == "download") {
         return [
           {
-            name: this.$t("c.downLoadTemplate"),
+            name: this.$t("tm.downLoadTemplate"),
             action: this.showComment,
           },
         ];
@@ -322,7 +318,7 @@ export default {
   },
   watch: {},
   created() {
-    this.$appHelper.bindPage2Global(this, "TemplateDetail");
+    this.$appHelper.bindPage2Global(this, "templateDetail");
   },
 };
 </script>

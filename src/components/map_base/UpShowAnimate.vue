@@ -2,39 +2,33 @@
   <div>
     <!--升级-->
     <div class="level_up" v-if="showLevelUp">
-      <img
-        :src="upImg"
-        :style="style"
-      />
+      <img :src="upImg" :style="style" />
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  props:{
-  },
+  props: {},
   data() {
-    return {
-      
-    }
+    return {};
   },
   computed: {
-    style(){
-      let top = (this.site.row - 1) * 24 + "px";
-      let left = (this.site.column - 2) * 24 + "px";
-      return {top: top, left: left}
+    style() {
+      let top = (this.site.row - 1) * this.$c.imgSize + "px";
+      let left = (this.site.column - 2) * this.$c.imgSize + "px";
+      return { top: top, left: left };
     },
-    upImg(){
+    upImg() {
       return this.$appHelper.getTemplateImg(this.value);
     },
-    showLevelUp(){
+    showLevelUp() {
       return this.$store.getters.actionState.levelUpInfo;
     },
-    site(){
+    site() {
       return this.$store.getters.actionState.levelUpSite;
-    }
-  }
+    },
+  },
 };
 </script>
 

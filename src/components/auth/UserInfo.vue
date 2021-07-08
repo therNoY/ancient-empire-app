@@ -4,7 +4,7 @@
     <ae-base-dialog
       v-if="showLogin"
       v-model="showLogin"
-      :title="$t('plogin')"
+      :title="$t('p.login')"
       @close="closeLoginDialog"
     >
       <ae-form ref="loginForm" :formConfig="formConfig"></ae-form>
@@ -16,7 +16,7 @@
 
     <ae-base-dialog
       v-model="showRegister"
-      :title="$t('pregister')"
+      :title="$t('p.register')"
       @close="closeLoginDialog"
     >
       <ae-form ref="registerForm" :formConfig="registerFormConfig"></ae-form>
@@ -27,7 +27,7 @@
     </ae-base-dialog>
 
     <ae-base-dialog
-      :title="$t('puserInfo')"
+      :title="$t('p.userInfo')"
       v-model="showUserInfo"
       v-if="showUserInfo"
       @close="closeLoginDialog"
@@ -46,7 +46,7 @@
     </ae-base-dialog>
 
     <ae-base-dialog
-      :title="$t('pchangePwd')"
+      :title="$t('p.changePwd')"
       v-model="showChangePwd"
       v-if="showChangePwd"
       @close="closeLoginDialog"
@@ -85,12 +85,12 @@ export default {
         {
           type: "input",
           key: "user_name",
-          des: this.$t("pnameOrMail")
+          des: this.$t("p.nameOrMail")
         },
         {
           type: "input",
           key: "password",
-          des: this.$t("ppassword"),
+          des: this.$t("p.password"),
          style: "password",
         },
       ],
@@ -98,26 +98,26 @@ export default {
         {
           type: "input",
           key: "email",
-          des: this.$t("pemail"),
+          des: this.$t("p.email"),
           require: true,
         },
         {
           type: "input",
           key: "user_name",
-          des: this.$t("puserName"),
+          des: this.$t("p.userName"),
           require: true,
         },
         {
           type: "input",
           key: "password",
-          des: this.$t("ppassword"),
+          des: this.$t("p.password"),
          style: "password",
           require: true,
         },
         {
           type: "input",
           key: "re_password",
-          des: this.$t("prePassword"),
+          des: this.$t("p.rePassword"),
          style: "password",
           require: true,
         },
@@ -126,7 +126,7 @@ export default {
         {
           type: "input",
           key: "user_name",
-          des: this.$t("puserName"),
+          des: this.$t("p.userName"),
           edit: false,
         },
       ],
@@ -134,21 +134,21 @@ export default {
         {
           type: "input",
           key: "old_password",
-          des: this.$t("poldPwd"),
+          des: this.$t("p.oldPwd"),
           style: "password",
           require: true,
         },
         {
           type: "input",
           key: "new_password",
-          des: this.$t("pnewPwd"),
+          des: this.$t("p.newPwd"),
          style: "password",
           require: true,
         },
         {
           type: "input",
           key: "sure_password",
-          des: this.$t("prePassword"),
+          des: this.$t("p.rePassword"),
          style: "password",
           require: true,
         },
@@ -156,10 +156,10 @@ export default {
       user: {},
       showChangePwd: false,
       editAble: false,
-      loginButton: [this.$t("pfindPwd"), this.$t("pregister"), this.$t("plogin")],
-      userInfoButton: [this.$t("pchangePwd"), this.$t("plogout")],
+      loginButton: [this.$t("p.findPwd"), this.$t("p.register"), this.$t("p.login")],
+      userInfoButton: [this.$t("p.changePwd"), this.$t("p.logout")],
       changePwdButton: [this.$t("c.change"), this.$t("c.cancel")],
-      registerButton: [this.$t("pregister"), this.$t("c.cancel")],
+      registerButton: [this.$t("p.register"), this.$t("c.cancel")],
     };
   },
   methods: {
@@ -180,7 +180,7 @@ export default {
     changePwd() {
       let args = this.$refs.changePwdForm.getFormData();
       if (args.new_password != args.sure_password) {
-        this.$appHelper.infoMsg(this.$t("pagainPwdErr"));
+        this.$appHelper.infoMsg(this.$t("p.againPwdErr"));
         return;
       }
       ChangePwd(args, true, false).then((resp) => {
@@ -208,7 +208,7 @@ export default {
       console.log(this.user);
       // 验证
       if (this.user.user_name == null || this.user.user_name === "") {
-        this.$appHelper.infoMsg(this.$t("pnameIsNull"));
+        this.$appHelper.infoMsg(this.$t("p.nameIsNull"));
         return;
       }
       Login(this.user).then((resp) => {
@@ -223,18 +223,18 @@ export default {
         this.showLogin = false;
         this.showChangePwd = false;
         this.$emit("input", false);
-        this.$appHelper.infoMsg(this.$t("ploginOk"));
+        this.$appHelper.infoMsg(this.$t("p.loginOk"));
       });
     },
     doRegister() {
       let args = this.$refs.registerForm.getFormData();
       if (args.password != args.re_password) {
-        this.$appHelper.infoMsg(this.$t("pagainPwdErr"));
+        this.$appHelper.infoMsg(this.$t("p.againPwdErr"));
         return;
       }
       Register(args).then((resp) => {
         if (resp.res_code == 0) {
-          this.$appHelper.successMsg(this.$t("pemailSend"));
+          this.$appHelper.successMsg(this.$t("p.emailSend"));
           this.close();
         } else {
           this.$appHelper.errorMsg(resp.res_mes);

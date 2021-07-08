@@ -4,7 +4,7 @@
       ref="aeDialog"
       v-model="showModel"
       :showItem="showItem"
-      :title="$t('bchooseBattle')"
+      :title="$t('b.chooseBattle')"
       :initQueryDataGrid="queryDataFunction"
       :footerButtons="footerButtons"
       :width="$uni.isH5 ? 40 : 70"

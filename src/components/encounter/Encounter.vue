@@ -5,7 +5,7 @@
       ref="aeDialog"
       v-model="showModel"
       :showItem="showItem"
-      :title="$t('etitle')"
+      :title="$t('e.title')"
       :initQueryDataGrid="initQueryDataFunction"
       :titleSwitchSelect="titleSwitchSelect"
       :footerButtons="buttonList"
@@ -23,24 +23,28 @@
     </div>
 
     <ae-base-dialog
-      :title="$t('esetMap')"
+      :title="$t('e.setMap')"
       showChoose
       v-model="setMapShow"
       @choose="clickSetMap"
       @close="closeSetMap"
     >
-      <div v-if="initArmys.length > 0" class="ae-data-grid" style="height:100%;max-height:100%">
+      <div
+        v-if="initArmys.length > 0"
+        class="ae-data-grid"
+        style="height: 100%; max-height: 100%"
+      >
         <table style="width: 100%">
           <tr class="ae-data-grid-title">
-            <td style="width: 10%">{{ $t("earmy") }}</td>
-            <td style="width: 25%">{{ $t("eactionOrder") }}</td>
-            <td style="width: 30%">{{ $t("eplayerType") }}</td>
-            <td style="width: 25%">{{ $t("ecamp") }}</td>
+            <td style="width: 10%">{{ $t("e.army") }}</td>
+            <td style="width: 25%">{{ $t("e.actionOrder") }}</td>
+            <td style="width: 30%">{{ $t("e.playerType") }}</td>
+            <td style="width: 25%">{{ $t("e.camp") }}</td>
           </tr>
           <tr v-for="(army, index) in initArmys" :key="index">
             <td style="width: 10%">
               <img
-                class="img_style"
+                class="stand-img-size"
                 :src="$appHelper.getUnitImg('10', army.color)"
               />
             </td>
@@ -68,7 +72,7 @@
 
         <div class="common_init">
           <div class="common_init_one">
-            <span>{{ $t("einitGold") }}:</span>
+            <span>{{ $t("e.initGold") }}:</span>
             <uni-number-box
               v-model="initMoney"
               :min="500"
@@ -77,7 +81,7 @@
             />
           </div>
           <div class="common_init_one">
-            <span>{{ $t("emaxPop") }}:</span>
+            <span>{{ $t("e.maxPop") }}:</span>
             <uni-number-box v-model="maxPop" :min="15" :max="50" :step="5" />
           </div>
         </div>
@@ -127,12 +131,12 @@ export default {
         items: [
           {
             key: "1",
-            value: this.$t("esystemMap"),
+            value: this.$t("e.systemMap"),
             query: GetEncounterMap,
           },
           {
             key: "2",
-            value: this.$t("emyMap"),
+            value: this.$t("e.myMap"),
             query: GetUserMapList,
           },
           {
@@ -165,11 +169,11 @@ export default {
       armyType: [
         {
           key: "user",
-          value: this.$t("ptitle"),
+          value: this.$t("p.title"),
         },
         {
           key: "ai",
-          value: this.$t("pai"),
+          value: this.$t("p.ai"),
         },
         {
           key: "no",
@@ -177,7 +181,7 @@ export default {
         },
       ],
       initMapConfig: {},
-      initQueryDataFunction: () => GetEncounterMap(),
+      initQueryDataFunction: (query) => GetEncounterMap(query),
     };
   },
   methods: {
@@ -280,7 +284,7 @@ export default {
     justify-content: space-evenly;
     /* #ifndef H5*/
     font-size: 12px;
-     /* #endif*/
+    /* #endif*/
     .common_init_one {
       display: flex;
       width: 40%;

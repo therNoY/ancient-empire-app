@@ -3,18 +3,17 @@
     <ae-complex-dialog
       ref="mainDialog"
       v-model="showModel"
-      showSearch
       :title="$t('um.title')"
+      :showItem="showItem"
+      :showTitle="showTitle"
       :titleButtons="titleButtonList"
       :footerButtons="footButtonList"
       :initQueryDataGrid="queryDataFunction"
-      :showItem="showItem"
-      :showTitle="showTitle"
       :titleSwitchSelect="titleSwitchSelect"
       @titleSwitchSelectChange="switchChange"
       :width="$uni.isH5 ? 60 : 70"
+      showSearch
       page
-      setFullScreen
     >
     </ae-complex-dialog>
 
@@ -24,7 +23,7 @@
       v-model="dialogVisible"
       inlineDialog
       :top="3"
-      :width="unitInfoWidth"
+      :width="$uni.isH5 ? 48 : 84"
     >
       <uni-segmented-control
         :current="currentActiveTab"
@@ -61,7 +60,8 @@
         :showItem="unitLevelShowItem"
       >
       </ae-data-grid>
-      <ae-button-list slot="footer"
+      <ae-button-list
+        slot="footer"
         :buttonList="getButtonList"
         :clickAction="getClickAction"
       ></ae-button-list>
@@ -80,7 +80,7 @@
         :column="formShowColumn"
         :formConfig="unitLevelInfoFormConfig"
       />
-      <div style="width:40%;margin-left:30%" slot="footer">
+      <div style="width: 40%; margin-left: 30%" slot="footer">
         <ae-button @click="saveLevelInfo">{{ $t("c.sure") }}</ae-button>
       </div>
     </ae-base-dialog>
@@ -129,7 +129,6 @@ export default {
   },
   data() {
     return {
-      unitInfoWidth: 48,
       unitLevelInfoWidth: 40,
       formShowColumn: 1,
       titleSwitchSelect: {
@@ -172,7 +171,6 @@ export default {
         this.$t("um.baseInfo"),
         this.$t("um.bindAbility"),
         this.$t("um.levelData"),
-        "",
       ],
       unitBaseInfoFormConfig: [
         {
@@ -326,7 +324,7 @@ export default {
         },
       ],
       currentLevelInfo: null,
-      queryDataFunction: () => GetUserCreateUnitMes(),
+      queryDataFunction: (condition) => GetUserCreateUnitMes(condition),
       queryShowTitle: [
         this.$t("c.unit"),
         this.$t("c.name"),
@@ -645,7 +643,7 @@ export default {
     },
     addNewLevel() {
       this.currentLevelInfo = {};
-      this.currentLevelInfo.level = this.currUnitInfo.levelInfoData.length + '';
+      this.currentLevelInfo.level = this.currUnitInfo.levelInfoData.length + "";
       this.addLevel = true;
       this.editUnitLevelInfoDialog = true;
     },
@@ -658,7 +656,10 @@ export default {
         );
       } else {
         for (let i = 0; i < this.currUnitInfo.levelInfoData.length; i++) {
-          if (this.currUnitInfo.levelInfoData[i].level == this.currentLevelInfo.level){
+          if (
+            this.currUnitInfo.levelInfoData[i].level ==
+            this.currentLevelInfo.level
+          ) {
             this.currUnitInfo.levelInfoData[i] = this.currentLevelInfo;
           }
         }
@@ -682,32 +683,32 @@ export default {
       if (value === "1") {
         this.unitLevelShowTitle.push((h, p) => {
           return h(
-              "aeButton",
-              {
-                props: {
-                  width: 80,
-                  size:0.65,
-                },
-                on: {
-                  click: this.addNewLevel,
-                },
+            "aeButton",
+            {
+              props: {
+                width: 80,
+                size: 0.65,
               },
-              this.$t("c.add")
+              on: {
+                click: this.addNewLevel,
+              },
+            },
+            this.$t("c.add")
           );
         });
         this.unitLevelShowItem.push((h, p) => {
           return h(
-              "aeButton",
-              {
-                props: {
-                  width: 70,
-                  size:0.65,
-                },
-                on: {
-                  click: () => this.editUnitLevelInfo(p),
-                },
+            "aeButton",
+            {
+              props: {
+                width: 70,
+                size: 0.65,
               },
-              this.$t("c.change")
+              on: {
+                click: () => this.editUnitLevelInfo(p),
+              },
+            },
+            this.$t("c.change")
           );
         });
       } else {
@@ -729,10 +730,7 @@ export default {
           return [this.$t("c.create"), this.$t("c.return")];
         }
       } else if (this.showPageIndex == "2") {
-        return [
-          this.$t("c.updateVersion"),
-          this.$t("c.deleteDownload"),
-        ];
+        return [this.$t("c.updateVersion"), this.$t("c.deleteDownload")];
       } else if (this.showPageIndex == "3") {
         return [this.$t("c.download")];
       }
@@ -776,7 +774,6 @@ export default {
     // 初始化
     this.$appHelper.bindPage2Global(this, "unitMesMangerVue");
     // #ifndef H5
-    this.unitInfoWidth = 84;
     this.unitLevelInfoWidth = 80;
     this.formShowColumn = 2;
     // #endif

@@ -5,13 +5,14 @@
     <div
       v-for="(leftChange, index) in leftChanges"
       :key="index"
-      class="attach_num animated bounce"
+      class="left-change-view animated bounce"
       :style="{
         top: attachNumTop(leftChange.row),
         left: $appHelper.getPosition(leftChange.column),
       }"
     >
       <img
+        class="stand-lifec-size"
         v-for="(attachNum, index) in leftChange.attach"
         :key="leftNumIndex(index)"
         :src="lifeCImg(attachNum)"
@@ -35,7 +36,7 @@ export default {
     // 攻击数top位置
     attachNumTop() {
       return function (row) {
-        let top = (row - 0.48) * 24 + "px";
+        let top = (row - 0.48) * this.$c.imgSize + "px";
         return top;
       };
     },
@@ -52,10 +53,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.attach_num {
+.left-change-view {
   position: absolute;
 }
-.attach_num img {
+.left-change-view img {
   position: relative !important ;
   float: left;
   transition-property: all;

@@ -2,12 +2,12 @@
 <template>
   <div>
     <!--可移动区域-->
-    <div class="move_area" v-if="moveAreas.length > 0">
+    <div v-if="moveAreas.length > 0">
       <img
-        v-for="(moveArea,index) in moveAreas"
+        class="stand-move-view"
+        v-for="(moveArea, index) in moveAreas"
         :key="index"
         src="../../assets/images/assist/alpha.png"
-        style="width:48px;height:24px"
         @click="showMoveLine(moveArea.row, moveArea.column)"
         :style="{
           top: $appHelper.getPosition(moveArea.row),
@@ -17,7 +17,7 @@
     </div>
     <!--移动路线-->
     <div
-      class="movePath"
+      class="move-path"
       v-for="(pathPoint, index) in moveLine"
       :key="moveLineKey(index)"
     >
@@ -35,12 +35,14 @@
 </template>
 
 <script>
+const standMovePath = 8;
 import eventype from "../../manger/eventType";
 export default {
   props: ["point"],
   data() {
     return {
       moveStatue: null,
+      standImgSize: this.$c.imgSize,
     };
   },
   computed: {
@@ -54,43 +56,47 @@ export default {
     movePathTop() {
       return function (point, point2) {
         if (point.row <= point2.row) {
-          return (point.row - 1) * 24 + 8 + "px";
+          return (point.row - 1) * this.standImgSize + standMovePath + "px";
         } else {
-          return (point2.row - 1) * 24 + 8 + "px";
+          return (point2.row - 1) * this.standImgSize + standMovePath + "px";
         }
       };
     },
     movePathLeft() {
       return function (point, point2) {
         if (point.column < point2.column) {
-          return (point.column - 1) * 24 + 8 + "px";
+          return (point.column - 1) * this.standImgSize + standMovePath + "px";
         } else {
-          return (point2.column - 1) * 24 + 8 + "px";
+          return (point2.column - 1) * this.standImgSize + standMovePath + "px";
         }
       };
     },
     movePathWidth() {
       return function (point1, point2) {
         if (point1.column == point2.column) {
-          return "8px";
+          return standMovePath + "px";
         } else {
-          return Math.abs(point2.column - point1.column) * 24 + 8 + "px";
+          return (
+            Math.abs(point2.column - point1.column) * this.standImgSize +
+            standMovePath +
+            "px"
+          );
         }
       };
     },
     movePathHeight() {
       return function (point1, point2) {
         if (point1.row == point2.row) {
-          return "8px";
+          return standMovePath + "px";
         } else {
-          return Math.abs(point2.row - point1.row) * 24 + "px";
+          return Math.abs(point2.row - point1.row) * this.standImgSize + "px";
         }
       };
     },
   },
   methods: {
-    moveLineKey(index){
-      return `${'MOVELINE_' + index}`;
+    moveLineKey(index) {
+      return `${"MOVELINE_" + index}`;
     },
     // 展示移动路线
     showMoveLine(row, column) {
@@ -103,18 +109,11 @@ export default {
       }
     },
   },
-  created() {
-  },
 };
 </script>
 
 <style lang="scss" scoped>
-.move_area img {
-  position: absolute;
-  cursor: pointer;
-  clip: rect(0px, 48px, 24px, 24px);
-}
-.movePath div {
+.move-path div {
   position: absolute;
   pointer-events: none;
   background-color: #e10052;

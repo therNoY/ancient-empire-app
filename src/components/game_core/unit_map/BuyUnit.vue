@@ -1,11 +1,11 @@
 <template>
   <!--招募军队弹框-->
   <ae-base-dialog
-    :title="$t('ebuy', buyUnitsInfo[selectIndex].unit_mes.name)"
+    :title="$t('e.buy', buyUnitsInfo[selectIndex].unit_mes.name)"
     v-model="buyUnitShow"
     inlineDialog
     :top="3"
-    :width="$uni.isH5 ? 30 : 80"
+    :width="$uni.isH5 ? 50 : 80"
   >
     <div v-if="buyUnitShow && buyUnitsInfo" class="buy-unit-main">
       <unit-region-mes
@@ -14,13 +14,13 @@
       ></unit-region-mes>
       <div class="buy-unit-img">
         <div
-          class="unit_show"
+          class="by-unit-show"
           v-for="(unitInfo, index) in buyUnitsInfo"
           :key="unitInfo.unit_mes.type"
           @click="selectIndex = index"
         >
           <img
-            class="unit_img"
+            class="by-unit-img stand-img-size"
             :src="$appHelper.getUnitImg(unitInfo.unit_mes.img_index, color)"
           />
           <img
@@ -39,7 +39,7 @@
 
     <span slot="footer" class="dialog-footer">
       <ae-button-list
-        :buttonList="[$t('c.cancel'), $t('ebuyUnit')]"
+        :buttonList="[$t('c.cancel'), $t('e.buyUnit')]"
         :clickAction="[close, buyUnit]"
       ></ae-button-list>
     </span>
@@ -131,17 +131,15 @@ export default {
   flex-direction: column;
   .buy-unit-img {
     float: left;
-    .unit_show {
+    .by-unit-show {
       float: left;
       margin-left: 10px;
       position: relative;
       cursor: pointer;
-      .unit_img {
+      .by-unit-img {
         position: absolute;
         top: 4px;
         left: 4px;
-        width: 24px;
-        height: 24px;
       }
     }
   }

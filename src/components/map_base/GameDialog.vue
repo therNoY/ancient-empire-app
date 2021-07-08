@@ -5,7 +5,7 @@
       class="showConditionStyle"
       @click="$appHelper.sendEvent('CLICK_TOP')"
     >
-      <div class="showConditionTitle">游戏目标</div>
+      <div class="showConditionTitle">{{ this.$t("e.gameAim") }}</div>
       <div class="showConditionContent">
         {{ message }}
       </div>

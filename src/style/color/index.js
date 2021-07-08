@@ -6,15 +6,19 @@ import store from "../../store";
 
 let color = {
 
-    usercolor: () => store.getters.setting.color | "black",
+    userColor: () => store.getters.setting.color | "black",
 
     colorCatch: {},
+
+    standSize: {
+        imgSize: 24,
+    },
 
     /**
      * 获取背景颜色
      * @param router
      */
-    getcolor: function (router) {
+    getColor: function(router) {
 
         if (!router) {
             throw new Error("获取颜色错误,配置错误", router);
@@ -23,12 +27,12 @@ let color = {
         if (this.colorCatch[router]) {
             return this.colorCatch[router];
         } else {
-			console.log("获取颜色：", router)
+            console.log("获取颜色：", router)
             let colorJson;
             const routArray = router.split(".");
-            if (this.usercolor === "black") {
+            if (this.userColor === "black") {
                 colorJson = black;
-            } else if (this.usercolor === 'white') {
+            } else if (this.userColor === 'white') {
                 colorJson = white;
             } else {
                 colorJson = black;
@@ -51,7 +55,8 @@ let color = {
 
 }
 
-Vue.prototype.$s = (router) => color.getcolor(router);
+Vue.prototype.$s = (router) => color.getColor(router);
+Vue.prototype.$c = color.standSize;
 
 
 export default color;

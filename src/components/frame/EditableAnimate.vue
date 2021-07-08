@@ -2,40 +2,39 @@
   循环展示动画的组件
 -->
 <template>
-  <div class="editAbleAnimate">
-    <ae-button
-      class="editButton"
-      :height="25"
-      :size="0.5"
-      :width="70"
-      :disabled="disabled"
-      @click="changeImg"
-      >修改</ae-button
-    >
-    <img class="showImg" v-if="animImg" :src="animImg" />
+  <div class="edit-able-animate">
+    <div class="edit-able-animate-button">
+      <img
+        class="stand-img-size"
+        src="../../assets/images/assist/change.png"
+        @click="changeImg"
+      />
+    </div>
+    <img class="stand-img-size" v-if="animImg" :src="animImg" />
 
-    <ae-base-dialog title="修改动画" v-model="show">
-      <upload-game-img
-        class="uploadAnimateImg"
-        :templateId="template_id"
-        @success="uploadSuccess"
-      >
-        <ae-button :width="90" :height="27">添加</ae-button>
-      </upload-game-img>
-      <div
-        class="item"
-        v-for="(item, index) in animImgList"
-        :key="item.key"
-        draggable="true"
-        @dragstart="handleDragStart($event, item, index)"
-        @dragenter="handleDragEnter($event, item, index)"
-        @dragend="handleDragEnd($event, item, index)"
-      >
-        <ae-tooltip content="拖动改变顺序" placement="bottom" effect="light">
-          <ae-click-point @clickPoint="clickPoint(index)">
-            <img :src="$appHelper.getTemplateImg(item)" />
-          </ae-click-point>
-        </ae-tooltip>
+    <ae-base-dialog :title="$t('tm.changeAnimate')" v-model="show">
+      <div class="edit-anim-list">
+        <upload-game-img :templateId="template_id" @success="uploadSuccess">
+          <img
+            class="stand-img-size click-cursor"
+            src="../../assets/images/assist/add.png"
+          />
+        </upload-game-img>
+        <div
+          class="edit-anim-list-item"
+          v-for="(item, index) in animImgList"
+          :key="item.key"
+          draggable="true"
+          @dragstart="handleDragStart($event, item, index)"
+          @dragenter="handleDragEnter($event, item, index)"
+          @dragend="handleDragEnd($event, item, index)"
+        >
+          <ae-tooltip :content="$t('tm.moveChangeOrder')">
+            <ae-click-point @clickPoint="clickPoint(index)">
+              <img class="stand-img-size" :src="$appHelper.getTemplateImg(item)" />
+            </ae-click-point>
+          </ae-tooltip>
+        </div>
       </div>
     </ae-base-dialog>
   </div>
@@ -51,10 +50,6 @@ export default {
     },
     signal: {
       type: Number,
-    },
-    dialog_title: {
-      type: String,
-      default: "修改动画图片",
     },
     template_id: {
       default: 1,
@@ -118,36 +113,23 @@ export default {
       }
     },
   },
-  created() {
-  },
+  created() {},
   destroyed() {},
 };
 </script>
 
 <style lang="scss" scope>
-.editAbleAnimate {
-  float: left;
-  width: 100%;
-  .editButton {
-    float: left;
-    padding-left: 1%;
-    margin-top: 2%;
-    width: 20%;
+.edit-able-animate {
+  display: flex;
+  .edit-able-animate-button {
+    margin-right: 3%;
+    cursor: pointer;
   }
-  .showImg {
-    float: left;
-    margin-top: 3%;
+  .edit-anim-list {
+    display: flex;
+    .edit-anim-list-item{
+      margin-left: 15px;
+    }
   }
-  .uploadAnimateImg {
-    float: left;
-    width: 10%;
-  }
-}
-
-.item {
-  float: left;
-  margin-left: 3%;
-  margin-top: 1%;
-  cursor: move;
 }
 </style>

@@ -2,18 +2,19 @@
 	"pages": [
 		{
 			"path": "components/Home",
-			"style": {
-			}
+			"style": {}
 		},
 		{
 			"path": "components/Test",
-			"style": {
-			}
+			"style": {}
 		},
 		{
 			"path": "components/game_core/Index",
-			"style": {
-			}
+			"style": {}
+		},
+		{
+			"path": "components/map_manger/MapEdit",
+			"style": {}
 		}
 	],
 	"globalStyle": {

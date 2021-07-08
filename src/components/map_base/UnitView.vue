@@ -8,34 +8,37 @@
     }"
     @click="clickUnit"
   >
-    <div class="unitImg">
+    <div>
       <div v-if="unit.done">
-        <img :src="doneImg" />
+        <img class="stand-img-size" :src="doneImg" />
       </div>
       <div v-else>
-        <img v-show="signal % 2 === 0" :src="unitImg" />
-        <img v-show="signal % 2 !== 0" :src="unitImg2" />
+        <img class="stand-img-size" v-show="signal % 2 === 0" :src="unitImg" />
+        <img class="stand-img-size" v-show="signal % 2 !== 0" :src="unitImg2" />
       </div>
     </div>
 
     <!--单位的状态 血量 等级 buff-->
-    <div class="status">
+    <div class="stand-img-size">
       <!--状态-->
-      <div v-if="unit.status && unit.status !== 'normal'" class="unit_status">
-        <img style="width: 7px; height: 9px" :src="statusImg" />
+      <div
+        v-if="unit.status && unit.status !== 'normal'"
+        class="stand-status-size"
+      >
+        <img :src="statusImg" />
       </div>
 
       <!--血量-->
-      <div v-if="isNotMaxLife" class="lifeNum">
+      <div v-if="isNotMaxLife" class="lifeNum stand-unit-life-num">
         <img
+          class="stand-left-size"
           v-for="(lifeNum, index) in unit.life_num"
           :key="index"
           :src="liftImg(lifeNum)"
         />
       </div>
-
       <!--等级-->
-      <div v-if="hasLevel" class="unit_level">
+      <div v-if="hasLevel" class="stand-unit-level">
         <img :src="levelImg" />
       </div>
     </div>
@@ -154,26 +157,11 @@ div {
     transition-property: all !important;
     transition-timing-function: linear;
     transition-duration: 0s;
-    width: 24px;
-    height: 24px;
   }
 }
-.status {
-  width: 24px;
-  height: 24px;
-}
-.unit_level {
-  position: relative;
-  margin-right: 9px;
-  float: right;
-}
-.lifeNum {
-  margin-top: 17px;
-}
+
 .lifeNum img {
   position: relative;
-  width: 6px;
-  height: 7px;
   float: left;
 }
 </style>

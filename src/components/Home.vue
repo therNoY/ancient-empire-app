@@ -9,7 +9,7 @@
         :size="buttonSize"
         class="home_button"
         @click="clickUserInfo"
-        >{{ $t("ptitle") }}</ae-button
+        >{{ $t("p.title") }}</ae-button
       >
       <!-- #endif -->
       <!-- #ifdef MP-WEIXIN -->
@@ -18,7 +18,7 @@
         v-if="haveLogin"
         class="home_button"
         @click="clickUserInfo"
-        >{{ $t("ptitle") }}</ae-button
+        >{{ $t("p.title") }}</ae-button
       >
       <button
         v-else
@@ -27,7 +27,7 @@
         open-type="getPhoneNumber"
         @getphonenumber="onGetPhoneNumber"
       >
-        {{ $t("ptitle") }}
+        {{ $t("p.title") }}
       </button>
       <!-- #endif -->
       <ae-button
@@ -35,25 +35,25 @@
         :size="buttonSize"
         class="home_button"
         @click="showChapter = true"
-        >{{ $t("btitle") }}</ae-button
+        >{{ $t("b.title") }}</ae-button
       >
       <ae-button
         :size="buttonSize"
         class="home_button"
         @click="showEncounter = true"
-        >{{ $t("etitle") }}</ae-button
+        >{{ $t("e.title") }}</ae-button
       >
       <ae-button
         :size="buttonSize"
         class="home_button"
         @click="showNetGameDialog = true"
-        >{{ $t("mptitle") }}</ae-button
+        >{{ $t("mp.title") }}</ae-button
       >
       <ae-button
         :size="buttonSize"
         class="home_button"
         @click="showUserRecord = true"
-        >{{ $t("lgtitle") }}</ae-button
+        >{{ $t("lg.title") }}</ae-button
       >
       <ae-button
         :size="buttonSize"
@@ -76,8 +76,8 @@
       <ae-button
         :size="buttonSize"
         class="home_button"
-        @click="router('mapEdit/0')"
-        >{{ $t("metitle") }}</ae-button
+        @click="router('MapEdit?mapId=0')"
+        >{{ $t("me.title") }}</ae-button
       >
       <ae-button :size="buttonSize" class="home_button" @click="router('Test')"
         >帮助</ae-button

@@ -6,8 +6,7 @@
     >
       <ae-border padding="5px">
         <img
-          class="mobile-army-region-info"
-          style="width: 24px; height: 24px"
+          class="mobile-army-region-info fixed-img-size"
           :src="$appHelper.getRegionImg(region.type, region.color)"
         />
       </ae-border>
@@ -85,10 +84,11 @@
         <div class="mobile-unit-detail-content">
           <ae-border padding="0px" class="mobile-unit-detail-unit">
             <unit-view
+              ref="unitView"
               :unit="localUnitInfo"
               :color="curr_unit_color"
-              :top="24"
-              :left="24"
+              :top="standSize"
+              :left="standSize"
             ></unit-view>
           </ae-border>
 
@@ -196,6 +196,7 @@ export default {
   data() {
     return {
       regionWidth: 34,
+      standSize:null,
       armyWidth: null,
       localUnitInfo: null,
       // 展示单位或者地形详情
@@ -208,6 +209,7 @@ export default {
   },
   mixins: [indexOptMixins],
   created() {
+    this.standSize = this.$c.imgSize;
     this.chatDialogHeight = this.$uni.screenHeigh * 0.3;
     this.$appHelper.bindPage2Global(this, "ArmyMesIndex");
     this.armyWidth = this.$uni.screenWidth - this.regionWidth;
@@ -310,10 +312,6 @@ $distance: 10px;
       width: 74px;
       height: 72px;
       background-color: rgb(70, 72, 70);
-      .unit_view {
-        width: 24px;
-        height: 24px;
-      }
     }
     .mobile-unit-detail-info {
       display: flex;

@@ -4,7 +4,7 @@
         ref="mainDiaglog"
         v-model="showModel"
         showSearch
-        :title="$t('mpromeHome')"
+        :title="$t('mp.romeHome')"
         :titleButtons="titleButtonList"
         :footerButtons="buttonList"
         :initQueryDataGrid="queryDataFunction"
@@ -18,7 +18,7 @@
     <ae-complex-dialog
         ref="addNewRoomDialog"
         v-model="addNewDialogShowModel"
-        :title="$t('mpaddNewRome')"
+        :title="$t('mp.addNewRome')"
         :width="$uni.isH5 ? 35 : 55"
         :formConfig="addNewRoomFormConfig"
         :footerButtons="createRoomButtons"
@@ -62,7 +62,7 @@
         canJoinRoom: {},
         queryDataFunction: (args)=> GetRoomListByPage(args),
         buttonList: [
-          {name: this.$t('mpjoin'), action: this.clickJoinGameButton},
+          {name: this.$t('mp.join'), action: this.clickJoinGameButton},
           {name: this.$t('c.preview'), action: this.clickPreviewButton},
         ],
         titleButtonList: [
@@ -70,7 +70,7 @@
           {name: this.$t('c.flush'), action: this.flushRoom},
         ],
         showItem: ["room_id", "room_name", "creat_time_show", "ready"],
-        showTitle: [this.$t('mphomeId'), this.$t('mphomeName'), this.$t("c.createTime"), this.$t("ptitle")],
+        showTitle: [this.$t('mp.homeId'), this.$t('mp.homeName'), this.$t("c.createTime"), this.$t("p.title")],
         createRoomButtons: [
           {name: this.$t('c.create'), action: this.clickCreateRoom},
           {name: this.$t('c.cancel'), action: this.clickCancelCreateRoom},
@@ -80,33 +80,33 @@
           {
             type: "input",
             key: "room_name",
-            des: this.$t('mphomeName'),
+            des: this.$t('mp.homeName'),
             default: this.initRomeName(),
           },
           {
             type: "switchSelect",
             key: "game_type",
-            des: this.$t("mpromeType"),
+            des: this.$t("mp.romeType"),
             default: "1",
             items: [
-              {key: "1", value: this.$t("mppublic")},
-              {key: "2", value: this.$t("mpprivate")},
+              {key: "1", value: this.$t("mp.public")},
+              {key: "2", value: this.$t("mp.private")},
             ],
           },
           {
             type: "switchSelect",
             key: "game_model",
-            des: this.$t("mpgameModel"),
+            des: this.$t("mp.gameModel"),
             default: "1",
             items: [
-              {key: "1", value: this.$t("mpunlimited")},
-              {key: "2", value: this.$t("mptimeout")},
+              {key: "1", value: this.$t("mp.unlimited")},
+              {key: "2", value: this.$t("mp.timeout")},
             ],
           },
           {
             type: "switchSelect",
             key: "round_time",
-            des: this.$t("mproundLimit"),
+            des: this.$t("mp.roundLimit"),
             default: "2",
             items: [
               {key: "1", value: this.$t("c.minute", 1)},
@@ -119,7 +119,7 @@
           {
             type: "userMapSelect",
             key: "init_map",
-            des: this.$t("mpchooseMap"),
+            des: this.$t("mp.chooseMap"),
           },
         ],
         joinMapId: "",
@@ -141,7 +141,7 @@
       closePreview() {
       },
       initRomeName(){
-        return this.$store.getters.user.user_name + this.$t("mpwhoRome");
+        return this.$store.getters.user.user_name + this.$t("mp.whoRome");
       },
       onDialogDestroy() {
         console.log("页面销毁");
@@ -163,7 +163,7 @@
           this.roomOwner = selectMap.room_owner;
           this.setJoinRoomShow();
           this.showJoinRoom = true;
-          this.$appHelper.infoMsg(this.$t("mpjoinSuccess"));
+          this.$appHelper.infoMsg(this.$t("mp.joinSuccess"));
         }).catch((error) => {
           console.error(error);
           this.$refs.mainDiaglog.flushData();
@@ -185,17 +185,17 @@
         let formData = this.$refs.addNewRoomDialog.getFormData();
         console.log(formData);
         if (!formData) {
-          this.$appHelper.infoMsg(this.$t("mproomDataLost"));
+          this.$appHelper.infoMsg(this.$t("mp.roomDataLost"));
           return;
         }
 
         if (!formData.room_name) {
-          this.$appHelper.infoMsg(this.$t("mproomNameLost"));
+          this.$appHelper.infoMsg(this.$t("mp.roomNameLost"));
           return;
         }
 
         if (!formData.init_map) {
-          this.$appHelper.infoMsg(this.$t("mpgameMapLostTip"));
+          this.$appHelper.infoMsg(this.$t("mp.gameMapLostTip"));
           return;
         }
         console.log(this.$refs.addNewRoomDialog.getFormData());
@@ -214,7 +214,7 @@
           initSetting.then((joinRoomPromise) => {
               this.showJoinRoom = true;
               console.log("joinRoomPromise result >>>", res_val, joinRoomPromise);
-              this.$appHelper.infoMsg(this.$t("mpjoinSuccess"));
+              this.$appHelper.infoMsg(this.$t("mp.joinSuccess"));
             }).catch((error) => {
               this.showJoinRoom = false;
             });

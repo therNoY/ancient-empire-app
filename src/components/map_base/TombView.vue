@@ -2,11 +2,11 @@
   <!--坟墓-->
   <div class="tomb">
     <img
+      class="stand-img"
       v-for="(tomb, index) in tombs"
       :key="index"
       src="../../assets/images/unit/tomb.png"
       @click="operationTomb(tomb)"
-      class="img_style"
       :style="{
         top: $appHelper.getPosition(tomb.row),
         left: $appHelper.getPosition(tomb.column),
@@ -27,6 +27,8 @@ export default {
         this.$appHelper.sendEvent(eventype.CLICK_TOMB, tomb);
       }
     },
+  },
+  computed: {
     tombs() {
       return this.$store.getters.game.tomb_list;
     },
@@ -37,8 +39,5 @@ export default {
 <style lang="scss" scoped>
 .tomb img {
   position: absolute;
-  cursor: pointer;
-  width: 24px;
-  height: 24px;
 }
 </style>

@@ -5,7 +5,7 @@
       v-model="showModel"
       :showItem="showItem"
       :showTitle="showTitle"
-      :title="$t('lgchooseRecord')"
+      :title="$t('lg.chooseRecord')"
       :initQueryDataGrid="queryDataFunction"
       :footerButtons="footerButtons"
       :width="$uni.isH5 ? 48 : 70"
@@ -33,7 +33,7 @@ export default {
     return {
       queryDataFunction: null,
       footerButtons: [
-        { name: this.$t("lgcontinue"), action: this.continueRecord },
+        { name: this.$t("lg.continue"), action: this.continueRecord },
         { name: this.$t("c.preview"), action: this.preview },
         { name: this.$t("c.delete"), action: this.delUserRecord },
       ],

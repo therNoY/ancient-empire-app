@@ -1,8 +1,8 @@
 <!--预览单位列表-->
 <template>
   <div>
-    <div v-for="(unit, index) in unit_list" :key="index">
-      <unit v-if="index < showNum" class="showUnit" :unit_id="unit.id"></unit>
+    <div v-for="(unit, index) in unit_list" :key="index" class="showUnit">
+      <img class="unit-img" :src="$appHelper.getUnitImg(unit.id, 'blue')" />
     </div>
   </div>
 </template>
@@ -43,6 +43,10 @@ export default {
 <style lang="scss" scoped>
 .showUnit {
   float: left;
-  width: 19px;
+  width: 14px;
+}
+.unit-img{
+  width:18px;
+  height:18px;
 }
 </style>

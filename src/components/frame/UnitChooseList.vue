@@ -1,21 +1,14 @@
 <template>
   <div>
-    <ae-base-dialog
-      :title="dialog_title"
-      v-model="show"
-    >
+    <ae-base-dialog :title="dialog_title" v-model="show">
       <div style="float: left">
         <div
-          class="selectOneUnit"
+          class="unit-choose-list-item"
           @click="clickUnit(unit)"
-          v-for="(unit,index) in unit_list"
+          v-for="(unit, index) in unit_list"
           :key="index"
         >
-          <ae-tooltip
-            :content="unit.description"
-            placement="bottom"
-            effect="light"
-          >
+          <ae-tooltip :content="unit.description">
             <unit :unit_id="unit.id" :color="color"></unit>
           </ae-tooltip>
         </div>
@@ -50,13 +43,13 @@ export default {
   data() {
     return {
       show: false,
-    }
+    };
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.selectOneUnit {
+.unit-choose-list-item {
   float: left;
   width: 48px;
   height: 48px;

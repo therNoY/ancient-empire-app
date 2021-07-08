@@ -4,23 +4,23 @@
     v-if="value"
     :width="$uni.isH5 ? 55 : 85"
     showCloseTip
-    :title="$t('mpwelcomeJoin', [roomName, roomId])"
-    :closeTip="$t('mpleaveRoomWarning')"
+    :title="$t('mp.welcomeJoin', [roomName, roomId])"
+    :closeTip="$t('mp.leaveRoomWarning')"
   >
     <div class="join-room-container">
       <div class="join-room-main">
         <div class="player_list ae-data-grid">
           <table>
             <tr class="ae-data-grid-title">
-              <th>{{ $t("mpteam") }}</th>
-              <th>{{ $t("mpalliance") }}</th>
-              <th>{{ $t("ptitle") }}</th>
+              <th>{{ $t("mp.team") }}</th>
+              <th>{{ $t("mp.alliance") }}</th>
+              <th>{{ $t("p.title") }}</th>
               <th>{{ $t("c.operating") }}</th>
             </tr>
             <tr v-for="(army, index) in canJoinArmy" :key="index">
               <td>
                 <img
-                  class="img_style"
+                  class="stand-img-size"
                   :src="$appHelper.getUnitImg('10', army.color)"
                 />
               </td>
@@ -31,7 +31,7 @@
                 <div>
                   {{ army.player_name ? army.player_name : "-" }}
                   <span v-if="roomOwner && army.player == roomOwner"
-                    >({{ $t("mphomeOwner") }})</span
+                    >({{ $t("mp.homeOwner") }})</span
                   >
                 </div>
               </td>
@@ -39,7 +39,7 @@
                 <ae-button
                   v-if="!army.player"
                   @click="changeCtlArmy(army.color)"
-                  >{{ $t("mpjoin") }}
+                  >{{ $t("mp.join") }}
                 </ae-button>
                 <ae-button
                   v-else-if="
@@ -48,12 +48,12 @@
                     $store.getters.user.user_id == roomOwner
                   "
                   @click="levelCtlArmy(army.color, army.player)"
-                  >{{ $t("mpkickOut") }}</ae-button
+                  >{{ $t("mp.kickOut") }}</ae-button
                 >
                 <ae-button
                   v-else-if="$store.getters.user.user_id == army.player"
                   @click="levelCtlArmy(army.color, army.player)"
-                  >{{ $t("pout") }}</ae-button
+                  >{{ $t("p.out") }}</ae-button
                 >
               </td>
             </tr>
@@ -71,11 +71,7 @@
       </div>
       <div class="join-room-footer">
         <ae-button-list
-          :buttonList="[
-            $t('c.preview'),
-            $t('mpinvite'),
-            $t('c.start'),
-          ]"
+          :buttonList="[$t('c.preview'), $t('mp.invite'), $t('c.start')]"
           size="16px"
           :buttonConfig="{
             '2': {
@@ -128,10 +124,13 @@ export default {
         return;
       }
       let tip;
-      if (this.armyConfigList.filter((a) => a.type == "user" && !a.player).length > 0) {
-        tip = this.$t("mpreadyBegin");
+      if (
+        this.armyConfigList.filter((a) => a.type == "user" && !a.player)
+          .length > 0
+      ) {
+        tip = this.$t("mp.readyBegin");
       } else {
-        tip = this.$t("mpreadyStart");
+        tip = this.$t("mp.readyStart");
       }
       this.$appHelper.showTip(tip, () => {
         let args = {};
@@ -160,7 +159,7 @@ export default {
       input.select();
       document.execCommand("copy");
       document.body.removeChild(input);
-      this.$appHelper.successMsg(this.$t("mproomInfoCopy"));
+      this.$appHelper.successMsg(this.$t("mp.roomInfoCopy"));
       // #endif
     },
 
@@ -192,7 +191,7 @@ export default {
         .then((resp) => {
           if (resp && resp.res_code == 0) {
           } else {
-            this.$appHelper.infoMsg(this.t("mpjoinFail"));
+            this.$appHelper.infoMsg(this.$t("mp.joinFail"));
           }
         })
         .catch((error) => {
@@ -204,8 +203,7 @@ export default {
       args.color = color;
       args.player_id = userId;
       LevelCtlArmy(args)
-        .then((resp) => {
-        })
+        .then((resp) => {})
         .catch((error) => {
           console.error(error);
         });

@@ -1,6 +1,6 @@
 <!-- 包含tab分页的form -->
 <template>
-  <div style="width:100%">
+  <div style="width: 100%">
     <uni-segmented-control
       :current="currentActiveTab"
       :values="tabItems"
@@ -11,12 +11,13 @@
     />
     <div v-for="(config, tab) in tabFormConfig" :key="tab">
       <ae-form
-        v-model="dataObj"
+        v-model="showDataValue"
         v-if="tabItems[currentActiveTab] === tab"
         ref="baseForm"
         :signal="signal"
         :templateId="templateId"
         :edit="edit"
+        :hasBorder="hasBorder"
         :formConfig="config"
       />
     </div>
@@ -45,6 +46,10 @@ export default {
       type: Number,
       default: 0,
     },
+    hasBorder: {
+      type: Boolean,
+      default: false,
+    },
     templateId: {},
     defaultActiveName: {
       type: String,
@@ -56,6 +61,7 @@ export default {
       tabFormConfig: {},
       activeName: "",
       currentActiveTab: 0,
+      showDataValue:{},
       tabItems: [],
     };
   },
@@ -92,6 +98,7 @@ export default {
       }
     }
     this.tabFormConfig = tabFormConfig;
+    this.showDataValue = this.dataObj;
     this.$appHelper.bindPage2Global(this, "AeTabForm");
   },
 };
