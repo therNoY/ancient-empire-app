@@ -1,6 +1,6 @@
 <template>
   <div style="display: inline">
-    <ae-loading :showLoading="loading" style="z-index: 9999"></ae-loading>
+    <ae-loading :showLoading="loading"></ae-loading>
     <ae-tip
       v-model="showGlobalTip"
       :buttonList="buttonList"
@@ -21,7 +21,6 @@
       :show="show"
       :type="type"
       :color="color"
-      style="z-index: 9999"
     ></ae-message>
   </div>
 </template>

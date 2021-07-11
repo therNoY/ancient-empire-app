@@ -2,10 +2,10 @@
 <template>
   <div>
     <ae-base-dialog v-model="show" :title="title" width="35">
-      <div class="start_comment">
-        <div class="start_comment_label">{{$t('c.rate')}}</div>
-        <div class="start_comment_item">
-          <uni-rate size="18" v-model="comment.start" />
+      <div class="start-comment">
+        <div class="start-comment-label">{{$t('c.rate')}}</div>
+        <div>
+          <uni-rate size="12" v-model="comment.start" />
         </div>
       </div>
       <div>
@@ -61,12 +61,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.start_comment {
+.start-comment {
   width: 96%;
   display: flex;
   flex-direction: row;
-  align-items: center;
-  .start_comment_label {
+  align-items: baseline;
+  .start-comment-label {
     width: 20%;
     height: 20px;
     color: white;

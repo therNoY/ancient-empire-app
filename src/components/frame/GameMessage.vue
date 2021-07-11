@@ -111,7 +111,6 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    pointer-events: none;
     .message-show-item {
       padding: 2px;
       text-align: left;

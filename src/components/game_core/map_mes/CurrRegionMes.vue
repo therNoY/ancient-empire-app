@@ -2,11 +2,11 @@
   <!--地形信息-->
   <div class="region-mes" :style="bkColor">
     <div v-if="region" style="height: 60%">
-      <div class="int_title">
+      <div class="region-title">
         <div>{{ region.name }}</div>
       </div>
 
-      <div class="unit_p">
+      <div class="curr-regin-view">
         <ae-border padding="0px" class="show-unit-detail-img">
           <div class="show-region-img">
             <img
@@ -19,38 +19,28 @@
         </ae-border>
       </div>
 
-      <div class="region_description">{{ region.description }}</div>
+      <div class="region-description">{{ region.description }}</div>
 
-      <div class="unit_ci">
-        <ae-tooltip
-          class="unit-ci-tooltip"
-          :content="$t('edefenseAdd')"
-        >
+      <div class="region-des">
+        <ae-tooltip class="region-des-tooltip" :content="$t('e.defenseAdd')">
           <img src="../../../assets/images/assist/action_defense.png" />
-          <span class="noBac">{{ region.buff }}</span>
+          <span class="no-background-color">{{ region.buff }}</span>
         </ae-tooltip>
-        <ae-tooltip
-          class="unit-ci-tooltip"
-          :content="$t('eroundRecover')"
-        >
+        <ae-tooltip class="region-des-tooltip" :content="$t('e.roundRecover')">
           <img src="../../../assets/images/assist/action_restore.png" />
-          <span class="noBac">{{ region.restore }}</span>
+          <span class="no-background-color">{{ region.restore }}</span>
         </ae-tooltip>
-        <ae-tooltip class="unit-ci-tooltip" :content="$t('emoneyAdd')">
+        <ae-tooltip class="region-des-tooltip" :content="$t('e.moneyAdd')">
           <img src="../../../assets/images/assist/action_buy.png" />
-          <span class="noBac">{{ region.tax }}</span>
+          <span class="no-background-color">{{ region.tax }}</span>
         </ae-tooltip>
-        <ae-tooltip
-          class="unit-ci-tooltip"
-          :content="$t('emoveConsume')"
-        >
+        <ae-tooltip class="region-des-tooltip" :content="$t('e.moveConsume')">
           <img src="../../../assets/images/assist/action_move.png" />
-          <span class="noBac">{{ region.deplete }}</span>
+          <span class="no-background-color">{{ region.deplete }}</span>
         </ae-tooltip>
       </div>
     </div>
     <game-message
-      style="height: 35%"
       sendEventMethod="sendGameMessage"
       receiveMesEvent="addGameMessage"
       :height="$uni.screenHeigh * 0.3"
@@ -71,7 +61,6 @@ export default {
       return this.$appHelper.getBkColor(this.curr_color);
     },
   },
-  created() {},
 };
 </script>
 
@@ -81,32 +70,37 @@ export default {
   text-align: center;
   width: 100%;
   height: 100%;
-  .int_title {
+  .region-title {
     font-size: 16px;
     margin-top: 10px;
     margin-bottom: 20px;
     color: white;
   }
-  .unit_p {
+  .curr-regin-view {
     width: 72px;
+    height: 72px;
     margin: auto;
-    .unit_border {
-      width: 72px;
-      height: 72px;
-      margin: auto;
-      background-color: #f4f4e6;
-      img {
-        float: left;
+    position: relative;
+    .show-unit-detail-img {
+      position: absolute;
+      width: 68px;
+      height: 68px;
+      background-color: rgb(70, 72, 70);
+      .show-region-img {
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        left: 20px;
       }
     }
   }
-  .unit_ci {
+  .region-des {
     margin-top: 10px;
     display: flex;
     flex-direction: column;
     cursor: pointer;
     width: 100%;
-    .unit-ci-tooltip {
+    .region-des-tooltip {
       width: 100%;
       background-color: rgb(255, 255, 255);
       margin-top: 10px;
@@ -137,11 +131,11 @@ export default {
       padding-top: 2px;
       padding-bottom: 2px;
     }
-    .noBac {
+    .no-background-color {
       background-color: rgba(255, 255, 255, 0.767);
     }
   }
-  .region_description {
+  .region-description {
     font-size: 12px;
     color: rgb(255, 255, 255);
     float: left;

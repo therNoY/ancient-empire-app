@@ -239,8 +239,8 @@
         this.flushData();
       },
       getFormData() {
-        if (this.$refs.aeForm && this.$refs.aeForm.formData) {
-          return this.$refs.aeForm.formData;
+        if (this.$refs.aeForm) {
+          return this.$refs.aeForm.getFormData();
         }
         return null;
       },

@@ -10,9 +10,8 @@
       <div class="unit_p">
         <ae-border padding="0px" class="show-unit-detail-img">
           <unit-view
-            v-if="showMode == 'unit'"
             :unit="unitInfo"
-            :color="color"
+            :color="curr_unit_color"
             :top="20"
             :left="20"
           ></unit-view>
@@ -25,7 +24,7 @@
     </div>
 
     <div class="unit_ci">
-      <ae-tooltip class="unit-ci-tooltip" :content="$t('eleft')">
+      <ae-tooltip class="unit-ci-tooltip" :content="$t('e.left')">
         <img src="../../../assets/images/assist/info_life.png" />
         <span v-if="unitInfo">
           <i :style="leftStyle" style="background-color: rgb(229, 255, 0)">{{
@@ -33,7 +32,7 @@
           }}</i>
         </span>
       </ae-tooltip>
-      <ae-tooltip class="unit-ci-tooltip" :content="$t('eexperience')">
+      <ae-tooltip class="unit-ci-tooltip" :content="$t('e.experience')">
         <img src="../../../assets/images/assist/info_experience.png" />
         <span v-if="unitInfo">
           <i
@@ -43,7 +42,7 @@
           >
         </span>
       </ae-tooltip>
-      <ae-tooltip class="unit-ci-tooltip" :content="$t('eattach')">
+      <ae-tooltip class="unit-ci-tooltip" :content="$t('e.attach')">
         <img src="../../../assets/images/assist/info_attach.png" />
         <span
           v-if="unitInfo"
@@ -58,28 +57,19 @@
           {{ unitInfo.level_mes.max_attack }}
         </span>
       </ae-tooltip>
-      <ae-tooltip
-        class="unit-ci-tooltip"
-        :content="$t('um.mobility')"
-      >
+      <ae-tooltip class="unit-ci-tooltip" :content="$t('um.mobility')">
         <img src="../../../assets/images/assist/info_move.png" />
         <span class="noBac" v-if="unitInfo">{{
           unitInfo.level_mes.speed
         }}</span>
       </ae-tooltip>
-      <ae-tooltip
-        class="unit-ci-tooltip"
-        :content="$t('um.physicalDefense')"
-      >
+      <ae-tooltip class="unit-ci-tooltip" :content="$t('um.physicalDefense')">
         <img src="../../../assets/images/assist/info_physical_defense.png" />
         <span class="noBac" v-if="unitInfo">{{
           unitInfo.level_mes.physical_defense
         }}</span>
       </ae-tooltip>
-      <ae-tooltip
-        class="unit-ci-tooltip"
-        :content="$t('um.magicDefense')"
-      >
+      <ae-tooltip class="unit-ci-tooltip" :content="$t('um.magicDefense')">
         <img src="../../../assets/images/assist/info_magic_defense.png" />
         <span class="noBac" v-if="unitInfo">{{
           unitInfo.level_mes.magic_defense
@@ -224,6 +214,12 @@ export default {
   .noBac {
     background-color: rgba(255, 255, 255, 0.767);
   }
+}
+.show-unit-detail-img {
+  position: absolute;
+  width: 68px;
+  height: 68px;
+  background-color: rgb(70, 72, 70);
 }
 .unit_description {
   font-size: 12px;

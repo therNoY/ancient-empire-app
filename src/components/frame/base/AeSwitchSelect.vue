@@ -2,21 +2,23 @@
 <template>
   <div class="ae-switch-select">
     <div v-if="label" class="ae-switch-label">{{ label }}</div>
-    <div class="ae-switch-select-content">
+    <div class="ae-switch-select-content" :style="{ width: width + '%' }">
       <img
         :class="[
           'ae-switch-select-button',
+          'ae-switch-' + size + '-button',
           !editAble ? 'disable-cursor' : 'click-cursor',
         ]"
         @click="getRightItem"
         src="../../../assets/images/assist/switch4.png"
       />
-      <div class="ae-switch-select-body">
+      <div :class="['ae-switch-select-body', 'ae-switch-' + size + '-body']">
         <span class="ae-switch-select-font">{{ showValue }}</span>
       </div>
       <img
         :class="[
           'ae-switch-select-button',
+          'ae-switch-' + size + '-button',
           !editAble ? 'disable-cursor' : 'click-cursor',
         ]"
         @click="getLeftItem"
@@ -40,7 +42,21 @@ export default {
     label: {
       type: String,
     },
-
+    width: {
+      type: Number,
+      default: 80,
+    },
+    size: {
+      type: String,
+      default() {
+        // #ifdef H5
+        return "normal";
+        // #endif
+        // #ifndef H5
+        return "small";
+        // #endif
+      },
+    },
     default: {},
   },
 
@@ -123,38 +139,42 @@ export default {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    width: 80%;
     .ae-switch-select-button {
-      /* #ifdef H5*/
+      flex-grow: 0;
+    }
+    .ae-switch-normal-button {
       width: 28px;
       height: 28px;
-      /* #endif*/
-      /* #ifndef H5 */
+    }
+    .ae-switch-small-button {
       width: 20px;
       height: 20px;
-      /* #endif */
-      flex-grow: 0;
     }
     .ae-switch-select-body {
       background-color: #495280;
       display: flex;
       flex-direction: column;
       flex-grow: 1;
-      /* #ifdef H5*/
-      height: 25.5px;
-      /* #endif*/
-      /* #ifndef H5 */
-      height: 18px;
-      /* #endif */
       color: rgb(255, 255, 255);
       justify-content: space-evenly;
+    }
+    .ae-switch-normal-body {
+      height: 25.5px;
       .ae-switch-select-font {
-        /* #ifdef H5*/
+        /* #ifdef H5 */
         font-size: 14px;
-        /* #endif*/
-        /* #ifndef H5 */
-        font-size: 0.65rem;
         /* #endif */
+      }
+    }
+    .ae-switch-small-body {
+      height: 18px;
+      .ae-switch-select-font {
+        /* #ifdef H5 */
+        font-size: 14px;
+        /* #endif */
+        /* #ifdef MP-WEIXIN */
+        font-size: 0.6rem;
+        /* #endif*/
       }
     }
   }

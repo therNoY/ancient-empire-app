@@ -161,6 +161,7 @@
 		text-align: center;
 		border-width: 0;
 		border-style: solid;
+		flex-grow: 2;
 		border-color: $uni-border-color;
 	  /* #ifndef H5	*/
 		min-height: auto;

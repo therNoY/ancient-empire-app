@@ -28,7 +28,7 @@
         </div>
       </ae-tooltip>
 
-      <ae-tooltip class="army-mes-tooltip" :content="$t('ecamp')">
+      <ae-tooltip class="army-mes-tooltip" :content="$t('e.camp')">
         <div class="army-mes-item">
           <img src="../../../assets/images/assist/bar_camp.png" />
           <span>&nbsp;&nbsp;{{ currentArmy.camp }}</span>

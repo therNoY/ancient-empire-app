@@ -181,7 +181,7 @@ export const SaveUserMap = (args, showLoading, handleErr) => request('/api/userM
  * @param {*} args
  * @returns
  */
-export const SimpleDrawing = (args, showLoading, handleErr) => request('/api/userMap/simpleDrawing', args, POST, showLoading, handleErr);
+export const SimpleDrawing = (args) => request('/api/userMap/simpleDrawing', args, POST, false, false);
 /**
  * 获取用户创建的地图
  * @returns

@@ -1,120 +1,249 @@
 <template>
-  <div id="mapEdit">
-    <!--可选单位-->
-    <div class="unit" v-if="flushUnitFlag">
-      <div class="color_select" style="margin-top: 20px">
-        <ae-switch-select v-model="color" :items="armyType" />
+  <div style="width: 100%; height: 100%; text-align: center">
+    <div class="map-edit">
+      <!--可选单位-->
+      <div class="map-edit-unit" v-if="!isMobileStyle && flushUnitFlag">
+        <div style="margin-top: 20px">
+          <ae-switch-select v-model="unitColor" :items="armyType" />
+        </div>
+        <div>
+          <img
+            v-for="(unit, key) in initMapInfo.unit_mes_list"
+            :key="key"
+            :class="['map-edit-select', 'stand-img-size']"
+            :src="$appHelper.getUnitImg(unit.id, unitColor)"
+            @click="getUnit(unit)"
+          />
+        </div>
+        <div v-if="selectUnit && selectUnit.id" class="select-unit">
+          <ae-border padding="20px" class="show-unit-detail-img">
+            <unit :unit_id="selectUnit.id" :color="unitColor"></unit>
+          </ae-border>
+        </div>
+        <div v-if="selectUnit && selectUnit.id" class="select_desc">
+          {{ selectUnit.name }}:{{ selectUnit.description }}
+        </div>
       </div>
-      <div v-for="(unit, key) in this.initMapInfo.unit_mes_list" :key="key">
-        <img
-          :class="[unit.id == selectUnit.id ? 'select_unit' : 'un_select_unit']"
-          :src="$appHelper.getUnitImg(unit.id, color)"
-          @click="getUnit(unit)"
-        />
+
+      <!--移动办风格-->
+      <div class="mobile-map-edit" v-if="isMobileStyle">
+        <ae-border class="mobile-map-edit-content">
+          <div style="margin-buttom: 20px">
+            <scroll-view
+              scroll-y="true"
+              slot="main"
+              :style="{ height: containerStyle.height }"
+            >
+              <ae-switch-select
+                :width="100"
+                size="small"
+                v-if="showSelectUnit"
+                v-model="unitColor"
+                :items="armyType"
+              />
+              <ae-switch-select
+                v-else
+                :width="100"
+                size="small"
+                v-model="regionColor"
+                :items="regionType"
+              />
+              <div v-if="showSelectUnit">
+                <img
+                  v-for="(unit, key) in initMapInfo.unit_mes_list"
+                  :key="key"
+                  :class="['map-edit-select']"
+                  :src="$appHelper.getUnitImg(unit.id, unitColor)"
+                  @click="getUnit(unit)"
+                />
+              </div>
+              <div v-else>
+                <img
+                  v-for="(region, index) in initMapInfo.region_mes"
+                  :key="index"
+                  :class="['map-edit-select']"
+                  :src="$appHelper.getRegionImg(region.type, regionColor)"
+                  @click="getRegion(region)"
+                />
+              </div>
+            </scroll-view>
+          </div>
+        </ae-border>
       </div>
-      <div v-if="selectUnit && selectUnit.id" class="select_desc">
-        {{ selectUnit.name }}:{{ selectUnit.description }}
-      </div>
-    </div>
-    <!--操作地图-->
-    <div class="main">
-      <movable-area class="map-edit-container">
-        <movable-view
-          :x="0"
-          :y="0"
-          :damping="50"
-          :direction="all"
+
+      <!--操作地图-->
+      <div class="game-core-container">
+        <movable-area
           class="main-area"
           :style="{
             width: containerStyle.width,
             height: containerStyle.height,
           }"
         >
-          <div class="map_div" :style="mapStyle">
-            <div class="map" :style="mapWidthStyle">
-              <img
-                class="unit_img"
-                v-for="(unit, index) in unitList"
-                v-bind:key="index"
-                :src="
-                  $appHelper.getUnitImg(
-                    unit.id ? unit.id : unit.type_id,
-                    unit.color
-                  )
-                "
-                :title="getUnitTitle(unit)"
+          <div style="position: absolute">
+            <movable-view
+              :x="0"
+              :y="0"
+              :damping="50"
+              direction="all"
+              class="main-view"
+              :style="{
+                width: mapColumn * 24 + 'px',
+                height: $appHelper.getMapSize(mapRow),
+              }"
+            >
+              <div
+                class="map"
                 :style="{
-                  top: $appHelper.getUnitPosition(unit.row),
-                  left: $appHelper.getUnitPosition(unit.column),
+                  width: $appHelper.getMapSize(mapColumn),
+                  height: $appHelper.getMapSize(mapRow),
                 }"
-                @click="clickEditMapUnit(unit, index)"
-              />
-              <region-view-list
-                ref="regionViewList"
-                :regions="maps"
-                :row="mapRow"
-                :column="mapColumn"
-                showTitle
-                @clickRegion="clickEditMapRegion"
-              />
-            </div>
+              >
+                <img
+                  class="unit_img stand-img-size"
+                  v-for="(unit, index) in unitList"
+                  :key="index"
+                  :src="
+                    $appHelper.getUnitImg(
+                      unit.id ? unit.id : unit.type_id,
+                      unit.color
+                    )
+                  "
+                  :title="getUnitTitle(unit)"
+                  :style="{
+                    top: $appHelper.getUnitPosition(unit.row),
+                    left: $appHelper.getUnitPosition(unit.column),
+                  }"
+                  @click="clickEditMapUnit(unit, index)"
+                />
+                <region-view-list
+                  ref="regionViewList"
+                  :regions="maps"
+                  :row="mapRow"
+                  :column="mapColumn"
+                  showTitle
+                  @clickRegion="clickEditMapRegion"
+                />
+              </div>
+            </movable-view>
           </div>
-        </movable-view>
-      </movable-area>
-      <ae-button-list
-        :factor="70"
-        :buttonList="buttonList"
-        :clickAction="mapEditActionList"
-      ></ae-button-list>
-    </div>
+        </movable-area>
+        <ae-button-list
+          v-if="!isMobileStyle"
+          :factor="70"
+          :buttonList="buttonList"
+          :clickAction="mapEditActionList"
+        ></ae-button-list>
+        <div v-else class="mobile-map-edit-icon">
+          <img
+            class="icon-img"
+            @click="goHome"
+            src="../../assets/images/assist/icon_city.png"
+          />
+          <img
+            class="icon-img"
+            @click="showTemplateSelect"
+            src="../../assets/images/assist/icon_setting.png"
+          />
+          <img
+            class="edit-img"
+            v-if="action == 'painting'"
+            @click="changeAction"
+            src="../../assets/images/assist/icon_painting.png"
+          />
+          <img
+            class="edit-img"
+            v-else
+            @click="changeAction"
+            src="../../assets/images/assist/icon_delete.png"
+          />
+          <img
+            class="edit-img"
+            @click="showSelectUnit = !showSelectUnit"
+            src="../../assets/images/assist/icon_switch.png"
+          />
+          <img
+            class="edit-img"
+            @click="resetMap"
+            src="../../assets/images/assist/icon_reset.png"
+          />
+          <img
+            @click="setShowChangeMsg"
+            class="icon-img"
+            src="../../assets/images/assist/net.png"
+          />
+          <img
+            class="icon-img"
+            @click="setShowMapVisible"
+            src="../../assets/images/assist/icons_my.png"
+          />
+        </div>
+      </div>
 
-    <!--可选地形-->
-    <div class="region">
-      <div class="color_select" style="margin-top: 20px">
-        <ae-switch-select v-model="regionColor" :items="armyType" />
-      </div>
-      <div v-for="(region, index) in this.initMapInfo.region_mes" :key="index">
-        <img
-          :class="[
-            region.id == selectRegion.id ? 'select_unit' : 'un_select_unit',
-          ]"
-          :src="$appHelper.getRegionImg(region.type, regionColor)"
-          @click="getRegion(region)"
-        />
-      </div>
-      <div v-if="selectRegion && selectRegion.name" class="select_desc">
-        {{ selectRegion.name }}:{{ selectRegion.description }}
+      <!--可选地形-->
+      <div class="map-edit-region" v-if="!isMobileStyle">
+        <div style="margin-top: 20px">
+          <ae-switch-select v-model="regionColor" :items="regionType" />
+        </div>
+        <div>
+          <img
+            v-for="(region, index) in initMapInfo.region_mes"
+            :key="index"
+            :class="['map-edit-select', 'stand-img-size']"
+            :src="$appHelper.getRegionImg(region.type, regionColor)"
+            @click="getRegion(region)"
+          />
+        </div>
+        <div v-if="selectRegion && selectRegion.name" class="select_desc">
+          {{ selectRegion.name }}:{{ selectRegion.description }}
+        </div>
       </div>
     </div>
 
     <!--设置宽度弹出框 改变大小新建-->
     <ae-base-dialog
-      class="size_dialog"
       :title="$t('me.setNewSize')"
       v-model="showSetNewMapInfo"
-      :width="30"
+      :width="$uni.isH5 ? 30 : 40"
+      showChoose
+      @choose="createNewMapBySize(newMapColumn, newMapRow)"
     >
-      <ae-input
-        :label="$t('c.name')"
-        v-model="currentMapInfo.map_name"
-      ></ae-input>
-      <ae-input
-        :label="$('me.width')"
-        v-model="newMapColumn"
-        type="number"
-        :max="maxArea"
-        :min="minArea"
-      ></ae-input>
-      <ae-input
-        :label="$('me.height')"
-        v-model="newMapRow"
-        type="number"
-        :max="maxArea"
-        :min="minArea"
-      ></ae-input>
-      <ae-button @click="createNewMapBySize(newMapColumn, newMapRow)">{{
-        $("me.sure")
-      }}</ae-button>
+      <div class="reset-map-size">
+        <div>
+          <span>{{ $t("c.name") }}</span>
+          <ae-input
+            style="flex-grow: 2"
+            v-model="currentMapInfo.map_name"
+          ></ae-input>
+        </div>
+        <div>
+          <span>{{ $t("me.width") }}</span>
+          <uni-number-box
+            v-model="newMapRow"
+            :min="minArea"
+            :max="maxArea"
+            style="width: 70%"
+            :step="1"
+          />
+        </div>
+        <div>
+          <span>{{ $t("me.height") }}</span>
+          <uni-number-box
+            v-model="newMapColumn"
+            :min="minArea"
+            :max="maxArea"
+            style="width: 70%"
+            :step="1"
+          />
+        </div>
+      </div>
+      <!--#ifdef H5-->
+      <ae-button
+        style="width: 60%; margin-left: 20%"
+        @click="createNewMapBySize(newMapColumn, newMapRow)"
+        >{{ $t("c.sure") }}</ae-button
+      >
+      <!--#endif-->
     </ae-base-dialog>
 
     <!--我的地图-->
@@ -126,7 +255,7 @@
       :title="$t('e.myMap')"
       :initQueryDataGrid="queryFunction"
       :footerButtons="myMapEditButtonList"
-      :width="40"
+      :width="$uni.isH5 ? 40 : 55"
       page
     >
     </ae-complex-dialog>
@@ -145,11 +274,14 @@
     <!--用于保存或者发布-->
     <ae-complex-dialog
       v-model="showChangeMsg"
+      ref="baseSaveMap"
       :title="$t('me.saveMap')"
       :formConfig="baseMapFormConfig"
       :dataObj="currentMapInfo"
       :footerButtons="changMapInfoButtons"
     ></ae-complex-dialog>
+
+    <base-lister />
   </div>
 </template>
 
@@ -164,43 +296,66 @@ import {
   GetUserMapById,
   GetUserTemplateBindUnit,
 } from "@/api";
+import BaseLister from "../BaseLister.vue";
 import RegionViewList from "../map_base/RegionViewList";
 import MapPreview from "../frame/MapPreview.vue";
 import TemplateSelect from "../template_mange/TemplateSelect";
-import AeSwitchSelect from "../frame/base/AeSwitchSelect.vue";
+import Unit from "../frame/Unit";
+import AeBorder from "../frame/base/AeBorder.vue";
 const minAreaConst = 10;
-const maxAreaConst = 100;
+const maxAreaConst = 50;
+const armyType = [
+  {
+    key: "blue",
+    value: "蓝色",
+  },
+  {
+    key: "red",
+    value: "红色",
+  },
+  {
+    key: "green",
+    value: "绿色",
+  },
+  {
+    key: "black",
+    value: "黑色",
+  },
+];
+const regionType = [
+  { key: "", value: "空" },
+  {
+    key: "blue",
+    value: "蓝色",
+  },
+  {
+    key: "red",
+    value: "红色",
+  },
+  {
+    key: "green",
+    value: "绿色",
+  },
+  {
+    key: "black",
+    value: "黑色",
+  },
+];
 export default {
   components: {
     RegionViewList,
     MapPreview,
+    Unit,
+    BaseLister,
     TemplateSelect,
-    AeSwitchSelect,
+    AeBorder,
   },
   data() {
     return {
-      armyType: [
-        {
-          key: "blue",
-          value: "蓝色",
-        },
-        {
-          key: "red",
-          value: "红色",
-        },
-        {
-          key: "green",
-          value: "绿色",
-        },
-        {
-          key: "black",
-          value: "黑色",
-        },
-      ],
-      regionType: this.armyType.push({
-        key: "",
-        value: "空",
-      }),
+      showSelectUnit: false,
+      isMobileStyle: true,
+      armyType: armyType,
+      regionType: regionType,
       minArea: minAreaConst,
       maxArea: maxAreaConst,
       // 地图上的要被编辑的地图
@@ -210,13 +365,13 @@ export default {
       mapColumn: null,
       newMapColumn: null,
       newMapRow: null,
-      queryFunction: null,
+      queryFunction: (args) => GetUserMapList(args),
       showItem: ["map_name"],
       showMapVisible: false,
       previewVisible: false,
       showSelectTemp: false,
       initMapInfo: {},
-      color: "blue",
+      unitColor: "blue",
       regionColor: "",
       selectUnit: {},
       selectRegion: {},
@@ -233,20 +388,20 @@ export default {
       },
       currPreviewMap: {}, // 准备预览的地图
       buttonList: [
-        $t("c.home"),
-        $t("c.create"),
-        $t("c.painting"),
-        $t("c.reset"),
-        $t("c.save"),
-        $t("me.myMap"),
+        this.$t("c.home"),
+        this.$t("c.create"),
+        this.$t("me.painting"),
+        this.$t("me.reset"),
+        this.$t("c.save"),
+        this.$t("me.myMap"),
       ],
       mapEditActionList: [
-        () => this.$router.push("/"),
-        () => (this.showSelectTemp = true),
+        this.goHome,
+        this.showTemplateSelect,
         this.changeAction,
-        this.changeMapSize,
-        () => (this.showChangeMsg = true),
-        () => (this.showMapVisible = true),
+        this.resetMap,
+        this.setShowChangeMsg,
+        this.setShowMapVisible,
       ],
       myMapEditButtonList: [
         {
@@ -294,9 +449,21 @@ export default {
           action: () => this.saveMap(1),
         },
       ],
+      containerStyle: {},
     };
   },
   methods: {
+    initMapStyle() {
+      // #ifdef H5
+      this.containerStyle.width = "96%";
+      this.containerStyle.height = this.$uni.screenHeigh - 100 + "px";
+      // #endif
+      // #ifndef H5
+      this.containerStyle.width = "96%";
+      this.containerStyle.height = this.$uni.screenHeigh - 40 + "px";
+      this.isMobileStyle = true;
+      // #endif
+    },
     // 查看单位的说明
     getUnitTitle(unit) {
       return unit.row + "行" + unit.column + "列";
@@ -305,6 +472,23 @@ export default {
     previewMap() {
       this.currPreviewMap = this.$refs.myMap.getDataGridSelect();
       this.previewVisible = true;
+    },
+    setShowMapVisible() {
+      this.showMapVisible = true;
+    },
+    setShowChangeMsg() {
+      this.showChangeMsg = true;
+    },
+    showTemplateSelect() {
+      this.showSelectTemp = true;
+    },
+    goHome() {
+      this.$uni.redirectTo({
+        url: "/components/Home",
+        complete: (resp) => {
+          console.log(resp);
+        },
+      });
     },
     // 用户点击单位
     getUnit(unit) {
@@ -359,9 +543,11 @@ export default {
         if (this.selectUnit.hasOwnProperty("type")) {
           // 原来已经存在改单位
           console.log("替换 单位");
-          this.unitList[index].color = this.color;
+          this.unitList[index].color = this.unitColor;
           this.unitList[index].id = this.selectUnit.id;
         } else {
+          this.currentEditInfo.index =
+            (unit.row - 1) * this.mapColumn + (unit.column - 1);
           this.doPainting();
         }
       } else if (this.action == "delete") {
@@ -371,8 +557,8 @@ export default {
         this.getRegion(this.selectRegion);
       }
     },
-    changeMapSize() {
-      this.$appHelper.showTip(this.$("me.reSetMapTip"), () => {
+    resetMap() {
+      this.$appHelper.showTip(this.$t("me.reSetMapTip"), () => {
         for (let m of this.maps) {
           m.type = "sea";
         }
@@ -389,13 +575,13 @@ export default {
         this.$appHelper.errorMsg("输入有误");
         return;
       }
-      if (this.newMapRow < minArea || this.newMapColumn < minArea) {
-        this.$appHelper.errorMsg(this.$t("me.minArea", minArea));
+      if (this.newMapRow < this.minArea || this.newMapColumn < this.minArea) {
+        this.$appHelper.errorMsg(this.$t("me.minArea", this.minArea));
         return;
       }
 
-      if (this.newMapRow > maxArea || this.newMapColumn > maxArea) {
-        this.$appHelper.errorMsg(this.$t("me.maxArea", maxArea));
+      if (this.newMapRow > this.maxArea || this.newMapColumn > this.maxArea) {
+        this.$appHelper.errorMsg(this.$t("me.maxArea", this.maxArea));
         return;
       }
 
@@ -422,7 +608,7 @@ export default {
           this.unitList = [];
         }
         let unit = {};
-        unit.color = this.color;
+        unit.color = this.unitColor;
         unit.id = this.selectUnit.id;
         unit.row = this.currentEditInfo.row;
         unit.column = this.currentEditInfo.column;
@@ -470,18 +656,18 @@ export default {
           }
         }
       }
-
+      let saveData = this.$refs.baseSaveMap.getFormData();
       args.units = this.unitList;
       args.regions = this.maps;
       args.row = this.mapRow;
       args.column = this.mapColumn;
       args.opt_type = optType;
-      args.uuid = this.currentMapInfo.map_id;
-      args.share = this.currentMapInfo.share;
-      args.map_name = this.currentMapInfo.map_name;
+      args.uuid = saveData.map_id;
+      args.share = saveData.share;
+      args.map_name = saveData.map_name;
       SaveUserMap(args, true, false).then((resp) => {
         if (resp.res_code == 0) {
-          this.$appHelper.infoMsg("保存成功");
+          this.$appHelper.infoMsg(this.$t("c.saveSuccess"));
           this.saveMapDialog = false;
         } else {
           this.$appHelper.errorMsg(resp.res_mes);
@@ -509,11 +695,13 @@ export default {
         if (res_val.template_id) {
           let args = {};
           args.template_id = res_val.template_id;
-          GetUserTemplateBindUnit(args).then((resp) => {
+          GetUserTemplateBindUnit(args).then(({ res_val }) => {
             this.flushUnitFlag = false;
             this.initMapInfo.unit_mes_list = res_val.unit_mes_list;
             this.initMapInfo.region_mes = res_val.region_mes;
-            this.flushUnitFlag = true;
+            this.$nextTick(() => {
+              this.flushUnitFlag = true;
+            });
           });
         }
       });
@@ -547,6 +735,8 @@ export default {
       this.showSetNewMapInfo = true;
       this.currentMapInfo.template_id = tempId;
       this.currentMapInfo.map_name = "我的" + templateName + "地图";
+      this.newMapRow = 20;
+      this.newMapColumn = 20;
     },
     /**
      * 获取上一个编辑的地图
@@ -572,9 +762,9 @@ export default {
   },
   onLoad: function (option) {
     console.log(option.mapId);
+    this.$appHelper.loadFontFaceFromWeb();
     // 1.获取初始化地图的宽高 初始化地图的type 获取已有地图的Id Name 获取可编辑的Unit 和 Region
-    this.queryFunction = GetUserMapList;
-    if (option.mapId && options.mapId != "0") {
+    if (option.mapId && option.mapId != "0") {
       let map = {};
       map.map_id = option.mapId;
       this.editMap(map);
@@ -584,31 +774,7 @@ export default {
   },
   created() {
     this.$appHelper.bindPage2Global(this, "MapEdit");
-  },
-  computed: {
-    mapWidthStyle() {
-      return {
-        width: this.$appHelper.getMapSize(this.mapColumn),
-        height: this.$appHelper.getMapSize(this.mapRow),
-      };
-    },
-    mapStyle() {
-      let mapCount = document.body.clientWidth * 0.54;
-      let w = this.mapColumn * this.$c.imgSize;
-      if (mapCount > w) {
-        return {
-          float: "left",
-          marginLeft: (mapCount - w) / 2 + "px",
-          width: w + "px",
-          height: this.$appHelper.getMapSize(this.mapRow),
-        };
-      } else {
-        return {
-          width: w + "px",
-          height: this.$appHelper.getMapSize(this.mapRow),
-        };
-      }
-    },
+    this.initMapStyle();
   },
   destroyed() {
     // TODO 暂时不实现 需要判断没有保存的 需要与地图的回退和恢复一起实现
@@ -616,34 +782,89 @@ export default {
   },
 };
 </script>
-<style lang="scss">
-#mapEdit {
-  text-align: center;
+<style lang="scss" scoped>
+.map-edit {
   height: 100%;
+  width: 100%;
+  display: flex;
 
-  .unit {
-    float: left;
-    width: 20%;
-    margin-left: 1%;
+  .game-core-container {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 2;
+    background-color: rgb(70, 72, 70);
     height: 100%;
-    color: rgb(255, 255, 255);
-
-    .select_unit,
-    .un_select_unit {
-      float: left;
-      margin-left: 20px;
-      margin-top: 20px;
+    justify-content: flex-end;
+    .game-core-black-title {
+      height: 20px;
+      color: rgb(70, 72, 70);
+    }
+    .main-area {
+      margin: 2%;
+      overflow: auto;
+      width: 100%;
+      height: 100%;
+      .main-view {
+        position: relative;
+        &:hover {
+          cursor: pointer;
+        }
+        .base_map {
+          cursor: hand;
+          position: absolute;
+          img {
+            float: left;
+          }
+        }
+      }
+    }
+    .army_mes {
+      height: 10%;
+    }
+    .mobile-map-edit-icon {
+      display: flex;
+      justify-content: center;
+      align-items: center;
       cursor: pointer;
+      .icon-img {
+        width: 25px;
+        height: 25px;
+        padding-right: 20px;
+      }
+      .edit-img {
+        width: 16px;
+        height: 16px;
+        padding-right: 20px;
+      }
     }
   }
 
-  .region {
-    float: right;
-    width: 24%;
-    margin-right: 1%;
+  .map-edit-unit {
+    display: flex;
+    flex-direction: column;
+    width: 18%;
     height: 100%;
-    color: rgb(255, 255, 255);
+    background-color: #242b44;
+    .select-unit {
+      display: flex;
+      justify-content: space-evenly;
+      height: 72px;
+      margin-top: 10px;
+      .show-unit-detail-img {
+        position: absolute;
+        width: 68px;
+        height: 68px;
+        background-color: rgb(70, 72, 70);
+      }
+    }
+  }
 
+  .map-edit-region {
+    width: 18%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: #242b44;
     img {
       float: left;
       margin-left: 20px;
@@ -651,49 +872,38 @@ export default {
       cursor: pointer;
     }
   }
-
-  .select_unit {
-    border: #5a5a5a 1px solid;
-    background-color: #303030;
+  .mobile-map-edit {
+    width: 120px;
+    height: 100%;
+    padding-left: 2%;
+    padding-right: 2%;
+    background-color: #242b44;
+    .mobile-map-edit-content {
+      width: 120px;
+      height: 94%;
+      position: absolute;
+      /* #ifndef H5 */
+      top: 0;
+      left: 0;
+      /* #endif */
+    }
   }
 
-  .un_select_unit {
-    border: #4e4a4a 1px solid;
+  .map-edit-select {
+    float: left;
+    margin-left: 10px;
+    margin-top: 10px;
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
   }
 
   .select_desc {
-    margin-top: 20%;
+    margin-top: 10px;
     color: rgb(255, 255, 255);
     font-size: 12px;
     float: left;
     width: 100%;
-  }
-
-  .opera_button {
-    margin-bottom: 3%;
-  }
-
-  .main {
-    float: left;
-    width: 54%;
-    height: 100%;
-    background-color: #242b44;
-
-    .map-edit-container {
-      width: 100%;
-      height: 100%;
-      border: 1px solid #eee;
-      padding-right: 20px;
-    }
-  }
-
-  .size_dialog {
-    color: white;
-    font-size: 14px;
-  }
-
-  .map_div {
-    position: relative;
   }
 
   .map img {
@@ -702,40 +912,22 @@ export default {
     cursor: pointer;
   }
 
-  .save_dialog .el-input {
-    margin-bottom: 10px;
-  }
-
-  .el-input-number {
-    margin-bottom: 10px;
-  }
-
   .unit_img {
     position: absolute;
   }
-
-  .map_item {
-    height: 25px;
-    width: 70%;
-    margin-left: 15%;
-    border-radius: 4px;
-    font-size: 14px;
-    color: #ffffff;
-    padding-top: 8px;
-    margin-bottom: 5px;
-  }
-
-  .map_item:hover {
-    cursor: pointer;
-  }
-
-  .preview_map {
-    float: left;
-    margin-left: -20px;
-  }
-
-  .preview_map img {
-    float: left;
+}
+.reset-map-size {
+  display: flex;
+  flex-direction: column;
+  div {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    span {
+      color: white;
+      font-size: 14px;
+      width: 20%;
+    }
   }
 }
 </style>

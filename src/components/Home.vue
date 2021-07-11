@@ -76,19 +76,18 @@
       <ae-button
         :size="buttonSize"
         class="home_button"
-        @click="router('MapEdit?mapId=0')"
+        @click="router('map_manger/MapEdit?mapId=0')"
         >{{ $t("me.title") }}</ae-button
       >
-      <ae-button :size="buttonSize" class="home_button" @click="router('Test')"
+      <!-- <ae-button :size="buttonSize" class="home_button" @click="router('Test')"
         >帮助</ae-button
-      >
-      <ae-button
+      > -->
+      <!-- <ae-button
         :size="buttonSize"
         class="home_button"
         @click="showMoitor = true"
         >监控</ae-button
-      >
-      <!--  <ae-button :size="buttonSize" class="home_button" @click="router('monitor')">监控</ae-button> -->
+      > -->
     </div>
 
     <!-- #ifdef H5 -->
@@ -147,7 +146,6 @@ import UserRecord from "./encounter/UserRecord.vue";
 import TemplateManger from "./template_mange/TemplateManger.vue";
 import UnitMesManger from "./template_mange/UnitMesManger.vue";
 import MapManger from "./map_manger/MapManger.vue";
-import MapEdit from "./map_manger/MapEdit.vue";
 import ChapterSelect from "./encounter/ChapterSelect.vue";
 import BaseLister from "./BaseLister.vue";
 import { Login, GetWeiXinPhone, GetCanReConnectRecord } from "../api";
@@ -167,7 +165,6 @@ export default {
     TemplateManger,
     UnitMesManger,
     EncounterStart,
-    MapEdit,
     ChapterSelect,
     MapManger,
     BaseLister,

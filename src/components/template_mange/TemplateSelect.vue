@@ -10,7 +10,7 @@
       :initQueryDataGrid="initQueryDataFunction"
       :footerButtons="footerButtonList"
       :tableConfig="tableConfig"
-      :width="40"
+      :width="$uni.isH5 ? 40 : 60"
       page
     >
     </ae-complex-dialog>

@@ -108,7 +108,6 @@ import eventype from "../../manger/eventType";
 import UpShowAnimate from "../map_base/UpShowAnimate.vue";
 import GameDialog from "../map_base/GameDialog.vue";
 import BaseLister from "../BaseLister.vue";
-import appHelper from "../../utils/appHelper";
 export default {
   components: {
     RegionViewList,
@@ -139,7 +138,7 @@ export default {
       x: 0,
       y: 0,
       direction: "all",
-      isMobileStyle: true,
+      isMobileStyle: false,
     };
   },
   computed: {},
@@ -147,7 +146,6 @@ export default {
     initMapStyle() {
       // #ifdef H5
       this.containerStyle.height = "100%";
-      this.direction = "no";
       // #endif
       // #ifndef H5
       this.containerStyle.width = this.$uni.screenWidth + "px";
@@ -224,7 +222,7 @@ export default {
           this.startWorker();
         } else {
           console.error("ws连接不正确");
-          appHelper.errorMsg("数据错误,无法进入游戏");
+          this.$appHelper.errorMsg("数据错误,无法进入游戏");
           uni.redirectTo({
             url: "/components/Home",
             complete: (resp) => {

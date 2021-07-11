@@ -9,7 +9,7 @@
       :titleSwitchSelect="titleSwitchSelect"
       :initQueryDataGrid="initQueryDataFunction"
       :footerButtons="footerButtonList"
-      :width="65"
+      :width="$uni.isH5 ? 65 : 80"
       showSearch
       @titleSwitchSelectChange="switchSelectChange"
       page

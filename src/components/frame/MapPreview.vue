@@ -6,20 +6,20 @@
     :value="showModel"
     setFullScreen
     @close="close"
+    width="600px"
     mainPadding="0"
   >
     <movable-area
-      class="main_map"
+      class="preview-map-area"
       v-if="value && currentMap && currentMap.hasOwnProperty('regions')"
       :style="{
         width: $uni.isH5 ? h5Style.width : mpStyle.width,
-        maxWidth: $uni.isH5 ? h5Style.maxWidth : mpStyle.maxWidth,
         height: $uni.isH5 ? h5Style.height : mpStyle.height,
       }"
     >
       <movable-view
         direction="all"
-        class="preview_map"
+        class="preview-map-view"
         :style="{ width: mapStyle.width, height: mapStyle.height }"
         :x="x"
         :y="y"
@@ -97,16 +97,8 @@ export default {
   },
   computed: {
     h5Style() {
-      let imgSize = this.$c.imgSize;
       return {
-        width:
-          (this.currentMap.column * imgSize > 600
-            ? 600
-            : this.currentMap.column * imgSize) + "px",
-        maxWidth:
-          (this.currentMap.column * imgSize > 600
-            ? 600 - 12
-            : this.currentMap.column * imgSize - 12) + "px",
+        width: "550px",
       };
     },
     mapStyle() {
@@ -131,7 +123,6 @@ export default {
     },
     initMapStyle() {
       this.mpStyle.width = this.$uni.screenWidth + "px";
-      this.mpStyle.maxWidth = this.$uni.screenWidth + "px";
       this.mpStyle.height = this.$uni.screenHeigh - 40 + "px";
     },
     initMap() {
@@ -177,7 +168,7 @@ export default {
 
 <style lang="scss" >
 #mapPreview {
-  .main_map {
+  .preview-map-area {
     /* #ifndef H5 */
     width: 100%;
     height: 80%;
@@ -192,15 +183,12 @@ export default {
     position: relative;
     /* #endif */
   }
-  .preview_map {
+  .preview-map-view {
     position: absolute;
     float: left;
     img {
       float: left;
     }
-  }
-  .ae-base-dialog-popup-main {
-    padding: 0 !important;
   }
 }
 </style>

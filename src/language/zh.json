@@ -42,6 +42,7 @@
         "create": "创建",
         "save": "保存",
         "saveDraft": "保存草稿",
+        "update": "更新",
         "updateVersion": "更新版本",
         "publicVersion": "发布版本",
         "draftRollback": "草稿回退",

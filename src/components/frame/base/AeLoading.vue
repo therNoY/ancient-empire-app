@@ -69,6 +69,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 9999;
 }
 .ae-loading-body {
   background: #242a43;
@@ -77,9 +78,13 @@ export default {
   display: flex;
   flex-direction: column;
   padding-top: 1%;
-  padding-left: 50%;
   width: 100%;
+  /* #ifdef H5 */
   height: 10%;
+  /* #endif */
+  /* #ifndef H5 */
+  height: 15%;
+  /* #endif */
   color: aliceblue;
 }
 </style>
