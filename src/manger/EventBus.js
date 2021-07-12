@@ -35,7 +35,6 @@ var eventBus = {
       queueList.push(componentObj);
       this.register[queue] = queueList;
     }
-    console.log("组件", component, "注册", queue, "成功");
   },
 
 
@@ -44,7 +43,6 @@ var eventBus = {
       for (let i = 0; i < this.register[queue].length; i ++) {
         const reg = this.register[queue][i];
         if (reg.component && reg.component._uid == component._uid) {
-          console.log("组件取消注册", queue);
           this.register[queue].splice(i, 1);
           break;
         }
@@ -54,7 +52,6 @@ var eventBus = {
 
 
   publish(queue, message) {
-    console.log("收到队列", queue, "事件", message);
     let messageObj = {
       queue: queue,
       message: message,

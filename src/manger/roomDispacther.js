@@ -1,9 +1,7 @@
-import store from "../store";
 import eventBus from "../manger/EventBus"
 
 var roomDispatcher = {
   dispath(event) {
-    console.log("分发处理房间事件", event);
     if (event.send_message) {
       eventBus.publish("roomMessage", event.send_message)
     } else if (event.message){

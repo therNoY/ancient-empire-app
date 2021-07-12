@@ -6,8 +6,8 @@ import store from "../store";
 import eventBus from "../manger/EventBus";
 import color from "../style/color/index.js"
 
-// const url = baseUrl + "/font/download/aeFont.ttf";
-const url = '/static/font/aeFont.ttf';
+const url = baseUrl + "/style/download/aeFont.ttf";
+// const url = '/static/font/aeFont.ttf';
 
 const appHelper = {
 

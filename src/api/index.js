@@ -5,8 +5,6 @@ const POST = "POST";
 const DELETE = "DELETE";
 const PUT = "PUT";
 
-let api = {};
-
 export const GetTest = (url) => request(url, "", GET);
 export const PostTest = (url, args) => request(url, args, POST);
 

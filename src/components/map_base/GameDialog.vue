@@ -22,7 +22,9 @@
 </template>
 
 <script>
-export default {
+  import {baseUrl} from "../../api/env";
+  const dialogUrlPath = "/style/download/";
+  export default {
   data() {
     return {
       winCondition: false,
@@ -46,9 +48,7 @@ export default {
       console.log("展示对话框", data);
       this.dialog = true;
       try {
-        this.img = require("../../assets/images/dialog/" +
-          data.dialog_type +
-          ".png");
+        this.img = baseUrl + dialogUrlPath + data.dialog_type + ".png";
       } catch (ignored) {
         this.img = null;
       }

@@ -23,7 +23,6 @@ export default {
 
 <style lang="scss">
 /*每个页面公共css */
-@import "uview-ui/index.scss";
 @import url("/style/font/aeFont.css");
 @import url("/style/animate.min.css");
 @import url("/style/stand-unit-size.css");

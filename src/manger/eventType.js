@@ -54,11 +54,6 @@ var eventype = {
    */
   CLICK_CHOOSE_POINT: "CLICK_CHOOSE_POINT",
 
-/**
-   * 准备攻击事件 获取攻击范围 通知 SHOW_ATTACH_AREA
-   */
-  CLICK_ATTACH_ACTION:"CLICK_ATTACH_ACTION",
-
   /**
    *  点击移动图标
    */

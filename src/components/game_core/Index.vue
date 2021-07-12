@@ -1,5 +1,6 @@
 <template>
   <div id="gameCore">
+    <!-- #ifdef H5  -->
     <curr-unit-mes
       v-if="!isMobileStyle"
       :curr_unit_color="game.curr_unit_color"
@@ -7,6 +8,7 @@
       :unitInfo="game.curr_unit"
       :region="game.curr_region"
     />
+    <!-- #endif  -->
 
     <div class="game-core-container">
       <div v-if="!$uni.isH5" class="game-core-black-title">&nbsp;_</div>
@@ -67,6 +69,7 @@
         :gameId="game.uuid"
         :curr_unit_color="game.curr_unit_color"
       />
+      <!-- #ifdef H5  -->
       <army-mes
         v-else
         class="army_mes"
@@ -76,25 +79,30 @@
         :curr_color="game.curr_color"
         :region="game.curr_region"
       />
+      <!-- #endif  -->
       <buy-unit />
       <!-- 基础监听类 -->
       <base-lister />
     </div>
 
+    <!-- #ifdef H5  -->
     <curr-region-mes
       v-if="!isMobileStyle"
       :curr_color="game.curr_color"
       :region="game.curr_region"
     />
+    <!-- #endif  -->
   </div>
 </template>
 
 <script>
 import RegionViewList from "../map_base/RegionViewList";
 import ArmyView from "../map_base/ArmyView.vue";
+// #ifdef H5
 import CurrUnitMes from "./map_mes/CurrUnitMes.vue";
 import ArmyMes from "./map_mes/ArmyMes.vue";
 import CurrRegionMes from "./map_mes/CurrRegionMes.vue";
+// #endif
 import MobileArmyMes from "./map_mes/mobile/ArmyMes.vue";
 import PointView from "../map_base/PointView.vue";
 import MoveArea from "../map_base/MoveArea.vue";
@@ -112,9 +120,11 @@ export default {
   components: {
     RegionViewList,
     MobileArmyMes,
+    // #ifdef H5
     ArmyView,
     CurrUnitMes,
     CurrRegionMes,
+    // #endif
     PointView,
     MoveArea,
     ActionView,
@@ -211,7 +221,7 @@ export default {
   },
   created() {
     this.$appHelper.loadFontFaceFromWeb();
-    // 检测webscoket连接
+    // 检测websocket连接
     console.log("准备开始游戏, 检查ws连接情况");
     this.$appHelper.bindPage2Global(this, "GameIndex");
     this.initMapStyle();
@@ -256,15 +266,6 @@ export default {
   flex-direction: row;
   position: relative;
   text-align: center;
-  .unit-mes,
-  .region-mes {
-    /* #ifdef H5 */
-    width: 16%;
-    /* #endif */
-    /* #ifndef H5 */
-    width: 0;
-    /* #endif */
-  }
   .game-core-container {
     float: left;
     display: flex;

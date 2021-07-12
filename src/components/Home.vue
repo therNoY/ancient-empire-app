@@ -137,9 +137,11 @@
 </template>
 
 <script>
+// #ifdef H5
 import UserInfo from "./auth/UserInfo.vue";
+// #endif
 import WeiXinUserInfo from "./auth/WeiXinUserInfo.vue";
-import Monitor from "./Monitor.vue"
+import Monitor from "./Monitor.vue";
 import RoomIndex from "./net/room/RoomIndex.vue";
 import EncounterStart from "./encounter/EncounterStart.vue";
 import UserRecord from "./encounter/UserRecord.vue";
@@ -158,7 +160,9 @@ import {
 } from "../utils/authUtil";
 export default {
   components: {
+    // #ifdef H5
     UserInfo,
+    // #endif
     WeiXinUserInfo,
     RoomIndex,
     UserRecord,
@@ -168,7 +172,7 @@ export default {
     ChapterSelect,
     MapManger,
     BaseLister,
-    Monitor
+    Monitor,
   },
   data() {
     return {

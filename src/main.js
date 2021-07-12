@@ -6,13 +6,11 @@ import appHelper from './utils/appHelper'
 import eventBus from './manger/EventBus'
 import color from "./style/color/index.js"
 import language from "./language"
-import uView from "uview-ui";
 import {myPatch} from "./extendWeixin"
 
 Vue.config.productionTip = false;
 
 Vue.use(animated);
-Vue.use(uView);
 
 Vue.prototype.$appHelper = appHelper;
 Vue.prototype.$eventBus = eventBus;
@@ -22,30 +20,6 @@ appHelper.store = store;
 uni.$store=store;
 
 Vue.prototype.$uni=uni;
-
-// uni 目前不支持全局引入 会报错 只能逐个引入
-// const req = require.context('./plugin', true, /\.vue$/)
-// const requireAll = requireContext => requireContext.keys().forEach(fileName => {
-//   // 获取组件配置
-//   const componentConfig = requireContext(fileName)
-//   // 获取组件的 PascalCase 命名
-//   const componentName = upperFirst(
-//       camelCase(
-//           // 获取和目录深度无关的文件名
-//           fileName
-//           .split('/')
-//           .pop()
-//           .replace(/\.\w+$/, '')
-//       )
-//   );
-//
-//   // 全局注册组件
-//   Vue.component(
-//       componentName+"",
-//       componentConfig.default || componentConfig
-//   )
-// });
-// requireAll(req);
 
 // 引入自定义组件
 import AeBorder from "./components/frame/base/AeBorder";
