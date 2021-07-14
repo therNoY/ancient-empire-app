@@ -2,7 +2,7 @@
 <template>
   <transition name="msg" appear>
     <div class="box-item" v-if="show" :style="{ top: top + 'rpx' }">
-      <unit class="msg-unit" :unit_id="unitId" :color="unitColor"></unit>
+      <unit :unit_id="unitId" :color="unitColor"></unit>
       <div class="msg-container">
         {{ mes }}
       </div>
@@ -89,16 +89,13 @@ export default {
   flex-direction: row;
   z-index: 9999;
 }
-.msg-unit {
-
-}
 .msg-container {
   /* #ifdef H5 */
   font-size: 20px;
   -webkit-text-stroke: 0.5px #000000;
   /* #endif */
   /* #ifndef H5 */
-  font-size: 0.65em;
+  font-size: 14px;
   -webkit-text-stroke: 0.3px #000000;
   /* #endif */
 }

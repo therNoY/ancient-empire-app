@@ -2,6 +2,7 @@
   <div id="gameCore">
     <!-- #ifdef H5  -->
     <curr-unit-mes
+      style="width:15%"
       v-if="!isMobileStyle"
       :curr_unit_color="game.curr_unit_color"
       :curr_color="game.curr_color"
@@ -87,6 +88,7 @@
 
     <!-- #ifdef H5  -->
     <curr-region-mes
+      style="width:15%"
       v-if="!isMobileStyle"
       :curr_color="game.curr_color"
       :region="game.curr_region"
@@ -121,7 +123,7 @@ export default {
     RegionViewList,
     MobileArmyMes,
     // #ifdef H5
-    ArmyView,
+    ArmyMes,
     CurrUnitMes,
     CurrRegionMes,
     // #endif
@@ -133,7 +135,7 @@ export default {
     AnimateView,
     TombView,
     BuyUnit,
-    ArmyMes,
+    ArmyView,
     UpShowAnimate,
     GameDialog,
     BaseLister,
@@ -205,18 +207,18 @@ export default {
     },
     clickUnit(unit) {
       if (this.$store.getters.game.curr_color == unit.color && !unit.done) {
-          // 点击了自己的可以行动的单位
-          this.$appHelper.sendEvent(eventype.CLICK_ACTIVE_UNIT, {
-            row: Math.round(unit.row),
-            column: Math.round(unit.column),
-          });
-        } else {
-          // 点击了其他的单位 或者已经行动过了
-          this.$appHelper.sendEvent(eventype.CLICK_UN_ACTIVE_UNIT, {
-            row: Math.round(unit.row),
-            column: Math.round(unit.column),
-          });
-        }
+        // 点击了自己的可以行动的单位
+        this.$appHelper.sendEvent(eventype.CLICK_ACTIVE_UNIT, {
+          row: Math.round(unit.row),
+          column: Math.round(unit.column),
+        });
+      } else {
+        // 点击了其他的单位 或者已经行动过了
+        this.$appHelper.sendEvent(eventype.CLICK_UN_ACTIVE_UNIT, {
+          row: Math.round(unit.row),
+          column: Math.round(unit.column),
+        });
+      }
     },
   },
   created() {
@@ -284,7 +286,9 @@ export default {
       .main-view {
         position: relative;
         &:hover {
+          /* #ifdef H5*/
           cursor: pointer;
+          /* #endif */
         }
         .base_map {
           cursor: hand;

@@ -4,6 +4,7 @@
     <ae-base-dialog
       v-model="showRegister"
       :title="$t('p.register')"
+      :width="40"
       @close="closeDialog"
     >
       <ae-form
@@ -29,7 +30,10 @@
         :edit="editAble"
         :formConfig="userInfoFormConfig"
       ></ae-form>
-      <ae-button-list :buttonList="userInfoButton" :clickAction="[logout, closeDialog]">
+      <ae-button-list
+        :buttonList="userInfoButton"
+        :clickAction="[logout, closeDialog]"
+      >
       </ae-button-list>
     </ae-base-dialog>
   </div>

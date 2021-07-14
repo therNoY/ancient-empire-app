@@ -4,7 +4,7 @@
     <slot></slot>
     <span @click="clickPoint">
       <sup v-if="disabled" class="delete_content" style="cursor:not-allowed">{{ value }}</sup>
-      <sup v-else class="delete_content" style="cursor: pointer;">{{ value }}</sup>
+      <sup v-else class="delete_content click-cursor">{{ value }}</sup>
     </span>
   </div>
 </template>

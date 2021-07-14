@@ -82,7 +82,9 @@ export default {
       width: 60px;
       font-size: 13px;
       margin-right: 10px;
+      /* #ifdef H5*/
       cursor: pointer;
+      /* #endif */
       display: flex;
       .army-mes-item {
         span {

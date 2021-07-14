@@ -3,8 +3,9 @@
  */
 
 // let host = '192.168.0.102';
-// let host = '127.0.0.1
-let host = '192.168.43.8';
+// let host = '122.51.229.206';
+let host = '127.0.0.1';
+// let host = '192.168.43.8';
 
 
 let imgUrl = 'http://' + host + ':8090/img/ae/';

@@ -16,9 +16,6 @@ const gameCore = {
         levelInfo: {},
         // 地图状态是1的时候不能点击其他的
         mapState: "0",
-        // 是否展示购买单位弹框
-        buyUnitDialog: false,
-
     },
 
     mutations: {
@@ -45,9 +42,6 @@ const gameCore = {
                     break;
                 }
             }
-        },
-        setBuyUnitDialog(state, dialog) {
-            state.buyUnitDialog = dialog;
         },
         addUnit(state, addUnit) {
             console.log("准备添加单位", addUnit);

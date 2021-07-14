@@ -98,7 +98,9 @@ export default {
     margin-top: 10px;
     display: flex;
     flex-direction: column;
+    /* #ifdef H5*/
     cursor: pointer;
+    /* #endif */
     width: 100%;
     .region-des-tooltip {
       width: 100%;

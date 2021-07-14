@@ -100,7 +100,8 @@
         "phone": "手机",
         "rePassword": "确认密码",
         "oldPwd": "原密码",
-        "newPwd": "新密码"
+        "newPwd": "新密码",
+        "loginIsWill":"登录后可以体验更多功能哦！"
     },
     "b": {
         "title": "战役",
@@ -132,7 +133,8 @@
         "buy": "招募[{}]",
         "buyUnit": "招募",
         "noMoney": "资金不足",
-        "unitTooMuch": "人口达到上限"
+        "unitTooMuch": "人口达到上限",
+        "reConnGameTip":"有正在进行的游戏,需要重新连接么?"
     },
     "mp": {
         "title": "多人游戏",

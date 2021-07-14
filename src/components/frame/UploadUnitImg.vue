@@ -3,7 +3,6 @@
     <ae-base-dialog :title="$t('c.uploadImg')" v-model="showModel">
       <div class="upload-unit-img">
         <upload-game-img
-          class="uploadComp"
           :checkFunc="checkSize"
           :unitId="unitId"
           @success="uploadSuccess"
@@ -142,8 +141,6 @@ export default {
 </script>
 
 <style lang="scss" scope>
-.uploadComp {
-}
 .uploadImg {
   margin-top: 2%;
   margin-left: 3%;

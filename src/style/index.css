@@ -2,19 +2,19 @@
   float: left;
   width:100%;
   color: rgb(255, 255, 255);
-  cursor: pointer;
   background-color: #5a5c59;
   /* #ifdef H5*/
+  cursor: pointer;
   border-top: 2px #818181 solid;
   border-left: 2px #818181 solid;
   border-right: 2px #494949 solid;
   border-bottom: 2px #494949 solid;
   /* #endif*/
-  /* #ifdef MP-WEIXIN */
-  border-top: 2rpx #818181 solid;
-  border-left: 2rpx #818181 solid;
-  border-right: 2rpx #494949 solid;
-  border-bottom: 2rpx #494949 solid;
+  /* #ifndef H5 */
+  border-top: 1rpx #818181 solid;
+  border-left: 1rpx #818181 solid;
+  border-right: 1rpx #494949 solid;
+  border-bottom: 1rpx #494949 solid;
   /* #endif */
   border-radius: 3px;
   overflow: hidden;

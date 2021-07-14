@@ -1,13 +1,14 @@
 <template>
   <!--招募军队弹框-->
   <ae-base-dialog
+    v-if="buyUnitsInfo.length"
     :title="$t('e.buy', buyUnitsInfo[selectIndex].unit_mes.name)"
     v-model="buyUnitShow"
     inlineDialog
     :top="3"
-    :width="$uni.isH5 ? 50 : 80"
+    :width="$uni.isH5 ? 50 : 70"
   >
-    <div v-if="buyUnitShow && buyUnitsInfo" class="buy-unit-main">
+    <div v-if="buyUnitShow" class="buy-unit-main">
       <unit-region-mes
         :unitInfo="buyUnitsInfo[selectIndex]"
         :color="color"
@@ -48,13 +49,14 @@
 
 <script>
 import eventype from "../../../manger/eventType";
-import { GetUnitInfoList } from "../../../api";
+import { GetCanBuyUnitInfoList } from "../../../api";
 import UnitRegionMes from "./UnitRegionMes.vue";
 export default {
   components: { UnitRegionMes },
   data() {
     return {
       selectIndex: 0,
+      buyUnitShow: false,
       buyUnitsInfo: null,
     };
   },
@@ -91,36 +93,28 @@ export default {
           null,
           unitInfo.unit_mes.id
         );
-        this.$emit("dialogClose");
         this.$store.commit("setAction", []);
       }
-      this.close();
     },
-    close() {
-      this.$store.commit("setBuyUnitDialog", false);
+    showBuyUnitDialog() {
+      let args = {};
+      args.uuid = this.$store.getters.game.uuid;
+      GetCanBuyUnitInfoList(args).then(({ res_val }) => {
+        this.buyUnitsInfo = resp.res_val;
+        this.buyUnitShow = true;
+      });
     },
   },
   computed: {
-    buyUnitShow: {
-      get: function () {
-        return this.$store.getters.buyUnitDialog;
-      },
-      set: function (value) {
-        this.$store.commit("setBuyUnitDialog", value);
-      },
-    },
     color() {
       return this.$store.getters.game.curr_color;
     },
   },
   created() {
-    let args = {};
-    args.uuid = this.$store.getters.game.uuid;
-    GetUnitInfoList(args).then((resp) => {
-      if (resp.res_code == 0) {
-        this.buyUnitsInfo = resp.res_val;
-      }
-    });
+    this.$eventBus.regist(this, "showBuyUnitDialog");
+  },
+  destroyed() {
+    this.$eventBus.unRegist(this, "showBuyUnitDialog");
   },
 };
 </script>
@@ -135,7 +129,9 @@ export default {
       float: left;
       margin-left: 10px;
       position: relative;
+      /* #ifdef H5*/
       cursor: pointer;
+      /* #endif */
       .by-unit-img {
         position: absolute;
         top: 4px;

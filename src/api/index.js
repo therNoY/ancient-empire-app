@@ -8,11 +8,31 @@ const PUT = "PUT";
 export const GetTest = (url) => request(url, "", GET);
 export const PostTest = (url, args) => request(url, args, POST);
 
-// 用户操作
+/**
+ * 用户登录
+ * @param {*} args 
+ * @param {*} showLoading 
+ * @param {*} handleErr 
+ * @returns 
+ */
 export const Login = (args, showLoading, handleErr) => request('/user/login', args, POST, showLoading, handleErr);
+
+/**
+ * 用户注册
+ * @param {*} args 
+ * @param {*} showLoading 
+ * @param {*} handleErr 
+ * @returns 
+ */
 export const Register = (args, showLoading, handleErr) => request('/user/register', args, POST, showLoading, handleErr);
-export const AdminLogin = (args, showLoading, handleErr) => request('/admin/login', args, POST, showLoading, handleErr);
-export const GetWeiXinPhone = (args, showLoading, handleErr) => request('/user/getWeiXinPhone', args, POST, showLoading, handleErr);
+/**
+ * 微信登录
+ * @param {*} args 
+ * @param {*} showLoading 
+ * @param {*} handleErr 
+ * @returns 
+ */
+export const GetWeiXinPhone = (args) => request('/user/getWeiXinPhone', args, POST, false, true);
 
 /**
  * 获取用户名称
@@ -105,7 +125,6 @@ export const RevertUnitVersion = (args, showLoading, handleErr) => request('/api
  */
 export const CreateUnitImg = (args, showLoading, handleErr) => request('/api/unitMes/img/create', args, POST, showLoading, handleErr);
 
-
 /**
  * 获取单位的能力信息
  * @param {*} id
@@ -115,11 +134,21 @@ export const GetUnitAbilityInfo = (id, showLoading, handleErr) => request('/api/
  * 获取所有的能力信息
  */
 export const GetAllAbilityInfo = (showLoading, handleErr) => request('/api/ability/list', '', GET, showLoading, handleErr);
-
-export const GetUnitLevel = (args, showLoading, handleErr) => request('/root/unitLevel', args, GET, showLoading, handleErr);
-export const SaveUnitLevel = (args, showLoading, handleErr) => request('/root/unitLevel', args, PUT, showLoading, handleErr);
-
+/**
+ * 管理员获取地形
+ * @param {*} args 
+ * @param {*} showLoading 
+ * @param {*} handleErr 
+ * @returns 
+ */
 export const GetRegionData = (args, showLoading, handleErr) => request('/root/region', args, GET, showLoading, handleErr);
+/**
+ * 管理员修改地形
+ * @param {*} args 
+ * @param {*} showLoading 
+ * @param {*} handleErr 
+ * @returns 
+ */
 export const SaveRegion = (args, showLoading, handleErr) => request('/root/region', args, PUT, showLoading, handleErr);
 
 /**
@@ -353,16 +382,26 @@ export const RemoveUserTemplateAttention = (args, showLoading, handleErr) => req
 // 获取可以添加到当前模板的单位
 export const GetAddTempAbleUnit = (args, showLoading, handleErr) => request('/api/userTemp/addAbleUnitList', args, POST, showLoading, handleErr);
 
+/**
+ * 获取地形信息
+ * @param {*} args 
+ * @param {*} showLoading 
+ * @param {*} handleErr 
+ * @returns 
+ */
 export const GetRegionInfo = (args, showLoading, handleErr) => request('/regionInfo', args, GET, showLoading, handleErr);
 
-// 获取所有的地图
-export const GetUnitInfoList = (args, showLoading, handleErr) => request('/unitInfo/list', args, GET, showLoading, handleErr);
-
-// 保存游戏
-export const SaveUserRecord = (args, showLoading, handleErr) => request('/unitInfo/list', args, GET, showLoading, handleErr);
+/**
+ * 获取可以购买的单位
+ * @param {*} args 
+ * @param {*} showLoading 
+ * @param {*} handleErr 
+ * @returns 
+ */
+export const GetCanBuyUnitInfoList = (args, showLoading, handleErr) => request('/unitInfo/canBuy', args, GET, showLoading, handleErr);
 
 /**
- * 获取故事模式
+ * 获取故事模式列表
  * @param {*} args
  * @returns
  */
@@ -430,5 +469,15 @@ export const GetBuffByType = (args) =>request("/buff/get", args, GET, false, tru
  */
 export const GetCanReConnectRecord = (args) =>request("/api/record/canReConnect", args, GET, false, true);
 
+/**
+ * 获取运行的监控列表
+ * @param {*} args 
+ * @returns 
+ */
 export const GetMonitorRecordList = (args) =>request("/admin/monitor/record/list", args, POST, true, true);
+/**
+ * 获取运行中的数据详情
+ * @param {*} args 
+ * @returns 
+ */
 export const GetUserRecordInfo = (args) =>request("/api/runRecord/" + args, {}, GET, true, true);

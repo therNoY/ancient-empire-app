@@ -123,7 +123,9 @@ export default {
   display: flex;
   .edit-able-animate-button {
     margin-right: 3%;
+    /* #ifdef H5*/
     cursor: pointer;
+    /* #endif */
   }
   .edit-anim-list {
     display: flex;

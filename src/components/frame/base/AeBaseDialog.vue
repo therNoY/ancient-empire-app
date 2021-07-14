@@ -33,7 +33,7 @@
                 type="closeempty"
                 color="#b0b8ac"
                 class="btn-close"
-                :size="closeButtonSiz"
+                :size="closeButtonSize"
                 @click="close"
               />
               <!-- #endif -->
@@ -126,7 +126,7 @@ export default {
   data() {
     return {
       fullScreen: false,
-      closeButtonSiz: 15,
+      closeButtonSize: 15,
       vueStyle: {
         popupWidth: null,
         dialogDisplay: "inline",
@@ -176,7 +176,7 @@ export default {
       this.vueStyle.dialogLeft = (100 - this.width) / 2 + "%";
     }
     // #ifdef H5
-    this.closeButtonSiz = 25;
+    this.closeButtonSize = 25;
     // #endif
   },
   watch: {
@@ -258,7 +258,7 @@ export default {
     /*#ifdef H5*/
     font-size: 18px;
     /*#endif*/
-    /*#ifdef MP-WEIXIN*/
+    /*#ifndef H5*/
     font-size: 0.7rem;
     /*#endif*/
   }
@@ -268,7 +268,9 @@ export default {
 }
 
 .btn-close {
+  /* #ifdef H5*/
   cursor: pointer;
+  /* #endif */
   float: right;
   margin-right: 2%;
 }

@@ -289,7 +289,9 @@ $distance: 10px;
       flex-direction: row;
       width: 40%;
       justify-content: space-evenly;
+      /* #ifdef H5*/
       cursor: pointer;
+      /* #endif */
       img {
         width: 25px;
         height: 25px;
@@ -342,7 +344,7 @@ $distance: 10px;
             /* #ifdef H5*/
             font-size: 14px;
             /* #endif*/
-            /* #ifdef MP-WEIXIN */
+            /* #ifndef H5 */
             font-size: 0.65rem;
             /* #endif */
           }

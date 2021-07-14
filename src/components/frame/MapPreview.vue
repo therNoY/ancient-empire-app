@@ -20,6 +20,7 @@
       <movable-view
         direction="all"
         class="preview-map-view"
+        style="position: relative"
         :style="{ width: mapStyle.width, height: mapStyle.height }"
         :x="x"
         :y="y"
@@ -184,7 +185,6 @@ export default {
     /* #endif */
   }
   .preview-map-view {
-    position: absolute;
     float: left;
     img {
       float: left;

@@ -130,7 +130,7 @@
 	/* #ifdef H5 */
 	$box-height: 26px;
 	/* #endif */
-	/* #ifdef MP */
+	/* #ifndef H5 */
 	$box-height: 20px;
 	/* #endif */
 	/* #ifdef APP-NVUE */
@@ -198,7 +198,6 @@
 		align-items: center;
 		justify-content: center;
 		width: $box-width;
-		height: $box-height;
 		border-width: 1rpx;
 		border-style: solid;
 		border-color: $uni-border-color;

@@ -32,7 +32,7 @@ page {
   /* #ifdef H5 */
   font-size: 14px;
   /* #endif */
-  /* #ifdef MP-WEIXIN */
+  /* #ifndef H5 */
   font-size: 0.6rem;
   /* #endif*/
 }
@@ -41,11 +41,15 @@ page {
   cursor: not-allowed;
 }
 .click-cursor {
+  /* #ifdef H5*/
   cursor: pointer;
+  /* #endif */
 }
 .base-animate {
   position: absolute;
+  /* #ifdef H5*/
   cursor: pointer;
+  /* #endif */
   transition-duration: 0.2s;
   transition-property: all;
   transition-timing-function: linear;
@@ -80,8 +84,8 @@ input:-webkit-autofill {
   border-bottom: 2px #aaaaaa solid;
 
   table {
-    width: 100%;
     /* #ifdef H5 */
+    width: 100%;
     font-size: 13px;
     /* #endif */
     /* #ifndef H5 */
@@ -113,8 +117,8 @@ input:-webkit-autofill {
     padding: 8px;
     /* #endif */
     /* #ifndef H5 */
-    padding: 3rpx;
-    font-size: 0.7rem;
+    padding: 4rpx;
+    font-size: 0.75rem;
     /* #endif */
     border-style: solid;
     word-wrap: break-word;

@@ -12,12 +12,12 @@
           ></unit-view>
           <div v-else class="show-region-img">
             <img
-              class="fixed-img-size"
+              class="fixed-img-size "
               v-if="region.type == 'castle'"
               src="../../../assets/images/Region/castle_title.png"
             />
             <div v-else class="fixed-img-size"></div>
-            <img :src="$appHelper.getRegionImg(region.type, region.color)" />
+            <img class="fixed-img-size" :src="$appHelper.getRegionImg(region.type, region.color)" />
           </div>
         </ae-border>
       </div>
@@ -248,7 +248,9 @@ $padding: 4px;
   border-bottom: 1px rgb(190, 190, 190) solid;
 }
 .item-desc-name {
+  /* #ifdef H5*/
   cursor: pointer;
+  /* #endif */
   font-size: 12px;
 }
 </style>

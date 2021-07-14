@@ -67,7 +67,7 @@ export default {
         },
         fail: (err) => {
           console.log("chooseImage fail", err);
-          // #ifdef MP
+          // #ifndef H5
           uni.getSetting({
             success: (res) => {
               let authStatus = res.authSetting["scope.album"];
@@ -99,5 +99,5 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style>
 </style>

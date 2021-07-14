@@ -115,7 +115,7 @@ export function connectWS({ typeId, type }, saveSocket, onMessage, initFunc, onC
         console.log("准备连接WS, url", url);
         let socket = uni.connectSocket({
             url: url,
-            // #ifdef MP
+            // #ifndef H5
             header: {
                 'content-type': 'application/json'
             },

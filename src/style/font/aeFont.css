@@ -6,7 +6,7 @@ div {
 }
 /* #endif */
 
-/* #ifdef MP-WEIXIN */
+/* #ifndef H5 */
 div{
 	font-family: aeFont;
 	-webkit-text-stroke: 0.4px #000000;

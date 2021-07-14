@@ -4,7 +4,7 @@
       v-if="showModel"
       v-model="showModel"
       :title="templateDetail.template_name"
-      :width="$uni.isH5 ? 45 : 84"
+      :width="$uni.isH5 ? 45 : 75"
       inlineDialog
       :top="5"
     >

@@ -31,8 +31,8 @@ export default {
         this.$appHelper.sendEvent(eventype.CLICK_END_ACTION);
         this.$store.commit("setAction", []);
       } else if (name == "buy") {
-        // 购买
-        this.$store.commit("setBuyUnitDialog", true);
+        // 购买单位购买特殊处理
+        this.$eventBus.publish("showBuyUnitDialog");
       } else if (name == "move") {
         this.$appHelper.sendEvent(eventype.CLICK_MOVE_ACTION);
       } else if (name == "occupied") {

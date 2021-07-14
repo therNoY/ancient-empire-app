@@ -172,7 +172,7 @@ export default {
         /* #ifdef H5 */
         font-size: 14px;
         /* #endif */
-        /* #ifdef MP-WEIXIN */
+        /* #ifndef H5 */
         font-size: 0.6rem;
         /* #endif*/
       }

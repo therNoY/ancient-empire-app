@@ -5,88 +5,63 @@
     <img class="logo" src="../assets/images/assist/logo.png" />
     <div class="buttons">
       <!-- #ifdef H5 -->
-      <ae-button
-        :size="buttonSize"
-        class="home_button"
-        @click="clickUserInfo"
-        >{{ $t("p.title") }}</ae-button
-      >
+      <button class="ae-button home-button" @click="clickUserInfo">
+        {{ $t("p.title") }}
+      </button>
       <!-- #endif -->
-      <!-- #ifdef MP-WEIXIN -->
-      <ae-button
+      <!-- #ifndef H5 -->
+      <button
         :size="buttonSize"
         v-if="haveLogin"
-        class="home_button"
+        class="ae-button home-button"
         @click="clickUserInfo"
-        >{{ $t("p.title") }}</ae-button
       >
+        {{ $t("p.title") }}
+      </button>
       <button
         v-else
-        class="ae-button loginButton"
-        style="font-size: 0.7rem !important"
+        class="ae-button home-button"
         open-type="getPhoneNumber"
         @getphonenumber="onGetPhoneNumber"
       >
         {{ $t("p.title") }}
       </button>
       <!-- #endif -->
-      <ae-button
-        id="battleButton"
-        :size="buttonSize"
-        class="home_button"
-        @click="showChapter = true"
-        >{{ $t("b.title") }}</ae-button
-      >
-      <ae-button
-        :size="buttonSize"
-        class="home_button"
-        @click="showEncounter = true"
-        >{{ $t("e.title") }}</ae-button
-      >
-      <ae-button
-        :size="buttonSize"
-        class="home_button"
-        @click="showNetGameDialog = true"
-        >{{ $t("mp.title") }}</ae-button
-      >
-      <ae-button
-        :size="buttonSize"
-        class="home_button"
-        @click="showUserRecord = true"
-        >{{ $t("lg.title") }}</ae-button
-      >
-      <ae-button
-        :size="buttonSize"
-        class="home_button"
-        @click="showUnitMange = true"
-        >{{ $t("um.title") }}</ae-button
-      >
-      <ae-button
-        :size="buttonSize"
-        class="home_button"
-        @click="showTemplateManger = true"
-        >{{ $t("tm.title") }}</ae-button
-      >
-      <ae-button
-        :size="buttonSize"
-        class="home_button"
-        @click="showMapManger = true"
-        >{{ $t("mm.title") }}</ae-button
-      >
-      <ae-button
-        :size="buttonSize"
-        class="home_button"
+      <button class="ae-button home-button" @click="showChapter = true">
+        {{ $t("b.title") }}
+      </button>
+      <button class="ae-button home-button" @click="showEncounter = true">
+        {{ $t("e.title") }}
+      </button>
+      <button class="ae-button home-button" @click="showNetGameDialog = true">
+        {{ $t("mp.title") }}
+      </button>
+      <button class="ae-button home-button" @click="showUserRecord = true">
+        {{ $t("lg.title") }}
+      </button>
+      <button class="ae-button home-button" @click="showUnitMange = true">
+        {{ $t("um.title") }}
+      </button>
+      <button class="ae-button home-button" @click="showTemplateManger = true">
+        {{ $t("tm.title") }}
+      </button>
+      <button class="ae-button home-button" @click="showMapManger = true">
+        {{ $t("mm.title") }}
+      </button>
+      <button
+        class="ae-button home-button"
         @click="router('map_manger/MapEdit?mapId=0')"
-        >{{ $t("me.title") }}</ae-button
       >
-      <!-- <ae-button :size="buttonSize" class="home_button" @click="router('Test')"
-        >帮助</ae-button
+        {{ $t("me.title") }}
+      </button>
+      <!-- <button :size="buttonSize" class="ae-button home-button" @click="router('Test')"
+        >帮助</button
       > -->
-      <!-- <ae-button
+      <!-- <button
         :size="buttonSize"
-        class="home_button"
+        class="ae-button home-button"
         @click="showMoitor = true"
-        >监控</ae-button
+        >监控</button
       > -->
     </div>
 
@@ -97,7 +72,7 @@
       @close="userInfoDialog = false"
     ></user-info>
     <!-- #endif -->
-    <!-- #ifdef MP -->
+    <!-- #ifndef H5 -->
     <wei-xin-user-info
       ref="userInfo"
       v-model="userInfoDialog"
@@ -230,17 +205,16 @@ export default {
     reConnectGameRecord() {
       GetCanReConnectRecord().then(({ res_val }) => {
         if (res_val) {
-          this.$appHelper.showTip("有正在进行的游戏,需要重新连接么", () => {
-            console.log("准备重连", res_val);
+          this.$appHelper.showTip(this.$t("e.reConnGameTip"), () => {
             reRecordGame(res_val);
           });
         }
       });
     },
-    // 重试
     onGetPhoneNumber({ detail }) {
       let _this = this;
       if (detail.encryptedData && detail.iv) {
+        this.$appHelper.setLoading(true);
         uni.login({
           provider: "weixin",
           success: function (loginRes) {
@@ -255,25 +229,31 @@ export default {
                 success: function ({ encryptedData, iv }) {
                   args.user_info_encrypted = encryptedData;
                   args.user_info_iv = iv;
-                  // 自己处理异常 并且进行一次重试
-                  GetWeiXinPhone(args, false).then(({ res_code, res_val }) => {
-                    if (res_code === 0) {
-                      _this.openAppUserInfo(res_val);
-                    }
-                  });
+                  GetWeiXinPhone(args)
+                    .then(({ res_code, res_val }) => {
+                      if (res_code === 0) {
+                        _this.openAppUserInfo(res_val);
+                        _this.$appHelper.setLoading(false);
+                      }
+                    })
+                    .catch((err) => {
+                      _this.$appHelper.setLoading(false);
+                    });
                 },
                 fail: function (error) {
                   console.log(error);
+                  _this.$appHelper.setLoading(false);
                 },
               });
             }
           },
           fail: function (err) {
             console.error("微信用户登录失败", err);
+            _this.$appHelper.setLoading(false);
           },
         });
       } else {
-        _this.$appHelper.warningMsg("登录后可以体验更多功能哦！");
+        _this.$appHelper.warningMsg(_this.$t("p.loginIsWill"));
       }
     },
     /**
@@ -292,7 +272,7 @@ export default {
         loginUser.user_id = user_id;
         setUser(loginUser);
         setToken(token);
-        this.$appHelper.successMsg("用户:" + phone_number + "登录成功");
+        this.$appHelper.successMsg(user_name + "登录成功");
       } else {
         this.loginUser.phone = phone_number;
         this.loginUser.user_name = nick_name;
@@ -334,7 +314,7 @@ export default {
 .logo {
   margin: 0 auto;
   height: 15%;
-  // #ifdef MP
+  // #ifndef H5
   width: 20%;
   // #endif
 }
@@ -348,20 +328,17 @@ export default {
   box-shadow: 0 2px 12px 0 rgba(255, 255, 255, 0.692);
 }
 
-.home_button {
+.home-button {
   float: left;
   margin-left: 20%;
-  height: 9%;
-  margin-top: 1%;
-  width: 60%;
-}
-.loginButton {
-  width: 60%;
-  margin-left: 21%;
+  height: 7%;
   margin-top: 1%;
   margin-bottom: 1%;
-  height: 8%;
+  width: 60%;
   text-align: center;
-  line-height: 1.5;
+  line-height: 1;
+  /* #ifndef H5*/
+  font-size: 0.7rem !important;
+  /* #endif */
 }
 </style>

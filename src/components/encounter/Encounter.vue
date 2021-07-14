@@ -272,7 +272,9 @@ export default {
     padding: 2%;
     color: white;
     text-decoration: underline;
+    /* #ifdef H5*/
     cursor: pointer;
+    /* #endif */
   }
 
   .common_init {

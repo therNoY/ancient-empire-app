@@ -12,10 +12,9 @@
       :initQueryDataGrid="initQueryDataFunction"
       :footerButtons="footerButtonList"
       :width="$uni.isH5 ? 65 : 75"
-      showSearch
       @titleSwitchSelectChange="switchSelectChange"
+      showSearch
       page
-      setFullScreen
     >
     </ae-complex-dialog>
     <template-detail

@@ -33,24 +33,32 @@
     width: 26px;
     height: 26px;
     position: absolute;
+    /* #ifdef H5*/
     cursor: pointer;
+    /* #endif */
 }
 
 .stand-choose-point {
     width: 40px;
     height: 41px;
     position: absolute;
+    /* #ifdef H5*/
     cursor: pointer;
+    /* #endif */
 }
 
 .stand-attach-view {
     position: absolute;
+    /* #ifdef H5*/
     cursor: pointer;
+    /* #endif */
 }
 
 .stand-move-view {
     position: absolute;
+    /* #ifdef H5*/
     cursor: pointer;
+    /* #endif */
     width: 48px;
     height: 24px;
     clip: rect(0px, 48px, 24px, 24px);

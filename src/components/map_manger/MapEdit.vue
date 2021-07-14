@@ -25,7 +25,7 @@
         </div>
       </div>
 
-      <!--移动办风格-->
+      <!--移动版风格-->
       <div class="mobile-map-edit" v-if="isMobileStyle">
         <ae-border class="mobile-map-edit-content">
           <div style="margin-buttom: 20px">
@@ -49,22 +49,28 @@
                 :items="regionType"
               />
               <div v-if="showSelectUnit">
-                <img
+                <div
                   v-for="(unit, key) in initMapInfo.unit_mes_list"
                   :key="key"
-                  :class="['map-edit-select']"
-                  :src="$appHelper.getUnitImg(unit.id, unitColor)"
-                  @click="getUnit(unit)"
-                />
+                >
+                  <img
+                    :class="['map-edit-select', unit.id == selectUnit.id ? 'map-edit-selected' : '']"
+                    :src="$appHelper.getUnitImg(unit.id, unitColor)"
+                    @click="getUnit(unit)"
+                  />
+                </div>
               </div>
               <div v-else>
-                <img
+                <div
                   v-for="(region, index) in initMapInfo.region_mes"
                   :key="index"
-                  :class="['map-edit-select']"
-                  :src="$appHelper.getRegionImg(region.type, regionColor)"
-                  @click="getRegion(region)"
-                />
+                >
+                  <img
+                    :class="['map-edit-select', region.id == selectRegion.id ? 'map-edit-selected' : '']"
+                    :src="$appHelper.getRegionImg(region.type, regionColor)"
+                    @click="getRegion(region)"
+                  />
+                </div>
               </div>
             </scroll-view>
           </div>
@@ -80,7 +86,7 @@
             height: containerStyle.height,
           }"
         >
-          <div style="position: absolute">
+          <div style="position: relative">
             <movable-view
               :x="0"
               :y="0"
@@ -544,7 +550,8 @@ export default {
           // 原来已经存在改单位
           console.log("替换 单位");
           this.unitList[index].color = this.unitColor;
-          this.unitList[index].id = this.selectUnit.id;
+          this.unitList[index].type_id = this.selectUnit.id;
+          this.unitList.splice(0, 0);
         } else {
           this.currentEditInfo.index =
             (unit.row - 1) * this.mapColumn + (unit.column - 1);
@@ -807,7 +814,9 @@ export default {
       .main-view {
         position: relative;
         &:hover {
+          /* #ifdef H5*/
           cursor: pointer;
+          /* #endif */
         }
         .base_map {
           cursor: hand;
@@ -825,7 +834,9 @@ export default {
       display: flex;
       justify-content: center;
       align-items: center;
+      /* #ifdef H5*/
       cursor: pointer;
+      /* #endif */
       .icon-img {
         width: 25px;
         height: 25px;
@@ -869,7 +880,9 @@ export default {
       float: left;
       margin-left: 20px;
       margin-top: 20px;
+      /* #ifdef H5*/
       cursor: pointer;
+      /* #endif */
     }
   }
   .mobile-map-edit {
@@ -893,9 +906,17 @@ export default {
     float: left;
     margin-left: 10px;
     margin-top: 10px;
+    /* #ifdef H5*/
     cursor: pointer;
+    /* #endif */
     width: 20px;
     height: 20px;
+    padding: 2px;
+  }
+  .map-edit-selected {
+    width: 24px;
+    height: 24px;
+    padding: 0px;
   }
 
   .select_desc {
@@ -909,7 +930,9 @@ export default {
   .map img {
     float: left;
     margin: 0;
+    /* #ifdef H5*/
     cursor: pointer;
+    /* #endif */
   }
 
   .unit_img {

@@ -501,7 +501,7 @@ var commendDispatcher = {
         }
         break;
       case commendType.SHOW_BUY_UNIT:
-        store.commit("setBuyUnitDialog", true);
+        eventBus.publish("showBuyUnitDialog", message);
         if (callback) {
           this.dispatch(callback.next(), callback);
         }

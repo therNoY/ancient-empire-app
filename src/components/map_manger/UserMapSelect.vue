@@ -10,7 +10,7 @@
     </ae-button>
     <div
       @click="clickPreviewChooseMap"
-      class="userMap-select-name"
+      class="userMap-select-name click-cursor"
       v-if="chooseMap && chooseMap.map_name"
     >
       {{ chooseMap.map_name }}
@@ -91,7 +91,6 @@ export default {
     /* #endif*/
     color: white;
     text-decoration: underline;
-    cursor: pointer;
   }
 }
 </style>

@@ -106,7 +106,9 @@
 
     .ae-page-num {
       height: 18px;
+      /* #ifdef H5*/
       cursor: pointer;
+      /* #endif */
       width: 10%;
       color: white;
     }

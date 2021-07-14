@@ -120,7 +120,7 @@ export default {
   border-right: 2px #818181 solid;
   border-bottom: 2px #818181 solid;
   /* #endif*/
-  /* #ifdef MP-WEIXIN */
+  /* #ifndef H5 */
   height: 16rpx;
   font-size: 12px;
   border-top: 2rpx #494949 solid;
