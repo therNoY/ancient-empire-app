@@ -145,8 +145,8 @@ export default {
     },
     tableWidth(){
       let width = 100;
-      if (this.showTitle instanceof Array && this.showTitle.length > 4 && !uni.isH5) {
-        width = (this.showTitle.length - 4) * 10 + 100;
+      if (this.showTitle instanceof Array && this.showTitle.length > 5 && !uni.isH5) {
+        width = (this.showTitle.length - 5) * 10 + 100;
       }
       return width + "%";
     }

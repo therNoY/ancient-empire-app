@@ -4,7 +4,7 @@
     <ae-base-dialog
       v-model="showRegister"
       :title="$t('p.register')"
-      :width="40"
+      :width="50"
       @close="closeDialog"
     >
       <ae-form
@@ -22,6 +22,7 @@
       :title="$t('p.userInfo')"
       v-model="showUserInfo"
       v-if="showUserInfo"
+      :width="45"
       @close="closeDialog"
     >
       <ae-form

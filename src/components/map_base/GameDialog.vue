@@ -2,29 +2,31 @@
   <div>
     <div
       v-if="winCondition"
-      class="showConditionStyle"
-      @click="$appHelper.sendEvent('CLICK_TOP')"
+      class="show-condition-style"
+      @click="$appHelper.sendEvent('CLICK_TIP')"
     >
-      <div class="showConditionTitle">{{ this.$t("e.gameAim") }}</div>
-      <div class="showConditionContent">
+      <div class="show-condition-title">{{ this.$t("e.gameAim") }}</div>
+      <div class="show-condition-content">
         {{ message }}
       </div>
     </div>
-    <div v-if="dialog" @click="$appHelper.sendEvent('CLICK_TOP')">
-      <div class="showDialogStyle">
-        <div class="showDialogTitle">{{ message }}</div>
-        <div class="showDialogContent">
-          <img v-if="img" :src="img" alt />
+    <div v-if="dialog" @click="$appHelper.sendEvent('CLICK_TIP')">
+      <div class="show-dialog-style">
+        <div>
+          <img style="width: 80px; height: 80px" v-if="img" :src="img" />
         </div>
+        <div class="show-dialog-title">{{ message }}</div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-  import {baseUrl} from "../../api/env";
-  const dialogUrlPath = "/style/download/";
-  export default {
+import { baseUrl } from "../../api/env";
+import AeBorder from "../frame/base/AeBorder.vue";
+const dialogUrlPath = "/style/download/";
+export default {
+  components: { AeBorder },
   data() {
     return {
       winCondition: false,
@@ -92,43 +94,40 @@
 </script>
 
 <style  lang="scss" scoped>
-.showConditionStyle {
+.show-condition-style {
   width: 100%;
   height: 25%;
   margin-top: 35%;
   position: absolute;
-  background-color: #242b44;
+  background-color: rgb(70, 72, 70);
   color: white;
 
-  .showConditionTitle {
+  .show-condition-title {
     text-align: center;
     border-bottom: 1.5px #c9c9c9 solid;
     padding: 2.5%;
   }
-  .showConditionContent {
+  .show-condition-content {
     padding-top: 6%;
     padding-left: 3%;
   }
   border-top: 2px #c9c9c9 solid;
   border-bottom: 2px #c9c9c9 solid;
 }
-.showDialogStyle {
+.show-dialog-style {
   width: 100%;
   height: 30%;
   position: absolute;
   bottom: 0px;
   color: white;
-  background-color: #242b44;
+  background-color: rgb(70, 72, 70);
   border-top: 2px #c9c9c9 solid;
   border-bottom: 2px #c9c9c9 solid;
-  .showDialogTitle {
+  display: flex;
+  align-items: center;
+  .show-dialog-title {
     width: 60%;
-    float: right;
-    padding-top: 7%;
-  }
-  .showDialogContent {
-    width: 40%;
-    float: right;
+    padding-top: 1%;
   }
 }
 </style>

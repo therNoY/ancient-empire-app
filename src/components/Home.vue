@@ -337,6 +337,8 @@ export default {
   width: 60%;
   text-align: center;
   line-height: 1;
+  padding-top: 1%;
+  padding-bottom: 1%;
   /* #ifndef H5*/
   font-size: 0.7rem !important;
   /* #endif */

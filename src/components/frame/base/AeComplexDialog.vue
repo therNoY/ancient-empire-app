@@ -12,6 +12,7 @@
     <div class="ae-dialog-content">
       <div class="ae-dialog-body-title">
         <ae-button-list
+          :factor="50"
           v-if="titleButtons && titleButtons.length > 1"
           :style="{ width: vueStyle.titleButtonWidth }"
           :buttonList="titleButtons.map((a) => a.name)"

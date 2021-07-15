@@ -93,6 +93,7 @@ export default {
           null,
           unitInfo.unit_mes.id
         );
+        this.buyUnitShow = false;
         this.$store.commit("setAction", []);
       }
     },
@@ -100,7 +101,7 @@ export default {
       let args = {};
       args.uuid = this.$store.getters.game.uuid;
       GetCanBuyUnitInfoList(args).then(({ res_val }) => {
-        this.buyUnitsInfo = resp.res_val;
+        this.buyUnitsInfo = res_val;
         this.buyUnitShow = true;
       });
     },

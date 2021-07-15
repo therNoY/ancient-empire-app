@@ -398,7 +398,7 @@ export const GetRegionInfo = (args, showLoading, handleErr) => request('/regionI
  * @param {*} handleErr 
  * @returns 
  */
-export const GetCanBuyUnitInfoList = (args, showLoading, handleErr) => request('/unitInfo/canBuy', args, GET, showLoading, handleErr);
+export const GetCanBuyUnitInfoList = (args, showLoading, handleErr) => request('/unitInfo/armyCanBuyUnit', args, GET, showLoading, handleErr);
 
 /**
  * 获取故事模式列表

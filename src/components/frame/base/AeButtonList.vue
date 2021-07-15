@@ -39,10 +39,15 @@ export default {
       type: Array,
       default: () => [],
     },
-    // 扩展因子 调节按钮之间的宽度
+    // 扩展因子 越小按钮就越窄 调节按钮之间的宽度
     factor: {
       type: Number,
-      default: 50,
+      // #ifdef H5
+      default: 45,
+      // #endif
+       // #ifndef H5
+      default: 40,
+      // #endif
     },
     // 按钮字体大小
     size: {
