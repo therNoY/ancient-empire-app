@@ -21,7 +21,7 @@
               <tr v-for="(army, index) in canJoinArmy" :key="index">
                 <td>
                   <img
-                    class="stand-img-size"
+                    class="fixed-img-size"
                     :src="$appHelper.getUnitImg('10', army.color)"
                   />
                 </td>

@@ -2,7 +2,7 @@
 <template>
   <div>
     <img
-      class="stand-img-size castle-title"
+      :class="[$uni.imgSize + '-img-size', 'castle-title']"
       src="../../assets/images/Region/castle_title.png"
       @click="getCastleTitle(title.row, title.column)"
       :style="{

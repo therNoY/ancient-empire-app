@@ -3,7 +3,7 @@
     <!--展示单位可以进行行动 攻击 召唤 购买 修复-->
     <div v-for="(action, index) in unitActions" :key="index">
       <img
-        class="stand-action-size base-animate"
+        :class="[$uni.imgSize + '-action-size', 'base-animate']"
         :src="$appHelper.getActionImg(action.action)"
         @click="doAction(action.action)"
         :style="{
@@ -29,7 +29,6 @@ export default {
         this.$appHelper.sendEvent(eventype.CLICK_ATTACH_ACTION);
       } else if (name == "end") {
         this.$appHelper.sendEvent(eventype.CLICK_END_ACTION);
-        this.$store.commit("setAction", []);
       } else if (name == "buy") {
         // 购买单位购买特殊处理
         this.$eventBus.publish("showBuyUnitDialog");

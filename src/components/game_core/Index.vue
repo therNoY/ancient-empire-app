@@ -24,7 +24,7 @@
           :direction="direction"
           class="main-view"
           :style="{
-            width: game.game_map.column * 24 + 'px',
+            width: $appHelper.getMapSize(game.game_map.column),
             height: $appHelper.getMapSize(game.game_map.row),
           }"
         >

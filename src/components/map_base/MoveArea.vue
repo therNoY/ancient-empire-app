@@ -4,14 +4,14 @@
     <!--可移动区域-->
     <div v-if="moveAreas.length > 0">
       <img
-        class="stand-move-view"
+        :class="['stand-attach-move-view', $uni.imgSize + '-img']"
         v-for="(moveArea, index) in moveAreas"
         :key="index"
-        src="../../assets/images/assist/alpha.png"
+        src="../../assets/images/assist/move_alpha.png"
         @click="showMoveLine(moveArea.row, moveArea.column)"
         :style="{
           top: $appHelper.getPosition(moveArea.row),
-          left: $appHelper.getPosition(moveArea.column, 2),
+          left: $appHelper.getPosition(moveArea.column),
         }"
       />
     </div>
@@ -35,7 +35,6 @@
 </template>
 
 <script>
-const standMovePath = 8;
 import eventype from "../../manger/eventType";
 export default {
   props: ["point"],
@@ -43,6 +42,7 @@ export default {
     return {
       moveStatue: null,
       standImgSize: this.$c.imgSize,
+      standMovePath: this.$c.imgSize / 3,
     };
   },
   computed: {
@@ -56,29 +56,29 @@ export default {
     movePathTop() {
       return function (point, point2) {
         if (point.row <= point2.row) {
-          return (point.row - 1) * this.standImgSize + standMovePath + "px";
+          return (point.row - 1) * this.standImgSize + this.standMovePath + "px";
         } else {
-          return (point2.row - 1) * this.standImgSize + standMovePath + "px";
+          return (point2.row - 1) * this.standImgSize + this.standMovePath + "px";
         }
       };
     },
     movePathLeft() {
       return function (point, point2) {
         if (point.column < point2.column) {
-          return (point.column - 1) * this.standImgSize + standMovePath + "px";
+          return (point.column - 1) * this.standImgSize + this.standMovePath + "px";
         } else {
-          return (point2.column - 1) * this.standImgSize + standMovePath + "px";
+          return (point2.column - 1) * this.standImgSize + this.standMovePath + "px";
         }
       };
     },
     movePathWidth() {
       return function (point1, point2) {
         if (point1.column == point2.column) {
-          return standMovePath + "px";
+          return this.standMovePath + "px";
         } else {
           return (
             Math.abs(point2.column - point1.column) * this.standImgSize +
-            standMovePath +
+            this.standMovePath +
             "px"
           );
         }
@@ -87,7 +87,7 @@ export default {
     movePathHeight() {
       return function (point1, point2) {
         if (point1.row == point2.row) {
-          return standMovePath + "px";
+          return this.standMovePath + "px";
         } else {
           return Math.abs(point2.row - point1.row) * this.standImgSize + "px";
         }

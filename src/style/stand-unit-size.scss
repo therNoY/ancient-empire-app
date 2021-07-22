@@ -1,0 +1,84 @@
+$imgSize:24px;
+$iconSize:32px;
+$editIconSize:16px;
+$actionSize:20px;
+$clickPoint:26px;
+$choosePoint:40px;
+$size6:6px;
+$size7:7px;
+$size8:8px;
+$size9:9px;
+$size11:11px;
+.stand-img {
+    width: $imgSize;
+    height: $imgSize;
+    /* #ifdef H5*/
+    cursor: pointer;
+    /* #endif */
+}
+.stand-icon-img {
+    width: $iconSize;
+    height: $iconSize;
+    /* #ifdef H5*/
+    cursor: pointer;
+    /* #endif */
+}
+.stand-edit-icon{
+    width: $editIconSize;
+    height: $editIconSize;
+}
+.stand-action-size {
+    width: $actionSize;
+    height: $actionSize
+}
+.stand-lifec-size {
+    width: $size8;
+    height: $size11
+}
+.stand-click-point {
+    width: $clickPoint;
+    height: $clickPoint;
+    position: absolute;
+    /* #ifdef H5*/
+    cursor: pointer;
+    /* #endif */
+}
+.stand-choose-point {
+    width: $choosePoint;
+    height: $choosePoint;
+    position: absolute;
+    /* #ifdef H5*/
+    cursor: pointer;
+    /* #endif */
+}
+
+.stand-img-size {
+    width: $imgSize;
+    height: $imgSize;
+}
+.stand-status-size img {
+    width: $size7;
+    height: $size9;
+}
+.stand-left-size {
+    width: $size6;
+    height: $size7;
+}
+.stand-unit-life-num {
+    margin-top: $imgSize - $size7;
+}
+.stand-unit-life-num img {
+    position: relative;
+    float: left;
+    width: $size6;
+    height: $size7;
+}
+.stand-unit-level {
+    position: relative;
+    margin-right: $size9;
+    float: right;
+}
+.stand-unit-level img {
+    width: $size9;
+    height: $size11;
+}

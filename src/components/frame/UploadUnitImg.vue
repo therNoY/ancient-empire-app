@@ -8,7 +8,7 @@
           @success="uploadSuccess"
         >
           <img
-            class="upload-img-icon click-cursor"
+            :class="[$uni.imgSize + '-icon-img']"
             src="../../assets/images/assist/add.png"
           />
         </upload-game-img>
@@ -19,7 +19,7 @@
         >
           <ae-click-point @clickPoint="removeUnit(index)">
             <img
-              class="stand-img-size"
+              :class="[$uni.imgSize+'-img-size']"
               :src="$appHelper.getUnitImg(item, 'temporary')"
             />
           </ae-click-point>
@@ -35,12 +35,12 @@
     <ae-base-dialog :title="$t('c.preview')" :width="30" v-model="showPreview">
       <div v-for="(color, index) in colorList" :key="index" class="previewImg">
         <img
-          class="stand-img-size"
+          :class="[$uni.imgSize + '-img-size']"
           v-show="signal % 2 === 0"
           :src="$appHelper.getUnitImg(previewUnitImg.img1, color)"
         />
         <img
-          class="stand-img-size"
+          :class="[$uni.imgSize + '-img-size']"
           v-show="signal % 2 !== 0"
           :src="$appHelper.getUnitImg(previewUnitImg.img2, color)"
         />

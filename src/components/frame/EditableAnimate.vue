@@ -5,18 +5,18 @@
   <div class="edit-able-animate">
     <div class="edit-able-animate-button">
       <img
-        class="stand-img-size"
+        :class="[$uni.imgSize + '-img-size']"
         src="../../assets/images/assist/change.png"
         @click="changeImg"
       />
     </div>
-    <img class="stand-img-size" v-if="animImg" :src="animImg" />
+    <img :class="[$uni.imgSize + '-img-size']" v-if="animImg" :src="animImg" />
 
     <ae-base-dialog :title="$t('tm.changeAnimate')" v-model="show">
       <div class="edit-anim-list">
         <upload-game-img :templateId="template_id" @success="uploadSuccess">
           <img
-            class="stand-img-size click-cursor"
+            :class="[$uni.imgSize + '-img']"
             src="../../assets/images/assist/add.png"
           />
         </upload-game-img>
@@ -31,7 +31,7 @@
         >
           <ae-tooltip :content="$t('tm.moveChangeOrder')">
             <ae-click-point @clickPoint="clickPoint(index)">
-              <img class="stand-img-size" :src="$appHelper.getTemplateImg(item)" />
+              <img :class="[$uni.imgSize + '-img-size']" :src="$appHelper.getTemplateImg(item)" />
             </ae-click-point>
           </ae-tooltip>
         </div>

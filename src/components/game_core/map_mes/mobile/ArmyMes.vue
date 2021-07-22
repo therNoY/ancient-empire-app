@@ -6,7 +6,7 @@
     >
       <ae-border padding="5px">
         <img
-          class="mobile-army-region-info fixed-img-size"
+          :class="['mobile-army-region-info',$uni.imgSize + '-img-size']"
           :src="$appHelper.getRegionImg(region.type, region.color)"
         />
       </ae-border>
@@ -15,6 +15,7 @@
     <div
       class="mobile-army-style-army"
       :style="{
+        left: regionWidth + 'px',
         width: armyWidth + 'px',
         height: regionWidth + 'px',
         backgroundColor: $appHelper.getBkColorValue(curr_color),
@@ -22,7 +23,7 @@
     >
       <ae-border padding="5px">
         <div class="mobile-army-main">
-          <div class="mobile-army-mes">
+          <div class="mobile-army-mes" v-if="currentArmy">
             <div class="army-mes-item">
               <img src="../../../../assets/images/assist/bar_money.png" />
               <b>&nbsp;{{ currentArmy.money }}</b>
@@ -45,26 +46,31 @@
           <div class="mobile-army-opt-icon">
             <!---主页-->
             <img
+              :class="[$uni.imgSize + '-img']"
               src="../../../../assets/images/assist/icon_city.png"
               @click="goHome"
             />
             <!--聊天-->
             <img
+              :class="[$uni.imgSize + '-img']"
               @click="showGameChat = !showGameChat"
               src="../../../../assets/images/assist/icon_chat.png"
             />
             <!--保存-->
             <img
+              :class="[$uni.imgSize + '-img']"
               src="../../../../assets/images/assist/net.png"
               @click="saveRecord"
             />
             <!--详情-->
             <img
+              :class="[$uni.imgSize + '-img']"
               @click="showDetail"
               src="../../../../assets/images/assist/icon_deatil.png"
             />
             <!---结束回合-->
             <img
+              :class="[$uni.imgSize + '-img']"
               src="../../../../assets/images/assist/icon_end.png"
               @click="roundEnd"
             />
@@ -196,7 +202,7 @@ export default {
   data() {
     return {
       regionWidth: 34,
-      standSize:null,
+      standSize: null,
       armyWidth: null,
       localUnitInfo: null,
       // 展示单位或者地形详情
@@ -210,6 +216,7 @@ export default {
   mixins: [indexOptMixins],
   created() {
     this.standSize = this.$c.imgSize;
+    this.regionWidth = this.$c.imgSize + 10;
     this.chatDialogHeight = this.$uni.screenHeigh * 0.3;
     this.$appHelper.bindPage2Global(this, "ArmyMesIndex");
     this.armyWidth = this.$uni.screenWidth - this.regionWidth;
@@ -259,7 +266,6 @@ $distance: 10px;
 }
 .mobile-army-style-army {
   position: absolute;
-  left: 34px;
   bottom: 0px;
   width: 100%;
   .mobile-army-main {
@@ -289,13 +295,6 @@ $distance: 10px;
       flex-direction: row;
       width: 40%;
       justify-content: space-evenly;
-      /* #ifdef H5*/
-      cursor: pointer;
-      /* #endif */
-      img {
-        width: 25px;
-        height: 25px;
-      }
     }
   }
 }

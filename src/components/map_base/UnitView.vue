@@ -9,36 +9,36 @@
     @click="clickUnit"
   >
     <div>
-      <div v-if="unit.done">
-        <img class="stand-img-size" :src="doneImg" />
+      <div v-if="unit && unit.done">
+        <img :class="[$uni.imgSize + '-img-size']" :src="doneImg" />
       </div>
       <div v-else>
-        <img class="stand-img-size" v-show="signal % 2 === 0" :src="unitImg" />
-        <img class="stand-img-size" v-show="signal % 2 !== 0" :src="unitImg2" />
+        <img :class="[$uni.imgSize + '-img-size']" v-show="signal % 2 === 0" :src="unitImg" />
+        <img :class="[$uni.imgSize + '-img-size']" v-show="signal % 2 !== 0" :src="unitImg2" />
       </div>
     </div>
 
     <!--单位的状态 血量 等级 buff-->
-    <div class="stand-img-size">
+    <div :class="[$uni.imgSize + '-img-size']">
       <!--状态-->
       <div
         v-if="unit.status && unit.status !== 'normal'"
-        class="stand-status-size"
+        :class="[$uni.imgSize + '-status-size']"
       >
         <img :src="statusImg" />
       </div>
 
       <!--血量-->
-      <div v-if="isNotMaxLife" class="lifeNum stand-unit-life-num">
+      <div v-if="isNotMaxLife" :class="['lifeNum', $uni.imgSize +'-unit-life-num']">
         <img
-          class="stand-left-size"
+          :class="[$uni.imgSize + '-left-size']"
           v-for="(lifeNum, index) in unit.life_num"
           :key="index"
           :src="liftImg(lifeNum)"
         />
       </div>
       <!--等级-->
-      <div v-if="hasLevel" class="stand-unit-level">
+      <div v-if="hasLevel" :class="[$uni.imgSize + '-unit-level']">
         <img :src="levelImg" />
       </div>
     </div>
@@ -109,7 +109,7 @@ export default {
       }
     },
     statusImg() {
-      if (this.unit.status) {
+      if (this.unit.status && this.unit.status !== 'normal') {
         return require("../../assets/images/assist/status_" +
           this.unit.status +
           ".png");

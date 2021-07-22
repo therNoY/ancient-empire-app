@@ -12,7 +12,7 @@
       }"
     >
       <img
-        class="stand-lifec-size"
+        :class="[$uni.imgSize + '-lifec-size']"
         v-for="(attachNum, index) in leftChange.attach"
         :key="leftNumIndex(index)"
         :src="lifeCImg(attachNum)"

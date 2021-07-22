@@ -488,8 +488,8 @@ var commendDispatcher = {
         }
         break;
       case commendType.REMOVE_TOMB:
-        let remvoeTomb = aim_site;
-        store.commit("removeTomb", remvoeTomb);
+        let removeTomb = aim_site;
+        store.commit("removeTomb", removeTomb);
         if (callback) {
           this.dispatch(callback.next(), callback);
         }

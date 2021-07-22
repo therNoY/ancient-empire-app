@@ -1,40 +1,47 @@
-// 公用计数器
-const superNum = [300, 500, 1000, 2000, 3000, 5000]
+// 公用计数器 支持降级
+const baseNum = 250
 const store = {
     state: {
-        timer: {},
-        signal: {},
+        currentGap: {},
+        activeGap: {},
     },
     mutations: {
         startTimer(state, gap) {
-            if (superNum.indexOf(gap) === -1) {
-                console.error("不支持的计数器类型", gap);
+            if (gap < baseNUm || gap % baseNum != 0) {
+                console.error("仅支持计数间隔" + baseNum + "的整数倍", gap);
                 return;
             }
-            if (state.timer[gap]) {
+            if (activeGap[gap]) {
+                console.log("已存在" + gap + "间隔计数器");
                 return;
+            }
+            if (gap > currentGap) {
+                console.log("注册计数器" + gap + "间隔");
+                activeGap[gap] = 0;
             } else {
-                state.signal[gap] = 0;
+                // 计数器间隔升级
+                state.activeGap[gap] = 0;
                 let _timer = setInterval(() => {
-                    if (state.signal[gap] < 1000) {
-                        state.signal[gap]++;
+                    if (state.activeGap[gap] < 1000) {
+                        state.activeGap[gap]++;
                     } else {
-                        state.signal[gap] = 0;
+                        state.activeGap[gap] = 0;
                     }
-                    console.log("gap" + gap + "间隔计数器运行", state.signal[gap]);
+                    console.log("gap" + gap + "间隔计数器运行", state.activeGap[gap]);
                 }, gap);
                 state.timer[gap] = _timer;
             }
         },
         stopTimer(state, gap) {
-            if (superNum.indexOf(gap) === -1) {
-                console.error("不支持的计数器类型", gap);
+            if (gap < baseNUm || gap % baseNum != 0) {
+                console.error("仅支持计数间隔" + baseNum + "的整数倍", gap);
                 return;
             }
-            if (state.timer[gap]) {
-                console.log("计数器停止");
-                clearInterval(state.timer[gap]);
-                state.timer[gap] = null;
+            if (gap != currentGap) {
+                console.log("间隔" + gap + "计数器停止");
+                delete state.activeGap[gap];
+            } else {
+                
             }
         }
     },

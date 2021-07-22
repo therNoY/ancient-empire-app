@@ -10,7 +10,7 @@
           <img
             v-for="(unit, key) in initMapInfo.unit_mes_list"
             :key="key"
-            :class="['map-edit-select', 'stand-img-size']"
+            :class="['map-edit-select', $uni.imgSize + '-img-size']"
             :src="$appHelper.getUnitImg(unit.id, unitColor)"
             @click="getUnit(unit)"
           />
@@ -106,7 +106,7 @@
                 }"
               >
                 <img
-                  class="unit_img stand-img-size"
+                  :class="['unit_img', $uni.imgSize + '-img-size']"
                   v-for="(unit, index) in unitList"
                   :key="index"
                   :src="
@@ -142,44 +142,44 @@
         ></ae-button-list>
         <div v-else class="mobile-map-edit-icon">
           <img
-            class="icon-img"
+            :class="['icon-img', $uni.imgSize + '-img']"
             @click="goHome"
             src="../../assets/images/assist/icon_city.png"
           />
           <img
-            class="icon-img"
+            :class="['icon-img', $uni.imgSize + '-img']"
             @click="showTemplateSelect"
             src="../../assets/images/assist/icon_setting.png"
           />
           <img
-            class="edit-img"
+            :class="['edit-img', $uni.imgSize + '-edit-icon']"
             v-if="action == 'painting'"
             @click="changeAction"
             src="../../assets/images/assist/icon_painting.png"
           />
           <img
-            class="edit-img"
+              :class="['edit-img', $uni.imgSize + '-edit-icon']"
             v-else
             @click="changeAction"
             src="../../assets/images/assist/icon_delete.png"
           />
           <img
-            class="edit-img"
+            :class="['edit-img', $uni.imgSize + '-edit-icon']"
             @click="showSelectUnit = !showSelectUnit"
             src="../../assets/images/assist/icon_switch.png"
           />
           <img
-            class="edit-img"
+            :class="['edit-img', $uni.imgSize + '-edit-icon']"
             @click="resetMap"
             src="../../assets/images/assist/icon_reset.png"
           />
           <img
             @click="setShowChangeMsg"
-            class="icon-img"
+            :class="['icon-img', $uni.imgSize + '-img']"
             src="../../assets/images/assist/net.png"
           />
           <img
-            class="icon-img"
+            :class="['icon-img', $uni.imgSize + '-img']"
             @click="setShowMapVisible"
             src="../../assets/images/assist/icons_my.png"
           />
@@ -195,7 +195,7 @@
           <img
             v-for="(region, index) in initMapInfo.region_mes"
             :key="index"
-            :class="['map-edit-select', 'stand-img-size']"
+            :class="['map-edit-select', $uni.imgSize + '-img-size']"
             :src="$appHelper.getRegionImg(region.type, regionColor)"
             @click="getRegion(region)"
           />
@@ -838,13 +838,9 @@ export default {
       cursor: pointer;
       /* #endif */
       .icon-img {
-        width: 25px;
-        height: 25px;
         padding-right: 20px;
       }
       .edit-img {
-        width: 16px;
-        height: 16px;
         padding-right: 20px;
       }
     }

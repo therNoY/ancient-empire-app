@@ -44,7 +44,7 @@
           <tr v-for="(army, index) in initArmys" :key="index">
             <td style="width: 10%">
               <img
-                class="stand-img-size"
+                class="fixed-img-size"
                 :src="$appHelper.getUnitImg('10', army.color)"
               />
             </td>

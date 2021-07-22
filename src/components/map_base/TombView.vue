@@ -2,7 +2,7 @@
   <!--坟墓-->
   <div class="tomb">
     <img
-      class="stand-img"
+      :class="[$uni.imgSize + '-img']"
       v-for="(tomb, index) in tombs"
       :key="index"
       src="../../assets/images/unit/tomb.png"

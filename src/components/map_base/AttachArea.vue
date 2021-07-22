@@ -7,7 +7,7 @@
       :key="index"
     >
       <img
-        class="stand-img-size stand-attach-view"
+        :class="[$uni.imgSize + '-img-size', 'stand-attach-move-view']"
         src="../../assets/images/assist/attach_alpha.png"
         @click="clickAttachArea(attachArea)"
         :style="{

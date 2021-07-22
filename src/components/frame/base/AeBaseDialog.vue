@@ -53,12 +53,12 @@
     </div>
     <img
       v-if="showChoose"
-      class="app-choose-button click-cursor"
+      :class="['app-choose-button', $uni.imgSize + '-icon-img']"
       @click="$emit('choose')"
       src="../../../assets/images/assist/choose1.png"
     />
     <img
-      class="app-close-button click-cursor"
+      :class="['app-close-button',$uni.imgSize + '-icon-img']"
       @click="close"
       src="../../../assets/images/assist/return1.png"
     />
@@ -283,16 +283,12 @@ export default {
 }
 .app-choose-button {
   position: absolute;
-  width: 32px;
-  height: 32px;
   left: 3px;
   bottom: 3px;
   z-index: 1000;
 }
 .app-close-button {
   position: absolute;
-  width: 32px;
-  height: 32px;
   right: 3px;
   bottom: 3px;
   z-index: 1000;

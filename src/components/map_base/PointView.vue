@@ -3,7 +3,7 @@
     <!--指针框 -->
     <div v-if="!attachPoint.hasOwnProperty('row')" @click="clickPoint">
       <img
-        class="stand-click-point"
+        :class="[$uni.imgSize + '-click-point']"
         v-show="signal % 2 === 0"
         src="../../assets/images/assist/point_0.png"
         :style="{
@@ -12,7 +12,7 @@
         }"
       />
       <img
-        class="stand-click-point"
+        :class="[$uni.imgSize + '-click-point']"
         v-show="signal % 2 === 1"
         src="../../assets/images/assist/point_1.png"
         :style="{
@@ -24,7 +24,7 @@
     <!--攻击/召唤/治疗 指针-->
     <div v-else @click="clickChoosePoint">
       <img
-        class="stand-choose-point"
+        :class="[$uni.imgSize + '-choose-point']"
         :src="attachPointImg"
         :style="{
           top: (attachPoint.row - 1 - 0.3) * imgSize + 'px',
@@ -36,7 +36,7 @@
     <!--目的地指针 只在移动区域显示的时候才会显示-->
     <div v-if="moveLine.length > 0">
       <img
-        class="stand-click-point"
+        :class="[$uni.imgSize + '-click-point']"
         src="../../assets/images/assist/cursor_target.png"
         :style="{
           top: $appHelper.getPosition(point.row),

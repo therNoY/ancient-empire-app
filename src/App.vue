@@ -14,6 +14,7 @@ export default {
       }
       uni.screenHeigh = resp.windowHeight;
       uni.screenWidth = resp.windowWidth;
+      uni.imgSize = 'stand';
     });
   },
   onReady: function () {},
@@ -25,7 +26,9 @@ export default {
 /*每个页面公共css */
 @import url("/style/font/aeFont.css");
 @import url("/style/animate.min.css");
-@import url("/style/stand-unit-size.css");
+@import url("/style/big-unit-size.scss");
+@import url("/style/stand-unit-size.scss");
+@import url("/style/min-unit-size.scss");
 
 page {
   height: 100%;
@@ -104,7 +107,9 @@ input:-webkit-autofill {
   }
 
   table tr {
+    /* #ifdef H5 */
     cursor: pointer;
+    /* #endif */
     display: flex;
     flex-direction: row;
     justify-content: space-around;
@@ -134,5 +139,22 @@ input:-webkit-autofill {
     height: 72px;
     background-color: rgb(70, 72, 70);
   }
+}
+.stand-attach-move-view {
+  position: absolute;
+  /* #ifdef H5*/
+  cursor: pointer;
+  /* #endif */
+}
+.fixed-img-size {
+  width: 24px;
+  height: 24px;
+}
+.fixed-img {
+  width: 24px;
+  height: 24px;
+  /* #ifdef H5*/
+  cursor: pointer;
+  /* #endif */
 }
 </style>

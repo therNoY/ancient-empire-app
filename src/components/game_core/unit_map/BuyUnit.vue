@@ -1,7 +1,7 @@
 <template>
   <!--招募军队弹框-->
   <ae-base-dialog
-    v-if="buyUnitsInfo.length"
+    v-if="buyUnitsInfo && buyUnitsInfo.length"
     :title="$t('e.buy', buyUnitsInfo[selectIndex].unit_mes.name)"
     v-model="buyUnitShow"
     inlineDialog
@@ -18,10 +18,10 @@
           class="by-unit-show"
           v-for="(unitInfo, index) in buyUnitsInfo"
           :key="unitInfo.unit_mes.type"
-          @click="selectIndex = index"
+          @click="setSelectIndex(index)"
         >
           <img
-            class="by-unit-img stand-img-size"
+            class="by-unit-img fixed-img-size"
             :src="$appHelper.getUnitImg(unitInfo.unit_mes.img_index, color)"
           />
           <img
@@ -96,6 +96,12 @@ export default {
         this.buyUnitShow = false;
         this.$store.commit("setAction", []);
       }
+    },
+    close(){
+      this.buyUnitShow = false;
+    },
+    setSelectIndex(index){
+      this.selectIndex = index
     },
     showBuyUnitDialog() {
       let args = {};
