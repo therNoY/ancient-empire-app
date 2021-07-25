@@ -8,7 +8,7 @@
           @success="uploadSuccess"
         >
           <img
-            :class="[$uni.imgSize + '-icon-img']"
+            :class="[imgSize + '-icon-img']"
             src="../../assets/images/assist/add.png"
           />
         </upload-game-img>
@@ -19,7 +19,7 @@
         >
           <ae-click-point @clickPoint="removeUnit(index)">
             <img
-              :class="[$uni.imgSize+'-img-size']"
+              :class="[imgSize+'-img-size']"
               :src="$appHelper.getUnitImg(item, 'temporary')"
             />
           </ae-click-point>
@@ -35,12 +35,12 @@
     <ae-base-dialog :title="$t('c.preview')" :width="30" v-model="showPreview">
       <div v-for="(color, index) in colorList" :key="index" class="previewImg">
         <img
-          :class="[$uni.imgSize + '-img-size']"
+          :class="[imgSize + '-img-size']"
           v-show="signal % 2 === 0"
           :src="$appHelper.getUnitImg(previewUnitImg.img1, color)"
         />
         <img
-          :class="[$uni.imgSize + '-img-size']"
+          :class="[imgSize + '-img-size']"
           v-show="signal % 2 !== 0"
           :src="$appHelper.getUnitImg(previewUnitImg.img2, color)"
         />
@@ -50,12 +50,13 @@
 </template>
 
 <script>
+import baseVar from "@/mixins/frame/baseVar.js";
 import UploadGameImg from "./UploadGameImg.vue";
 import dialogShow from "@/mixins/frame/dialogShow.js";
 import { CreateUnitImg } from "@/api";
 let _this;
 export default {
-  mixins: [dialogShow],
+  mixins: [dialogShow,baseVar],
   components: {
     UploadGameImg,
   },

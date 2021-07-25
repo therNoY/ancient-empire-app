@@ -53,12 +53,12 @@
     </div>
     <img
       v-if="showChoose"
-      :class="['app-choose-button', $uni.imgSize + '-icon-img']"
+      :class="['app-choose-button', imgSize + '-icon-img']"
       @click="$emit('choose')"
       src="../../../assets/images/assist/choose1.png"
     />
     <img
-      :class="['app-close-button',$uni.imgSize + '-icon-img']"
+      :class="['app-close-button',imgSize + '-icon-img']"
       @click="close"
       src="../../../assets/images/assist/return1.png"
     />
@@ -66,7 +66,9 @@
 </template>
 
 <script>
+import baseVar from "@/mixins/frame/baseVar.js";
 export default {
+  mixins: [baseVar],
   props: {
     value: {
       type: Boolean,

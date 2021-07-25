@@ -27,6 +27,7 @@
         <div v-else-if="form.type === 'switchSelect'">
           <ae-switch-select
             ref="switchSelect"
+            :key="form.key"
             v-model="formData[form.key]"
             :default="form.default"
             :items="form.items"

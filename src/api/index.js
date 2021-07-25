@@ -39,7 +39,7 @@ export const GetWeiXinPhone = (args) => request('/user/getWeiXinPhone', args, PO
  * @param {*} args
  * @returns
  */
-export const GetUserNameById = (args, showLoading, handleErr) =>  request('/api/user/name', args, GET, showLoading, handleErr);
+export const GetUserNameById = (args, showLoading, handleErr) => request('/api/user/name', args, GET, showLoading, handleErr);
 
 /**
  * 保存单位信息
@@ -171,6 +171,15 @@ export const ChangeUserInfo = (args, showLoading, handleErr) => request('/api/us
  */
 export const ChangeUserSetting = (args, showLoading, handleErr) => request('/api/user/useSetting', args, PUT, showLoading, handleErr);
 
+/**
+ * 获取用户设置
+ * @param {*} args 
+ * @param {*} showLoading 
+ * @param {*} handleErr 
+ * @returns 
+ */
+export const GetUserSetting = (args, showLoading, handleErr) => request('/api/userSetting', '', GET, showLoading, handleErr);
+
 // 用户地图有关
 /**
  * 获取初始化地图
@@ -255,13 +264,13 @@ export const GetEncounterMap = (args, showLoading, handleErr) => request("/encou
  * @param {*} args
  * @returns
  */
-export const DownloadMap = (args, showLoading, handleErr) =>request("/api/userMap/download", args, POST, showLoading, handleErr);
+export const DownloadMap = (args, showLoading, handleErr) => request("/api/userMap/download", args, POST, showLoading, handleErr);
 /**
  * 删除用户下载
  * @param {*} args
  * @returns
  */
-export const DelDownloadMap = (args, showLoading, handleErr) =>request("/api/userMap/download/delete", args, POST, showLoading, handleErr);
+export const DelDownloadMap = (args, showLoading, handleErr) => request("/api/userMap/download/delete", args, POST, showLoading, handleErr);
 
 /**
  * 获取模板详情
@@ -426,31 +435,31 @@ export const SendMessage = (args) => request("/api/message/send", args, POST, fa
  * 获取房间号
  * @param {*} args
  */
-export const GetRoomListByPage = (args, showLoading, handleErr) =>request("/api/room/list", args, POST, showLoading, handleErr);
+export const GetRoomListByPage = (args, showLoading, handleErr) => request("/api/room/list", args, POST, showLoading, handleErr);
 /**
  * 创建房间
  * @param {*} args
  * @returns
  */
-export const CreateRoom = (args, showLoading, handleErr) =>request("/api/room/save", args, PUT, showLoading, handleErr);
+export const CreateRoom = (args, showLoading, handleErr) => request("/api/room/save", args, PUT, showLoading, handleErr);
 /**
  * 玩家加入
  * @param {*} args
  * @returns
  */
-export const PlayerJoinRoom = (args, showLoading, handleErr) =>request("/api/room/playerJoin", args, PUT, showLoading, handleErr);
+export const PlayerJoinRoom = (args, showLoading, handleErr) => request("/api/room/playerJoin", args, PUT, showLoading, handleErr);
 /**
  * 改变控制军队
  * @param {}} args
  * @returns
  */
-export const ChangeArmy = (args, showLoading, handleErr) =>request("/api/room/changeArmy", args, POST, showLoading, handleErr);
+export const ChangeArmy = (args, showLoading, handleErr) => request("/api/room/changeArmy", args, POST, showLoading, handleErr);
 /**
  * 离开控制军队
  * @param {*} args
  * @returns
  */
-export const LevelCtlArmy = (args, showLoading, handleErr) =>request("/api/room/levelCtlArmy", args, POST, showLoading, handleErr);
+export const LevelCtlArmy = (args, showLoading, handleErr) => request("/api/room/levelCtlArmy", args, POST, showLoading, handleErr);
 
 /**
  * 获取buff信息
@@ -459,7 +468,7 @@ export const LevelCtlArmy = (args, showLoading, handleErr) =>request("/api/room/
  * @param {*} handleErr 
  * @returns 
  */
-export const GetBuffByType = (args) =>request("/buff/get", args, GET, false, true);
+export const GetBuffByType = (args) => request("/buff/get", args, GET, false, true);
 
 /**
  * 获取是否有可以重连的多人游戏
@@ -467,17 +476,17 @@ export const GetBuffByType = (args) =>request("/buff/get", args, GET, false, tru
  * @returns {undefined|*|Promise|Promise<unknown>}
  * @constructor
  */
-export const GetCanReConnectRecord = (args) =>request("/api/record/canReConnect", args, GET, false, true);
+export const GetCanReConnectRecord = (args) => request("/api/record/canReConnect", args, GET, false, true);
 
 /**
  * 获取运行的监控列表
  * @param {*} args 
  * @returns 
  */
-export const GetMonitorRecordList = (args) =>request("/admin/monitor/record/list", args, POST, true, true);
+export const GetMonitorRecordList = (args) => request("/admin/monitor/record/list", args, POST, true, true);
 /**
  * 获取运行中的数据详情
  * @param {*} args 
  * @returns 
  */
-export const GetUserRecordInfo = (args) =>request("/api/runRecord/" + args, {}, GET, true, true);
+export const GetUserRecordInfo = (args) => request("/api/runRecord/" + args, {}, GET, true, true);

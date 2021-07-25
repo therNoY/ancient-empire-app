@@ -3,7 +3,7 @@
     <!--展示单位可以进行行动 攻击 召唤 购买 修复-->
     <div v-for="(action, index) in unitActions" :key="index">
       <img
-        :class="[$uni.imgSize + '-action-size', 'base-animate']"
+        :class="[imgSize + '-action-size', 'base-animate']"
         :src="$appHelper.getActionImg(action.action)"
         @click="doAction(action.action)"
         :style="{
@@ -16,8 +16,10 @@
 </template>
 
 <script>
+import baseVar from "@/mixins/frame/baseVar.js";
 import eventype from "../../manger/eventType";
 export default {
+  mixins: [baseVar],
   methods: {
     // 展示单位将要进行的行动
     doAction(name) {

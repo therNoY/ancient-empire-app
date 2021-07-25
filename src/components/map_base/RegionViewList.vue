@@ -2,7 +2,7 @@
 <template>
   <div v-if="regions">
     <img
-      :class="[$uni.imgSize + '-img']"
+      :class="[imgSize + '-img']"
       style="float: left"
       v-for="(region, index) in regions"
       :key="region.id"
@@ -13,7 +13,7 @@
 
     <!-- 城堡的地图 -->
     <img
-      :class="[$uni.imgSize + '-img', 'castle-title']"
+      :class="[imgSize + '-img', 'castle-title']"
       v-for="(title, index) in mapCastleTitle"
       :key="index"
       src="../../assets/images/Region/castle_title.png"
@@ -27,7 +27,9 @@
 </template>
 
 <script>
+import baseVar from "@/mixins/frame/baseVar.js";
 export default {
+  mixins: [baseVar],
   props: {
     regions: {},
     castleTitles: {},

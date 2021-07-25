@@ -101,7 +101,7 @@
         "rePassword": "确认密码",
         "oldPwd": "原密码",
         "newPwd": "新密码",
-        "loginIsWill":"登录后可以体验更多功能哦！"
+        "loginIsWill": "登录后可以体验更多功能哦！"
     },
     "b": {
         "title": "战役",
@@ -134,7 +134,8 @@
         "buyUnit": "招募",
         "noMoney": "资金不足",
         "unitTooMuch": "人口达到上限",
-        "reConnGameTip":"有正在进行的游戏,需要重新连接么?"
+        "reConnGameTip": "有正在进行的游戏,需要重新连接么?",
+        "gameCloseTip":"当前游戏已经断开,返回首页么？"
     },
     "mp": {
         "title": "多人游戏",
@@ -263,5 +264,18 @@
         "minArea": "最小地图范围{}",
         "maxArea": "最大地图范围{}",
         "myMap": "我的"
+    },
+    "s": {
+        "title": "设置",
+        "language": "语言",
+        "chinese": "中文",
+        "english": "英文",
+        "imgSize": "地图大小",
+        "small": "小",
+        "stand": "标准",
+        "big": "大",
+        "pcStyle": "pc端风格(仅对pc端生效)",
+        "pc": "pc端",
+        "mp": "移动端"
     }
 }

@@ -6,7 +6,7 @@
     >
       <ae-border padding="5px">
         <img
-          :class="['mobile-army-region-info',$uni.imgSize + '-img-size']"
+          :class="['mobile-army-region-info', imgSize + '-img-size']"
           :src="$appHelper.getRegionImg(region.type, region.color)"
         />
       </ae-border>
@@ -46,31 +46,31 @@
           <div class="mobile-army-opt-icon">
             <!---主页-->
             <img
-              :class="[$uni.imgSize + '-img']"
+              :class="[imgSize + '-img']"
               src="../../../../assets/images/assist/icon_city.png"
               @click="goHome"
             />
             <!--聊天-->
             <img
-              :class="[$uni.imgSize + '-img']"
+              :class="[imgSize + '-img']"
               @click="showGameChat = !showGameChat"
               src="../../../../assets/images/assist/icon_chat.png"
             />
             <!--保存-->
             <img
-              :class="[$uni.imgSize + '-img']"
+              :class="[imgSize + '-img']"
               src="../../../../assets/images/assist/net.png"
               @click="saveRecord"
             />
             <!--详情-->
             <img
-              :class="[$uni.imgSize + '-img']"
+              :class="[imgSize + '-img']"
               @click="showDetail"
               src="../../../../assets/images/assist/icon_deatil.png"
             />
             <!---结束回合-->
             <img
-              :class="[$uni.imgSize + '-img']"
+              :class="[imgSize + '-img']"
               src="../../../../assets/images/assist/icon_end.png"
               @click="roundEnd"
             />
@@ -93,8 +93,8 @@
               ref="unitView"
               :unit="localUnitInfo"
               :color="curr_unit_color"
-              :top="standSize"
-              :left="standSize"
+              :top="(72 - standSize) / 2"
+              :left="(72 - standSize) / 2"
             ></unit-view>
           </ae-border>
 
@@ -180,11 +180,13 @@
 </template>
 
 <script>
+import baseVar from "@/mixins/frame/baseVar.js";
 import UnitView from "../../../map_base/UnitView.vue";
 import indexOptMixins from "../../indexOptMixins";
 import GameMessage from "../../../frame/GameMessage.vue";
 import UnitRegionMes from "../../unit_map/UnitRegionMes.vue";
 export default {
+  mixins: [baseVar, indexOptMixins],
   components: {
     UnitView,
     UnitRegionMes,
@@ -213,16 +215,15 @@ export default {
       chatDialogHeight: null,
     };
   },
-  mixins: [indexOptMixins],
   created() {
-    this.standSize = this.$c.imgSize;
-    this.regionWidth = this.$c.imgSize + 10;
+    this.standSize = this.$c();
+    this.regionWidth = this.standSize + 10;
     this.chatDialogHeight = this.$uni.screenHeigh * 0.3;
-    this.$appHelper.bindPage2Global(this, "ArmyMesIndex");
     this.armyWidth = this.$uni.screenWidth - this.regionWidth;
     if (this.unitInfo) {
       this.localUnitInfo = this.unitInfo;
     }
+    this.$appHelper.bindPage2Global(this, "ArmyMesIndex");
   },
   methods: {
     showDetail() {

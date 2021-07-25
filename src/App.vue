@@ -1,21 +1,21 @@
 <script>
+import {initUserSetting} from "./utils/authUtil"
 export default {
   methods: {},
   onLaunch: function () {
     console.log("App Launch");
-    this.$nextTick(() => {
-      let resp = uni.getSystemInfoSync();
-      console.log("系统信息", resp);
-      this.$store.commit("setSystemInfo", resp);
-      if (resp.platform === "windows") {
-        uni.isH5 = true;
-      } else {
-        uni.isH5 = false;
-      }
-      uni.screenHeigh = resp.windowHeight;
-      uni.screenWidth = resp.windowWidth;
-      uni.imgSize = 'stand';
-    });
+    let resp = uni.getSystemInfoSync();
+    console.log("系统信息", resp);
+    this.$store.commit("setSystemInfo", resp);
+    if (resp.platform === "windows") {
+      uni.isH5 = true;
+    } else {
+      uni.isH5 = false;
+    }
+    uni.screenHeigh = resp.windowHeight;
+    uni.screenWidth = resp.windowWidth;
+    // 设置初始化设置
+    initUserSetting();
   },
   onReady: function () {},
   onHide: function () {},
@@ -26,9 +26,6 @@ export default {
 /*每个页面公共css */
 @import url("/style/font/aeFont.css");
 @import url("/style/animate.min.css");
-@import url("/style/big-unit-size.scss");
-@import url("/style/stand-unit-size.scss");
-@import url("/style/min-unit-size.scss");
 
 page {
   height: 100%;

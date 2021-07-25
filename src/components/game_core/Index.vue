@@ -2,7 +2,7 @@
   <div id="gameCore">
     <!-- #ifdef H5  -->
     <curr-unit-mes
-      style="width:15%"
+      style="width: 15%"
       v-if="!isMobileStyle"
       :curr_unit_color="game.curr_unit_color"
       :curr_color="game.curr_color"
@@ -88,7 +88,7 @@
 
     <!-- #ifdef H5  -->
     <curr-region-mes
-      style="width:15%"
+      style="width: 15%"
       v-if="!isMobileStyle"
       :curr_color="game.curr_color"
       :region="game.curr_region"
@@ -158,6 +158,7 @@ export default {
     initMapStyle() {
       // #ifdef H5
       this.containerStyle.height = "100%";
+      this.isMobileStyle = this.$store.getters.setting.pc_style === "mp";
       // #endif
       // #ifndef H5
       this.containerStyle.width = this.$uni.screenWidth + "px";
@@ -220,17 +221,29 @@ export default {
         });
       }
     },
+    gameClose() {
+      this.$appHelper.showTip(this.$t("e.gameCloseTip"), () => {
+        uni.redirectTo({
+          url: "/components/Home",
+          complete: (resp) => {
+            console.log(resp);
+          },
+        });
+      });
+    },
   },
   created() {
     this.$appHelper.loadFontFaceFromWeb();
     // 检测websocket连接
     console.log("准备开始游戏, 检查ws连接情况");
-    this.$appHelper.bindPage2Global(this, "GameIndex");
     this.initMapStyle();
+    this.$appHelper.bindPage2Global(this, "GameIndex");
+
     this.checkGame()
       .then((resp) => {
         if (resp) {
           this.game = this.$store.getters.game;
+          this.$eventBus.regist(this, "gameClose");
           this.startWorker();
         } else {
           console.error("ws连接不正确");
@@ -255,6 +268,7 @@ export default {
   },
   destroyed() {
     this.$store.dispatch("levelGame");
+    this.$eventBus.unRegist(this, "gameClose");
   },
 };
 </script>

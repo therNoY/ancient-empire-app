@@ -6,21 +6,26 @@ import appHelper from './utils/appHelper'
 import eventBus from './manger/EventBus'
 import color from "./style/color/index.js"
 import language from "./language"
-import {myPatch} from "./extendWeixin"
+import { myPatch } from "./extendWeixin"
+import minImg from "./style/small-unit-size.scss"
+import standImg from "./style/stand-unit-size.scss"
+import bigImg from "./style/big-unit-size.scss"
 
 Vue.config.productionTip = false;
 
 Vue.use(animated);
+Vue.use(minImg);
+Vue.use(standImg);
+Vue.use(bigImg);
 
 Vue.prototype.$appHelper = appHelper;
 Vue.prototype.$eventBus = eventBus;
 Vue.prototype.$color = color;
 Vue.prototype.$language = language;
+Vue.prototype.$c = appHelper.getBaseSiz;
 appHelper.store = store;
-uni.$store=store;
 
-Vue.prototype.$uni=uni;
-
+Vue.prototype.$uni = uni;
 // 引入自定义组件
 import AeBorder from "./components/frame/base/AeBorder";
 import AeButton from "./components/frame/base/AeButton.vue"
@@ -88,7 +93,7 @@ App.mpType = 'app';
 
 const app = new Vue({
   ...App,
-  store
+  store,
 });
 app.$mount();
 

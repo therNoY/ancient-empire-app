@@ -82,7 +82,7 @@ export default {
             return h(
               "b",
               {},
-              this.$t("c.thisVersion", p.version, p.max_version)
+              this.$t("c.thisVersion", [p.version, p.max_version])
             );
           } else if (p.status == "0") {
             return h("div", {}, this.$t("c.draftVersion", p.version));

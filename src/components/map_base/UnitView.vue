@@ -10,35 +10,35 @@
   >
     <div>
       <div v-if="unit && unit.done">
-        <img :class="[$uni.imgSize + '-img-size']" :src="doneImg" />
+        <img :class="[imgSize + '-img-size']" :src="doneImg" />
       </div>
       <div v-else>
-        <img :class="[$uni.imgSize + '-img-size']" v-show="signal % 2 === 0" :src="unitImg" />
-        <img :class="[$uni.imgSize + '-img-size']" v-show="signal % 2 !== 0" :src="unitImg2" />
+        <img :class="[imgSize + '-img-size']" v-show="signal % 2 === 0" :src="unitImg" />
+        <img :class="[imgSize + '-img-size']" v-show="signal % 2 !== 0" :src="unitImg2" />
       </div>
     </div>
 
     <!--单位的状态 血量 等级 buff-->
-    <div :class="[$uni.imgSize + '-img-size']">
+    <div :class="[imgSize + '-img-size']">
       <!--状态-->
       <div
         v-if="unit.status && unit.status !== 'normal'"
-        :class="[$uni.imgSize + '-status-size']"
+        :class="[imgSize + '-status-size']"
       >
         <img :src="statusImg" />
       </div>
 
       <!--血量-->
-      <div v-if="isNotMaxLife" :class="['lifeNum', $uni.imgSize +'-unit-life-num']">
+      <div v-if="isNotMaxLife" :class="['lifeNum', imgSize +'-unit-life-num']">
         <img
-          :class="[$uni.imgSize + '-left-size']"
+          :class="[imgSize + '-left-size']"
           v-for="(lifeNum, index) in unit.life_num"
           :key="index"
           :src="liftImg(lifeNum)"
         />
       </div>
       <!--等级-->
-      <div v-if="hasLevel" :class="[$uni.imgSize + '-unit-level']">
+      <div v-if="hasLevel" :class="[imgSize + '-unit-level']">
         <img :src="levelImg" />
       </div>
     </div>
@@ -46,7 +46,9 @@
 </template>
 
 <script>
+import baseVar from "@/mixins/frame/baseVar.js";
 export default {
+  mixins: [baseVar],
   props: {
     unit: {},
     color: {},

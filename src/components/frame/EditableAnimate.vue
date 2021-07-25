@@ -5,18 +5,18 @@
   <div class="edit-able-animate">
     <div class="edit-able-animate-button">
       <img
-        :class="[$uni.imgSize + '-img-size']"
+        :class="[imgSize + '-img-size']"
         src="../../assets/images/assist/change.png"
         @click="changeImg"
       />
     </div>
-    <img :class="[$uni.imgSize + '-img-size']" v-if="animImg" :src="animImg" />
+    <img :class="[imgSize + '-img-size']" v-if="animImg" :src="animImg" />
 
     <ae-base-dialog :title="$t('tm.changeAnimate')" v-model="show">
       <div class="edit-anim-list">
         <upload-game-img :templateId="template_id" @success="uploadSuccess">
           <img
-            :class="[$uni.imgSize + '-img']"
+            :class="[imgSize + '-img']"
             src="../../assets/images/assist/add.png"
           />
         </upload-game-img>
@@ -31,7 +31,7 @@
         >
           <ae-tooltip :content="$t('tm.moveChangeOrder')">
             <ae-click-point @clickPoint="clickPoint(index)">
-              <img :class="[$uni.imgSize + '-img-size']" :src="$appHelper.getTemplateImg(item)" />
+              <img :class="[imgSize + '-img-size']" :src="$appHelper.getTemplateImg(item)" />
             </ae-click-point>
           </ae-tooltip>
         </div>
@@ -41,8 +41,10 @@
 </template>
 
 <script>
+import baseVar from "@/mixins/frame/baseVar.js";
 import UploadGameImg from "./UploadGameImg.vue";
 export default {
+  mixins: [baseVar],
   components: { UploadGameImg },
   props: {
     value: {

@@ -6,8 +6,17 @@ import store from "../store";
 
 let language = {
 
-	// userLanguage: "en",
-	userLanguage: store.getters.setting.language | "zh",
+	oldLang: null,
+
+	supportLang: ['zh', 'en'],
+
+	userLanguage: function () {
+		let lang = store.getters.setting.language;
+		if (this.supportLang.indexOf(lang) > 0) {
+			return lang;
+		}
+		return 'zh';
+	},
 
 	languageCatch: {},
 
@@ -19,7 +28,12 @@ let language = {
 		if (!router) {
 			throw new Error("获取语言,配置错误" + router);
 		}
-		let userLanguage = this.userLanguage;
+		let userLanguage = this.userLanguage();
+		if (this.oldLang === null) {
+			this.oldLang = userLanguage;
+		} else if (this.oldLang !== userLanguage) {
+			this.languageCatch = {};
+		}
 		let languageCatch = this.languageCatch[userLanguage];
 		if (!languageCatch) {
 			this.languageCatch[userLanguage] = {};
@@ -31,9 +45,9 @@ let language = {
 		} else {
 			let languageJson;
 			const routArray = router.split(".");
-			if (this.userLanguage === "zh") {
+			if (userLanguage === "zh") {
 				languageJson = zh;
-			} else if (this.userLanguage === 'en') {
+			} else if (userLanguage === 'en') {
 				languageJson = en;
 			} else {
 				languageJson = zh;

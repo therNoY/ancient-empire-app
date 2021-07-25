@@ -4,7 +4,7 @@
     <!--可移动区域-->
     <div v-if="moveAreas.length > 0">
       <img
-        :class="['stand-attach-move-view', $uni.imgSize + '-img']"
+        :class="['stand-attach-move-view', imgSize + '-img']"
         v-for="(moveArea, index) in moveAreas"
         :key="index"
         src="../../assets/images/assist/move_alpha.png"
@@ -35,14 +35,16 @@
 </template>
 
 <script>
+import baseVar from "@/mixins/frame/baseVar.js";
 import eventype from "../../manger/eventType";
 export default {
   props: ["point"],
+  mixins: [baseVar],
   data() {
     return {
       moveStatue: null,
-      standImgSize: this.$c.imgSize,
-      standMovePath: this.$c.imgSize / 3,
+      standImgSize: this.$c(),
+      standMovePath: this.$c() / 3,
     };
   },
   computed: {

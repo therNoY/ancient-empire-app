@@ -3,7 +3,7 @@
     <!--指针框 -->
     <div v-if="!attachPoint.hasOwnProperty('row')" @click="clickPoint">
       <img
-        :class="[$uni.imgSize + '-click-point']"
+        :class="[imgSize + '-click-point']"
         v-show="signal % 2 === 0"
         src="../../assets/images/assist/point_0.png"
         :style="{
@@ -12,7 +12,7 @@
         }"
       />
       <img
-        :class="[$uni.imgSize + '-click-point']"
+        :class="[imgSize + '-click-point']"
         v-show="signal % 2 === 1"
         src="../../assets/images/assist/point_1.png"
         :style="{
@@ -24,11 +24,11 @@
     <!--攻击/召唤/治疗 指针-->
     <div v-else @click="clickChoosePoint">
       <img
-        :class="[$uni.imgSize + '-choose-point']"
+        :class="[imgSize + '-choose-point']"
         :src="attachPointImg"
         :style="{
-          top: (attachPoint.row - 1 - 0.3) * imgSize + 'px',
-          left: (attachPoint.column - 1 - 0.3) * imgSize + 'px',
+          top: (attachPoint.row - 1 - 0.3) * $c() + 'px',
+          left: (attachPoint.column - 1 - 0.3) * $c() + 'px',
         }"
       />
     </div>
@@ -36,7 +36,7 @@
     <!--目的地指针 只在移动区域显示的时候才会显示-->
     <div v-if="moveLine.length > 0">
       <img
-        :class="[$uni.imgSize + '-click-point']"
+        :class="[imgSize + '-click-point']"
         src="../../assets/images/assist/cursor_target.png"
         :style="{
           top: $appHelper.getPosition(point.row),
@@ -49,8 +49,10 @@
 </template>
 
 <script>
+import baseVar from "@/mixins/frame/baseVar.js";
 import eventype from "../../manger/eventType";
 export default {
+  mixins: [baseVar],
   props: {
     signal: {
       default: 0,
@@ -60,7 +62,7 @@ export default {
   data() {
     return {
       movePointIndex: 0, // 单位移动的辅助值 用于表示当前移动到第几个点了
-      imgSize:this.$c.imgSize,
+      imgSize:this.$c(),
     };
   },
   computed: {

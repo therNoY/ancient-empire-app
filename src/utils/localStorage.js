@@ -4,15 +4,15 @@
  */
 let localStorage = {
 
-  get: function (key) {
+	get: function (key) {
 		return uni.getStorageSync(key);
-  },
+	},
 
-  set: function (key, value) {
+	set: function (key, value) {
 		uni.setStorageSync(key, value);
-  },
+	},
 
-	remove:function (key) {
+	remove: function (key) {
 		uni.removeStorageSync(key);
 	}
 };

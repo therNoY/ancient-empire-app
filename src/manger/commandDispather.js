@@ -316,9 +316,6 @@ var commendDispatcher = {
         }
         for (let i = 0; i < ext_mes.unit_status.length; i++) {
           const unit_statue = ext_mes.unit_status[i];
-          if (unit_statue['life']) {
-            unit_statue['life'] = unit_statue['life_num']
-          }
           currUnit = game.army_list[unit_statue.army_index].units[unit_statue.unit_index];;
           let cShowUnit = store.getters.cUnit;
           let upCurr = cShowUnit ? currUnit.id == cShowUnit.id : false;
@@ -524,17 +521,7 @@ var commendDispatcher = {
         }
         break;
       case commendType.SHOW_LEVEL_UP:
-        debugger
-        store.commit("setLevelUpInfo", ext_mes.level_up_info);
-        store.commit("setLevelUpSite", ext_mes.site);
-        setTimeout(() => {
-          ext_mes.site.row = ext_mes.site.row - 0.5;
-          store.commit("setLevelUpSite", ext_mes.site);
-          setTimeout(() => {
-            store.commit("setLevelUpInfo", null);
-            store.commit("setLevelUpSite", null);
-          }, 500);
-        }, 200);
+        eventBus.publish("showLevelUp", { "imgValue": ext_mes.level_up_info, "site": ext_mes.site });
         if (callback) {
           this.dispatch(callback.next(), callback);
         }

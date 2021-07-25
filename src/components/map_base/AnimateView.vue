@@ -4,7 +4,7 @@
     <div v-for="(animate, index) in animates" :key="index">
       <img
         v-if="animate"
-        :class="[$uni.imgSize + '-img-size', 'base-animate']"
+        :class="[imgSize + '-img-size', 'base-animate']"
         :src="animate.animImg"
         :style="{
           top: $appHelper.getPosition(animate.row),
@@ -16,7 +16,9 @@
 </template>
 
 <script>
+import baseVar from "@/mixins/frame/baseVar.js";
 export default {
+  mixins: [baseVar],
   computed: {
     animates() {
       return this.$store.getters.animates;

@@ -10,7 +10,7 @@
           <img
             v-for="(unit, key) in initMapInfo.unit_mes_list"
             :key="key"
-            :class="['map-edit-select', $uni.imgSize + '-img-size']"
+            :class="['map-edit-select', imgSize + '-img-size']"
             :src="$appHelper.getUnitImg(unit.id, unitColor)"
             @click="getUnit(unit)"
           />
@@ -54,7 +54,10 @@
                   :key="key"
                 >
                   <img
-                    :class="['map-edit-select', unit.id == selectUnit.id ? 'map-edit-selected' : '']"
+                    :class="[
+                      'map-edit-select',
+                      unit.id == selectUnit.id ? 'map-edit-selected' : '',
+                    ]"
                     :src="$appHelper.getUnitImg(unit.id, unitColor)"
                     @click="getUnit(unit)"
                   />
@@ -66,7 +69,10 @@
                   :key="index"
                 >
                   <img
-                    :class="['map-edit-select', region.id == selectRegion.id ? 'map-edit-selected' : '']"
+                    :class="[
+                      'map-edit-select',
+                      region.id == selectRegion.id ? 'map-edit-selected' : '',
+                    ]"
                     :src="$appHelper.getRegionImg(region.type, regionColor)"
                     @click="getRegion(region)"
                   />
@@ -106,7 +112,7 @@
                 }"
               >
                 <img
-                  :class="['unit_img', $uni.imgSize + '-img-size']"
+                  :class="['unit_img', imgSize + '-img-size']"
                   v-for="(unit, index) in unitList"
                   :key="index"
                   :src="
@@ -142,44 +148,44 @@
         ></ae-button-list>
         <div v-else class="mobile-map-edit-icon">
           <img
-            :class="['icon-img', $uni.imgSize + '-img']"
+            :class="['icon-img', imgSize + '-img']"
             @click="goHome"
             src="../../assets/images/assist/icon_city.png"
           />
           <img
-            :class="['icon-img', $uni.imgSize + '-img']"
+            :class="['icon-img', imgSize + '-img']"
             @click="showTemplateSelect"
             src="../../assets/images/assist/icon_setting.png"
           />
           <img
-            :class="['edit-img', $uni.imgSize + '-edit-icon']"
+            :class="['edit-img', imgSize + '-edit-icon']"
             v-if="action == 'painting'"
             @click="changeAction"
             src="../../assets/images/assist/icon_painting.png"
           />
           <img
-              :class="['edit-img', $uni.imgSize + '-edit-icon']"
+            :class="['edit-img', imgSize + '-edit-icon']"
             v-else
             @click="changeAction"
             src="../../assets/images/assist/icon_delete.png"
           />
           <img
-            :class="['edit-img', $uni.imgSize + '-edit-icon']"
+            :class="['edit-img', imgSize + '-edit-icon']"
             @click="showSelectUnit = !showSelectUnit"
             src="../../assets/images/assist/icon_switch.png"
           />
           <img
-            :class="['edit-img', $uni.imgSize + '-edit-icon']"
+            :class="['edit-img', imgSize + '-edit-icon']"
             @click="resetMap"
             src="../../assets/images/assist/icon_reset.png"
           />
           <img
             @click="setShowChangeMsg"
-            :class="['icon-img', $uni.imgSize + '-img']"
+            :class="['icon-img', imgSize + '-img']"
             src="../../assets/images/assist/net.png"
           />
           <img
-            :class="['icon-img', $uni.imgSize + '-img']"
+            :class="['icon-img', imgSize + '-img']"
             @click="setShowMapVisible"
             src="../../assets/images/assist/icons_my.png"
           />
@@ -195,7 +201,7 @@
           <img
             v-for="(region, index) in initMapInfo.region_mes"
             :key="index"
-            :class="['map-edit-select', $uni.imgSize + '-img-size']"
+            :class="['map-edit-select', imgSize + '-img-size']"
             :src="$appHelper.getRegionImg(region.type, regionColor)"
             @click="getRegion(region)"
           />
@@ -308,6 +314,7 @@ import MapPreview from "../frame/MapPreview.vue";
 import TemplateSelect from "../template_mange/TemplateSelect";
 import Unit from "../frame/Unit";
 import AeBorder from "../frame/base/AeBorder.vue";
+import baseVar from "@/mixins/frame/baseVar.js";
 const minAreaConst = 10;
 const maxAreaConst = 50;
 const armyType = [
@@ -348,6 +355,7 @@ const regionType = [
   },
 ];
 export default {
+  mixins: [baseVar],
   components: {
     RegionViewList,
     MapPreview,
@@ -463,6 +471,7 @@ export default {
       // #ifdef H5
       this.containerStyle.width = "96%";
       this.containerStyle.height = this.$uni.screenHeigh - 100 + "px";
+      this.isMobileStyle = this.$store.getters.setting.pc_style === "mp";
       // #endif
       // #ifndef H5
       this.containerStyle.width = "96%";

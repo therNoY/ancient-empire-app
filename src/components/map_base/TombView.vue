@@ -2,7 +2,7 @@
   <!--坟墓-->
   <div class="tomb">
     <img
-      :class="[$uni.imgSize + '-img']"
+      :class="[imgSize + '-img']"
       v-for="(tomb, index) in tombs"
       :key="index"
       src="../../assets/images/unit/tomb.png"
@@ -16,9 +16,10 @@
 </template>
 
 <script>
+import baseVar from "@/mixins/frame/baseVar.js";
 import eventype from "../../manger/eventType";
 export default {
-  props: {},
+  mixins: [baseVar],
   methods: {
     // 鼠标点击坟墓
     operationTomb(tomb) {

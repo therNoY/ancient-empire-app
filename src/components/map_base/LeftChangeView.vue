@@ -12,7 +12,7 @@
       }"
     >
       <img
-        :class="[$uni.imgSize + '-lifec-size']"
+        :class="[imgSize + '-lifec-size']"
         v-for="(attachNum, index) in leftChange.attach"
         :key="leftNumIndex(index)"
         :src="lifeCImg(attachNum)"
@@ -22,7 +22,9 @@
 </template>
 
 <script>
+import baseVar from "@/mixins/frame/baseVar.js";
 export default {
+  mixins: [baseVar],
   methods: {
     leftNumIndex(index) {
       return "LIFE_" + index;
@@ -36,7 +38,7 @@ export default {
     // 攻击数top位置
     attachNumTop() {
       return function (row) {
-        let top = (row - 0.48) * this.$c.imgSize + "px";
+        let top = (row - 0.48) * this.$c() + "px";
         return top;
       };
     },

@@ -392,26 +392,12 @@ export default {
             return h(
               "div",
               {},
-              "V" +
-                p.version +
-                "(" +
-                this.$t("c.latestVersion") +
-                "V" +
-                p.max_version +
-                ")"
+              this.$t("c.thisVersion", [p.version, p.max_version])
             );
           } else if (p.status == "0") {
-            return h(
-              "div",
-              {},
-              "V" + p.version + "(" + this.$t("c.draftVersion") + ")"
-            );
+            return h("div", {}, this.$t("c.draftVersion", p.version));
           } else {
-            return h(
-              "div",
-              {},
-              "V" + p.version + "(" + this.$t("c.latestVersion") + ")"
-            );
+            return h("div", {}, this.$t("c.latestVersion", p.version));
           }
         },
       ],
@@ -452,26 +438,12 @@ export default {
             return h(
               "div",
               {},
-              "V" +
-                p.version +
-                "(" +
-                this.$t("c.draftVersion") +
-                "V" +
-                p.max_version +
-                ")"
+              this.$t("c.thisVersion", [p.version, p.max_version])
             );
           } else if (p.status == "0") {
-            return h(
-              "div",
-              {},
-              "V" + p.version + "(" + this.$t("c.draftVersion") + ")"
-            );
+            return h("div", {}, this.$t("c.draftVersion", p.version));
           } else {
-            return h(
-              "div",
-              {},
-              "V" + p.version + "(" + this.$t("c.latestVersion") + ")"
-            );
+            return h("div", {}, this.$t("c.latestVersion", p.version));
           }
         },
         "start_count",
@@ -511,7 +483,6 @@ export default {
       this.currUnitInfo.baseInfo = {};
       this.currUnitInfo.abilityInfo = [];
       this.currUnitInfo.levelInfoData = [];
-      console.log("创建单位");
     },
     doCreateNewUnit() {
       let args = {};
@@ -535,7 +506,6 @@ export default {
     revertVersion() {
       let unit = this.$refs.mainDialog.getDataGridSelect();
       if (unit.status == "0") {
-        console.log("回退单位草稿版本");
         let args = {};
         args.unit_id = unit.id;
         RevertUnitVersion(args).then((resp) => {
@@ -569,6 +539,9 @@ export default {
           this.saveUnitInfo(optType);
         });
       }
+    },
+    savePub() {
+      this.save(1);
     },
     saveUnitInfo(optType) {
       let args = {};
@@ -635,6 +608,9 @@ export default {
         this.$refs.mainDialog.flushData();
         this.dialogVisible = false;
       });
+    },
+    closeDialog() {
+      this.dialogVisible = false;
     },
     editUnitLevelInfo(unitLevelInfo) {
       this.currentLevelInfo = unitLevelInfo;
@@ -738,9 +714,9 @@ export default {
     getClickAction() {
       if (this.showPageIndex == "1") {
         if (this.diaTitle === this.$t("um.editUnit")) {
-          return [this.save, () => this.save(1), this.revertVersion];
+          return [this.save, this.savePub, this.revertVersion];
         } else {
-          return [this.doCreateNewUnit, () => (this.dialogVisible = false)];
+          return [this.doCreateNewUnit, this.closeDialog];
         }
       } else if (this.showPageIndex == "2") {
         return [this.updateVersion, this.handleDelete];

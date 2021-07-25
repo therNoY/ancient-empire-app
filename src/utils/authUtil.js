@@ -22,7 +22,7 @@ export function getCookieToken() {
  * @param token
  */
 export function setToken(token) {
-  console.log("更新缓存的token"+ token);
+  console.log("更新缓存的token" + token);
   store.commit("setToken", token);
   localStorage.set(TokenKey, token);
 }
@@ -62,4 +62,26 @@ export function removeAllStorage() {
   localStorage.remove(userPwdKey);
   localStorage.remove(userIdKey);
   localStorage.remove(TokenKey)
+}
+
+export function getUserSetting() {
+  return localStorage.get("userSetting");
+}
+
+export function updateUserSetting(setting) {
+  localStorage.set("userSetting", setting);
+  store.commit("setSetting", setting);
+}
+
+export function initUserSetting() {
+  let set = {}, setting;
+  set.img_size = "stand";
+  set.pc_style = 'pc';
+  set.language = 'zh';
+  if ((setting = localStorage.get("userSetting")) != null) {
+    for (let key of Object.keys(setting)) {
+      set[key] = setting[key];
+    }
+  }
+  store.commit("setSetting", set);
 }

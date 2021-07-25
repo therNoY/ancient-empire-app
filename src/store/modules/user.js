@@ -7,7 +7,6 @@ const user = {
     user: {}, // 保存登录的用户
     role: '',// 登录用户角色
 	  setting:{},
-
     systemInfo:{},
   },
 
@@ -22,6 +21,9 @@ const user = {
     },
     setSystemInfo:(state, systemInfo) => {
       state.systemInfo = systemInfo
+    },
+    setSetting:(state, setting) => {
+      state.setting = setting
     }
   },
 

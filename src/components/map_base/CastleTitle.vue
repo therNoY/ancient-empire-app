@@ -2,7 +2,7 @@
 <template>
   <div>
     <img
-      :class="[$uni.imgSize + '-img-size', 'castle-title']"
+      :class="[imgSize + '-img-size', 'castle-title']"
       src="../../assets/images/Region/castle_title.png"
       @click="getCastleTitle(title.row, title.column)"
       :style="{
@@ -14,7 +14,9 @@
 </template>
 
 <script>
+import baseVar from "@/mixins/frame/baseVar.js";
 export default {
+  mixins: [baseVar],
   props: ["title"],
   methods: {
     getCastleTitle() {},

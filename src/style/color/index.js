@@ -10,10 +10,6 @@ let color = {
 
     colorCatch: {},
 
-    standSize: {
-        imgSize: 24,
-    },
-
     /**
      * 获取背景颜色
      * @param router
@@ -56,7 +52,4 @@ let color = {
 }
 
 Vue.prototype.$s = (router) => color.getColor(router);
-Vue.prototype.$c = color.standSize;
-
-
 export default color;

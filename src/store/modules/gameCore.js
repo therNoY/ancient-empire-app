@@ -2,6 +2,26 @@ import { connectWS } from "../../utils/gameHelper.js"
 import commendDispatcher from '../../manger/commandDispather.js'
 import chapterDialogDispather from '../../manger/chapterDialogDispather.js'
 import { SendMessage } from "../../api";
+import appHelper from "../../utils/appHelper.js";
+import eventBus from "../../manger/EventBus.js";
+
+let testGameIsConnect = function ({ state }) {
+    /**
+     * webSocket的 readyState 属性用来定义连接状态，该属性的值有下面几种：
+         * 0 ：对应常量CONNECTING (numeric value 0)，
+         正在建立连接连接，还没有完成。The connection has not yet been established.
+        1 ：对应常量OPEN (numeric value 1)，
+        连接成功建立，可以进行通信。The WebSocket connection is established and communication is possible.
+        2 ：对应常量CLOSING (numeric value 2)
+        连接正在进行关闭握手，即将关闭。The connection is going through the closing handshake.
+        3 : 对应常量CLOSED (numeric value 3)
+        连接已经关闭或者根本没有建立。The connection has been closed or could not be opened.
+        */
+    if (state.socket && state.socket.readyState == 1) {
+        return true;
+    }
+    return false;
+}
 
 // 前端游戏的核心控制器
 const gameCore = {
@@ -110,6 +130,10 @@ const gameCore = {
 
         // 发送 事件
         sendEvent({ state }, mes) {
+            if (!testGameIsConnect({ state })) {
+                eventBus.publish("gameClose")
+                return;
+            }
             console.log("发送mes:", mes);
             state.socket.send({
                 data: JSON.stringify(mes),
@@ -120,21 +144,7 @@ const gameCore = {
 
         // 测试是否连接
         testGameConnect({ state }) {
-            /**
-             * ebSocket的 readyState 属性用来定义连接状态，该属性的值有下面几种：
-              * 0 ：对应常量CONNECTING (numeric value 0)，
-              正在建立连接连接，还没有完成。The connection has not yet been established.
-              1 ：对应常量OPEN (numeric value 1)，
-              连接成功建立，可以进行通信。The WebSocket connection is established and communication is possible.
-              2 ：对应常量CLOSING (numeric value 2)
-              连接正在进行关闭握手，即将关闭。The connection is going through the closing handshake.
-              3 : 对应常量CLOSED (numeric value 3)
-              连接已经关闭或者根本没有建立。The connection has been closed or could not be opened.
-             */
-            if (state.socket && state.socket.readyState == 1) {
-                return true;
-            }
-            return false;
+            return testGameIsConnect({ state });
         }
 
     }

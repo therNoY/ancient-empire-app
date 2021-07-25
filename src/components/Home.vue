@@ -54,15 +54,23 @@
       >
         {{ $t("me.title") }}
       </button>
-      <!-- <button :size="buttonSize" class="ae-button home-button" @click="router('Test')"
-        >帮助</button
-      > -->
-      <!-- <button
+      <button
+        :size="buttonSize"
+        class="ae-button home-button"
+        @click="showSetting = true"
+      >
+        {{ $t("s.title") }}
+      </button>
+      <!-- #ifdef H5 -->
+      <button
+        v-if="loginUser && loginUser.user_name == 'admin'"
         :size="buttonSize"
         class="ae-button home-button"
         @click="showMoitor = true"
-        >监控</button
-      > -->
+      >
+        监控
+      </button>
+      <!-- #endif -->
     </div>
 
     <!-- #ifdef H5 -->
@@ -104,7 +112,11 @@
     <!-- 地图管理 -->
     <map-manger ref="map-manger" v-model="showMapManger"></map-manger>
 
+    <setting v-model="showSetting"></setting>
+
+    <!-- #ifdef H5 -->
     <monitor v-model="showMoitor"></monitor>
+    <!-- #endif -->
 
     <!-- 基础监听类 -->
     <base-lister></base-lister>
@@ -114,9 +126,9 @@
 <script>
 // #ifdef H5
 import UserInfo from "./auth/UserInfo.vue";
+import Monitor from "./Monitor.vue";
 // #endif
 import WeiXinUserInfo from "./auth/WeiXinUserInfo.vue";
-import Monitor from "./Monitor.vue";
 import RoomIndex from "./net/room/RoomIndex.vue";
 import EncounterStart from "./encounter/EncounterStart.vue";
 import UserRecord from "./encounter/UserRecord.vue";
@@ -125,6 +137,7 @@ import UnitMesManger from "./template_mange/UnitMesManger.vue";
 import MapManger from "./map_manger/MapManger.vue";
 import ChapterSelect from "./encounter/ChapterSelect.vue";
 import BaseLister from "./BaseLister.vue";
+import Setting from "./setting/Setting.vue"
 import { Login, GetWeiXinPhone, GetCanReConnectRecord } from "../api";
 import { reRecordGame } from "../utils/gameHelper";
 import {
@@ -137,6 +150,7 @@ export default {
   components: {
     // #ifdef H5
     UserInfo,
+    Monitor,
     // #endif
     WeiXinUserInfo,
     RoomIndex,
@@ -147,7 +161,7 @@ export default {
     ChapterSelect,
     MapManger,
     BaseLister,
-    Monitor,
+    Setting,
   },
   data() {
     return {
@@ -164,6 +178,7 @@ export default {
       showChapter: false,
       showMapManger: false,
       showMoitor: false,
+      showSetting: false,
       buttonSize: 0.8,
       vueStyle: {},
     };
@@ -194,6 +209,7 @@ export default {
             setUser(loginUser);
             let token = res_val.token;
             setToken(token);
+            this.loginUser = loginUser;
             this.reConnectGameRecord();
           })
           .catch((err) => {
@@ -272,7 +288,8 @@ export default {
         loginUser.user_id = user_id;
         setUser(loginUser);
         setToken(token);
-        this.$appHelper.successMsg(user_name + "登录成功");
+        this.loginUser = loginUser;
+        this.$appHelper.successMsg(user_name + this.$t("p.loginOk"));
       } else {
         this.loginUser.phone = phone_number;
         this.loginUser.user_name = nick_name;
@@ -281,10 +298,6 @@ export default {
     },
   },
   created() {
-    // #ifdef MP-WEIXIN
-    wx.uni = uni;
-    // #endif
-
     if (!this.$uni.isH5) {
       this.buttonSize = 0.7;
     }
@@ -331,7 +344,7 @@ export default {
 .home-button {
   float: left;
   margin-left: 20%;
-  height: 7%;
+  height: 6.8%;
   margin-top: 1%;
   margin-bottom: 1%;
   width: 60%;

@@ -7,7 +7,7 @@
       :key="index"
     >
       <img
-        :class="[$uni.imgSize + '-img-size', 'stand-attach-move-view']"
+        :class="[imgSize + '-img-size', 'stand-attach-move-view']"
         src="../../assets/images/assist/attach_alpha.png"
         @click="clickAttachArea(attachArea)"
         :style="{
@@ -21,7 +21,9 @@
 
 <script>
 import eventype from "../../manger/eventType";
+import baseVar from "@/mixins/frame/baseVar.js";
 export default {
+  mixins: [baseVar],
   computed: {
     attachArea() {
       return this.$store.getters.attachArea;
