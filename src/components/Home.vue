@@ -71,6 +71,7 @@
         监控
       </button>
       <!-- #endif -->
+      <div style="color:yellow" class="home-button">0.1</div>
     </div>
 
     <!-- #ifdef H5 -->
@@ -108,16 +109,12 @@
     <unit-mes-manger ref="unit-mes" v-model="showUnitMange"></unit-mes-manger>
     <!--用户记录-->
     <user-record ref="user-record" v-model="showUserRecord"></user-record>
-
     <!-- 地图管理 -->
     <map-manger ref="map-manger" v-model="showMapManger"></map-manger>
-
     <setting v-model="showSetting"></setting>
-
     <!-- #ifdef H5 -->
     <monitor v-model="showMoitor"></monitor>
     <!-- #endif -->
-
     <!-- 基础监听类 -->
     <base-lister></base-lister>
   </div>
@@ -137,7 +134,7 @@ import UnitMesManger from "./template_mange/UnitMesManger.vue";
 import MapManger from "./map_manger/MapManger.vue";
 import ChapterSelect from "./encounter/ChapterSelect.vue";
 import BaseLister from "./BaseLister.vue";
-import Setting from "./setting/Setting.vue"
+import Setting from "./setting/Setting.vue";
 import { Login, GetWeiXinPhone, GetCanReConnectRecord } from "../api";
 import { reRecordGame } from "../utils/gameHelper";
 import {
@@ -189,12 +186,16 @@ export default {
       this.userInfoDialog = true;
     },
     router(path) {
-      uni.redirectTo({
-        url: path,
-        complete: (resp) => {
-          console.log("跳转成功", resp);
-        },
-      });
+      if (this.$store.getters.token) {
+        uni.redirectTo({
+          url: path,
+          complete: (resp) => {
+            console.log("跳转成功", resp);
+          },
+        });
+      } else {
+        this.$appHelper.warningMsg(this.$t("p.loginIsWill"));
+      }
     },
     // 根据本地保存的信息登录
     loginBySaveInfo() {
@@ -213,8 +214,15 @@ export default {
             this.reConnectGameRecord();
           })
           .catch((err) => {
+            this.$nextTick(() => {
+              this.$appHelper.warningMsg(this.$t("p.loginIsWill"));
+            });
             removeAllStorage();
           });
+      } else {
+        this.$nextTick(() => {
+          this.$appHelper.warningMsg(this.$t("p.loginIsWill"));
+        });
       }
     },
     // 重新连接

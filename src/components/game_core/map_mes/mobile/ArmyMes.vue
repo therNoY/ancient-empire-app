@@ -223,7 +223,6 @@ export default {
     if (this.unitInfo) {
       this.localUnitInfo = this.unitInfo;
     }
-    this.$appHelper.bindPage2Global(this, "ArmyMesIndex");
   },
   methods: {
     showDetail() {

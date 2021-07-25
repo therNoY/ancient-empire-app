@@ -789,7 +789,6 @@ export default {
     }
   },
   created() {
-    this.$appHelper.bindPage2Global(this, "MapEdit");
     this.initMapStyle();
   },
   destroyed() {

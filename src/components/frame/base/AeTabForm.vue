@@ -99,7 +99,6 @@ export default {
     }
     this.tabFormConfig = tabFormConfig;
     this.showDataValue = this.dataObj;
-    this.$appHelper.bindPage2Global(this, "AeTabForm");
   },
 };
 </script>

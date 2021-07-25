@@ -129,7 +129,6 @@ export default {
     // #ifndef H5
     this.size = 'small';
     // #endif
-    this.$appHelper.bindPage2Global(this, "aeTransfer");
   },
 };
 </script>

@@ -231,7 +231,6 @@
       }
     },
     created() {
-      this.$appHelper.bindPage2Global(this, "RoomPage");
     },
   };
 </script>

@@ -255,7 +255,6 @@ export default {
     },
   },
   created() {
-    this.$appHelper.bindPage2Global(this, "encounter");
   },
 };
 </script>

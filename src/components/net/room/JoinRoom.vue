@@ -236,7 +236,6 @@ export default {
     },
   },
   created() {
-    this.$appHelper.bindPage2Global(this, "JoinRoom");
     this.$eventBus.regist(this, "roomChangeArmy");
     this.$eventBus.regist(this, "changeRoomOwner");
     this.$eventBus.regist(this, "startGame");

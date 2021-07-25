@@ -88,7 +88,6 @@ export default {
     },
   },
   created() {
-    this.$appHelper.bindPage2Global(this, "GameMessage");
     this.$eventBus.regist(this, this.receiveMesEvent, "onMessage");
   },
   destroyed() {

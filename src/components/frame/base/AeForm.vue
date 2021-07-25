@@ -143,7 +143,6 @@ export default {
     if (this.value) {
       this.formData = JSON.parse(JSON.stringify(this.value));
     }
-    this.$appHelper.bindPage2Global(this, "activeForm");
   },
   watch: {
     value() {

@@ -71,7 +71,6 @@ export default {
     };
   },
   created() {
-    this.$appHelper.bindPage2Global(this, "templateSelect");
   },
   methods: {
     showDetail() {

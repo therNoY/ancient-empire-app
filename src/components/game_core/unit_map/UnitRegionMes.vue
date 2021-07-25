@@ -148,7 +148,6 @@ export default {
     },
   },
   created() {
-    this.$appHelper.bindPage2Global(this, "UnitMes");
     if (this.showMode == "unit" && this.unitInfo.status) {
       let args = {};
       args.type = this.unitInfo.status;

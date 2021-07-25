@@ -318,7 +318,6 @@ export default {
   },
   watch: {},
   created() {
-    this.$appHelper.bindPage2Global(this, "templateDetail");
   },
 };
 </script>

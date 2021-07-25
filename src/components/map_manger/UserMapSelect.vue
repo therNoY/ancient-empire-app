@@ -67,7 +67,6 @@ export default {
     },
   },
   created(){
-	 this.$appHelper.bindPage2Global(this, "userMapSelect");
   }
 };
 </script>

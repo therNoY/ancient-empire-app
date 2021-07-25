@@ -143,7 +143,6 @@ export default {
     },
   },
   created() {
-    this.$appHelper.bindPage2Global(this, "userInfoVue");
   },
 };
 </script>

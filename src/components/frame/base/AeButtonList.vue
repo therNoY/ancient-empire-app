@@ -106,7 +106,6 @@ export default {
     };
   },
   created() {
-    this.$appHelper.bindPage2Global(this, "ButtonList");
     this.initConfig();
   },
   watch: {

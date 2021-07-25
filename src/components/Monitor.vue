@@ -168,7 +168,6 @@ export default {
     },
   },
   created() {
-    this.$appHelper.bindPage2Global(this, "Monitor");
   },
 };
 </script>

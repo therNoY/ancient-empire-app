@@ -86,7 +86,6 @@ export default {
     };
   },
   created() {
-    this.$appHelper.bindPage2Global(this, "dataGrid");
     if (this.realDisplayData.length === 0 && this.data) {
       this.$nextTick(()=>{
         this.realDisplayData = this.data;
