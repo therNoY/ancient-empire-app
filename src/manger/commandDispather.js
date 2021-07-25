@@ -363,6 +363,9 @@ var commendDispatcher = {
         console.log("展示移动区域");
         store.commit("setMoveArea", ext_mes.move_area);
         store.commit("setMoveLine", []);
+        if (callback) {
+          this.dispatch(callback.next(), callback);
+        }
         break;
       case commendType.DIS_SHOW_MOVE_AREA:
         console.log("不展示移动区域");

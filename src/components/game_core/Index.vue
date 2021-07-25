@@ -3,6 +3,7 @@
     <!-- #ifdef H5  -->
     <curr-unit-mes
       style="width: 15%"
+      ref="pcUnitMes"
       v-if="!isMobileStyle"
       :curr_unit_color="game.curr_unit_color"
       :curr_color="game.curr_color"

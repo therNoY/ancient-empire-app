@@ -13,20 +13,37 @@ export default {
     return {
       site: {},
       imgValue: {},
+      showing: false,
+      upShowAnimList: [],
       showAnim: false,
     };
   },
   methods: {
     showLevelUp({ site, imgValue }) {
-      this.site = site;
-      this.imgValue = imgValue;
-      this.showAnim = true;
-      setTimeout(() => {
-        this.site.row = this.site.row - 0.5;
+      this.upShowAnimList.push({ site, imgValue });
+      if (!this.showing) {
+        this.doShowAnim();
+      }
+    },
+    doShowAnim() {
+      if (this.upShowAnimList.length > 0) {
+        this.showing = true;
+        let upShowAnim = this.upShowAnimList.shift();
+        this.site = upShowAnim.site;
+        this.imgValue = upShowAnim.imgValue;
+        this.showAnim = true;
         setTimeout(() => {
-          this.showAnim = false;
-        }, 500);
-      }, 200);
+          this.site.row = this.site.row - 0.5;
+          setTimeout(() => {
+            this.showAnim = false;
+            this.$nextTick(() => {
+              this.doShowAnim();
+            });
+          }, 500);
+        }, 200);
+      } else {
+        this.showing = false;
+      }
     },
   },
   created() {

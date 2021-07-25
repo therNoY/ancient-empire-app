@@ -109,9 +109,9 @@ export default {
     // 计算生命条的展示风格
     leftStyle() {
       let life = this.unitLift,
-        lifeColor = "#ff0000",
+        lifeColor,
         lifeRatio;
-      lifeRatio = life > 100 ? life - 100 + "%" : life + "%";
+      lifeRatio = (life / this.unitInfo.max_life) * 100 + "%";
 
       if (life <= 10) {
         lifeColor = "#ff0000";
@@ -121,10 +121,8 @@ export default {
         lifeColor = "#edff51";
       } else if (life < 100) {
         lifeColor = "#fbff00";
-      } else if (life == 100) {
+      } else if (life >= 100) {
         lifeColor = "#1eff00";
-      } else if (life > 100) {
-        lifeColor = "#7c7c7c";
       }
       return { width: lifeRatio, backgroundColor: lifeColor };
     },
@@ -145,7 +143,8 @@ export default {
     experienceRatio() {
       return {
         width:
-          this.unitInfo.experience / this.$appHelper.dp[this.unitInfo.level] +
+          (this.unitInfo.experience / this.$appHelper.dp[this.unitInfo.level]) *
+            100 +
           "%",
       };
     },
