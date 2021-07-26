@@ -97,6 +97,7 @@ export default {
 
     logout() {
       this.$store.dispatch("logout");
+      this.$emit("logout")
       this.user.user_name = "";
       this.user.password = "";
       this.$appHelper.infoMsg(this.$t("p.logoutOk"));

@@ -1,6 +1,5 @@
 <template>
   <!--首页-->
-
   <div class="home" :style="{ background: vueStyle.background }">
     <img class="logo" src="../assets/images/assist/logo.png" />
     <div class="buttons">
@@ -71,7 +70,7 @@
         监控
       </button>
       <!-- #endif -->
-      <div style="color:yellow" class="home-button">0.1</div>
+      <div style="color: yellow" class="home-button">0.1</div>
     </div>
 
     <!-- #ifdef H5 -->
@@ -87,6 +86,7 @@
       v-model="userInfoDialog"
       :register="loginUser"
       @close="userInfoDialog = false"
+      @logout="weixinLogin"
     ></wei-xin-user-info>
     <!-- #endif -->
 
@@ -178,6 +178,7 @@ export default {
       showSetting: false,
       buttonSize: 0.8,
       vueStyle: {},
+      loginCode: null,
     };
   },
   methods: {
@@ -200,9 +201,11 @@ export default {
     // 根据本地保存的信息登录
     loginBySaveInfo() {
       let user = getLocalSaveUser();
-      if (user) {
-        Login(user, false)
-          .then(({ res_val }) => {
+      if (user != null) {
+        // #ifndef H5
+        user.from_app = '1'
+        // #endif
+        Login(user, false).then(({ res_val }) => {
             let loginUser = {};
             loginUser.user_name = res_val.user_name;
             loginUser.password = res_val.password;
@@ -212,8 +215,8 @@ export default {
             setToken(token);
             this.loginUser = loginUser;
             this.reConnectGameRecord();
-          })
-          .catch((err) => {
+          }).catch((err) => {
+            console.error(err);
             this.$nextTick(() => {
               this.$appHelper.warningMsg(this.$t("p.loginIsWill"));
             });
@@ -224,6 +227,9 @@ export default {
           this.$appHelper.warningMsg(this.$t("p.loginIsWill"));
         });
       }
+      // #ifndef H5
+      this.weixinLogin();
+      // #endif
     },
     // 重新连接
     reConnectGameRecord() {
@@ -235,44 +241,50 @@ export default {
         }
       });
     },
+    weixinLogin() {
+      let _this = this;
+      uni.login({
+        provider: "weixin",
+        success: function (loginRes) {
+          console.log("微信用户登录", loginRes);
+          _this.loginCode = loginRes.code;
+        },
+        fail: function (err) {
+          console.error(err);
+        },
+      });
+    },
     onGetPhoneNumber({ detail }) {
       let _this = this;
       if (detail.encryptedData && detail.iv) {
         this.$appHelper.setLoading(true);
-        uni.login({
+        uni.getUserInfo({
           provider: "weixin",
-          success: function (loginRes) {
-            console.log("微信用户登录", loginRes);
-            if (loginRes.code) {
-              let args = {};
-              args.code = loginRes.code;
+          success: function ({ encryptedData, iv }) {
+            let args = {};
+            args.user_info_encrypted = encryptedData;
+            args.user_info_iv = iv;
+            if (_this.loginCode != null) {
+              args.code = _this.loginCode;
               args.iv = detail.iv;
               args.encrypted_data = detail.encryptedData;
-              uni.getUserInfo({
-                provider: "weixin",
-                success: function ({ encryptedData, iv }) {
-                  args.user_info_encrypted = encryptedData;
-                  args.user_info_iv = iv;
-                  GetWeiXinPhone(args)
-                    .then(({ res_code, res_val }) => {
-                      if (res_code === 0) {
-                        _this.openAppUserInfo(res_val);
-                        _this.$appHelper.setLoading(false);
-                      }
-                    })
-                    .catch((err) => {
-                      _this.$appHelper.setLoading(false);
-                    });
-                },
-                fail: function (error) {
-                  console.log(error);
+              GetWeiXinPhone(args)
+                .then(({ res_code, res_val }) => {
+                  if (res_code === 0) {
+                    _this.openAppUserInfo(res_val);
+                    _this.$appHelper.setLoading(false);
+                  }
+                })
+                .catch((err) => {
                   _this.$appHelper.setLoading(false);
-                },
-              });
+                });
+            } else {
+              _this.$appHelper.setLoading(false);
+              _this.$appHelper.warningMsg("网络异常请重新登录");
             }
           },
-          fail: function (err) {
-            console.error("微信用户登录失败", err);
+          fail: function (error) {
+            console.log(error);
             _this.$appHelper.setLoading(false);
           },
         });
@@ -292,7 +304,6 @@ export default {
       let loginUser = {};
       if (token) {
         loginUser.user_name = user_name;
-        loginUser.password = phone_number;
         loginUser.user_id = user_id;
         setUser(loginUser);
         setToken(token);

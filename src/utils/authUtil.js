@@ -35,7 +35,7 @@ export function getLocalSaveUser() {
   let user_name = localStorage.get(userNameKey);
   let password = localStorage.get(userPwdKey);
   let user_id = localStorage.get(userIdKey);
-  if (user_name && password && user_id) {
+  if (user_name && user_id) {
     let user = {};
     user.user_name = user_name;
     user.password = password;
